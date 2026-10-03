@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="480" viewBox="0 0 1280 480" role="img" aria-labelledby="title desc">
+  <title id="title">Myelinate — Understand it. Retrieve it. Use it.</title>
+  <desc id="desc">A restrained scientific notebook graphic with a reaction ratio and source-grounded teaching subtitle.</desc>
+  <defs>
+    <pattern id="rules" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M0 39.5H40" stroke="#cbd4cc" stroke-width="1" opacity=".48"/></pattern>
+    <clipPath id="canvas"><rect width="1280" height="480"/></clipPath>
+  </defs>
+  <g clip-path="url(#canvas)">
+    <rect width="1280" height="480" fill="#f7f3e9"/>
+    <rect width="1280" height="480" fill="url(#rules)"/>
+    <path d="M80 0V480" stroke="#d6a78f" stroke-width="2" opacity=".7"/>
+    <text x="124" y="70" fill="#a54320" font-family="Arial,Helvetica,sans-serif" font-size="17" font-weight="700" letter-spacing="4">A TEACHING SYSTEM</text>
+    <text x="119" y="225" fill="#16313b" font-family="Georgia,Times New Roman,serif" font-size="113" letter-spacing="-7">Myelinate<tspan fill="#a54320">.</tspan></text>
+    <text x="124" y="286" fill="#16313b" font-family="Arial,Helvetica,sans-serif" font-size="31" font-weight="700">Understand it. Retrieve it. Use it.</text>
+    <path d="M124 321H645" stroke="#16313b" stroke-width="2"/>
+    <text x="124" y="364" fill="#4c6269" font-family="Arial,Helvetica,sans-serif" font-size="21">Source-grounded explanations, worked examples,</text>
+    <text x="124" y="395" fill="#4c6269" font-family="Arial,Helvetica,sans-serif" font-size="21">and honest checks of understanding.</text>
+    <g transform="translate(755 72)">
+      <rect width="454" height="336" fill="#fffcf5" stroke="#a8b8b3" stroke-width="2"/>
+      <path d="M0 54H454" stroke="#a8b8b3" stroke-width="2"/>
+      <circle cx="29" cy="27" r="7" fill="#a54320"/>
+      <text x="49" y="34" fill="#4c6269" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700" letter-spacing="2">A WORKED RELATIONSHIP</text>
+      <text x="34" y="126" fill="#16313b" font-family="Georgia,Times New Roman,serif" font-size="43">2H₂ + O₂ → 2H₂O</text>
+      <path d="M34 155H420" stroke="#c8d1cb" stroke-width="1.5"/>
+      <text x="34" y="192" fill="#4c6269" font-family="Arial,Helvetica,sans-serif" font-size="16" font-weight="700" letter-spacing="1.5">COMPARE POSSIBLE YIELDS</text>
+      <text x="34" y="247" fill="#16313b" font-family="Georgia,Times New Roman,serif" font-size="32">6 mol</text>
+      <text x="34" y="275" fill="#4c6269" font-family="Arial,Helvetica,sans-serif" font-size="15">from hydrogen</text>
+      <text x="272" y="247" fill="#a54320" font-family="Georgia,Times New Roman,serif" font-size="32">4 mol</text>
+      <text x="272" y="275" fill="#4c6269" font-family="Arial,Helvetica,sans-serif" font-size="15">from oxygen</text>
+      <path d="M227 211V282" stroke="#c8d1cb" stroke-width="1.5"/>
+      <path d="M34 302H420" stroke="#c8d1cb" stroke-width="1.5"/>
+      <text x="34" y="324" fill="#165d78" font-family="Arial,Helvetica,sans-serif" font-size="15" font-weight="700">THE SMALLER YIELD SETS THE LIMIT.</text>
+    </g>
+  </g>
+</svg>

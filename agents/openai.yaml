@@ -1,0 +1,4 @@
+interface:
+  display_name: "Myelinate"
+  short_description: "Understand, retrieve, and apply what you learn"
+  default_prompt: "Use $myelinate to teach me a concept with reliable sources, useful practice, and a plan to revisit it."
