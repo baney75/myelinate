@@ -6,11 +6,16 @@ Adapt these to the task. Do not generate every template for every lesson.
 
 **Target:** By the end, you can [observable action].
 
-**Scope:** [Supplied course objective and page/slide, or provisional topic.]  
-**Model:** [Short explanation, boundaries, and a source.]  
-**Worked example:** [Reasoned steps, units where relevant.]  
-**Your turn:** [One question; wait for the learner.]  
-**After the attempt:** [Specific feedback, assistance used, changed application.]  
+**Scope:** [Supplied course objective and page/slide, or provisional topic.]
+
+**Model:** [Short explanation, boundaries, and a source.]
+
+**Worked example:** [Reasoned steps, units where relevant.]
+
+**Your turn:** [One question; wait for the learner.]
+
+**After the attempt:** [Specific feedback, assistance used, changed application.]
+
 **Resume:** “Continue [target]; last time [actual observation]. Start with [fresh retrieval].”
 
 ## Course study pack
