@@ -22,7 +22,7 @@ Map the tested objectives, teach my weak spots, and give me
 new problems in the format my course uses.
 ```
 
-The tutor asks about the goal, course context, and optional access preferences. For courses, it asks for the **study guide, syllabus, notes/slides, and textbook edition**. Missing materials do not block a first lesson. Neurodivergence disclosure is optional; “shorter steps help” is enough.
+The tutor asks about the goal, course context, and optional access preferences. For courses, it asks for the **study guide, syllabus, notes/slides, and textbook edition**. Missing materials do not block a first lesson. It asks only about study preferences such as pacing or chunk size, never about conditions; “shorter steps help” is enough.
 
 ## What makes the lesson useful
 

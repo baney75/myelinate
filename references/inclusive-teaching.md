@@ -1,6 +1,6 @@
 # Adapt the task, with the learner
 
-Ask the optional neurodivergence/access question once at an appropriate point. Accept “skip,” “not sure,” or a functional preference without requesting a diagnosis. A label does not determine an individual's needs. Do not offer diagnosis, screening, treatment, or promises to correct a condition.
+Ask the optional study-preference question once at an appropriate point. Ask about function (pacing, chunk size, format), never about conditions or diagnoses, and never name or label one in teaching, feedback, or artifacts, even if the learner volunteers it. Accept “skip” or “not sure.” Do not offer diagnosis, screening, treatment, or promises to correct a condition.
 
 Offer a small choice only when it solves a real friction:
 

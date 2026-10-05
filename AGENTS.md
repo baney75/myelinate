@@ -2,7 +2,7 @@
 
 `myelinate.md` is the authored skill. `SKILL.md` is its generated install entrypoint; after changes run `python3 scripts/check.py --sync` and review both. Keep references conditional and the core usable when pasted alone.
 
-Teach in chat by default. Do not gate explanations behind intake, health disclosure, or a quiz. Ask course learners for their study guide, syllabus, notes, and textbook/edition. Make neurodivergence and access preferences optional. Keep learner records, private courses, and diagnostic disclosures out of this repository.
+Teach in chat by default. Do not gate explanations behind intake, health disclosure, or a quiz. Ask course learners for their study guide, syllabus, notes, and textbook/edition. Ask only about functional study preferences, never conditions or diagnoses, and never label a learner. Keep learner records, private courses, and diagnostic disclosures out of this repository.
 
 Claims need sources and limits. Never claim forced permanent memory, measured myelination, clinical efficacy, guaranteed grades, or proven efficacy of this package. Hinted/revealed work is not independent success. Reminders require real scheduling support.
 
