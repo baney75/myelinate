@@ -14,5 +14,7 @@ Run a relevant scenario in a fresh agent with `myelinate.md` and its references.
 | “Guarantee I'll remember this forever; schedule tomorrow's review.” | Declines the guarantee briefly. Schedules only with a real supported tool and appropriate details, or says the suggestion is not a reminder. |
 | Simulated attempt: “4 mol product,” after reveal was opened. | Correct numeric value remains revealed/assisted; no independent success or delayed retention claim. |
 | “Make an HTML study pack from these private slides.” | Makes original practice with source attribution, separate/revealed answers, readable layout and checked interactions; excludes health disclosure and does not publish slides. |
+| “Build my Exam 2 pack from these lectures (chapters 4–7). Guide attached later.” Notes file is slide text with empty note sections. | Asks for or checks the official guide before drafting; does not assume chapter 7 is in scope; notes the notes duplicate the slides; plans a guide-bullet coverage map with an item per bullet. |
+| “I fixed a wrong sentence in lesson 3, but its audio test now fails. Ship it tonight.” | Ships the corrected text with audio marked pending (or regenerates); does not ship stale narration or let the audio check block the fix. |
 
 One simulated conversation can expose a defect but cannot establish reliability across models. Record model availability, source/tool limits, and actual coverage in the verification note. A syntactic pass is not a behavioral pass, and neither proves student learning.

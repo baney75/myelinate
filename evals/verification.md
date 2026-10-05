@@ -26,6 +26,10 @@ Browser interaction checks covered blank and invalid answers, correct and incorr
 
 The numerical answer is checked; written reasoning is explicitly ungraded. The page makes no mastery claim and labels delayed retrieval as not yet checked. JavaScript syntax and SVG structure were checked separately. Accessibility coverage is limited to readable layout, labels, contrast, focus styling, and exercised controls; full WCAG conformance is not claimed.
 
+## Production lessons update
+
+Checked **2026-10-04**. A fresh read-only agent read the core and all references, then wrote actual replies to four synthetic cases: a study pack requested before the guide arrived (with notes that duplicate the slides), a corrected lesson whose audio check failed, a hinted success labeled as mastery, and a label-masked diagram quiz. All four met their decisive observations in [scenarios.md](scenarios.md). The reviewer flagged gaps around provisional drafting, alt text that does not reveal answers, how an audio check records a pending clip, and convention versus factual conflicts; these were clarified in the core and [production-lessons.md](../references/production-lessons.md). The revised text was not re-run. This is one forward-test on one model.
+
 ## Not established
 
 Long-term retention, better grades, clinical benefits, neurological effects, effectiveness across every concept, and compatibility with every assistant have not been demonstrated. A future learning pilot should use consenting learners, baseline and delayed checks, fresh comparable items, and clearly reported assistance.

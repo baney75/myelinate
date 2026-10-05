@@ -18,7 +18,7 @@ if args.sync:
 errors = []
 required = ['myelinate.md', 'SKILL.md', 'agents/openai.yaml', 'references/evidence.md',
             'references/research-method.md', 'references/inclusive-teaching.md',
-            'references/session-template.md', 'README.md', 'LICENSE',
+            'references/session-template.md', 'references/production-lessons.md', 'README.md', 'LICENSE',
             'examples/lesson.html', 'assets/hero.svg', 'evals/scenarios.md', 'evals/verification.md']
 for name in required:
     if not (ROOT / name).is_file():
