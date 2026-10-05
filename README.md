@@ -2,6 +2,10 @@
 
 **An agent skill that turns “teach me this” into explanation, practice, feedback, and a reason to come back.**
 
+![Sample Myelinate lesson on limiting reactants](assets/sample-lesson.jpg)
+
+Built with Markdown.
+
 Ask about a concept. Bring your course materials if you have them. Myelinate researches the topic, teaches it in manageable steps, and checks what you can do with it. It is a Markdown skill for a capable AI assistant—not a separate model or a hosted tutoring service.
 
 [Read the skill](myelinate.md) · [Try the sample lesson](https://baney75.github.io/myelinate/examples/lesson.html) · [See the evidence](references/evidence.md)
