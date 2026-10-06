@@ -19,7 +19,14 @@ errors = []
 required = ['myelinate.md', 'SKILL.md', 'agents/openai.yaml', 'references/evidence.md',
             'references/research-method.md', 'references/inclusive-teaching.md',
             'references/session-template.md', 'references/production-lessons.md', 'README.md', 'LICENSE',
-            'examples/lesson.html', 'assets/hero.svg', 'evals/scenarios.md', 'evals/verification.md']
+            'examples/lesson.html', 'examples/oxygen-lab.html', 'assets/hero.svg', 'assets/logo.svg',
+            'assets/logo-mark.svg', 'index.html', 'evals/scenarios.md', 'evals/verification.md',
+            'references/subject-playbooks.md', 'references/media-sources.md',
+            'templates/lab-standalone.html', 'templates/dbaney-lab.json', 'templates/lab-spec.md',
+            'templates/learner-profile.md', 'templates/practice-test.html', 'references/teaching-methods.md',
+            'references/dbaney-study-lab.md', 'llms.txt', 'scripts/make_pdf.py', 'examples/practice-test-oxygen.pdf']
+SUBSKILLS = ['teach', 'tutor', 'lab', 'print', 'flashcards', 'memory-hooks', 'study-plan', 'find-media', 'verify']
+required += [f'skills/{name}/SKILL.md' for name in SUBSKILLS]
 for name in required:
     if not (ROOT / name).is_file():
         errors.append(f'Missing required file: {name}')
@@ -29,6 +36,16 @@ body = source.read_text()
 frontmatter = re.match(r'^---\nname: ([a-z0-9-]+)\ndescription: ([^\n]+)\n---\n', body)
 if not frontmatter or frontmatter.group(1) != 'myelinate':
     errors.append('Invalid required skill frontmatter')
+for name in SUBSKILLS:
+    sub = ROOT / 'skills' / name / 'SKILL.md'
+    if sub.is_file():
+        match = re.match(r'^---\nname: ([a-z0-9-]+)\ndescription: ([^\n]+)\n---\n', sub.read_text())
+        if not match or match.group(1) != name:
+            errors.append(f'skills/{name}/SKILL.md: invalid frontmatter')
+        elif len(match.group(2)) > 1024:
+            errors.append(f'skills/{name}/SKILL.md: description over 1024 characters')
+    if f'skills/{name}/SKILL.md' not in body:
+        errors.append(f'Router does not route to skills/{name}/SKILL.md')
 
 class Links(HTMLParser):
     def __init__(self):

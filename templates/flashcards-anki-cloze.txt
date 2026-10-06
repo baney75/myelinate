@@ -1,0 +1,6 @@
+#separator:tab
+#html:false
+#notetype:Cloze
+#tags column:2
+Hemoglobin oxygen binding has a Hill coefficient of about {{c1::2.7}}	BIOL::Physiology::Respiratory
+Normal adult hemoglobin P50 is about {{c1::26-27}} mmHg	BIOL::Physiology::Respiratory

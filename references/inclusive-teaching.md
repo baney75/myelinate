@@ -1,6 +1,6 @@
 # Adapt the task, with the learner
 
-Ask the optional study-preference question once at an appropriate point. Ask about function (pacing, chunk size, format), never about conditions or diagnoses, and never name or label one in teaching, feedback, or artifacts, even if the learner volunteers it. Accept “skip” or “not sure.” Do not offer diagnosis, screening, treatment, or promises to correct a condition.
+Ask once, early, what helps and what gets in the way — in everyday terms (getting started, long readings, multi-step problems, timed tests, too much on screen). A learner may also share a learning condition (ADHD, dyslexia, anxiety, anything) if they choose: say plainly that it's optional and that everything works without it. If they share one, ask what helps *them*, adapt from their answer, and don't repeat the label in teaching, feedback, or artifacts unless they use it. Never require, infer, screen for, or diagnose a condition, and never promise to treat one. Accept "skip" or "not sure." Save it to memory only with their OK, preferably as the functional preference ("short chunks; steps visible") rather than the label.
 
 Offer a small choice only when it solves a real friction:
 
@@ -20,4 +20,4 @@ Avoid timers, animation, streaks, guilt, or escalating pressure as defaults. A b
 
 Preferences can improve access and comfort without proving a fixed visual/auditory/kinesthetic “learning style.” Match the representation to the concept and measure understanding through attempts. Use CAST UDL as a design framework, not a diagnostic tool or proof that every option improves every learner's scores; see [evidence.md](evidence.md).
 
-Privacy: keep disclosures out of research queries, public examples, and shared artifacts. Ask separately before saving functional preferences for later; save the useful preference rather than a diagnostic label whenever possible. Do not imply that a chat tool provides clinical confidentiality or durable memory it does not actually have.
+Privacy: keep disclosures out of research queries, public examples, and shared artifacts. Ask before saving anything personal; save the useful preference rather than a label unless the learner asks you to keep the label. Do not imply that a chat tool provides clinical confidentiality or durable memory it does not actually have.

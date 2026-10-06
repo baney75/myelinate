@@ -1,0 +1,6 @@
+#separator:tab
+#html:false
+#tags column:3
+Rate-limiting enzyme of glycolysis	PFK-1	BIOL::Metabolism
+Effect of decreased pH on the O2-hemoglobin curve	Shifts right; more O2 unloaded to tissue	BIOL::Physiology::Respiratory
+Competitive vs noncompetitive inhibitor: effect on Vmax	Unchanged vs decreased	BIOL::Biochem::Enzymes

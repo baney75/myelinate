@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <style>
+    .i{fill:#16313b}.l{stroke:#16313b}.a{stroke:#a54320}
+    @media (prefers-color-scheme: dark){.i{fill:#ece6d8}.l{stroke:#ece6d8}.a{stroke:#e8835a}}
+  </style>
+  <path class="l" d="M0 43H64" stroke-width="4"/>
+  <path class="i" d="M0 36a7 7 0 0 1 0 14z"/>
+  <rect class="i" x="10" y="36" width="20" height="14" rx="7"/>
+  <rect class="i" x="34" y="36" width="20" height="14" rx="7"/>
+  <path class="i" d="M64 36a7 7 0 0 0 0 14z"/>
+  <path class="a" d="M8 31V24a12 12 0 0 1 24 0v7M32 24a12 12 0 0 1 24 0v7" fill="none" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

@@ -1,0 +1,1429 @@
+<!doctype html>
+<!--
+=========================================================================
+ MYELINATE LAB: STANDALONE TEMPLATE  (single file, no JS libraries)
+=========================================================================
+ This is the full engine plus a worked topic (oxygen–hemoglobin curve)
+ so every screen renders and can be tested. To build a new lab, search for
+ "CONTENT:" and replace those blocks; leave ENGINE / RENDER code alone
+ unless the new topic needs a different kind of simulation.
+
+ 1. SWAP THE MODEL  (/* CONTENT: MODEL */)
+    - Replace MODEL with the topic's quantitative model. Keep it pure
+      (inputs -> numbers) so it can be checked numerically in a test.
+    - Then adapt the model-coupled renderers: predictSVG (what the learner
+      predicts), simSVG / readoutHTML / instHTML (the three linked views),
+      simControlsHTML (productive ranges only), simCond / simNumbers.
+    - Every visual mark must encode a variable. Label on the diagram,
+      not in a legend. Nothing animates or auto-plays.
+    - Cite what you verified in SOURCES_HTML and state the approximations.
+
+ 2. SWAP THE CONTENT  (/* CONTENT: ... */ blocks, in step order)
+    TARGETS (3–5 observable targets) -> HOOK (a puzzle, not objectives)
+    -> TERMS (pre-training, ~20 s) -> DRIVING + EXPLORE_HINTS + CHECKPOINT
+    -> EXPLAIN (principle choice + "because…" + model answer + rubric)
+    -> the formalize screen (R.formalize: rule, then the mnemonic)
+    -> WORKED (fully worked -> last step blank -> independent)
+    -> MCQ (interleaved; every wrong option names its misconception,
+       has elaborated feedback; reason tier; reteach card)
+    -> TRANSFER (new surface context) -> EXIT (no hints, sim hidden)
+    -> CARDS (atomic, one fact or idea per card).
+
+ 3. SWAP THE QUESTIONS
+    - Answers live only in JS and render after submit/reveal. Never put an
+      answer in static HTML, alt text, aria-label, title, or a filename.
+    - Free text is never keyword-graded: show a model answer + rubric
+      checkboxes and record it as self-assessed.
+    - Each graded item needs { target, label }. The ledger (S.items)
+      records attempts, hints and reveals; results separate unassisted-
+      correct from assisted / revealed / incorrect automatically.
+
+ 4. HOUSEKEEPING
+    - Change STORAGE_KEY / CARDS_KEY slugs (keep the :v1 suffix; bump it if
+      you change the state shape).
+    - Update the STATE MACHINE comment at the top of the script first,
+      then the DONE predicates and GATE_MSG to match.
+    - Brand: edit the :root tokens (light) and both dark-mode blocks.
+    - Verify: run a Playwright pass through every state (gates, hints,
+      wrong + right answers, reveal, reload/resume, clear, storage that
+      throws, 375 px width with no horizontal scroll, zero console errors).
+=========================================================================
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- CONTENT: page title and description -->
+<title>Oxygen Unloading Lab</title>
+<meta name="description" content="A Myelinate interactive lab on the oxygen–hemoglobin dissociation curve and the Bohr effect: predict, explore a Hill-equation model, explain, practice, and review.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,560;9..144,650&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ===== Brand tokens (swap here) ===== */
+:root{
+  --paper:#f7f3e9; --paper-2:#efe8d8; --card:#fbf8f1; --ink:#16313b; --ink-2:#3f5661; --ink-3:#5a6b72;
+  --rule:#d8cfbc; --rule-strong:#b9ad95;
+  --accent:#a54320; --accent-soft:#f3e0d4; --on-accent:#fffaf2;
+  --ref:#55686f; --pred:#16313b;
+  --good:#2b6942; --good-soft:#deecdf; --warn:#865100; --warn-soft:#f6e7c9; --bad:#9a2c1e; --bad-soft:#f6dcd5;
+  --focus:#1d6e8a; --shadow:0 1px 0 rgba(22,49,59,.06);
+  --serif:"Fraunces", Georgia, "Times New Roman", serif;
+  --sans:"Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --r:10px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#10191c; --paper-2:#172328; --card:#142025; --ink:#ede6d7; --ink-2:#bcc6c4; --ink-3:#8d9b9d;
+    --rule:#2b3b41; --rule-strong:#44585f;
+    --accent:#e8875f; --accent-soft:#3b231a; --on-accent:#1a0e09;
+    --ref:#93a7ad; --pred:#ede6d7;
+    --good:#86d29f; --good-soft:#173123; --warn:#e9b65e; --warn-soft:#352812; --bad:#f39383; --bad-soft:#3b1c17;
+    --focus:#7fcbe4; --shadow:none; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#10191c; --paper-2:#172328; --card:#142025; --ink:#ede6d7; --ink-2:#bcc6c4; --ink-3:#8d9b9d;
+  --rule:#2b3b41; --rule-strong:#44585f;
+  --accent:#e8875f; --accent-soft:#3b231a; --on-accent:#1a0e09;
+  --ref:#93a7ad; --pred:#ede6d7;
+  --good:#86d29f; --good-soft:#173123; --warn:#e9b65e; --warn-soft:#352812; --bad:#f39383; --bad-soft:#3b1c17;
+  --focus:#7fcbe4; --shadow:none; color-scheme: dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 17px/1.55 var(--sans);overflow-x:hidden}
+h1,h2,h3{font-family:var(--serif);font-weight:560;line-height:1.15;letter-spacing:-.01em;margin:0}
+h2{font-size:clamp(1.6rem,1.2rem + 1.6vw,2.25rem)}
+h3{font-size:1.2rem;font-weight:600}
+p{margin:.6em 0}
+a{color:var(--accent)}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px;border-radius:4px}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.eyebrow{font:600 .78rem/1.2 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 .5rem}
+.muted{color:var(--ink-2)}
+.small{font-size:.92rem}
+
+/* ===== Shell ===== */
+.top{border-bottom:1px solid var(--rule);background:var(--paper)}
+.top-in{max-width:1360px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:10px;font:600 .95rem var(--sans);letter-spacing:.02em}
+.brand-mark{width:28px;height:28px;flex:none}
+.top-title{font-family:var(--serif);font-size:1.15rem;font-weight:560;margin-left:4px}
+.top-sp{flex:1}
+.layout{max-width:1360px;margin:0 auto;padding:24px 20px 80px;display:grid;grid-template-columns:232px minmax(0,1fr);gap:40px}
+.notice{max-width:1360px;margin:12px auto 0;padding:0 20px}
+.notice-in{border:1px solid var(--rule);background:var(--card);border-radius:var(--r);padding:10px 14px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.notice-in p{margin:0;flex:1;min-width:200px}
+
+/* Rail */
+.rail{position:sticky;top:20px;align-self:start}
+.rail .rail-toggle{display:none}
+.rail-meter{display:flex;gap:3px;margin:0 0 14px}
+.rail-meter span{flex:1;height:5px;border-radius:3px;background:var(--rule)}
+.rail-meter span.done{background:var(--ink)}
+.rail-meter span.cur{background:var(--accent)}
+.rail ol{list-style:none;margin:0;padding:0;border-left:1px solid var(--rule)}
+.rail li{margin:0}
+.rail button{display:flex;align-items:center;gap:10px;width:100%;min-height:44px;padding:6px 10px 6px 14px;margin-left:-1px;border:0;border-left:3px solid transparent;background:none;text-align:left;cursor:pointer;color:var(--ink-2);font-size:.95rem;border-radius:0 6px 6px 0}
+.rail button:hover:not([aria-disabled="true"]){background:var(--paper-2)}
+.rail button[aria-current="step"]{border-left-color:var(--accent);color:var(--ink);font-weight:600;background:var(--paper-2)}
+.rail button[aria-disabled="true"]{cursor:not-allowed;color:var(--ink-3)}
+.rail .num{font:500 .78rem var(--mono);width:22px;height:22px;border-radius:50%;display:inline-grid;place-items:center;border:1px solid var(--rule-strong);flex:none}
+.rail .done .num{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.rail-foot{margin-top:18px;font-size:.88rem;color:var(--ink-2)}
+
+/* Main step */
+main{min-width:0}
+.step-head{margin-bottom:22px;max-width:760px}
+.step-head .lede{font-size:1.1rem;color:var(--ink-2);margin-top:.6rem}
+.prose{max-width:720px}
+.card{background:var(--card);border:1px solid var(--rule);border-radius:var(--r);padding:20px 22px;box-shadow:var(--shadow)}
+.card + .card{margin-top:16px}
+.stack > * + *{margin-top:16px}
+.callout{border-left:3px solid var(--accent);padding:6px 0 6px 16px;margin:16px 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:8px 18px;border-radius:8px;border:1px solid var(--ink);background:var(--ink);color:var(--paper);font-weight:600;cursor:pointer;text-decoration:none}
+.btn:hover{filter:brightness(1.12)}
+.btn.secondary{background:transparent;color:var(--ink);border-color:var(--rule-strong)}
+.btn.secondary:hover{background:var(--paper-2);filter:none}
+.btn.accent{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.btn.ghost{background:transparent;border-color:transparent;color:var(--ink-2);padding:8px 10px}
+.btn.ghost:hover{color:var(--ink);background:var(--paper-2);filter:none}
+.btn[disabled],.btn[aria-disabled="true"]{opacity:.5;cursor:not-allowed;filter:none}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.nav{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:32px;padding-top:18px;border-top:1px solid var(--rule)}
+.gate-msg{color:var(--ink-2);font-size:.95rem;flex:1 1 220px;text-align:right;margin:0}
+.gate-msg.alert{color:var(--accent);font-weight:600}
+textarea,input[type=text]{width:100%;border:1px solid var(--rule-strong);background:var(--paper);border-radius:8px;padding:10px 12px;min-height:44px}
+textarea{min-height:96px;resize:vertical;line-height:1.45}
+input[type=text].num-in{width:7.5em;font-family:var(--mono)}
+label.lbl{display:block;font-weight:600;margin:0 0 6px}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend{font-weight:600;padding:0;margin-bottom:8px}
+
+/* Choice rows (radio/checkbox) */
+.choices{display:grid;gap:8px}
+.choice{display:flex;gap:12px;align-items:flex-start;min-height:44px;padding:10px 14px;border:1px solid var(--rule);border-radius:8px;background:var(--paper);cursor:pointer;line-height:1.4}
+.choice:hover{border-color:var(--rule-strong)}
+.choice input{margin:3px 0 0;width:18px;height:18px;flex:none;accent-color:var(--accent)}
+.choice:has(input:checked){border-color:var(--ink);background:var(--paper-2)}
+.choice:has(input:focus-visible){outline:3px solid var(--focus);outline-offset:2px}
+.choice.is-correct,.choice.is-correct:has(input:checked){border-color:var(--good);background:var(--good-soft)}
+.choice.is-wrong,.choice.is-wrong:has(input:checked){border-color:var(--bad);background:var(--bad-soft)}
+.choice .yours{margin-left:auto;padding-left:10px;font:600 .74rem var(--sans);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;color:var(--ink-2)}
+.choice.is-correct .yours{color:var(--good)}.choice.is-wrong .yours{color:var(--bad)}
+.choice .key{font:600 .85rem var(--mono);color:var(--ink-2);width:1.2em;flex:none;margin-top:1px}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 14px;border:1px solid var(--rule-strong);border-radius:999px;cursor:pointer;background:var(--paper)}
+.pill input{accent-color:var(--accent);width:16px;height:16px;margin:0}
+.pill:has(input:checked){background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.pill:has(input:focus-visible){outline:3px solid var(--focus);outline-offset:2px}
+.pill:has(input:disabled){opacity:.7;cursor:default}
+
+/* Feedback */
+.fb{border-radius:8px;padding:12px 14px;margin-top:12px;border:1px solid}
+.fb.good{background:var(--good-soft);border-color:var(--good)}
+.fb.bad{background:var(--bad-soft);border-color:var(--bad)}
+.fb.warn{background:var(--warn-soft);border-color:var(--warn)}
+.fb.info{background:var(--paper-2);border-color:var(--rule-strong)}
+.fb strong.tag{display:block;margin-bottom:2px}
+.fb.good strong.tag{color:var(--good)} .fb.bad strong.tag{color:var(--bad)} .fb.warn strong.tag{color:var(--warn)}
+.reteach{margin-top:12px;border:1px dashed var(--accent);border-radius:8px;padding:14px 16px;background:var(--accent-soft)}
+.reteach h4{margin:0 0 4px;font-family:var(--serif);font-weight:600;font-size:1.05rem}
+.mis{font:600 .8rem var(--sans);letter-spacing:.06em;text-transform:uppercase;color:var(--bad)}
+
+/* Hints */
+.hints{margin-top:14px}
+.hint{border-left:3px solid var(--rule-strong);padding:6px 0 6px 14px;margin-top:10px}
+.hint b{font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2)}
+
+/* Charts */
+.chart{width:100%;height:auto;display:block;touch-action:none}
+.chart text{font-family:var(--sans);fill:var(--ink)}
+.chart .tick{font:14px var(--mono);fill:var(--ink-2)}
+.chart .axis{stroke:var(--ink);stroke-width:1.2}
+.chart .grid{stroke:var(--rule);stroke-width:1}
+.chart .axis-title{font:600 15px var(--sans);fill:var(--ink-2)}
+.chart .c-tissue{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round}
+.chart .c-ref{fill:none;stroke:var(--ref);stroke-width:2;stroke-dasharray:6 5}
+.chart .lab{font:600 15px var(--sans)}
+.chart .lab-acc{fill:var(--accent)}
+.chart .lab-ref{fill:var(--ref)}
+.chart .lab-sm{font:14px var(--sans);fill:var(--ink-2)}
+.chart .halo{paint-order:stroke;stroke:var(--card);stroke-width:4px;stroke-linejoin:round}
+.chart .guide{stroke:var(--ink-2);stroke-width:1;stroke-dasharray:3 4}
+.chart .pt-art{fill:var(--card);stroke:var(--ref);stroke-width:2.5}
+.chart .pt-t{fill:var(--accent);stroke:var(--card);stroke-width:2}
+.chart .pt-pred{fill:var(--card);stroke:var(--pred);stroke-width:2.5}
+.chart .hl{stroke:var(--accent);stroke-width:3}
+.chart .handle{cursor:ns-resize}
+.chart-fig{margin:0}
+.chart-cap{font-size:.9rem;color:var(--ink-2);margin-top:6px}
+
+/* Sim layout */
+.sim{display:grid;gap:18px;grid-template-columns:272px minmax(0,1fr) 260px;grid-template-areas:"ctrl guide guide" "ctrl chart chart" "ctrl read inst";align-items:start}
+.sim > .a-guide .guide-q{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 18px;margin:0}
+.sim > .a-guide .guide-q li{margin:0}
+.sim > .a-ctrl{grid-area:ctrl}.sim > .a-chart{grid-area:chart}.sim > .a-guide{grid-area:guide}.sim > .a-read{grid-area:read}.sim > .a-inst{grid-area:inst}
+.panel{background:var(--card);border:1px solid var(--rule);border-radius:var(--r);padding:16px}
+.panel h3{font-family:var(--sans);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2);font-weight:700;margin:0 0 10px}
+.ctl{margin-bottom:16px}
+.ctl-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.ctl-top label,.ctl-top .lbl2{font-weight:600}
+.ctl-val{font:500 .95rem var(--mono)}
+.ctl-note{font-size:.84rem;color:var(--ink-2);margin:2px 0 0;min-height:1.2em}
+input[type=range]{width:100%;height:44px;margin:0;background:transparent;accent-color:var(--accent);cursor:pointer}
+.range-ends{display:flex;justify-content:space-between;font:12px var(--mono);color:var(--ink-2);margin-top:-8px}
+.seg{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+.seg label{display:flex;align-items:center;justify-content:center;min-height:44px;border:1px solid var(--rule-strong);border-radius:8px;font-size:.9rem;cursor:pointer;text-align:center;padding:4px;line-height:1.15}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label:has(input:checked){background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.seg label:has(input:focus-visible){outline:3px solid var(--focus);outline-offset:2px}
+.seg label:has(input:disabled){opacity:.55;cursor:not-allowed}
+.switch{display:flex;align-items:flex-start;gap:10px;min-height:44px;padding:8px 0;cursor:pointer}
+.switch input{width:20px;height:20px;accent-color:var(--accent);margin:2px 0 0;flex:none}
+.switch span small{display:block;color:var(--ink-2);font-size:.84rem}
+.read-table{width:100%;border-collapse:collapse;font-size:.95rem}
+.read-table th,.read-table td{padding:6px 4px;border-bottom:1px solid var(--rule);text-align:left}
+.read-table td.n,.read-table th.n{text-align:right;font-family:var(--mono)}
+.bar-row{margin-top:12px}
+.bar-lab{display:flex;justify-content:space-between;font-size:.92rem;gap:8px}
+.bar-track{position:relative;height:16px;background:var(--paper-2);border-radius:4px;margin-top:4px;border:1px solid var(--rule)}
+.bar-fill{position:absolute;left:0;top:0;bottom:0;background:var(--accent);border-radius:3px 0 0 3px}
+.bar-ref{position:absolute;top:-4px;bottom:-4px;width:2px;background:var(--ink)}
+.bar-key{font-size:.82rem;color:var(--ink-2);margin-top:8px}
+.kv{display:flex;justify-content:space-between;gap:8px;font-size:.95rem;padding:3px 0}
+.inst-pick{display:grid;grid-template-columns:repeat(2,1fr);gap:4px;margin-bottom:8px}
+.guide-q{margin:0 0 10px;padding-left:0;list-style:none;counter-reset:q}
+.guide-q li{counter-increment:q;padding-left:28px;position:relative;margin-bottom:10px;font-size:.95rem}
+.guide-q li::before{content:counter(q);position:absolute;left:0;top:1px;width:20px;height:20px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font:600 .75rem var(--mono);display:grid;place-items:center}
+details.notes{border:1px solid var(--rule);border-radius:var(--r);background:var(--card);margin-top:18px}
+details.notes > summary{cursor:pointer;padding:12px 16px;min-height:44px;font-weight:600;list-style-position:inside}
+details.notes .notes-in{padding:0 18px 16px;font-size:.95rem}
+details.notes li{margin-bottom:6px}
+
+/* Parts */
+.parts{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:20px;align-items:start}
+.term{display:block;width:100%;text-align:left;border:1px solid var(--rule);background:var(--paper);border-radius:8px;padding:10px 14px;min-height:44px;cursor:pointer;margin-bottom:8px}
+.term[aria-expanded="true"]{border-color:var(--ink);background:var(--card)}
+.term .t-name{font-weight:700}
+.term .t-def{display:block;margin-top:4px;color:var(--ink-2);font-size:.95rem}
+.term .seen{float:right;font-size:.8rem;color:var(--good);font-weight:600}
+
+/* Predict */
+.pred-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:22px;align-items:start}
+.pred-grid > .card,.parts > .card{margin-top:0}
+
+/* Worked */
+.we{counter-reset:s}
+.we ol{padding-left:1.3em;margin:.4em 0}
+.we li{margin-bottom:.35em}
+.we .mono{font-size:.9em}
+.we .blank{display:inline-block;min-width:3.2em;border-bottom:2px solid var(--accent);text-align:center;font-family:var(--mono)}
+.badge{display:inline-block;white-space:nowrap;font:600 .74rem var(--sans);letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid var(--rule-strong);color:var(--ink-2);vertical-align:middle}
+.badge.b-good{border-color:var(--good);color:var(--good)} .badge.b-warn{border-color:var(--warn);color:var(--warn)} .badge.b-bad{border-color:var(--bad);color:var(--bad)} .badge.b-acc{border-color:var(--accent);color:var(--accent)}
+.q-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:8px;font-size:.88rem;color:var(--ink-2)}
+.sub-q{margin-top:14px}
+
+/* Formalize */
+.rule-big{font-family:var(--serif);font-size:clamp(1.25rem,1rem + 1vw,1.6rem);line-height:1.3;margin:0}
+.cadet{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:14px 0}
+.cadet div{border:1px solid var(--rule);border-radius:8px;padding:10px 8px;text-align:center;background:var(--paper)}
+.cadet b{display:block;font-family:var(--serif);font-size:1.8rem;color:var(--accent);line-height:1}
+.cadet span{font-size:.86rem}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+
+/* Results */
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.stat{border:1px solid var(--rule);border-radius:var(--r);padding:14px;background:var(--card)}
+.stat b{display:block;font:500 1.8rem var(--mono);line-height:1.1}
+.stat span{font-size:.9rem;color:var(--ink-2)}
+.tbl-wrap{overflow-x:auto}
+table.res{width:100%;border-collapse:collapse;font-size:.95rem}
+table.res th,table.res td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--rule);vertical-align:top}
+table.res th{font-size:.8rem;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2)}
+.fc{border:1px solid var(--rule-strong);border-radius:12px;background:var(--card);padding:22px;min-height:170px;display:flex;flex-direction:column;justify-content:center}
+.fc .side{font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-2)}
+.fc .face{font-family:var(--serif);font-size:1.25rem;line-height:1.35;margin-top:6px}
+.fc .back{margin-top:12px;padding-top:12px;border-top:1px solid var(--rule)}
+
+dialog{border:1px solid var(--rule-strong);border-radius:12px;background:var(--card);color:var(--ink);padding:22px;max-width:min(440px,calc(100vw - 32px))}
+dialog::backdrop{background:rgba(10,20,24,.45)}
+
+@media (prefers-reduced-motion: no-preference){
+  .btn,.choice,.pill,.term,.rail button{transition:background-color .15s ease,border-color .15s ease,color .15s ease}
+  html{scroll-behavior:smooth}
+}
+@media (max-width:1180px){
+  .sim{grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-areas:"guide guide" "chart chart" "ctrl read" "ctrl inst"}
+  .sim > .a-guide .guide-q{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:900px){
+  .layout{grid-template-columns:minmax(0,1fr);gap:16px;padding-top:12px}
+  .rail{position:static}
+  .rail .rail-toggle{display:flex;width:100%;justify-content:space-between;border:1px solid var(--rule-strong);border-radius:8px;margin-left:0;padding:8px 14px;color:var(--ink);font-weight:600;background:var(--card)}
+  .rail .rail-toggle::after{content:'Show steps ▾';font-weight:400;color:var(--ink-2);font-size:.9rem}
+  .rail.open .rail-toggle::after{content:'Hide ▴'}
+  .rail ol{display:none;margin-top:8px}
+  .rail.open ol{display:block}
+  .rail-foot{display:none}
+  .parts,.pred-grid,.two{grid-template-columns:minmax(0,1fr)}
+  .stats{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:640px){
+  body{font-size:16px}
+  .top-in,.layout,.notice{padding-left:16px;padding-right:16px}
+  .top-title{display:none}
+  .card{padding:16px}
+  .sim{grid-template-columns:minmax(0,1fr);grid-template-areas:"guide" "chart" "ctrl" "read" "inst"}
+  .cadet{grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+  .cadet div{padding:8px 2px}.cadet b{font-size:1.4rem}.cadet span{font-size:.72rem}
+  .nav .btn{flex:1}
+  .gate-msg{text-align:left;flex-basis:100%;order:3}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="13" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M5 16c3-6 6-6 9 0s6 6 9 0" fill="none" stroke="var(--accent)" stroke-width="2.2" stroke-linecap="round"/></svg>
+      <span>Myelinate Lab</span>
+    </div>
+    <!-- CONTENT: header title -->
+    <span class="top-title">Oxygen unloading &amp; the Bohr effect</span>
+    <span class="top-sp"></span>
+    <button class="btn ghost" id="clearBtn" type="button">Clear progress</button>
+  </div>
+</header>
+<div class="notice" id="noticeArea" aria-live="polite"></div>
+<div class="layout">
+  <nav class="rail" id="rail" aria-label="Lab steps">
+    <div class="rail-meter" id="railMeter" aria-hidden="true"></div>
+    <button class="btn secondary rail-toggle" id="railToggle" type="button" aria-expanded="false" aria-controls="railList"></button>
+    <ol id="railList"></ol>
+    <p class="rail-foot">Back and forward are always open for finished steps. Progress saves in this browser.</p>
+  </nav>
+  <main id="main" tabindex="-1"></main>
+</div>
+<div class="sr-only" aria-live="polite" id="live"></div>
+
+<dialog id="confirmDlg" aria-labelledby="dlgTitle">
+  <h3 id="dlgTitle" style="font-family:var(--serif)">Erase your progress?</h3>
+  <p class="muted">This clears your answers, explanations, and flashcard schedule for this lab in this browser. It can't be undone.</p>
+  <div class="btn-row">
+    <button class="btn accent" id="dlgYes" type="button">Erase progress</button>
+    <button class="btn secondary" id="dlgNo" type="button">Cancel</button>
+  </div>
+</dialog>
+
+<script>
+/* =====================================================================
+   STATE MACHINE (designed before the UI; every state below is reachable)
+   ---------------------------------------------------------------------
+   Global
+     BOOT --(storage ok)--> LOAD_SAVED --> STEP[saved.step]
+     BOOT --(storage throws)--> MEMORY_ONLY (notice shown) --> STEP[0]
+     STEP[i] --next (only if done(i))--> STEP[i+1]; maxReached = max(maxReached, i+1)
+     STEP[i] --back--> STEP[i-1]            (always allowed)
+     STEP[i] --rail(j), j <= maxReached--> STEP[j]
+     ANY --Clear progress--> CONFIRMING --cancel--> previous
+                                         --erase--> fresh state, STEP[0]
+   Per step (done(i) in brackets)
+     0 hook:      EMPTY --save guess | "no guess yet"--> ANSWERED [done]
+     1 parts:     VIEWING(k of 4 terms opened) --open all 4--> ALL_SEEN [done]
+     2 predict:   PLACING(value?, confidence?) --commit (needs both)--> REVEALED (inputs locked,
+                  overlay prediction vs actual) --save "explain the gap" text--> GAP_SAVED [done]
+     3 explore:   LOCKED (until predict committed; enforced by step order)
+                  PAUSED (initial; nothing animates) <--> ADJUSTED (any control) --reset--> PAUSED
+                  checkpoint q1,q2 each: OPEN --check wrong--> RETRY --check right--> CORRECT
+                                         OPEN/RETRY --reveal--> REVEALED
+                  hint ladder: H0 -> H1 nudge -> H2 principle -> H3 worked step (correct afterwards = hinted-correct)
+                  [done when q1 and q2 are CORRECT or REVEALED]
+     4 explain:   CHOOSING --submit (principle + because-text)--> GRADED_CHOICE + MODEL_SHOWN
+                  --save rubric self-check--> SELF_ASSESSED [done]
+     5 formalize: VIEWED [done on entry]
+     6 worked:    W1 (fully worked) --self-explain + reveal--> W2 (last step blank: OPEN/RETRY/
+                  CORRECT/REVEALED, hints) --> W3 (independent, same states) [done when W2,W3 resolved]
+     7 check:     per MCQ: ANSWER -> REASON -> CONFIDENCE -> SUBMITTED(feedback; RETEACH if
+                  confident & wrong)  [done when all submitted]
+     8 transfer:  ANSWER -> REASON -> CONFIDENCE -> SUBMITTED --explain + self-check--> SAVED [done]
+     9 exit:      ANSWERING (no hints; sim not shown; visiting Explore/Predict marks PEEKED)
+                  --submit all--> SUBMITTED [done]
+    10 results:   REPORT; flashcard review: FRONT --show--> BACK --again|good--> next due card
+                  (schedule persisted separately); exports download .txt files
+   ===================================================================== */
+'use strict';
+
+/* ---------- Storage (versioned, never trusted) ---------- */
+/* CONTENT: storage keys — change the slug for a new lab */
+const STORAGE_KEY = 'myelinate:lab:oxygen-hb:v1';
+const CARDS_KEY = 'myelinate:cards:oxygen-hb:v1';
+const store = (() => {
+  let ok = true;
+  try { const k = '__myelinate_probe__'; window.localStorage.setItem(k, '1'); window.localStorage.removeItem(k); } catch (e) { ok = false; }
+  return {
+    get ok() { return ok; },
+    get(k) { if (!ok) return null; try { const raw = window.localStorage.getItem(k); return raw ? JSON.parse(raw) : null; } catch (e) { return null; } },
+    set(k, v) { if (!ok) return false; try { window.localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { ok = false; renderNotices(); return false; } },
+    del(k) { try { window.localStorage.removeItem(k); } catch (e) { /* ignore */ } }
+  };
+})();
+
+/* =====================================================================
+   CONTENT: MODEL — the quantitative model behind Predict + Explore.
+   Replace this object (and drawSim/readouts) to build a lab on another topic.
+   ===================================================================== */
+const MODEL = {
+  P50_ADULT: 26.6,   // mmHg at pH 7.40, PCO2 40, 37 °C (Severinghaus 1979; OpenAnesthesia)
+  P50_FETAL: 19.0,   // mmHg (Deranged Physiology; OpenAnesthesia 18–19)
+  N: 2.7,            // Hill coefficient (approximation over the physiologic range)
+  BOHR: -0.52,       // Δlog10 P50 / ΔpH, from Severinghaus 1979 Eq. 4 evaluated at P50 (−1.2 ln units)
+  TEMP: 0.024,       // Δlog10 P50 / °C at constant pH (approximate; see Model notes)
+  BPG: { low: -0.15, normal: 0, high: 0.06 },  // Δlog10 P50: depleted (stored blood) / normal / raised (altitude) — approximate
+  CO_COEF: 0.00848,  // Δlog10 P50 per % COHb (Rovida et al. 1984, valid 0–23% COHb)
+  COHB_PCT: 20,
+  HB: 15, HUFNER: 1.34, // g/dL; mL O2 per g Hb
+  PH0: 7.4, T0: 37, PCO2_0: 40,
+  p50(c) {
+    const base = c.fetal ? this.P50_FETAL : this.P50_ADULT;
+    const lg = this.BOHR * (c.pH - this.PH0) + this.TEMP * (c.temp - this.T0)
+      + (c.fetal ? 0 : this.BPG[c.bpg]) - (c.co ? this.CO_COEF * this.COHB_PCT : 0);
+    return base * Math.pow(10, lg);
+  },
+  hill(po2, p50) { if (po2 <= 0) return 0; const a = Math.pow(po2, this.N); return a / (a + Math.pow(p50, this.N)); },
+  coFrac(c) { return c.co ? this.COHB_PCT / 100 : 0; },
+  hbo2(po2, c) { return (1 - this.coFrac(c)) * this.hill(po2, this.p50(c)); },   // fraction of TOTAL Hb carrying O2
+  capacity() { return this.HB * this.HUFNER; }                                   // mL O2 / dL at 100% (bound only)
+};
+const STANDARD = { pH: 7.4, temp: 37, bpg: 'normal', fetal: false, co: false };
+const PO2 = { art: 100, rest: 40, sprint: 20 };
+const pct = s => Math.round(s * 100);
+const r1 = x => (Math.round(x * 10) / 10).toFixed(1);
+
+/* =====================================================================
+   CONTENT: learning targets (results page reports state per target)
+   ===================================================================== */
+const TARGETS = [
+  { id: 'T1', name: 'Read the curve', desc: 'Read saturation at a PO₂ and compute O₂ unloaded (lungs − tissue).' },
+  { id: 'T2', name: 'Predict the shift', desc: 'Predict the direction of a shift from pH, CO₂, temperature, 2,3-BPG.' },
+  { id: 'T3', name: 'Explain the payoff', desc: 'Explain why a right shift increases O₂ delivery at the same tissue PO₂.' },
+  { id: 'T4', name: 'Apply to special cases', desc: 'Apply affinity reasoning to fetal Hb, CO, stored blood, altitude.' }
+];
+
+/* =====================================================================
+   CONTENT: steps (ids drive the renderers below)
+   ===================================================================== */
+const STEPS = [
+  { id: 'hook', name: 'Puzzle' }, { id: 'parts', name: 'Meet the parts' }, { id: 'predict', name: 'Predict' },
+  { id: 'explore', name: 'Explore' }, { id: 'explain', name: 'Explain' }, { id: 'formalize', name: 'Formalize' },
+  { id: 'worked', name: 'Worked examples' }, { id: 'check', name: 'Check yourself' }, { id: 'transfer', name: 'Transfer' },
+  { id: 'exit', name: 'Exit ticket' }, { id: 'results', name: 'Results & review' }
+];
+
+/* CONTENT: hook */
+const HOOK = {
+  title: 'Same blood in. Very different oxygen out.',
+  body: [
+    'Blood reaching your thigh muscle arrives with an arterial PO₂ of about 100 mmHg, whether you are sitting still or sprinting.',
+    'At rest, the muscle takes only about a quarter of the O₂ that hemoglobin is carrying. Mid-sprint, the same muscle can strip out most of it.'
+  ],
+  question: 'What could make hemoglobin give up so much more O₂ when the blood coming in looks the same?'
+};
+
+/* CONTENT: pre-training terms (keep tiny, ~20 s) */
+const TERMS = [
+  { id: 'po2', name: 'PO₂ (x-axis)', def: 'Partial pressure of dissolved O₂, in mmHg: the "push" loading O₂ onto hemoglobin. About 100 mmHg leaving the lungs; lower in working tissue.' },
+  { id: 'sat', name: 'Saturation (y-axis)', def: 'The percent of hemoglobin\'s O₂-binding hemes that are occupied. Each Hb molecule has 4 hemes.' },
+  { id: 'p50', name: 'P50', def: 'The PO₂ at which hemoglobin is 50% saturated. One number that tells you where the whole curve sits.' },
+  { id: 'aff', name: 'Affinity', def: 'How tightly Hb holds O₂. Higher affinity → half-saturated at a lower PO₂ → lower P50. Lower affinity → higher P50.' }
+];
+
+/* CONTENT: explore guidance + hint ladder (applies to the checkpoint) */
+const DRIVING = [
+  'Under standard conditions, find how much saturation blood gives up between the lungs (100 mmHg) and resting tissue (40 mmHg).',
+  'Make the tissue look like a sprinting muscle: lower pH, raise PCO₂ and temperature. What happens to P50 and to unloading?',
+  'Which single change moves resting unloading the most? Try fetal Hb and CO last. What do they do to the arterial point?'
+];
+const EXPLORE_HINTS = [
+  { k: 'Nudge', t: 'Unloading is a difference: what left the lungs minus what is still bound in the tissue. Find both points on the chart.' },
+  { k: 'Principle', t: 'Blood loads on the dashed "lungs" curve at 100 mmHg and unloads on the solid "tissue" curve at the tissue PO₂. The bars on the right are exactly that difference.' },
+  { k: 'Worked step', t: () => `Standard conditions: ${pct(MODEL.hbo2(100, STANDARD))}% − ${pct(MODEL.hbo2(40, STANDARD))}% ≈ ${pct(MODEL.hbo2(100, STANDARD)) - pct(MODEL.hbo2(40, STANDARD))} points. Then press "Sprinting muscle" and divide the sprint bar by the resting value under standard conditions.` }
+];
+const CHECKPOINT = {
+  q1: { target: 'T1', label: 'Explore: unloading at rest', prompt: 'Under standard conditions, how many percentage points of saturation does blood unload between the lungs (100 mmHg) and resting tissue (40 mmHg)?',
+    answer: () => pct(MODEL.hbo2(100, STANDARD)) - pct(MODEL.hbo2(40, STANDARD)), tol: 2 },
+  q2: { target: 'T3', label: 'Explore: sprint vs rest', prompt: 'Press "Sprinting muscle" (tissue pH 7.20, PCO₂ 60, 39 °C, tissue PO₂ 20). Compared with resting unloading under standard conditions, the sprint unloads about…',
+    options: [{ id: 'a', t: 'the same amount' }, { id: 'b', t: '1.5 times as much' }, { id: 'c', t: 'twice as much' }, { id: 'd', t: 'more than three times as much' }], correct: 'd',
+    why: 'Two effects stack: tissue PO₂ falls into the steep part of the curve, and acid, CO₂ and heat shift the tissue curve right (higher P50), so even less O₂ stays bound at that PO₂.' }
+};
+
+/* CONTENT: self-explanation (explain step) */
+const EXPLAIN = {
+  prompt: 'Back to the puzzle: which principle best explains why the sprinting muscle receives so much more O₂?',
+  options: [
+    { id: 'a', t: 'Blood flows faster during a sprint, so hemoglobin is more saturated when it leaves the lungs.' },
+    { id: 'b', t: 'Working muscle makes hemoglobin bind O₂ more tightly, so each Hb carries more O₂ to the tissue.' },
+    { id: 'c', t: 'In working muscle, PO₂ is lower and acid, CO₂ and heat lower Hb\'s affinity (right shift), so at that PO₂ much less O₂ stays bound.' },
+    { id: 'd', t: 'Myoglobin in the muscle pulls O₂ off hemoglobin no matter what the blood conditions are.' }
+  ],
+  correct: 'c',
+  feedback: {
+    a: 'Arterial saturation is already ~97% at rest; there is almost no room to load more. Faster flow raises delivery per minute, but it does not explain why each dL of blood gives up more.',
+    b: 'This reverses the effect. Working-muscle conditions lower affinity. Tighter binding would make Hb keep its O₂.',
+    c: 'Yes. Lower tissue PO₂ and a right-shifted curve stack.',
+    d: 'Myoglobin does accept O₂ in muscle, but it can only take what hemoglobin releases at the capillary PO₂, and that depends on Hb affinity.'
+  },
+  model: 'Blood loads to ~97% in the lungs either way. In sprinting muscle, tissue PO₂ drops toward ~20 mmHg, onto the steep part of the curve, and H⁺, CO₂ and heat lower hemoglobin\'s O₂ affinity (Bohr effect and temperature), shifting the curve right. At the same PO₂ a right-shifted Hb holds less O₂, so the difference between loading and unloading, which is what the muscle receives, grows several-fold.',
+  rubric: [
+    'I said the tissue PO₂ is lower, landing on the steep part of the curve.',
+    'I named a cause of lower affinity (H⁺/acid, CO₂, or temperature).',
+    'I linked lower affinity to less O₂ staying bound at the same PO₂.',
+    'I did not claim hemoglobin carries or loads more O₂.'
+  ]
+};
+
+/* CONTENT: worked examples (fading) */
+const WORKED = {
+  w2: { target: 'T1', label: 'Worked 2: sprint PO₂, last step', answer: () => pct(MODEL.hbo2(100, STANDARD)) - pct(MODEL.hbo2(20, STANDARD)), tol: 2,
+    hints: [
+      { k: 'Nudge', t: 'Steps 1 and 2 already gave you both saturations. What operation gives "given up"?' },
+      { k: 'Principle', t: 'Unloaded = saturation leaving lungs − saturation remaining in tissue.' },
+      { k: 'Worked step', t: () => `${pct(MODEL.hbo2(100, STANDARD))} − ${pct(MODEL.hbo2(20, STANDARD))} = ?` }
+    ] },
+  w3: { target: 'T3', label: 'Worked 3: acidic tissue (independent)', answer: () => pct(MODEL.hbo2(100, STANDARD)) - pct(MODEL.hbo2(40, { ...STANDARD, pH: 7.2 })), tol: 1,
+    trap: () => pct(MODEL.hbo2(100, { ...STANDARD, pH: 7.2 })) - pct(MODEL.hbo2(40, { ...STANDARD, pH: 7.2 })),
+    hints: [
+      { k: 'Nudge', t: 'Where was the blood, and what was its pH, when it loaded O₂?' },
+      { k: 'Principle', t: 'Loading happens on the lungs curve (pH 7.40). Only the unloading happens on the acidic tissue curve.' },
+      { k: 'Worked step', t: () => `Leaving lungs: ${pct(MODEL.hbo2(100, STANDARD))}%. In tissue at pH 7.20 and 40 mmHg: ${pct(MODEL.hbo2(40, { ...STANDARD, pH: 7.2 }))}%. Subtract.` }
+    ] }
+};
+
+/* CONTENT: misconception-based MCQs (interleaved across targets).
+   Each wrong option names the misconception it was written from. */
+const MCQ = [
+  { id: 'm1', target: 'T1', label: 'Contrast: P50 20 vs 34',
+    stem: () => `Contrasting cases. Two blood samples both load in the lungs at 100 mmHg. Sample X has P50 = 20 mmHg; sample Y has P50 = 34 mmHg. At a tissue PO₂ of 40 mmHg, which unloads more O₂?`,
+    options: [
+      { id: 'a', t: 'X, because its curve sits higher, and a higher curve delivers more O₂.', mis: 'Higher curve = better delivery', fb: () => `A higher curve is higher everywhere, including in the tissue, so X keeps more bound. X: ${pct(MODEL.hill(100, 20))}% → ${pct(MODEL.hill(40, 20))}% (gives up ${pct(MODEL.hill(100, 20)) - pct(MODEL.hill(40, 20))}). Y: ${pct(MODEL.hill(100, 34))}% → ${pct(MODEL.hill(40, 34))}% (gives up ${pct(MODEL.hill(100, 34)) - pct(MODEL.hill(40, 34))}).` },
+      { id: 'b', t: 'Y, because its higher P50 means lower affinity, so less O₂ stays bound at 40 mmHg.', fb: () => `Right. Y loads almost as well (${pct(MODEL.hill(100, 34))}% vs ${pct(MODEL.hill(100, 20))}%) but holds only ${pct(MODEL.hill(40, 34))}% at 40 mmHg vs ${pct(MODEL.hill(40, 20))}% for X.` },
+      { id: 'c', t: 'X, because a lower P50 means lower affinity, so it lets go more easily.', mis: 'P50 read backwards', fb: () => 'P50 is the PO₂ needed to half-fill Hb. Needing less PO₂ (lower P50) means Hb grabs O₂ more readily: higher affinity.' },
+      { id: 'd', t: 'Neither. Both are nearly full at 100 mmHg and the tissue PO₂ is the same, so they unload equally.', mis: 'PO₂ alone sets saturation', fb: () => 'Saturation depends on PO₂ and on affinity. At the same 40 mmHg, the two curves sit at very different heights.' }
+    ], correct: 'b',
+    reasons: [{ id: 'r1', t: 'Loading in the lungs determines how much is delivered.' }, { id: 'r2', t: 'At the same tissue PO₂, the lower-affinity sample leaves less O₂ bound.' }, { id: 'r3', t: 'PO₂ alone determines how much O₂ is released.' }], reasonCorrect: 'r2',
+    reteach: { title: 'Delivery is a difference, not a height', body: () => `Picture two staircases. Delivery is how far you step down between 100 and 40 mmHg, not how high the top step is. Right-shifted Y steps down ${pct(MODEL.hill(100, 34)) - pct(MODEL.hill(40, 34))} points; left-shifted X steps down only ${pct(MODEL.hill(100, 20)) - pct(MODEL.hill(40, 20))}.` } },
+  { id: 'm2', target: 'T2', label: 'Exercise: heat + acid',
+    stem: () => 'During exercise, muscle temperature rises and capillary pH falls. Compared with resting muscle at the same PO₂, hemoglobin saturation in the exercising muscle capillary is…',
+    options: [
+      { id: 'a', t: 'Higher, because a right shift means Hb carries more O₂ to working muscle.', mis: 'Right shift = Hb carries more O₂', fb: () => 'A right shift lowers affinity. At any given PO₂, a right-shifted Hb holds less O₂, which is exactly why more gets released.' },
+      { id: 'b', t: 'Unchanged, because saturation depends only on PO₂.', mis: 'PO₂ alone sets saturation', fb: () => 'H⁺ and heat change how tightly Hb holds O₂, so the same PO₂ gives a different saturation.' },
+      { id: 'c', t: 'Lower, because acid and heat lower Hb\'s O₂ affinity (right shift).', fb: () => 'Right. This is the Bohr effect (H⁺, CO₂) plus the temperature effect: O₂ binding is exothermic, so heat lowers affinity.' },
+      { id: 'd', t: 'Lower, because acid destroys some hemoglobin so fewer sites are left.', mis: 'Acid denatures Hb', fb: () => 'Physiologic acidosis (pH ~7.2) does not destroy Hb. H⁺ binds and stabilizes the deoxy (T) state, which lowers affinity reversibly.' }
+    ], correct: 'c',
+    reasons: [{ id: 'r1', t: 'H⁺ stabilizes the deoxy (T) state, and heat weakens O₂ binding (binding is exothermic), so O₂ comes off more easily.' }, { id: 'r2', t: 'The muscle uses O₂ faster, which lowers saturation at the same PO₂.' }, { id: 'r3', t: 'Acid dissolves more O₂ in plasma, leaving less for Hb.' }], reasonCorrect: 'r1',
+    reteach: { title: 'Right shift means a looser grip, not a bigger load', body: () => `At 40 mmHg under standard conditions Hb is ${pct(MODEL.hbo2(40, STANDARD))}% saturated. Drop tissue pH to 7.20 and warm it to 39 °C, and the same 40 mmHg gives ${pct(MODEL.hbo2(40, { ...STANDARD, pH: 7.2, temp: 39 }))}%. That missing O₂ went into the muscle.` } },
+  { id: 'm3', target: 'T4', label: 'Fetal hemoglobin',
+    stem: () => 'At the placenta, maternal and fetal blood are exposed to the same low PO₂. Compared with maternal HbA, fetal HbF at that PO₂ is…',
+    options: [
+      { id: 'a', t: 'Less saturated. HbF has lower affinity so it can release O₂ to fetal tissues.', mis: 'Fetal Hb has lower affinity', fb: () => 'HbF has higher affinity (P50 ≈ 19 vs ≈ 27 mmHg), not lower. O₂ diffuses down its PO₂ gradient, from maternal to fetal plasma. At the low placental PO₂, higher-affinity HbF loads more O₂, which keeps fetal plasma PO₂ low so the gradient persists, and fetal blood leaves the placenta carrying more O₂.' },
+      { id: 'b', t: 'More saturated, because HbF binds 2,3-BPG more strongly.', mis: 'BPG effect reversed', fb: () => '2,3-BPG lowers affinity. HbF\'s γ chains bind 2,3-BPG weakly, so HbF escapes that right shift. Stronger BPG binding would lower its affinity.' },
+      { id: 'c', t: 'More saturated, because HbF binds 2,3-BPG weakly and so has higher O₂ affinity.', fb: () => 'Right. HbF is left-shifted (P50 ≈ 19 mmHg), so at placental PO₂ it is more saturated than maternal HbA. O₂ diffuses down its PO₂ gradient, from maternal to fetal plasma. At the low placental PO₂, higher-affinity HbF loads more O₂, which keeps fetal plasma PO₂ low so the gradient persists, and fetal blood leaves the placenta carrying more O₂.' },
+      { id: 'd', t: 'Equally saturated. O₂ moves only because the fetus has more hemoglobin.', mis: 'Only Hb amount matters', fb: () => 'Fetal Hb concentration is higher, but affinity also differs. At the same PO₂, HbF is more saturated.' }
+    ], correct: 'c',
+    reasons: [{ id: 'r1', t: 'The fetus needs Hb that releases O₂ easily.' }, { id: 'r2', t: 'HbF\'s γ chains bind 2,3-BPG weakly, leaving it left-shifted.' }, { id: 'r3', t: 'The placenta actively pumps O₂ into the fetus.' }], reasonCorrect: 'r2',
+    reteach: { title: 'O₂ follows its PO₂ gradient; HbF keeps the gradient going', body: () => `At a placental PO₂ of 30 mmHg in this model, adult Hb is ${pct(MODEL.hbo2(30, STANDARD))}% saturated and fetal Hb is ${pct(MODEL.hbo2(30, { ...STANDARD, fetal: true }))}%. O₂ diffuses down its PO₂ gradient, from maternal to fetal plasma. At the low placental PO₂, higher-affinity HbF loads more O₂, which keeps fetal plasma PO₂ low so the gradient persists, and fetal blood leaves the placenta carrying more O₂.` } },
+  { id: 'm4', target: 'T3', label: 'What a right shift does',
+    stem: () => 'Which statement about a right-shifted O₂–Hb curve is correct?',
+    options: [
+      { id: 'a', t: 'Hb carries more O₂, so more reaches the tissue.', mis: 'Right shift = Hb carries more O₂', fb: () => 'Loading in the lungs barely changes (the top of the curve is flat). The gain comes from Hb holding less at tissue PO₂.' },
+      { id: 'b', t: 'Hb binds O₂ more tightly, so other tissues can\'t steal it on the way.', mis: 'Affinity direction reversed', fb: () => 'Right shift = lower affinity. Tighter binding is a left shift.' },
+      { id: 'c', t: 'Arterial PO₂ rises, pushing more O₂ into tissue.', mis: 'Confusing PO₂ with saturation', fb: () => 'The shift changes saturation at a given PO₂. It does not change the PO₂ itself.' },
+      { id: 'd', t: 'At any given PO₂, Hb is less saturated, so more O₂ is released for the same drop in PO₂.', fb: () => 'Right. Same PO₂ drop, bigger saturation drop, more O₂ delivered.' }
+    ], correct: 'd',
+    reasons: [{ id: 'r1', t: 'Lower affinity means less O₂ stays bound at tissue PO₂.' }, { id: 'r2', t: 'The shift raises the plateau, so Hb loads more in the lungs.' }, { id: 'r3', t: 'The shift increases dissolved O₂ in plasma.' }], reasonCorrect: 'r1',
+    reteach: { title: 'Watch the tissue end of the curve', body: () => `Under standard conditions vs tissue pH 7.20: at 100 mmHg, ${pct(MODEL.hbo2(100, STANDARD))}% vs ${pct(MODEL.hbo2(100, { ...STANDARD, pH: 7.2 }))}% (almost the same). At 40 mmHg, ${pct(MODEL.hbo2(40, STANDARD))}% vs ${pct(MODEL.hbo2(40, { ...STANDARD, pH: 7.2 }))}% (a big difference). The payoff is at the tissue end.` } },
+  { id: 'm5', target: 'T2', label: 'Hyperventilation (low CO₂)',
+    stem: () => 'Someone hyperventilates and their PCO₂ falls to 25 mmHg. Which way does the O₂–Hb curve shift?',
+    options: [
+      { id: 'a', t: 'Right, because breathing hard means the body needs more O₂.', mis: '"Effortful" = right shift', fb: () => 'The curve responds to chemistry, not effort. Low CO₂ means less carbonic acid, so pH rises.' },
+      { id: 'b', t: 'Left, because less CO₂ means less H⁺ (higher pH), so Hb\'s affinity rises.', fb: () => 'Right. Respiratory alkalosis shifts the curve left. One reason over-breathing does not help tissue oxygenation.' },
+      { id: 'c', t: 'No shift. CO₂ doesn\'t bind the heme, so it can\'t affect O₂ binding.', mis: 'Only heme-site binders matter', fb: () => 'CO₂ and H⁺ act at other sites on Hb (allosteric effects) and stabilize the deoxy state. Remove them and affinity rises.' },
+      { id: 'd', t: 'Right, because less CO₂ competes with O₂ for the heme.', mis: 'CO₂ competes at the heme', fb: () => 'CO₂ does not compete at the heme (CO does). Its effects are allosteric: via H⁺ and carbamino groups on the globin.' }
+    ], correct: 'b',
+    reasons: [{ id: 'r1', t: 'Lower CO₂ → less carbonic acid → higher pH → higher affinity.' }, { id: 'r2', t: 'Less CO₂ frees more heme sites for O₂.' }, { id: 'r3', t: 'Faster breathing raises arterial PO₂, which shifts the curve.' }], reasonCorrect: 'r1',
+    reteach: { title: 'CO₂ works through acid', body: () => `CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻. Blow off CO₂ and H⁺ falls (pH rises). In this model, pH 7.40 → 7.58 drops P50 from ${r1(MODEL.p50(STANDARD))} to ${r1(MODEL.p50({ ...STANDARD, pH: 7.58 }))} mmHg: a left shift.` } },
+  { id: 'm6', target: 'T4', label: 'Carbon monoxide',
+    stem: () => 'A patient has 20% carboxyhemoglobin (COHb). Their arterial PO₂ is normal (≈100 mmHg). Which is true?',
+    options: [
+      { id: 'a', t: 'CO just competes for sites. The oximeter reading may drop, but O₂ content is fine because PaO₂ is normal.', mis: 'CO only competes; content is fine', fb: () => `PaO₂ reflects dissolved O₂, not what Hb carries. 20% of hemes are occupied by CO, so content falls. In this model total HbO₂ at 100 mmHg is ~${pct(MODEL.hbo2(100, { ...STANDARD, co: true }))}% of Hb. Standard pulse oximeters also misread COHb as oxyhemoglobin, so the reading can look normal.` },
+      { id: 'b', t: 'O₂ content falls, and the remaining hemes hold O₂ more tightly (left shift), so unloading falls further.', fb: () => `Right. Two hits: lower capacity and a left shift. In this model, at a fixed tissue PO₂ of 40 mmHg, resting unloading drops from ${pct(MODEL.hbo2(100, STANDARD)) - pct(MODEL.hbo2(40, STANDARD))} to ${pct(MODEL.hbo2(100, { ...STANDARD, co: true })) - pct(MODEL.hbo2(40, { ...STANDARD, co: true }))} points. In the body, tissue PO₂ falls further instead, which partly preserves extraction while O₂ content stays low.` },
+      { id: 'c', t: 'CO makes the blood acidic, so the curve shifts right and unloading increases.', mis: 'CO causes a right shift', fb: () => 'CO binding increases the affinity of the remaining hemes: a left shift, the opposite.' },
+      { id: 'd', t: 'Only the low PaO₂ matters; once PaO₂ is restored, delivery is normal.', mis: 'PaO₂ = O₂ content', fb: () => 'PaO₂ is typically normal in CO poisoning. The problem is fewer usable hemes and tighter binding, not low PO₂.' }
+    ], correct: 'b',
+    reasons: [{ id: 'r1', t: 'CO occupies hemes and raises the O₂ affinity of the remaining ones.' }, { id: 'r2', t: 'CO lowers PaO₂ by displacing dissolved O₂.' }, { id: 'r3', t: 'CO produces lactic acid, which shifts the curve right.' }], reasonCorrect: 'r1',
+    reteach: { title: 'Normal PaO₂, low content', body: () => `PaO₂ measures dissolved O₂, about 0.3 mL/dL. The other ~20 mL/dL rides on Hb. With 20% COHb, at most 80% of hemes can carry O₂, and those hold on more tightly. Turn on "CO 20%" in Explore and watch the plateau drop and the tissue point rise relative to it.` } }
+];
+
+/* CONTENT: transfer item (new surface context) */
+const TRANSFER = {
+  id: 'tr', target: 'T4', label: 'Transfer: stored blood',
+  stem: () => 'A trauma patient receives several units of packed red cells that were stored for about three weeks. During storage, red-cell 2,3-BPG falls to nearly undetectable levels. In the first hours after transfusion, how do the transfused cells behave in the patient\'s tissues compared with the patient\'s own red cells?',
+  options: [
+    { id: 'a', t: 'They release more O₂, because old cells have weaker hemoglobin.', mis: 'Older cells = lower affinity', fb: () => 'Loss of 2,3-BPG does the opposite: it removes a right-shifting effector, so affinity goes up.' },
+    { id: 'b', t: 'No difference. Once in the body, the patient\'s pH and temperature set the curve.', mis: 'Only the environment sets the curve', fb: () => '2,3-BPG lives inside each red cell. The transfused cells carry their low-BPG state with them until they rebuild it.' },
+    { id: 'c', t: 'They cannot be oxygenated in the lungs at all until 2,3-BPG returns.', mis: 'BPG is needed to bind O₂', fb: () => '2,3-BPG isn\'t required for binding; it lowers affinity. Without it, Hb loads fine and holds on too tightly.' },
+    { id: 'd', t: 'They load normally in the lungs but hold O₂ more tightly (left shift), so they release less at tissue PO₂ until their 2,3-BPG is rebuilt.', fb: () => `Right. In this model, low 2,3-BPG drops P50 to about ${r1(MODEL.p50({ ...STANDARD, bpg: 'low' }))} mmHg; at 40 mmHg those cells stay ${pct(MODEL.hbo2(40, { ...STANDARD, bpg: 'low' }))}% saturated vs ${pct(MODEL.hbo2(40, STANDARD))}% for normal cells. Red cells rebuild 2,3-BPG after transfusion over the following hours to days.` }
+  ], correct: 'd',
+  reasons: [{ id: 'r1', t: 'Less 2,3-BPG → higher affinity → less O₂ released at the same tissue PO₂.' }, { id: 'r2', t: 'Storage damages the heme so it binds less O₂.' }, { id: 'r3', t: 'Cold storage permanently lowers the cells\' temperature.' }], reasonCorrect: 'r1',
+  reteach: { title: '2,3-BPG is a right-shifter you carry inside the cell', body: () => 'Low 2,3-BPG is the same direction as fetal Hb: a left shift. Ask "what removes a right-shifter?" and the answer follows: tighter grip, less unloading.' },
+  explainPrompt: 'In words: where does the transfused cells\' curve sit relative to normal, and what happens at a tissue PO₂ of 40 mmHg?',
+  model: 'Their curve is left-shifted (lower P50) because the right-shifting effector 2,3-BPG is missing. In the lungs at 100 mmHg both curves are near the top, so loading is similar. At a tissue PO₂ of 40 mmHg the left-shifted cells keep more O₂ bound, so they unload less until the cells regenerate 2,3-BPG.',
+  rubric: ['I said the curve shifts left (lower P50 / higher affinity).', 'I said loading in the lungs is about the same.', 'I said less O₂ is released at the tissue PO₂.', 'I connected it to missing 2,3-BPG (and that it recovers).']
+};
+
+/* CONTENT: exit ticket (no hints, sim hidden) */
+const EXIT = [
+  { id: 'e1', target: 'T1', type: 'num', label: 'Exit: saturation at 40', prompt: 'Normal adult blood under standard conditions: about what % saturation is hemoglobin at a PO₂ of 40 mmHg?', check: v => v >= 70 && v <= 80, answer: () => `≈ ${pct(MODEL.hbo2(40, STANDARD))}% (anything 70–80 counts)` },
+  { id: 'e2', target: 'T2', type: 'multi', label: 'Exit: right-shifters', prompt: 'Select every change that shifts the curve to the right.',
+    options: [{ id: 'temp', t: 'Higher temperature' }, { id: 'ph', t: 'Lower pH' }, { id: 'co', t: 'Carbon monoxide' }, { id: 'pco2', t: 'Higher PCO₂' }, { id: 'hbf', t: 'Fetal hemoglobin' }, { id: 'bpg', t: 'More 2,3-BPG' }, { id: 'cold', t: 'Lower temperature' }],
+    correct: ['temp', 'ph', 'pco2', 'bpg'], answer: () => 'Higher temperature, lower pH, higher PCO₂, more 2,3-BPG. CO, fetal Hb and cold all shift left.' },
+  { id: 'e3', target: 'T3', type: 'one', label: 'Exit: why right shift helps', prompt: 'A right shift ___ Hb\'s O₂ affinity, so at the same tissue PO₂ ___ O₂ is released.',
+    options: [{ id: 'a', t: 'raises … more' }, { id: 'b', t: 'lowers … less' }, { id: 'c', t: 'lowers … more' }, { id: 'd', t: 'raises … less' }], correct: 'c', answer: () => 'lowers … more' },
+  { id: 'e4', target: 'T4', type: 'one', label: 'Exit: altitude', prompt: 'After a couple of days at high altitude, red-cell 2,3-BPG rises. What happens to P50, and what is the usual interpretation?',
+    options: [{ id: 'a', t: 'P50 falls, so Hb grabs more O₂ from thin air.' }, { id: 'b', t: 'P50 rises (right shift), so more O₂ is released to tissues.' }, { id: 'c', t: 'P50 is unchanged; only breathing changes.' }, { id: 'd', t: 'P50 rises, so Hb loads more O₂ in the lungs.' }], correct: 'b',
+    answer: () => 'P50 rises (right shift), favoring unloading. Lenfant et al. (1968) saw affinity change within ~24 h of an altitude change, with 2,3-BPG moving in parallel. At extreme altitude, loading in the lungs becomes the bottleneck, so the trade-off is debated.' }
+];
+
+/* CONTENT: flashcards generated from the lab (atomic, one idea each) */
+const CARDS = [
+  { id: 'c1', q: 'On the O₂–Hb curve, what does P50 mean?', a: 'The PO₂ at which hemoglobin is 50% saturated (≈ 26.6 mmHg in adults at pH 7.4, 37 °C).' },
+  { id: 'c2', q: 'A higher P50 means hemoglobin\'s O₂ affinity is higher or lower?', a: 'Lower (the curve is shifted right).' },
+  { id: 'c3a', q: '↑ PCO₂ → which way does the O₂–Hb curve shift?', a: 'Right (lower affinity, higher P50). Hint: CADET, face Right.' },
+  { id: 'c3b', q: '↑ Temperature → which way does the O₂–Hb curve shift?', a: 'Right (lower affinity, higher P50). Hint: CADET, face Right.' },
+  { id: 'c3c', q: '↑ Red-cell 2,3-BPG → which way does the O₂–Hb curve shift?', a: 'Right (lower affinity, higher P50). Hint: CADET, face Right.' },
+  { id: 'c4', q: 'About what is normal Hb saturation at PO₂ 40 mmHg (resting tissue / mixed venous)?', a: 'About 75%.' },
+  { id: 'c5', q: 'Why does a right shift increase O₂ delivery to tissue?', a: 'At the same tissue PO₂, lower-affinity Hb keeps less O₂ bound, so more is released.' },
+  { id: 'c6', q: 'Why does fetal Hb have higher O₂ affinity than adult Hb?', a: 'Its γ chains bind 2,3-BPG weakly, so it escapes BPG\'s right shift (P50 ≈ 19 mmHg).' },
+  { id: 'c7', q: 'What are the two ways CO impairs O₂ transport by Hb?', a: 'It occupies hemes (lower O₂ content) and makes the remaining hemes hold O₂ more tightly (left shift).' },
+  { id: 'c8', q: 'Stored bank red cells are low in 2,3-BPG. How does that change their unloading right after transfusion?', a: 'Left-shifted: they unload less O₂ at tissue PO₂ until 2,3-BPG is rebuilt.' },
+  { id: 'c9', q: 'What is the Bohr effect?', a: 'Higher H⁺/CO₂ (lower pH) lowers Hb\'s O₂ affinity, shifting the curve right.' }
+];
+
+/* CONTENT: sources & model notes (only what was actually checked) */
+const SOURCES_HTML = `
+<ul>
+  <li><strong>Betts JG et al. <em>Anatomy and Physiology 2e</em>, §22.5 Transport of Gases.</strong> OpenStax. <a href="https://openstax.org/books/anatomy-and-physiology/pages/22-5-transport-of-gases" target="_blank" rel="noopener">openstax.org</a>. Direction of the pH, temperature, 2,3-BPG and CO₂ effects; fetal Hb has higher affinity; healthy saturation 95–99%.</li>
+  <li><strong>Severinghaus JW. Simple, accurate equations for human blood O₂ dissociation computations.</strong> <em>J Appl Physiol</em> 1979;46(3):599–602. PMID 35496. Standard curve, P50 26.6 mmHg; Eq. 4 gives Δln PO₂/ΔpH = (PO₂/26.6)<sup>0.184</sup> − 2.2, which at P50 is −1.2 ln units, ≈ −0.52 log₁₀ units per pH unit (the Bohr coefficient used here).</li>
+  <li><strong>Rovida E, Niggeler M, Carlone S, Samaja M. Carboxyhemoglobin and oxygen affinity of human blood.</strong> <em>Clin Chem</em> 1984;30(7):1250–1. PMID 6428779. d(log P50)/d[COHb%] = 0.00848, valid 0–23% COHb.</li>
+  <li><strong>Lenfant C et al. Effect of altitude on oxygen binding by hemoglobin and on organic phosphate levels.</strong> <em>J Clin Invest</em> 1968;47:2652–6. Hb affinity falls within ~24 h of ascent, with 2,3-DPG rising in parallel.</li>
+  <li><strong>McLellan SA. The red cell storage lesion and therapeutic blood transfusion in the critically ill patient</strong> (thesis, Univ. Edinburgh, 2006). About 50% of 2,3-DPG lost by storage day 2, rarely detectable by day 14; P50 falls in parallel. Also Kassa T et al., <em>Front Physiol</em> 2024 (PMID 39224206): stored-RBC P50 fell from ~30 to ~20 mmHg.</li>
+  <li><strong>Fetal Hb P50 ≈ 19 mmHg vs adult ≈ 26.6–26.7</strong>: <a href="https://derangedphysiology.com/main/cicm-primary-exam/required-reading/respiratory-system/Chapter%20124/physiology-and-consequences-foetal-haemoglobin" target="_blank" rel="noopener">Deranged Physiology</a>; <a href="https://www.openanesthesia.org/age-related_p50/" target="_blank" rel="noopener">OpenAnesthesia</a> (18–19 mmHg).</li>
+</ul>
+<h4 style="margin:14px 0 6px">Model notes (read these before trusting a decimal)</h4>
+<ul>
+  <li><strong>Curve:</strong> Hill equation S = PO₂ⁿ / (P50ⁿ + PO₂ⁿ), n = 2.7, P50 = 26.6 mmHg. Standard values: S(100) = ${r1(100 * MODEL.hill(100, 26.6))}%, S(40) = ${r1(100 * MODEL.hill(40, 26.6))}%, S(20) = ${r1(100 * MODEL.hill(20, 26.6))}%. A single Hill n slightly underestimates the low tail compared with Severinghaus' equation (≈ 32% at 20 mmHg).</li>
+  <li><strong>Shifts</strong> are applied as log₁₀ P50 = log₁₀ P50₀ − 0.52·(pH − 7.40) + 0.024·(T − 37) + BPG term − 0.00848·%COHb. The Bohr coefficient varies with saturation, 2,3-BPG and the acid source (Severinghaus 1979; Duhm 1976), so treat it as approximate. Tissue pH 7.20 gives P50 ≈ ${r1(MODEL.p50({ ...STANDARD, pH: 7.2 }))} mmHg.</li>
+  <li><strong>Temperature (approximate):</strong> Severinghaus Eq. 3 gives ≈ 0.031 log units/°C for a sealed blood sample, where pH also falls with warming. Removing that Bohr component (≈ 0.52 × 0.015 pH/°C) leaves ≈ 0.023; we use 0.024 at constant pH.</li>
+  <li><strong>PCO₂</strong> acts here only through pH, using Henderson–Hasselbalch with bicarbonate fixed (ΔpH = −log₁₀(PCO₂/40)). Real blood buffering makes the pH change somewhat smaller, and the direct carbamino effect is ignored. Displayed pH is held within 7.20–7.60, the range where Bohr data were collected.</li>
+  <li><strong>2,3-BPG levels</strong> are illustrative: low (stored blood) Δlog P50 = −0.15 (P50 ≈ ${r1(MODEL.p50({ ...STANDARD, bpg: 'low' }))}); high (altitude) +0.06 (P50 ≈ ${r1(MODEL.p50({ ...STANDARD, bpg: 'high' }))}). Fetal Hb is modeled as unresponsive to 2,3-BPG, a simplification of "weakly responsive".</li>
+  <li><strong>CO</strong> at 20% COHb removes 20% of O₂ capacity and lowers P50 by Rovida's coefficient. Unloading numbers are computed at a fixed tissue PO₂ (40 or 20 mmHg); in the body, tissue PO₂ falls further instead, which partly preserves extraction while O₂ content stays low. The real CO curve also becomes less sigmoid; this model keeps n fixed.</li>
+  <li><strong>Lungs vs tissue:</strong> the dashed "lungs" curve uses pH 7.40 and 37 °C with the same blood properties (2,3-BPG, HbF, CO). Only the tissue curve feels local pH, PCO₂ and temperature. Dissolved O₂ (0.003 mL/dL/mmHg) is left out of the content numbers.</li>
+</ul>`;
+
+/* =====================================================================
+   ENGINE — state, persistence, navigation (topic-agnostic)
+   ===================================================================== */
+function defaultSim() { return { m: 7.40, pco2: 40, temp: 37, bpg: 'normal', fetal: false, co: false, probe: 60, inst: 'rest' }; }
+function freshState() {
+  return {
+    v: 1, step: 0, maxReached: 0, created: Date.now(),
+    hook: { text: '', done: false, skipped: false },
+    parts: { seen: [] },
+    predict: { value: null, conf: null, committed: false, gap: '', gapSaved: false },
+    sim: defaultSim(), touched: [],
+    explore: { hint: 0, q1: '', q2: null },
+    explain: { choice: null, text: '', submitted: false, rubric: [], saved: false },
+    worked: { se1: '', w1done: false, w2: '', w3: '', hint: { w2: 0, w3: 0 } },
+    mcq: {}, transfer: { text: '', rubric: [], saved: false },
+    exit: { answers: {}, started: false, submitted: false, peeked: false },
+    items: {}
+  };
+}
+let S = loadState();
+function loadState() {
+  const saved = store.get(STORAGE_KEY);
+  if (saved && saved.v === 1) { const base = freshState(); return deepMerge(base, saved); }
+  return freshState();
+}
+function deepMerge(base, over) {
+  for (const k of Object.keys(over)) {
+    if (over[k] && typeof over[k] === 'object' && !Array.isArray(over[k]) && base[k] && typeof base[k] === 'object' && !Array.isArray(base[k])) base[k] = deepMerge(base[k], over[k]);
+    else base[k] = over[k];
+  }
+  return base;
+}
+function save() { store.set(STORAGE_KEY, S); }
+const resumed = S.step > 0 || S.maxReached > 0;
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const val = x => (typeof x === 'function' ? x() : x);
+function announce(msg) { const l = $('live'); l.textContent = ''; setTimeout(() => { l.textContent = msg; }, 30); }
+
+/* Graded-item ledger: honest record of how each answer was reached */
+function item(id, meta) {
+  if (!S.items[id]) S.items[id] = { id, target: meta.target, label: meta.label, attempts: 0, correct: false, hint: 0, revealed: false, ts: 0 };
+  return S.items[id];
+}
+function itemStatus(it) {
+  if (it.revealed && !it.correct) return 'revealed';
+  if (it.correct && it.attempts === 1 && !it.hint) return 'unassisted-correct';
+  if (it.correct) return 'hinted-correct';
+  if (it.attempts > 0) return 'incorrect';
+  return 'none';
+}
+const resolved = id => { const it = S.items[id]; return !!it && (it.correct || it.revealed); };
+
+/* done(step) predicates — the gates */
+const DONE = {
+  hook: () => S.hook.done,
+  parts: () => S.parts.seen.length >= TERMS.length,
+  predict: () => S.predict.committed && S.predict.gapSaved,
+  explore: () => resolved('q1') && resolved('q2'),
+  explain: () => S.explain.saved,
+  formalize: () => true,
+  worked: () => S.worked.w1done && resolved('w2') && resolved('w3'),
+  check: () => MCQ.every(q => S.mcq[q.id] && S.mcq[q.id].submitted),
+  transfer: () => !!(S.mcq.tr && S.mcq.tr.submitted) && S.transfer.saved,
+  exit: () => S.exit.submitted,
+  results: () => true
+};
+const GATE_MSG = {
+  hook: 'Save a first guess (or choose "no guess yet") to continue.',
+  parts: 'Open all four terms to continue.',
+  predict: 'Commit a prediction, then write a line about the gap.',
+  explore: 'Answer both checkpoint questions (or reveal them).',
+  explain: 'Submit your choice and explanation, then save your self-check.',
+  worked: 'Finish all three worked examples.',
+  check: 'Submit all six questions.',
+  transfer: 'Submit the transfer question and your explanation.',
+  exit: 'Submit the exit ticket.'
+};
+
+function go(i, opts = {}) {
+  if (i < 0 || i >= STEPS.length) return;
+  if (i > S.maxReached) return;
+  const id = STEPS[i].id;
+  if ((id === 'explore' || id === 'predict') && S.exit.started && !S.exit.submitted) S.exit.peeked = true;
+  S.step = i; save(); render();
+  if (!opts.noFocus) { const h = document.querySelector('#main h2'); if (h) { h.setAttribute('tabindex', '-1'); h.focus({ preventScroll: true }); } window.scrollTo(0, 0); }
+}
+function next() {
+  const id = STEPS[S.step].id;
+  if (!DONE[id]()) { const m = $('gateMsg'); if (m) { m.classList.add('alert'); m.textContent = GATE_MSG[id] || 'Finish this step first.'; announce(m.textContent); } return; }
+  S.maxReached = Math.max(S.maxReached, S.step + 1); go(S.step + 1);
+}
+
+/* ---------- Notices ---------- */
+let resumeDismissed = false;
+function renderNotices() {
+  const parts = [];
+  if (!store.ok) parts.push(`<div class="notice-in" role="status"><p><strong>Progress can't be saved in this browser</strong> (storage is blocked or full). Everything works; it just won't be remembered after you close the tab.</p></div>`);
+  if (resumed && !resumeDismissed && store.ok) parts.push(`<div class="notice-in" role="status"><p>Welcome back. You're on <strong>Step ${S.step + 1}: ${esc(STEPS[S.step].name)}</strong>, where you left off.</p><button class="btn ghost" type="button" id="dismissResume">Dismiss</button></div>`);
+  $('noticeArea').innerHTML = parts.join('');
+  const d = $('dismissResume'); if (d) d.onclick = () => { resumeDismissed = true; renderNotices(); };
+}
+
+/* ---------- Rail ---------- */
+function renderRail() {
+  $('railMeter').innerHTML = STEPS.map((s, i) => `<span class="${i < S.maxReached && i !== S.step ? 'done' : ''} ${i === S.step ? 'cur' : ''}"></span>`).join('');
+  $('railList').innerHTML = STEPS.map((s, i) => {
+    const locked = i > S.maxReached; const done = i < S.maxReached && i !== S.step;
+    return `<li class="${done ? 'done' : ''}"><button type="button" data-go="${i}" ${i === S.step ? 'aria-current="step"' : ''} ${locked ? 'aria-disabled="true"' : ''}><span class="num">${done ? '✓' : i + 1}</span><span>${esc(s.name)}${done ? '<span class="sr-only"> (done)</span>' : ''}${locked ? '<span class="sr-only"> (locked)</span>' : ''}</span></button></li>`;
+  }).join('');
+  $('railToggle').textContent = `${S.step + 1}/${STEPS.length} · ${STEPS[S.step].name}`;
+}
+$('railList').addEventListener('click', e => {
+  const b = e.target.closest('button[data-go]'); if (!b || b.getAttribute('aria-disabled') === 'true') return;
+  $('rail').classList.remove('open'); $('railToggle').setAttribute('aria-expanded', 'false');
+  go(+b.dataset.go);
+});
+$('railToggle').addEventListener('click', () => { const r = $('rail'); const o = !r.classList.contains('open'); r.classList.toggle('open', o); $('railToggle').setAttribute('aria-expanded', String(o)); });
+
+/* ---------- Generic UI pieces ---------- */
+function stepHead(eyebrow, title, lede) { return `<header class="step-head"><p class="eyebrow">Step ${S.step + 1} of ${STEPS.length} · ${esc(eyebrow)}</p><h2>${title}</h2>${lede ? `<p class="lede">${lede}</p>` : ''}</header>`; }
+function navBar() {
+  const id = STEPS[S.step].id; const last = S.step === STEPS.length - 1; const done = DONE[id]();
+  return `<div class="nav">${S.step > 0 ? `<button class="btn secondary" type="button" data-act="back">← Back</button>` : '<span></span>'}
+    <p class="gate-msg" id="gateMsg" aria-live="polite">${done ? '' : esc(GATE_MSG[id] || '')}</p>
+    ${last ? '' : `<button class="btn" type="button" data-act="next" ${done ? '' : 'aria-disabled="true"'}>Continue →</button>`}</div>`;
+}
+function refreshNav() { const n = document.querySelector('#main .nav'); if (n) n.outerHTML = navBar(); renderRail(); }
+function hintLadder(key, hints, level) {
+  let html = '<div class="hints">';
+  for (let i = 0; i < level; i++) html += `<div class="hint"><b>Hint ${i + 1} · ${esc(hints[i].k)}</b><p style="margin:.2em 0 0">${esc(val(hints[i].t))}</p></div>`;
+  if (level < hints.length) html += `<div class="btn-row"><button class="btn secondary" type="button" data-hint="${key}">${level === 0 ? 'Get a hint' : 'Next hint'} (${level + 1} of ${hints.length}: ${esc(hints[level].k.toLowerCase())})</button></div>`;
+  return html + '</div>';
+}
+function choiceList(name, options, selected, opts = {}) {
+  return `<div class="choices" role="radiogroup" aria-label="${esc(opts.label || 'Options')}">${options.map((o, i) => {
+    let cls = ''; if (opts.reveal) { if (o.id === opts.correct) cls = 'is-correct'; else if (o.id === selected) cls = 'is-wrong'; }
+    const mine = selected === o.id || (Array.isArray(selected) && selected.includes(o.id));
+    const tagTxt = opts.reveal ? (mine && o.id === opts.correct ? 'Your answer ✓' : mine ? 'Your answer' : o.id === opts.correct ? 'Best answer' : '') : '';
+    return `<label class="choice ${cls}"><input type="${opts.type || 'radio'}" name="${name}" value="${o.id}" ${mine ? 'checked' : ''} ${opts.disabled ? 'disabled' : ''}><span class="key">${String.fromCharCode(65 + i)}</span><span>${esc(o.t)}</span>${tagTxt ? `<span class="yours">${tagTxt}</span>` : ''}</label>`;
+  }).join('')}</div>`;
+}
+function confPills(name, selected, disabled) {
+  const C = [['sure', 'Sure'], ['fairly', 'Fairly sure'], ['guess', 'Guessing']];
+  return `<fieldset><legend class="small">How confident are you?</legend><div class="pills">${C.map(([v, l]) => `<label class="pill"><input type="radio" name="${name}" value="${v}" ${selected === v ? 'checked' : ''} ${disabled ? 'disabled' : ''}>${l}</label>`).join('')}</div></fieldset>`;
+}
+function rubricBox(name, items, checked, disabled) {
+  return `<fieldset class="sub-q"><legend>Self-check against the model answer (you judge, not a keyword matcher)</legend><div class="choices">${items.map((t, i) => `<label class="choice"><input type="checkbox" name="${name}" value="${i}" ${checked.includes(i) ? 'checked' : ''} ${disabled ? 'disabled' : ''}><span>${esc(t)}</span></label>`).join('')}</div></fieldset>`;
+}
+
+/* =====================================================================
+   CHARTS (inline SVG, directly labeled)
+   ===================================================================== */
+const CH = { w: 600, h: 400, ml: 58, mr: 22, mt: 18, mb: 52, xmax: 110 };
+function sizeChart() { const narrow = window.matchMedia('(max-width: 700px)').matches; CH.w = narrow ? 430 : 600; CH.h = narrow ? 380 : 400; CH.ml = narrow ? 54 : 58; return narrow; }
+let lastNarrow = sizeChart();
+window.addEventListener('resize', () => { const n = window.matchMedia('(max-width: 700px)').matches; if (n !== lastNarrow) { lastNarrow = sizeChart(); rerenderKeepScroll(); } });
+const X = p => CH.ml + (p / CH.xmax) * (CH.w - CH.ml - CH.mr);
+const Y = s => CH.mt + (1 - s) * (CH.h - CH.mt - CH.mb);
+function axes(opts = {}) {
+  let g = '';
+  for (let p = 0; p <= 100; p += 20) g += `<line class="grid" x1="${X(p)}" x2="${X(p)}" y1="${Y(1)}" y2="${Y(0)}"/><text class="tick" x="${X(p)}" y="${Y(0) + 18}" text-anchor="middle">${p}</text>`;
+  for (let s = 0; s <= 1.0001; s += 0.25) g += `<line class="grid" x1="${X(0)}" x2="${X(CH.xmax)}" y1="${Y(s)}" y2="${Y(s)}"/><text class="tick" x="${X(0) - 8}" y="${Y(s) + 4}" text-anchor="end">${Math.round(s * 100)}</text>`;
+  g += `<line class="axis" x1="${X(0)}" x2="${X(CH.xmax)}" y1="${Y(0)}" y2="${Y(0)}"/><line class="axis" x1="${X(0)}" x2="${X(0)}" y1="${Y(0)}" y2="${Y(1)}"/>`;
+  g += `<text class="axis-title" x="${(X(0) + X(CH.xmax)) / 2}" y="${CH.h - 10}" text-anchor="middle">PO₂ (mmHg)</text>`;
+  g += `<text class="axis-title" transform="translate(16 ${(Y(0) + Y(1)) / 2}) rotate(-90)" text-anchor="middle">${opts.yTitle || 'O₂ saturation (%)'}</text>`;
+  return g;
+}
+function curvePath(fn) { let d = ''; for (let p = 0; p <= CH.xmax; p += 0.5) d += (p === 0 ? 'M' : 'L') + X(p).toFixed(1) + ' ' + Y(fn(p)).toFixed(1); return d; }
+function lab(x, y, text, cls, anchor = 'start') { return `<text class="lab ${cls} halo" x="${x.toFixed(1)}" y="${y.toFixed(1)}" text-anchor="${anchor}">${text}</text>`; }
+
+/* =====================================================================
+   STEP RENDERERS
+   ===================================================================== */
+const R = {};
+
+R.hook = () => `${stepHead('Puzzle', esc(HOOK.title))}
+  <div class="prose stack">
+    ${HOOK.body.map(p => `<p style="font-size:1.12rem">${esc(p)}</p>`).join('')}
+    <div class="card">
+      <label class="lbl" for="hookText">${esc(HOOK.question)}</label>
+      <p class="small muted" style="margin-top:0">Your first guess isn't graded. You'll come back to it in Step 6.</p>
+      <textarea id="hookText" ${S.hook.done ? 'readonly' : ''} placeholder="My guess is…">${esc(S.hook.text)}</textarea>
+      ${S.hook.done ? `<div class="fb info"><strong class="tag">Saved.</strong>${S.hook.skipped ? 'No guess yet. That\'s fine; the next steps build one.' : 'Hold onto that idea and test it in the simulation.'}</div>`
+    : `<div class="btn-row"><button class="btn" type="button" data-act="hook-save">Save my guess</button><button class="btn secondary" type="button" data-act="hook-skip">I don't have a guess yet</button></div>`}
+    </div>
+  </div>${navBar()}`;
+
+function partsSVG() {
+  const seen = S.parts.seen; const on = id => seen.includes(id);
+  const P = 45, n = 2.7, f = p => MODEL.hill(p, P);
+  let g = `<line class="axis ${on('po2') ? 'hl' : ''}" x1="${X(0)}" x2="${X(CH.xmax)}" y1="${Y(0)}" y2="${Y(0)}"/><line class="axis ${on('sat') ? 'hl' : ''}" x1="${X(0)}" x2="${X(0)}" y1="${Y(0)}" y2="${Y(1)}"/>`;
+  g += `<path class="c-tissue" d="${curvePath(f)}" style="stroke:var(--ink)"/>`;
+  if (on('po2')) g += lab(X(CH.xmax), Y(0) + 34, 'PO₂ → (mmHg): how hard O₂ is pushed', 'lab-acc', 'end');
+  else g += `<text class="axis-title" x="${X(CH.xmax)}" y="${Y(0) + 34}" text-anchor="end">x-axis</text>`;
+  if (on('sat')) g += `<text class="lab lab-acc halo" transform="translate(${X(0) - 18} ${Y(0.5)}) rotate(-90)" text-anchor="middle">Saturation: % of hemes with O₂</text>`;
+  else g += `<text class="axis-title" transform="translate(${X(0) - 18} ${Y(0.5)}) rotate(-90)" text-anchor="middle">y-axis</text>`;
+  if (on('p50')) g += `<line class="guide" x1="${X(0)}" x2="${X(P)}" y1="${Y(0.5)}" y2="${Y(0.5)}" style="stroke:var(--accent)"/><line class="guide" x1="${X(P)}" x2="${X(P)}" y1="${Y(0.5)}" y2="${Y(0)}" style="stroke:var(--accent)"/><circle cx="${X(P)}" cy="${Y(0.5)}" r="5" fill="var(--accent)"/>` + lab(X(P) + 8, Y(0) - 8, 'P50', 'lab-acc') + lab(X(0) + 6, Y(0.5) - 8, '50%', 'lab-acc');
+  if (on('aff')) {
+    g += `<path class="c-ref" d="${curvePath(p => MODEL.hill(p, P * 0.65))}"/><path class="c-ref" d="${curvePath(p => MODEL.hill(p, P * 1.5))}"/>`;
+    g += lab(X(P * 0.65) - 10, Y(0.78), '← higher affinity', 'lab-ref', 'end') + lab(X(P * 1.5) + 10, Y(0.3), 'lower affinity →', 'lab-ref');
+  }
+  return `<svg class="chart" viewBox="0 0 ${CH.w} ${CH.h}" role="img" aria-label="Schematic S-shaped saturation curve without numbers. Highlighted parts: ${seen.map(s => TERMS.find(t => t.id === s).name).join(', ') || 'none yet'}.">${g}</svg>`;
+}
+R.parts = () => `${stepHead('Meet the parts', 'Four words you\'ll need', 'About 20 seconds. Open each term; the diagram labels itself as you go.')}
+  <div class="parts">
+    <figure class="chart-fig card">${partsSVG()}<figcaption class="chart-cap">A schematic only: no numbers yet. You'll predict those next.</figcaption></figure>
+    <div>${TERMS.map(t => { const o = S.parts.seen.includes(t.id); return `<button type="button" class="term" data-term="${t.id}" aria-expanded="${o}"><span class="t-name">${esc(t.name)}</span>${o ? '<span class="seen">✓ seen</span>' : ''}${o ? `<span class="t-def">${esc(t.def)}</span>` : ''}</button>`; }).join('')}
+      <p class="small muted">${S.parts.seen.length} of ${TERMS.length} opened.</p></div>
+  </div>${navBar()}`;
+
+/* Predict */
+function predictSVG() {
+  const p = S.predict; const art = MODEL.hbo2(100, STANDARD); const act = MODEL.hbo2(40, STANDARD);
+  let g = axes();
+  g += `<line class="guide" x1="${X(40)}" x2="${X(40)}" y1="${Y(1)}" y2="${Y(0)}"/>`;
+  g += lab(X(40) + 6, Y(0) - 8, 'resting tissue, 40 mmHg', 'lab-sm');
+  g += `<circle class="pt-art" cx="${X(100)}" cy="${Y(art)}" r="7"/>` + lab(X(100) - 14, Y(art) - 10, `leaving lungs: ${pct(art)}%`, 'lab-ref', 'end');
+  if (p.committed) {
+    g += `<path class="c-tissue" d="${curvePath(x => MODEL.hbo2(x, STANDARD))}"/>`;
+    g += lab(X(56) + 8, Y(MODEL.hbo2(56, STANDARD)) + 26, 'actual curve', 'lab-acc');
+    const pv = p.value / 100;
+    g += `<line x1="${X(40)}" x2="${X(40)}" y1="${Y(pv)}" y2="${Y(act)}" stroke="var(--ink)" stroke-width="3" opacity=".35"/>`;
+    g += `<circle class="pt-t" cx="${X(40)}" cy="${Y(act)}" r="7"/>` + lab(X(40) - 12, Y(act) + (pv > act ? 18 : -10), `actual ${pct(act)}%`, 'lab-acc', 'end');
+    g += `<circle class="pt-pred" cx="${X(40)}" cy="${Y(pv)}" r="8"/>` + lab(X(40) + 14, Y(pv) + 4, `you: ${p.value}%`, '', 'start');
+  } else if (p.value != null) {
+    g += `<g class="handle"><circle class="pt-pred" cx="${X(40)}" cy="${Y(p.value / 100)}" r="10"/></g>` + lab(X(40) + 16, Y(p.value / 100) + 5, `your prediction: ${p.value}%`, '', 'start');
+  } else {
+    g += lab(X(40) + 10, Y(0.5), 'tap or drag on this line', 'lab-sm');
+  }
+  g += `<rect x="${X(40) - 22}" y="${Y(1)}" width="44" height="${Y(0) - Y(1)}" fill="transparent" ${p.committed ? '' : 'data-drag="1" style="cursor:ns-resize"'}/>`;
+  const label = p.committed ? `Prediction chart. Your prediction ${p.value}% at 40 mmHg; actual model value ${pct(act)}%.` : `Prediction chart: axes with the lungs point at 100 mmHg, ${pct(art)}% saturated, and a vertical line at 40 mmHg. ${p.value != null ? 'Your prediction: ' + p.value + '%.' : 'No prediction placed yet.'}`;
+  return `<svg class="chart" id="predChart" viewBox="0 0 ${CH.w} ${CH.h}" role="img" aria-label="${esc(label)}">${g}</svg>`;
+}
+R.predict = () => {
+  const p = S.predict; const act = pct(MODEL.hbo2(40, STANDARD));
+  let reveal = '';
+  if (p.committed) {
+    const gap = p.value - act; const ag = Math.abs(gap);
+    reveal = `<div class="fb ${ag <= 5 ? 'good' : 'info'}"><strong class="tag">${ag <= 5 ? 'Close.' : `Gap: ${gap > 0 ? '+' : '−'}${ag} points.`}</strong>You predicted ${p.value}% (${({ sure: 'sure', fairly: 'fairly sure', guess: 'guessing' })[p.conf]}). The model gives ${act}%. ${p.value < 55 ? 'If you pictured a straight line from 0 to 100, the real curve is S-shaped: it stays high until PO₂ falls into the steep zone below about 60 mmHg.' : p.value > 88 ? 'The plateau ends earlier than many people expect: by 40 mmHg you are on the steep shoulder.' : ''}</div>
+      <div class="sub-q"><label class="lbl" for="gapText">Explain the gap: what were you assuming, and what does the real curve tell you?</label>
+      <p class="small muted" style="margin-top:0">Not graded. Writing it down is the point.</p>
+      <textarea id="gapText" ${p.gapSaved ? 'readonly' : ''}>${esc(p.gap)}</textarea>
+      ${p.gapSaved ? '<div class="fb info"><strong class="tag">Saved.</strong>Explore is unlocked.</div>' : '<div class="btn-row"><button class="btn" type="button" data-act="gap-save">Save explanation</button></div>'}</div>`;
+  }
+  return `${stepHead('Predict before you see', 'Where will saturation be in resting muscle?', 'Blood leaves the lungs about 97% saturated. In a resting muscle capillary, PO₂ is about 40 mmHg. Place your prediction before the curve appears; the simulation stays locked until you commit.')}
+  <div class="pred-grid">
+    <figure class="chart-fig card">${predictSVG()}</figure>
+    <div class="card">
+      <div class="ctl"><div class="ctl-top"><label for="predRange">Predicted saturation at 40 mmHg</label><span class="ctl-val" id="predVal">${p.value == null ? '—' : p.value + '%'}</span></div>
+        <input type="range" id="predRange" min="0" max="100" step="1" value="${p.value == null ? 50 : p.value}" aria-valuetext="${p.value == null ? 'not placed' : p.value + ' percent'}" ${p.committed ? 'disabled' : ''}>
+        <div class="range-ends"><span>0%</span><span>100%</span></div></div>
+      ${confPills('predConf', p.conf, p.committed)}
+      ${p.committed ? '' : `<div class="btn-row"><button class="btn accent" type="button" data-act="commit" ${p.value != null && p.conf ? '' : 'aria-disabled="true"'}>Commit prediction</button></div><p class="small muted" id="commitMsg">${p.value == null ? 'Place a point, then pick a confidence.' : !p.conf ? 'Now pick a confidence.' : 'Ready. Committing locks your answer.'}</p>`}
+      ${reveal}
+    </div>
+  </div>${navBar()}`;
+};
+
+/* Explore (simulation) */
+/* CONTENT: MODEL-coupled views below (simCond, simSVG, readoutHTML, instHTML, simControlsHTML): adapt for a new model */
+function simCond() {
+  const s = S.sim; const raw = s.m - Math.log10(s.pco2 / 40);
+  const pH = Math.min(7.6, Math.max(7.2, raw));
+  return { tissue: { pH, temp: s.temp, bpg: s.bpg, fetal: s.fetal, co: s.co }, lungs: { pH: 7.4, temp: 37, bpg: s.bpg, fetal: s.fetal, co: s.co }, rawPH: raw, clamped: Math.abs(raw - pH) > 1e-6 };
+}
+function simNumbers() {
+  const c = simCond();
+  const art = MODEL.hbo2(PO2.art, c.lungs), rest = MODEL.hbo2(PO2.rest, c.tissue), spr = MODEL.hbo2(PO2.sprint, c.tissue), probe = MODEL.hbo2(S.sim.probe, c.tissue);
+  const stdArt = MODEL.hbo2(100, STANDARD), stdRest = MODEL.hbo2(40, STANDARD), stdSpr = MODEL.hbo2(20, STANDARD);
+  return { c, art, rest, spr, probe, p50t: MODEL.p50(c.tissue), p50l: MODEL.p50(c.lungs), unRest: pct(art) - pct(rest), unSpr: pct(art) - pct(spr), stdUnRest: pct(stdArt) - pct(stdRest), stdUnSpr: pct(stdArt) - pct(stdSpr) };
+}
+function simSVG(N) {
+  const { c } = N; let g = axes();
+  const same = Math.abs(N.p50t - N.p50l) < 0.05;
+  const fl = x => MODEL.hbo2(x, c.lungs), ft = x => MODEL.hbo2(x, c.tissue);
+  if (c.tissue.co) g += `<line class="guide" x1="${X(0)}" x2="${X(CH.xmax)}" y1="${Y(1 - MODEL.coFrac(c.tissue))}" y2="${Y(1 - MODEL.coFrac(c.tissue))}" style="stroke:var(--bad)"/>` + lab(X(4), Y(1 - MODEL.coFrac(c.tissue)) - 6, `max with ${MODEL.COHB_PCT}% COHb`, 'lab-sm');
+  if (!same) g += `<path class="c-ref" d="${curvePath(fl)}"/>`;
+  g += `<path class="c-tissue" d="${curvePath(ft)}"/>`;
+  // P50 of tissue curve
+  const half = 0.5 * (1 - MODEL.coFrac(c.tissue));
+  g += `<line class="guide" x1="${X(N.p50t)}" x2="${X(N.p50t)}" y1="${Y(half)}" y2="${Y(0)}" style="stroke:var(--accent)"/>`;
+  g += lab(X(N.p50t) + 5, Y(0) - 8, `P50 ${r1(N.p50t)}`, 'lab-acc');
+  // curve labels
+  if (same) g += lab(X(66), Y(ft(66)) + 26, 'lungs = tissue (no local shift)', 'lab-acc');
+  else {
+    const right = N.p50t > N.p50l;
+    g += lab(X(right ? 58 : 66) - 6, Y(fl(right ? 58 : 66)) - 10, 'lungs (pH 7.40, 37 °C)', 'lab-ref', 'end');
+    g += lab(X(66) + 6, Y(ft(66)) + 24, 'tissue', 'lab-acc');
+  }
+  // probe
+  g += `<line class="guide" x1="${X(S.sim.probe)}" x2="${X(S.sim.probe)}" y1="${Y(N.probe)}" y2="${Y(1)}" style="stroke-dasharray:1 4"/><circle cx="${X(S.sim.probe)}" cy="${Y(N.probe)}" r="5" fill="none" stroke="var(--ink)" stroke-width="2"/>`;
+  // points
+  g += `<circle class="pt-art" cx="${X(100)}" cy="${Y(N.art)}" r="7"/>` + lab(X(100) - 13, Y(N.art) - 9, `arterial ${pct(N.art)}%`, 'lab-ref', 'end');
+  g += `<circle class="pt-t" cx="${X(40)}" cy="${Y(N.rest)}" r="7"/>` + lab(X(40) + 11, Y(N.rest) + 18, `rest ${pct(N.rest)}%`, 'lab-acc');
+  g += `<circle class="pt-t" cx="${X(20)}" cy="${Y(N.spr)}" r="7"/>` + lab(X(20) + 11, Y(N.spr) + 18, `sprint ${pct(N.spr)}%`, 'lab-acc');
+  const desc = `Tissue P50 ${r1(N.p50t)} mmHg, lungs P50 ${r1(N.p50l)} mmHg. Arterial ${pct(N.art)}%, resting tissue at 40 mmHg ${pct(N.rest)}%, sprinting tissue at 20 mmHg ${pct(N.spr)}%. Probe at ${S.sim.probe} mmHg: ${pct(N.probe)}%.`;
+  return `<svg class="chart" viewBox="0 0 ${CH.w} ${CH.h}" role="img" aria-label="${esc('Oxygen–hemoglobin curves. ' + desc)}">${g}</svg>`;
+}
+function readoutHTML(N) {
+  const cap = MODEL.capacity();
+  const row = (name, po2, s) => `<tr><td>${name}</td><td class="n">${po2}</td><td class="n">${pct(s)}%</td><td class="n">${r1(cap * s)}</td></tr>`;
+  const bar = (label, v, ref) => `<div class="bar-row"><div class="bar-lab"><span>${label}</span><span class="mono">${v} pts · ${r1(cap * v / 100)} mL/dL</span></div><div class="bar-track" aria-hidden="true"><div class="bar-fill" style="width:${Math.max(0, Math.min(100, v))}%"></div><div class="bar-ref" style="left:calc(${ref}% - 1px)"></div></div></div>`;
+  const spo2 = N.c.tissue.co ? `<div class="kv small"><span>A pulse oximeter would read about</span><span class="mono">${Math.min(100, pct(N.art) + MODEL.COHB_PCT)}%</span></div><p class="small muted" style="margin:0">Standard 2-wavelength oximeters count COHb as if it were HbO₂.</p>` : '';
+  return `<h3>Readout</h3>
+    <table class="read-table"><thead><tr><th>Point</th><th class="n">PO₂</th><th class="n">Sat.</th><th class="n">mL/dL</th></tr></thead><tbody>
+    ${row('Arterial (lungs)', 100, N.art)}${row('Tissue, rest', 40, N.rest)}${row('Tissue, sprint', 20, N.spr)}</tbody></table>
+    <div class="kv small" style="margin-top:8px"><span>Tissue P50 / lungs P50</span><span class="mono">${r1(N.p50t)} / ${r1(N.p50l)} mmHg</span></div>
+    <div class="kv small"><span>Tissue pH (after CO₂)</span><span class="mono">${N.c.tissue.pH.toFixed(2)}</span></div>
+    ${bar('O₂ unloaded at rest', N.unRest, N.stdUnRest)}${bar('O₂ unloaded in sprint', N.unSpr, N.stdUnSpr)}
+    <p class="bar-key">Bar = arterial − tissue saturation (×${r1(cap)} mL/dL capacity). Black tick = same point under standard conditions.</p>${spo2}`;
+}
+function instHTML(N) {
+  const pick = S.sim.inst; const map = { art: ['Arterial', 100, N.art], rest: ['Rest tissue', 40, N.rest], sprint: ['Sprint tissue', 20, N.spr], probe: ['Probe', S.sim.probe, N.probe] };
+  const [name, po2, s] = map[pick];
+  const coSites = N.c.tissue.co ? Math.round(MODEL.coFrac(N.c.tissue) * 4) : 0;
+  const o2Sites = Math.min(4 - coSites, Math.round(s * 4));
+  const pos = [[70, 62], [150, 62], [70, 142], [150, 142]]; const names = ['α₁', 'β₁', 'β₂', 'α₂'];
+  let g = `<rect x="22" y="18" width="176" height="168" rx="60" fill="var(--paper-2)" stroke="var(--rule-strong)"/>`;
+  pos.forEach(([x, y], i) => {
+    g += `<circle cx="${x}" cy="${y}" r="34" fill="var(--card)" stroke="var(--rule-strong)" stroke-width="1.5"/><text x="${x}" y="${y - 12}" text-anchor="middle" class="tick">${names[i]}</text>`;
+    if (i < coSites) g += `<rect x="${x - 11}" y="${y - 2}" width="22" height="22" rx="3" fill="var(--ink)"/><text x="${x}" y="${y + 13}" text-anchor="middle" style="font:700 10px var(--sans);fill:var(--paper)">CO</text>`;
+    else if (i < coSites + o2Sites) g += `<circle cx="${x}" cy="${y + 9}" r="11" fill="var(--accent)"/><text x="${x}" y="${y + 13}" text-anchor="middle" style="font:700 10px var(--sans);fill:var(--on-accent)">O₂</text>`;
+    else g += `<circle cx="${x}" cy="${y + 9}" r="10" fill="none" stroke="var(--ink-3)" stroke-width="2" stroke-dasharray="3 3"/>`;
+  });
+  const opts = [['art', 'Arterial'], ['rest', 'Rest'], ['sprint', 'Sprint'], ['probe', 'Probe']];
+  return `<h3>One molecule's view</h3>
+    <div class="seg inst-pick" role="radiogroup" aria-label="Point shown in the molecule view">${opts.map(([v, l]) => `<label><input type="radio" name="inst" value="${v}" ${pick === v ? 'checked' : ''}>${l}</label>`).join('')}</div>
+    <svg viewBox="0 0 220 200" style="width:100%;max-width:240px;display:block;margin:0 auto" role="img" aria-label="${esc(`Hemoglobin tetramer at ${name}, ${po2} mmHg: ${o2Sites} of 4 hemes carry O2${coSites ? ', ' + coSites + ' carries CO' : ''}.`)}">${g}</svg>
+    <p class="small" style="margin:.4em 0 0"><strong>${name}, ${po2} mmHg:</strong> ${pct(s)}% saturated ≈ <span class="mono">${o2Sites}</span> of 4 hemes with O₂${coSites ? `, ${coSites} blocked by CO` : ''}, on average.</p>
+    <p class="small muted" style="margin:.3em 0 0">Because binding is cooperative, real molecules are mostly all-or-none (0 or 4); this shows the average.</p>`;
+}
+function simControlsHTML() {
+  const s = S.sim; const c = simCond();
+  const rng = (id, label, min, max, step, v, txt, note) => `<div class="ctl"><div class="ctl-top"><label for="${id}">${label}</label><span class="ctl-val" id="${id}Val">${txt}</span></div><input type="range" id="${id}" min="${min}" max="${max}" step="${step}" value="${v}" aria-valuetext="${esc(txt)}"><div class="range-ends"><span>${min}</span><span>${max}</span></div><p class="ctl-note" id="${id}Note">${note || ''}</p></div>`;
+  return `<h3>Conditions in the tissue capillary</h3>
+    ${rng('cPH', 'Tissue pH', 7.2, 7.6, 0.01, c.tissue.pH.toFixed(2), 'pH ' + c.tissue.pH.toFixed(2), phNote(c))}
+    ${rng('cCO2', 'Tissue PCO₂ (mmHg)', 30, 60, 1, s.pco2, s.pco2 + ' mmHg', 'Raising CO₂ lowers pH (watch the pH slider move).')}
+    ${rng('cT', 'Temperature (°C)', 35, 41, 0.5, s.temp, s.temp.toFixed(1) + ' °C', '')}
+    <h3 style="margin-top:6px">Blood properties</h3>
+    <fieldset class="ctl"><legend>Red-cell 2,3-BPG</legend><div class="seg">${[['low', 'Low<br><small>stored</small>'], ['normal', 'Normal'], ['high', 'High<br><small>altitude</small>']].map(([v, l]) => `<label><input type="radio" name="bpg" value="${v}" ${s.bpg === v ? 'checked' : ''}><span>${l}</span></label>`).join('')}</div>
+      <p class="ctl-note">${s.fetal ? 'HbF barely responds to 2,3-BPG (modeled as no effect).' : ''}</p></fieldset>
+    <label class="switch"><input type="checkbox" id="cFetal" ${s.fetal ? 'checked' : ''}><span>Fetal hemoglobin (HbF)<small>P50 ≈ 19 mmHg at standard conditions</small></span></label>
+    <label class="switch"><input type="checkbox" id="cCO" ${s.co ? 'checked' : ''}><span>Carbon monoxide, ${MODEL.COHB_PCT}% COHb<small>fewer usable hemes + left shift</small></span></label>
+    <div class="ctl" style="margin-top:8px"><div class="ctl-top"><label for="cProbe">Probe PO₂</label><span class="ctl-val" id="cProbeVal">${s.probe} mmHg</span></div><input type="range" id="cProbe" min="0" max="110" step="1" value="${s.probe}" aria-valuetext="${s.probe} millimeters of mercury"></div>
+    <div class="btn-row" style="margin-top:4px"><button class="btn secondary" type="button" data-act="preset-sprint">Sprinting muscle</button><button class="btn secondary" type="button" data-act="sim-reset">Reset</button></div>`;
+}
+function phNote(c) { const d = c.rawPH - (S.sim.m); return c.clamped ? 'Held at the model limit (Bohr data cover pH 7.2–7.6).' : (Math.abs(d) > 0.004 ? `CO₂ is shifting pH by ${d > 0 ? '+' : '−'}${Math.abs(d).toFixed(2)}.` : ''); }
+R.explore = () => {
+  const N = simNumbers(); const e = S.explore;
+  const q1 = S.items.q1, q2 = S.items.q2;
+  const q1fb = q1 && q1.attempts ? (q1.correct ? `<div class="fb good"><strong class="tag">${q1.hint || q1.attempts > 1 ? 'Correct (hinted-correct)' : 'Correct (unassisted-correct)'}.</strong>${CHECKPOINT.q1.answer()} points: ${pct(MODEL.hbo2(100, STANDARD))}% leaves the lungs and ${pct(MODEL.hbo2(40, STANDARD))}% is still bound in resting tissue.</div>`
+    : q1.revealed ? `<div class="fb warn"><strong class="tag">revealed.</strong>${CHECKPOINT.q1.answer()} points (${pct(MODEL.hbo2(100, STANDARD))}% − ${pct(MODEL.hbo2(40, STANDARD))}%). Counted as exposure, not a success.</div>`
+      : `<div class="fb bad"><strong class="tag">Not quite (incorrect so far; try again or use a hint).</strong>Read the "rest" bar under standard conditions (press Reset first), or subtract the two table values.</div>`) : '';
+  const q2fb = q2 && q2.attempts ? (q2.correct ? `<div class="fb good"><strong class="tag">${q2.hint || q2.attempts > 1 ? 'Correct (hinted-correct)' : 'Correct (unassisted-correct)'}.</strong>${esc(CHECKPOINT.q2.why)}</div>`
+    : q2.revealed ? `<div class="fb warn"><strong class="tag">revealed: more than three times.</strong>${esc(CHECKPOINT.q2.why)}</div>`
+      : `<div class="fb bad"><strong class="tag">Not quite (incorrect so far; try again or use a hint).</strong>Compare the sprint bar after the preset with the black "standard" tick on the rest bar.</div>`) : '';
+  const lock1 = resolved('q1'), lock2 = resolved('q2');
+  return `${stepHead('Explore', 'Shift the curve and watch where O₂ goes', 'Nothing moves until you do. Each control changes the tissue curve; the readout, bars and molecule view all update together.')}
+  <div class="sim">
+    <div class="panel a-ctrl" id="simCtrls">${simControlsHTML()}</div>
+    <figure class="panel chart-fig a-chart"><div id="simChart">${simSVG(N)}</div>
+      <figcaption class="chart-cap">Solid = tissue curve (local pH, PCO₂, temperature). Dashed = lungs (pH 7.40, 37 °C). Hollow ring = probe.</figcaption></figure>
+    <aside class="panel a-guide" aria-labelledby="dqH"><h3 id="dqH">Driving questions</h3><ol class="guide-q">${DRIVING.map(q => `<li>${esc(q)}</li>`).join('')}</ol></aside>
+    <div class="panel a-read" id="simRead">${readoutHTML(N)}</div>
+    <div class="panel a-inst" id="simInst">${instHTML(N)}</div>
+  </div>
+  <div class="sr-only" aria-live="polite" id="simLive"></div>
+  <section class="card" style="margin-top:20px" aria-labelledby="cpH">
+    <h3 id="cpH">Checkpoint</h3>
+    <div class="sub-q"><label class="lbl" for="q1in">1. ${esc(CHECKPOINT.q1.prompt)}</label>
+      <div class="btn-row" style="margin-top:4px"><input type="text" inputmode="decimal" class="num-in" id="q1in" value="${esc(e.q1)}" ${lock1 ? 'readonly' : ''} aria-describedby="q1unit"><span id="q1unit" class="muted">percentage points</span>
+      ${lock1 ? '' : `<button class="btn" type="button" data-act="q1-check">Check</button>${q1 && q1.attempts ? '<button class="btn ghost" type="button" data-act="q1-reveal">Reveal answer</button>' : ''}`}</div>${q1fb}</div>
+    <fieldset class="sub-q"><legend>2. ${esc(CHECKPOINT.q2.prompt)}</legend>${choiceList('q2', CHECKPOINT.q2.options, e.q2, { disabled: lock2, reveal: lock2, correct: CHECKPOINT.q2.correct, label: 'Sprint compared with rest' })}
+      ${lock2 ? '' : `<div class="btn-row"><button class="btn" type="button" data-act="q2-check">Check</button>${q2 && q2.attempts ? '<button class="btn ghost" type="button" data-act="q2-reveal">Reveal answer</button>' : ''}</div>`}${q2fb}</fieldset>
+    ${(lock1 && lock2) ? '' : hintLadder('explore', EXPLORE_HINTS, e.hint)}
+  </section>
+  <details class="notes"><summary>Sources &amp; model notes</summary><div class="notes-in">${SOURCES_HTML}</div></details>
+  ${navBar()}`;
+};
+let liveTimer = null;
+function updateSim(fromControl) {
+  const N = simNumbers(); const c = N.c;
+  $('simChart').innerHTML = simSVG(N); $('simRead').innerHTML = readoutHTML(N); $('simInst').innerHTML = instHTML(N);
+  const ph = $('cPH'); if (ph && fromControl !== 'cPH') ph.value = c.tissue.pH.toFixed(2);
+  if (ph) { $('cPHVal').textContent = 'pH ' + c.tissue.pH.toFixed(2); ph.setAttribute('aria-valuetext', 'pH ' + c.tissue.pH.toFixed(2)); $('cPHNote').textContent = phNote(c); }
+  clearTimeout(liveTimer);
+  liveTimer = setTimeout(() => { const l = $('simLive'); if (l) l.textContent = `Tissue P50 ${r1(N.p50t)} millimeters. Arterial ${pct(N.art)} percent. Rest tissue ${pct(N.rest)} percent, unloading ${N.unRest} points. Sprint tissue ${pct(N.spr)} percent, unloading ${N.unSpr} points.`; }, 450);
+  save();
+}
+
+/* Explain */
+R.explain = () => {
+  const x = S.explain; const sub = x.submitted;
+  return `${stepHead('Explain', 'Say why, in your own words', 'Pick the principle, then finish the sentence. You\'ll compare with an expert answer and check yourself.')}
+  <div class="prose stack"><div class="card">
+    <fieldset><legend>${esc(EXPLAIN.prompt)}</legend>${choiceList('exChoice', EXPLAIN.options, x.choice, { disabled: sub, reveal: sub, correct: EXPLAIN.correct, label: 'Principle' })}</fieldset>
+    <div class="sub-q"><label class="lbl" for="exText">Because…</label><textarea id="exText" ${sub ? 'readonly' : ''} placeholder="…in the sprinting muscle, ">${esc(x.text)}</textarea></div>
+    ${sub ? `<div class="fb ${x.choice === EXPLAIN.correct ? 'good' : 'bad'}"><strong class="tag">${x.choice === EXPLAIN.correct ? 'That\'s the principle.' : 'Not that one.'}</strong>${esc(EXPLAIN.feedback[x.choice])}</div>
+      <div class="fb info"><strong class="tag">Expert answer</strong>${esc(EXPLAIN.model)}</div>
+      ${rubricBox('exRub', EXPLAIN.rubric, x.rubric, x.saved)}
+      ${x.saved ? `<div class="fb info"><strong class="tag">self-assessed: ${x.rubric.length} of ${EXPLAIN.rubric.length} rubric points.</strong>Recorded as your own judgment, not a score.</div>` : '<div class="btn-row"><button class="btn" type="button" data-act="ex-save">Save self-check</button></div>'}`
+      : `<div class="btn-row"><button class="btn" type="button" data-act="ex-submit">Submit</button></div><p class="small muted" id="exMsg"></p>`}
+  </div></div>${navBar()}`;
+};
+
+/* Formalize */
+/* CONTENT: formalize screen: the formal rule, then the mnemonic (after understanding) */
+R.formalize = () => {
+  const p72 = r1(MODEL.p50({ ...STANDARD, pH: 7.2 }));
+  return `${stepHead('Formalize', 'Now the rule, and a hook to hold it', 'You\'ve seen it work. Here is the compact version.')}
+  <div class="prose stack">
+    <div class="card"><p class="rule-big">Right shift = lower affinity = higher P50 = more O₂ released at the same tissue PO₂.</p>
+      <p class="muted">Left shift is the mirror image: higher affinity, lower P50, more O₂ held.</p>
+      <p>H⁺ and CO₂ (the <strong>Bohr effect</strong>) and 2,3-BPG bind hemoglobin away from the heme and stabilize its deoxy (T) state, so O₂ comes off more easily. Temperature works differently: O₂ binding is exothermic, so a higher temperature lowers affinity (right shift). In this lab's model, dropping tissue pH from 7.40 to 7.20 raises P50 from ${r1(MODEL.p50(STANDARD))} to ${p72} mmHg.</p></div>
+    <div class="card"><p class="eyebrow">Mnemonic</p><h3 style="font-size:1.5rem">CADET, face Right!</h3>
+      <div class="cadet"><div><b>C</b><span>CO₂</span></div><div><b>A</b><span>Acid (H⁺)</span></div><div><b>D</b><span>2,3-DPG (BPG)</span></div><div><b>E</b><span>Exercise</span></div><div><b>T</b><span>Temp.</span></div></div>
+      <p class="small muted">"Exercise" isn't a molecule. Within minutes, exercise raises CO₂, H⁺ and temperature in working muscle. 2,3-BPG does not rise during a sprint; it rises over hours to days (e.g., altitude, chronic hypoxia). Increases in the other four shift the curve right.</p>
+      <p><strong>Left-shifters to contrast:</strong> fetal Hb, carbon monoxide, alkalosis or low CO₂, cold, low 2,3-BPG (stored blood).</p></div>
+    <div class="card"><p class="eyebrow">Back to your first guess</p>
+      <p>${S.hook.skipped || !S.hook.text ? 'You started without a guess. Try one sentence now, in your head, using the rule above.' : `You wrote: <em>"${esc(S.hook.text)}"</em>`}</p>
+      <p class="muted">Does your guess mention a lower tissue PO₂, a right shift, or both? The full answer needs both.</p></div>
+  </div>${navBar()}`;
+};
+
+/* Worked examples */
+function numItemBlock(key, cfg, inputVal, hintLevel, extraFb) {
+  const it = S.items[key]; const lock = resolved(key); const ans = cfg.answer();
+  let fb = '';
+  if (it && it.attempts) {
+    if (it.correct) fb = `<div class="fb good"><strong class="tag">${it.hint || it.attempts > 1 ? 'Correct (hinted-correct)' : 'Correct (unassisted-correct)'}: ${ans} points.</strong></div>`;
+    else if (it.revealed) fb = `<div class="fb warn"><strong class="tag">revealed: ${ans} points.</strong>Counted as exposure, not a success.</div>`;
+    else fb = `<div class="fb bad"><strong class="tag">Not yet (incorrect so far; try again or use a hint).</strong>${extraFb || 'Check which two saturations you are subtracting.'}</div>`;
+  }
+  return `<div class="btn-row"><label class="sr-only" for="${key}in">Your answer in percentage points</label><input type="text" inputmode="decimal" class="num-in" id="${key}in" value="${esc(inputVal)}" ${lock ? 'readonly' : ''}><span class="muted">points</span>
+    ${lock ? '' : `<button class="btn" type="button" data-act="num-check" data-key="${key}">Check</button>${it && it.attempts ? `<button class="btn ghost" type="button" data-act="num-reveal" data-key="${key}">Reveal answer</button>` : ''}`}</div>${fb}
+    ${lock ? '' : hintLadder(key, cfg.hints, hintLevel)}`;
+}
+R.worked = () => {
+  const w = S.worked; const cap = MODEL.capacity();
+  const sA = MODEL.hbo2(100, STANDARD), sR = MODEL.hbo2(40, STANDARD), sS = MODEL.hbo2(20, STANDARD), s72 = MODEL.hbo2(40, { ...STANDARD, pH: 7.2 });
+  const cA = r1(cap * sA), cR = r1(cap * sR);
+  const w3it = S.items.w3; const trapVal = WORKED.w3.trap();
+  const w3extra = w3it && !w3it.correct && w3it.lastVal != null && Math.round(w3it.lastVal) === trapVal ? `You used ${pct(MODEL.hbo2(100, { ...STANDARD, pH: 7.2 }))}%, arterial saturation on the acidic curve. Blood loaded in the lungs at pH 7.40.` : 'Which curve was the blood on when it loaded, and which when it unloaded?';
+  return `${stepHead('Worked examples', 'From fully worked to on your own', 'Three short problems. Support fades each time: worked, last step blank, then independent.')}
+  <div class="prose stack we">
+    <div class="card"><div class="q-meta"><span class="badge b-acc">1 · Fully worked</span><span>Resting muscle, standard conditions</span></div>
+      <p><strong>How much O₂ does each dL of blood unload in resting muscle?</strong> Hb = ${MODEL.HB} g/dL; each gram carries ${MODEL.HUFNER} mL O₂ when fully saturated.</p>
+      <ol><li>Capacity: ${MODEL.HB} × ${MODEL.HUFNER} = <span class="mono">${r1(cap)}</span> mL O₂/dL.</li>
+        <li>Leaving lungs (100 mmHg): ${pct(sA)}% × ${r1(cap)} = <span class="mono">${cA}</span> mL/dL.</li>
+        <li>In tissue (40 mmHg): ${pct(sR)}% × ${r1(cap)} = <span class="mono">${cR}</span> mL/dL.</li>
+        <li>Unloaded: ${cA} − ${cR} = <span class="mono">${r1(cA - cR)}</span> mL/dL (≈ ${pct(sA) - pct(sR)} points of saturation).</li></ol>
+      <label class="lbl" for="se1">Self-explain: why does step 4 subtract, instead of just using the ${pct(sR)}% in the tissue?</label>
+      <textarea id="se1" ${w.w1done ? 'readonly' : ''}>${esc(w.se1)}</textarea>
+      ${w.w1done ? `<div class="fb info"><strong class="tag">One good answer</strong>The tissue only gets what Hb gives up. The ${pct(sR)}% still bound returns to the lungs in venous blood, a reserve that a sprint can tap.</div>` : '<div class="btn-row"><button class="btn" type="button" data-act="w1-done">Compare with an expert answer</button></div><p class="small muted" id="w1Msg"></p>'}
+    </div>
+    ${w.w1done ? `<div class="card"><div class="q-meta"><span class="badge b-acc">2 · Last step blank</span><span>Sprinting muscle, curve not shifted yet</span></div>
+      <p>Tissue PO₂ falls to 20 mmHg. Use the standard curve.</p>
+      <ol><li>Leaving lungs: ${pct(sA)}%.</li><li>In tissue at 20 mmHg: ${pct(sS)}%.</li><li>Unloaded saturation = <span class="blank">?</span> points.</li></ol>
+      ${numItemBlock('w2', WORKED.w2, w.w2, w.hint.w2)}</div>` : ''}
+    ${w.w1done && resolved('w2') ? `<div class="card"><div class="q-meta"><span class="badge b-acc">3 · Independent</span><span>Acidic resting muscle</span></div>
+      <p>The tissue is acidic (pH 7.20), which raises P50 to ${r1(MODEL.p50({ ...STANDARD, pH: 7.2 }))} mmHg. On that curve, saturation at 40 mmHg is ${pct(s72)}%. If it were also used for arterial blood, it would give ${pct(MODEL.hbo2(100, { ...STANDARD, pH: 7.2 }))}% at 100 mmHg. Blood left the lungs at pH 7.40. <strong>How many points of saturation are unloaded?</strong></p>
+      ${numItemBlock('w3', WORKED.w3, w.w3, w.hint.w3, w3extra)}</div>` : ''}
+  </div>${navBar()}`;
+};
+
+/* MCQ block (check + transfer) */
+function mcqBlock(q, idx, total) {
+  const st = S.mcq[q.id] || {}; const sub = !!st.submitted;
+  let html = `<article class="card" id="mc-${q.id}" aria-labelledby="mcs-${q.id}">${total ? `<div class="q-meta"><span class="badge">Question ${idx + 1} of ${total}</span></div>` : ''}
+    <p id="mcs-${q.id}" style="font-size:1.06rem;margin-top:0"><strong>${esc(q.stem())}</strong></p>
+    ${choiceList('ans-' + q.id, q.options, st.ans, { disabled: sub, reveal: sub, correct: q.correct, label: 'Answer' })}`;
+  if (st.ans || sub) html += `<fieldset class="sub-q"><legend>Pick the reason that best supports your answer</legend>${choiceList('rsn-' + q.id, q.reasons, st.reason, { disabled: sub, reveal: sub, correct: q.reasonCorrect, label: 'Reason' })}</fieldset>`;
+  if (st.reason || sub) html += `<div class="sub-q">${confPills('conf-' + q.id, st.conf, sub)}</div>`;
+  if (!sub) html += `<div class="btn-row"><button class="btn" type="button" data-act="mc-submit" data-q="${q.id}" ${st.ans && st.reason && st.conf ? '' : 'aria-disabled="true"'}>Submit</button><span class="small muted">${!st.ans ? 'Choose an answer.' : !st.reason ? 'Now choose a reason.' : !st.conf ? 'Now rate your confidence.' : 'Ready.'}</span></div>`;
+  else {
+    const chosen = q.options.find(o => o.id === st.ans); const ok = st.ans === q.correct; const rok = st.reason === q.reasonCorrect;
+    const corr = q.options.find(o => o.id === q.correct);
+    html += `<div class="fb ${ok && rok ? 'good' : ok ? 'warn' : 'bad'}"><strong class="tag">${ok && rok ? 'unassisted-correct: right answer, right reason.' : ok ? 'incorrect: right answer, but not the best reason.' : 'incorrect.'}</strong>
+      ${!ok && chosen.mis ? `<span class="mis">Misconception: ${esc(chosen.mis)}</span><br>` : ''}${esc(chosen.fb())}
+      ${!ok ? `<p style="margin:.5em 0 0"><strong>Best answer:</strong> ${esc(corr.t)} ${esc(corr.fb())}</p>` : ''}
+      ${!rok ? `<p style="margin:.5em 0 0"><strong>Best reason:</strong> ${esc(q.reasons.find(r => r.id === q.reasonCorrect).t)}</p>` : ''}</div>`;
+    if (!(ok && rok) && (st.conf === 'sure' || st.conf === 'fairly')) html += `<div class="reteach" role="note"><p class="eyebrow" style="margin-bottom:4px">Confident and wrong: worth a second look</p><h4>${esc(q.reteach.title)}</h4><p style="margin:.3em 0 0">${esc(q.reteach.body())}</p></div>`;
+  }
+  return html + '</article>';
+}
+R.check = () => `${stepHead('Check yourself', 'Six questions, mixed on purpose', 'Each wrong option was written from a common misconception. Answer, pick a reason, rate your confidence. Topics are interleaved so you have to recognize which idea applies.')}
+  <div class="prose stack">${MCQ.map((q, i) => mcqBlock(q, i, MCQ.length)).join('')}</div>${navBar()}`;
+
+R.transfer = () => {
+  const st = S.mcq.tr || {}; const t = S.transfer;
+  return `${stepHead('Transfer', 'Same idea, new setting: the blood bank', 'No simulation here. Reason it through the curve.')}
+  <div class="prose stack">${mcqBlock(TRANSFER, 0, 0)}
+  ${st.submitted ? `<div class="card"><label class="lbl" for="trText">${esc(TRANSFER.explainPrompt)}</label><textarea id="trText" ${t.saved ? 'readonly' : ''}>${esc(t.text)}</textarea>
+    ${t.revealModel || t.saved ? `<div class="fb info"><strong class="tag">Expert answer</strong>${esc(TRANSFER.model)}</div>${rubricBox('trRub', TRANSFER.rubric, t.rubric, t.saved)}` : ''}
+    ${t.saved ? `<div class="fb info"><strong class="tag">self-assessed: ${t.rubric.length} of ${TRANSFER.rubric.length} rubric points.</strong></div>` : t.revealModel ? '<div class="btn-row"><button class="btn" type="button" data-act="tr-save">Save self-check</button></div>' : '<div class="btn-row"><button class="btn" type="button" data-act="tr-model">Compare with an expert answer</button></div><p class="small muted" id="trMsg"></p>'}
+  </div>` : ''}</div>${navBar()}`;
+};
+
+R.exit = () => {
+  const x = S.exit; const sub = x.submitted; const a = x.answers;
+  const blocks = EXIT.map((q, i) => {
+    let inner = '';
+    if (q.type === 'num') inner = `<label class="lbl" for="ex-${q.id}">${i + 1}. ${esc(q.prompt)}</label><div class="btn-row" style="margin-top:4px"><input type="text" inputmode="decimal" class="num-in" id="ex-${q.id}" value="${esc(a[q.id] || '')}" ${sub ? 'readonly' : ''}><span class="muted">%</span></div>`;
+    else inner = `<fieldset><legend>${i + 1}. ${esc(q.prompt)}</legend>${choiceList('ex-' + q.id, q.options, a[q.id] || (q.type === 'multi' ? [] : null), { type: q.type === 'multi' ? 'checkbox' : 'radio', disabled: sub, label: q.prompt })}</fieldset>`;
+    let fb = ''; if (sub) { const it = S.items[q.id]; fb = `<div class="fb ${it.correct ? 'good' : 'bad'}"><strong class="tag">${STATUS_LABEL[itemStatus(it)][0]}.</strong>${esc(q.answer())}</div>`; }
+    return `<div class="card">${inner}${fb}</div>`;
+  }).join('');
+  return `${stepHead('Exit ticket', 'From memory: no simulation, no hints', 'This is the most honest signal in the lab. If you go back to Explore before submitting, correct answers will be recorded as hinted-correct, not unassisted-correct.')}
+  <div class="prose stack">${blocks}
+  ${sub ? (x.peeked ? '<div class="fb warn"><strong class="tag">Note:</strong>You visited the simulation during the exit ticket, so correct answers here are recorded as hinted-correct.</div>' : '') : '<div class="btn-row"><button class="btn accent" type="button" data-act="exit-submit">Submit exit ticket</button><span class="small muted" id="exitMsg"></span></div>'}
+  </div>${navBar()}`;
+};
+
+/* Results */
+const STATUS_LABEL = { 'unassisted-correct': ['unassisted-correct', 'b-good'], 'hinted-correct': ['hinted-correct', 'b-warn'], revealed: ['revealed', 'b-warn'], incorrect: ['incorrect', 'b-bad'], 'self-assessed': ['self-assessed', ''], none: ['not attempted', ''] };
+const TARGET_RULE = 'Rule: Independent this session = at least 2 unassisted-correct among the last 3 attempts on a target, and the latest not incorrect. Needs support = attempted but not meeting that. Not checked = no attempts.';
+function targetState(tid) {
+  const its = Object.values(S.items).filter(i => i.target === tid && (i.attempts > 0 || i.revealed)).sort((a, b) => a.ts - b.ts);
+  if (!its.length) return ['Not checked', ''];
+  const last3 = its.slice(-3).map(itemStatus);
+  const ok = last3.filter(s => s === 'unassisted-correct').length;
+  if (ok >= 2 && last3[last3.length - 1] !== 'incorrect') return ['Independent this session', 'b-good'];
+  return ['Needs support', 'b-warn'];
+}
+function loadCards() { const c = store.get(CARDS_KEY); return c && c.v === 1 ? c : { v: 1, cards: {} }; }
+let CARDSTATE = loadCards();
+let review = { queue: null, i: 0, showing: false };
+function dueCards() { const now = Date.now(); return CARDS.filter(c => { const s = CARDSTATE.cards[c.id]; return !s || s.due <= now; }); }
+function fmtDue(c) { const s = CARDSTATE.cards[c.id]; if (!s) return 'New: due now'; const d = s.due - Date.now(); if (d <= 0) return 'Due now'; if (d < 3600e3) return `In ${Math.max(1, Math.round(d / 60000))} min`; const days = Math.round(d / 86400e3); return `In ${days} day${days === 1 ? '' : 's'} (${new Date(s.due).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })})`; }
+const LADDER = [1, 3, 7, 14, 30];
+function gradeCard(id, good) {
+  const s = CARDSTATE.cards[id] || { reps: 0 };
+  if (good) { const days = LADDER[Math.min(s.reps, LADDER.length - 1)]; s.reps = (s.reps || 0) + 1; s.due = Date.now() + days * 86400e3; s.interval = days; }
+  else { s.reps = 0; s.due = Date.now() + 10 * 60e3; s.interval = 0; }
+  s.last = Date.now(); s.lastGrade = good ? 'good' : 'again';
+  CARDSTATE.cards[id] = s; store.set(CARDS_KEY, CARDSTATE);
+}
+function reviewHTML() {
+  if (!review.queue) return `<p class="muted">${dueCards().length} of ${CARDS.length} cards due now.</p><div class="btn-row"><button class="btn accent" type="button" data-act="rv-start" ${dueCards().length ? '' : 'aria-disabled="true"'}>Start review</button></div>`;
+  if (review.i >= review.queue.length) return `<div class="fb good"><strong class="tag">Review done.</strong>Next due dates are in the list below. Come back when cards are due; spacing is what makes this work.</div><div class="btn-row"><button class="btn secondary" type="button" data-act="rv-reset">Back to deck</button></div>`;
+  const c = review.queue[review.i];
+  return `<div class="fc" aria-live="polite"><p class="side">Card ${review.i + 1} of ${review.queue.length} · Front</p><p class="face">${esc(c.q)}</p>
+    ${review.showing ? `<div class="back"><p class="side">Back</p><p style="margin:.3em 0 0;font-size:1.05rem">${esc(c.a)}</p></div>` : ''}</div>
+    <div class="btn-row">${review.showing ? `<button class="btn secondary" type="button" data-act="rv-again">Again <span class="small">(10 min)</span></button><button class="btn" type="button" data-act="rv-good">Good <span class="small">(${LADDER[Math.min((CARDSTATE.cards[c.id] || { reps: 0 }).reps, LADDER.length - 1)]} d)</span></button>` : `<button class="btn" type="button" data-act="rv-show">Show answer</button>`}</div>`;
+}
+R.results = () => {
+  const graded = Object.values(S.items).filter(i => i.attempts > 0 || i.revealed);
+  const cnt = { 'unassisted-correct': 0, 'hinted-correct': 0, revealed: 0, incorrect: 0 }; graded.forEach(i => { const s = itemStatus(i); if (cnt[s] != null) cnt[s]++; });
+  const order = ['q1', 'q2', 'w2', 'w3', 'xc', ...MCQ.map(q => q.id), 'tr', ...EXIT.map(e => e.id)];
+  const rows = order.filter(id => S.items[id]).map(id => { const it = S.items[id]; const [l, c] = STATUS_LABEL[itemStatus(it)]; const tg = TARGETS.find(t => t.id === it.target);
+    return `<tr><td>${esc(it.label)}</td><td>${esc(tg.name)}</td><td><span class="badge ${c}">${l}</span></td><td class="small muted">${it.hint ? `${it.hint} hint${it.hint > 1 ? 's' : ''}` : ''}${it.attempts > 1 ? `${it.hint ? ', ' : ''}${it.attempts} tries` : ''}${it.conf ? `${it.hint || it.attempts > 1 ? ', ' : ''}${({ sure: 'sure', fairly: 'fairly sure', guess: 'guessing' })[it.conf]}` : ''}</td></tr>`; }).join('');
+  const confWrong = Object.values(S.items).filter(i => (i.conf === 'sure' || i.conf === 'fairly') && i.attempts && !i.correct).length;
+  const p = S.predict;
+  const selfRows = [
+    ['First guess (puzzle)', S.hook.done ? (S.hook.skipped ? 'No guess recorded' : 'Written') : 'Not done'],
+    ['Prediction', p.committed ? `${p.value}% predicted vs ${pct(MODEL.hbo2(40, STANDARD))}% (${({ sure: 'sure', fairly: 'fairly sure', guess: 'guessing' })[p.conf]}); gap explained: ${p.gapSaved ? 'yes' : 'no'}` : 'Not done'],
+    ['Explain: "because…"', S.explain.saved ? `Self-check ${S.explain.rubric.length}/${EXPLAIN.rubric.length}` : 'Not done'],
+    ['Worked 1 self-explanation', S.worked.w1done ? 'Written' : 'Not done'],
+    ['Transfer explanation', S.transfer.saved ? `Self-check ${S.transfer.rubric.length}/${TRANSFER.rubric.length}` : 'Not done']
+  ].map(([a, b]) => `<tr><td>${esc(a)}</td><td>${esc(b)}</td><td>${b === 'Not done' ? '' : '<span class="badge">self-assessed</span>'}</td></tr>`).join('');
+  const needs = TARGETS.filter(t => targetState(t.id)[0] === 'Needs support');
+  return `${stepHead('Results & review', 'What this session actually shows', 'Every scored item is labeled unassisted-correct, hinted-correct, revealed or incorrect. Explanations you judged yourself are labeled self-assessed and are not scored.')}
+  <div class="stack">
+    <div class="stats">
+      <div class="stat"><b>${cnt['unassisted-correct']}</b><span>unassisted-correct</span></div>
+      <div class="stat"><b>${cnt['hinted-correct']}</b><span>hinted-correct (after a hint or retry)</span></div>
+      <div class="stat"><b>${cnt.revealed}</b><span>revealed (exposure, not success)</span></div>
+      <div class="stat"><b>${cnt.incorrect}</b><span>incorrect</span></div>
+    </div>
+    <section class="card" aria-labelledby="tgH"><h3 id="tgH">By learning target</h3><div class="tbl-wrap"><table class="res"><thead><tr><th>Target</th><th>State</th><th>Evidence</th></tr></thead><tbody>
+      ${TARGETS.map(t => { const [s, c] = targetState(t.id); const its = Object.values(S.items).filter(i => i.target === t.id && (i.attempts || i.revealed)); const ind = its.filter(i => itemStatus(i) === 'unassisted-correct').length; const l3 = its.sort((a, b) => a.ts - b.ts).slice(-3).map(itemStatus);
+        return `<tr><td><strong>${esc(t.name)}</strong><br><span class="small muted">${esc(t.desc)}</span></td><td><span class="badge ${c}">${s}</span></td><td class="small">${its.length ? `${ind} of ${its.length} items unassisted-correct. Last ${l3.length}: ${l3.join(', ')}.` : 'No attempts yet.'}</td></tr>`; }).join('')}
+      </tbody></table></div>
+      <p class="small"><strong>${TARGET_RULE}</strong></p>
+      <p class="small muted">"Independent this session" is not durable mastery. Retrieval after a delay (the flashcards below) is the next test.${confWrong ? ` You were confident and wrong ${confWrong} time${confWrong > 1 ? 's' : ''}; those reteach cards are the best place to start.` : ''}</p>
+      ${needs.length ? `<p><strong>Next move:</strong> revisit ${needs.map(t => esc(t.name)).join(', ')}. Re-run Explore with a specific question, then try the matching flashcards tomorrow.</p>` : ''}</section>
+    <section class="card" aria-labelledby="itH"><h3 id="itH">Every scored item</h3><div class="tbl-wrap"><table class="res"><thead><tr><th>Item</th><th>Target</th><th>Result</th><th>Support used</th></tr></thead><tbody>${rows || '<tr><td colspan="4" class="muted">No scored items yet.</td></tr>'}</tbody></table></div></section>
+    <section class="card" aria-labelledby="saH"><h3 id="saH">self-assessed (not scored)</h3><div class="tbl-wrap"><table class="res"><thead><tr><th>Work</th><th>Result</th><th>Outcome</th></tr></thead><tbody>${selfRows}</tbody></table></div></section>
+    <section class="card" aria-labelledby="fcH"><h3 id="fcH">Flashcards from this lab</h3>
+      <p class="muted small">${CARDS.length} atomic cards. Review now, then again when due (about 1 → 3 → 7 → 14 → 30 days for each "Good"; "Again" brings a card back in 10 minutes). The schedule is saved in this browser${store.ok ? '' : ' (storage is blocked, so it won\'t persist)'}.</p>
+      <p class="small muted">This is a default ladder, not a research-optimal schedule. If your exam is sooner, shorten the gaps so you get several reviews before it.</p>
+      <div id="reviewBox">${reviewHTML()}</div>
+      <div class="tbl-wrap" style="margin-top:16px"><table class="res"><thead><tr><th>Front</th><th>Back</th><th>Next due</th></tr></thead><tbody id="cardRows">${CARDS.map(c => `<tr><td>${esc(c.q)}</td><td>${esc(c.a)}</td><td class="small">${fmtDue(c)}</td></tr>`).join('')}</tbody></table></div>
+      <div class="btn-row"><button class="btn secondary" type="button" data-act="exp-quizlet">Export to Quizlet (.txt)</button><button class="btn secondary" type="button" data-act="exp-anki">Export to Anki (.txt)</button></div>
+      <p class="small muted">Quizlet: Create → Import, choose "Tab" between term and definition and "New line" between cards. Anki: File → Import; the header sets the tab separator.</p></section>
+    <details class="notes"><summary>Sources &amp; model notes</summary><div class="notes-in">${SOURCES_HTML}</div></details>
+    <div class="btn-row"><button class="btn ghost" type="button" data-act="clear">Start over (clear progress)</button></div>
+  </div>${navBar()}`;
+};
+
+/* =====================================================================
+   RENDER + EVENTS
+   ===================================================================== */
+function render() {
+  renderNotices(); renderRail();
+  const id = STEPS[S.step].id; $('main').innerHTML = R[id]();
+  if (id === 'results') { /* no-op: content already built */ }
+}
+function rerenderKeepScroll() { const y = window.scrollY; const ae = document.activeElement; const aid = ae && ae.id; const aname = ae && ae.name; const aval = ae && ae.value; render(); window.scrollTo(0, y);
+  let f = aid && $(aid); if (!f && aname) f = document.querySelector(`[name="${CSS.escape(aname)}"][value="${CSS.escape(aval)}"]`); if (f && !f.disabled) f.focus({ preventScroll: true }); }
+
+function parseNum(s) { const v = parseFloat(String(s).replace(',', '.').replace(/[^\d.\-]/g, '')); return isFinite(v) ? v : null; }
+function download(name, text) {
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' }); const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+const clean = s => String(s).replace(/[\t\r\n]+/g, ' ').trim();
+
+const main = $('main');
+main.addEventListener('click', e => {
+  const b = e.target.closest('[data-act],[data-term],[data-hint]'); if (!b) return;
+  if (b.dataset.term) { const id = b.dataset.term; if (!S.parts.seen.includes(id)) S.parts.seen.push(id); save(); rerenderKeepScroll(); const t = document.querySelector(`[data-term="${id}"]`); if (t) t.focus(); return; }
+  if (b.dataset.hint) { const k = b.dataset.hint;
+    if (k === 'explore') { S.explore.hint++; ['q1', 'q2'].forEach(q => { if (!resolved(q)) item(q, CHECKPOINT[q]).hint = S.explore.hint; }); }
+    else { S.worked.hint[k]++; item(k, WORKED[k]).hint = S.worked.hint[k]; }
+    save(); rerenderKeepScroll(); announce('Hint shown.'); return; }
+  const act = b.dataset.act;
+  if (b.getAttribute('aria-disabled') === 'true' && act !== 'next') { announce('Not available yet.'); return; }
+  switch (act) {
+    case 'next': return next();
+    case 'back': return go(S.step - 1);
+    case 'clear': return openClear();
+    case 'hook-save': { const t = $('hookText').value.trim(); if (!t) { $('hookText').focus(); announce('Write a guess, or choose I don\'t have a guess yet.'); return; } S.hook = { text: t, done: true, skipped: false }; save(); rerenderKeepScroll(); return; }
+    case 'hook-skip': S.hook = { text: $('hookText').value.trim(), done: true, skipped: true }; save(); return rerenderKeepScroll();
+    case 'commit': { const p = S.predict; if (p.value == null || !p.conf) return; p.committed = true; save(); rerenderKeepScroll(); announce(`Committed. You predicted ${p.value} percent; the model gives ${pct(MODEL.hbo2(40, STANDARD))} percent.`); const g = $('gapText'); if (g) g.focus(); return; }
+    case 'gap-save': { const t = $('gapText').value.trim(); if (!t) { $('gapText').focus(); announce('Write at least a few words about the gap.'); return; } S.predict.gap = t; S.predict.gapSaved = true; save(); return rerenderKeepScroll(); }
+    case 'preset-sprint': { S.sim.pco2 = 60; S.sim.temp = 39; S.sim.m = 7.2 + Math.log10(60 / 40); S.sim.inst = 'sprint'; touch('preset'); save(); $('simCtrls').innerHTML = simControlsHTML(); updateSim(); announce('Sprinting muscle preset applied.'); return; }
+    case 'sim-reset': { S.sim = defaultSim(); save(); $('simCtrls').innerHTML = simControlsHTML(); updateSim(); announce('Simulation reset to standard conditions.'); $('cPH').focus(); return; }
+    case 'q1-check': { const v = parseNum($('q1in').value); S.explore.q1 = $('q1in').value; if (v == null) { announce('Enter a number.'); return; } const it = item('q1', CHECKPOINT.q1); it.attempts++; it.ts = Date.now(); it.correct = Math.abs(v - CHECKPOINT.q1.answer()) <= CHECKPOINT.q1.tol; save(); return rerenderKeepScroll(); }
+    case 'q1-reveal': { const it = item('q1', CHECKPOINT.q1); it.revealed = true; it.ts = Date.now(); save(); return rerenderKeepScroll(); }
+    case 'q2-check': { const c = document.querySelector('input[name="q2"]:checked'); if (!c) { announce('Choose an option.'); return; } S.explore.q2 = c.value; const it = item('q2', CHECKPOINT.q2); it.attempts++; it.ts = Date.now(); it.correct = c.value === CHECKPOINT.q2.correct; save(); return rerenderKeepScroll(); }
+    case 'q2-reveal': { const it = item('q2', CHECKPOINT.q2); it.revealed = true; it.ts = Date.now(); save(); return rerenderKeepScroll(); }
+    case 'ex-submit': { const c = document.querySelector('input[name="exChoice"]:checked'); const t = $('exText').value.trim(); if (!c || !t) { $('exMsg').textContent = !c ? 'Choose a principle first.' : 'Finish the "because…" sentence.'; announce($('exMsg').textContent); return; }
+      Object.assign(S.explain, { choice: c.value, text: t, submitted: true }); const it = item('xc', { target: 'T3', label: 'Explain: choose the principle' }); it.attempts = 1; it.ts = Date.now(); it.correct = c.value === EXPLAIN.correct; save(); return rerenderKeepScroll(); }
+    case 'ex-save': S.explain.rubric = [...document.querySelectorAll('input[name="exRub"]:checked')].map(i => +i.value); S.explain.saved = true; save(); return rerenderKeepScroll();
+    case 'w1-done': { const t = $('se1').value.trim(); if (!t) { $('w1Msg').textContent = 'Write one sentence first; then compare.'; $('se1').focus(); announce($('w1Msg').textContent); return; } S.worked.se1 = t; S.worked.w1done = true; save(); return rerenderKeepScroll(); }
+    case 'num-check': { const k = b.dataset.key; const inp = $(k + 'in'); S.worked[k] = inp.value; const v = parseNum(inp.value); if (v == null) { announce('Enter a number.'); return; } const it = item(k, WORKED[k]); it.attempts++; it.ts = Date.now(); it.lastVal = v; it.correct = Math.abs(v - WORKED[k].answer()) <= WORKED[k].tol; save(); rerenderKeepScroll(); announce(it.correct ? 'Correct.' : 'Not yet.'); return; }
+    case 'num-reveal': { const k = b.dataset.key; const it = item(k, WORKED[k]); it.revealed = true; it.ts = Date.now(); save(); return rerenderKeepScroll(); }
+    case 'mc-submit': { const qid = b.dataset.q; const q = qid === 'tr' ? TRANSFER : MCQ.find(m => m.id === qid); const st = S.mcq[qid]; if (!st || !st.ans || !st.reason || !st.conf) return;
+      st.submitted = true; const it = item(qid, q); it.attempts = 1; it.ts = Date.now(); it.conf = st.conf; it.correct = st.ans === q.correct && st.reason === q.reasonCorrect; save(); rerenderKeepScroll(); const card = $('mc-' + qid); if (card) { const fb = card.querySelector('.fb'); if (fb) announce(fb.textContent.trim().slice(0, 220)); } return; }
+    case 'tr-model': { const t = $('trText').value.trim(); if (!t) { $('trMsg').textContent = 'Write your explanation first.'; $('trText').focus(); announce($('trMsg').textContent); return; } S.transfer.text = t; S.transfer.revealModel = true; save(); return rerenderKeepScroll(); }
+    case 'tr-save': S.transfer.rubric = [...document.querySelectorAll('input[name="trRub"]:checked')].map(i => +i.value); S.transfer.saved = true; save(); return rerenderKeepScroll();
+    case 'exit-submit': {
+      const A = S.exit.answers; let missing = 0;
+      EXIT.forEach(q => { if (q.type === 'num') { A[q.id] = $('ex-' + q.id).value; if (!String(A[q.id]).trim()) missing++; } else if (q.type === 'multi') { A[q.id] = [...document.querySelectorAll(`input[name="ex-${q.id}"]:checked`)].map(i => i.value); if (!A[q.id].length) missing++; } else { const c = document.querySelector(`input[name="ex-${q.id}"]:checked`); A[q.id] = c ? c.value : null; if (!c) missing++; } });
+      if (missing) { $('exitMsg').textContent = `Answer all ${EXIT.length} (${missing} left). A guess is fine.`; announce($('exitMsg').textContent); save(); return; }
+      EXIT.forEach(q => { const it = item(q.id, q); it.attempts = 1; it.ts = Date.now(); it.hint = S.exit.peeked ? 1 : 0;
+        if (q.type === 'num') { const v = parseNum(A[q.id]); it.correct = v != null && q.check(v); }
+        else if (q.type === 'multi') { const s = [...A[q.id]].sort().join(); it.correct = s === [...q.correct].sort().join(); }
+        else it.correct = A[q.id] === q.correct; });
+      S.exit.submitted = true; save(); return rerenderKeepScroll(); }
+    case 'rv-start': review = { queue: dueCards(), i: 0, showing: false }; $('reviewBox').innerHTML = reviewHTML(); focusIn('#reviewBox'); return;
+    case 'rv-show': review.showing = true; $('reviewBox').innerHTML = reviewHTML(); focusIn('#reviewBox', '[data-act="rv-good"]'); return;
+    case 'rv-again': case 'rv-good': gradeCard(review.queue[review.i].id, act === 'rv-good'); review.i++; review.showing = false; $('reviewBox').innerHTML = reviewHTML(); $('cardRows').innerHTML = CARDS.map(c => `<tr><td>${esc(c.q)}</td><td>${esc(c.a)}</td><td class="small">${fmtDue(c)}</td></tr>`).join(''); focusIn('#reviewBox'); return;
+    case 'rv-reset': review = { queue: null, i: 0, showing: false }; $('reviewBox').innerHTML = reviewHTML(); focusIn('#reviewBox'); return;
+    case 'exp-quizlet': return download('oxygen-hemoglobin-quizlet.txt', CARDS.map(c => `${clean(c.q)}\t${clean(c.a)}`).join('\n') + '\n');
+    case 'exp-anki': return download('oxygen-hemoglobin-anki.txt', '#separator:tab\n#html:false\n' + CARDS.map(c => `${clean(c.q)}\t${clean(c.a)}`).join('\n') + '\n');
+  }
+});
+function focusIn(sel, pref) { const box = document.querySelector(sel); if (!box) return; const f = (pref && box.querySelector(pref)) || box.querySelector('button:not([aria-disabled="true"])'); if (f) f.focus(); }
+function touch(k) { if (!S.touched.includes(k)) S.touched.push(k); }
+
+main.addEventListener('input', e => {
+  const t = e.target;
+  if (t.id === 'predRange') { S.predict.value = +t.value; save(); partialPredict(); return; }
+  if (['cPH', 'cCO2', 'cT', 'cProbe'].includes(t.id)) {
+    const v = +t.value;
+    if (t.id === 'cPH') { S.sim.m = v + Math.log10(S.sim.pco2 / 40); }
+    if (t.id === 'cCO2') { S.sim.pco2 = v; $('cCO2Val').textContent = v + ' mmHg'; t.setAttribute('aria-valuetext', v + ' mmHg'); }
+    if (t.id === 'cT') { S.sim.temp = v; $('cTVal').textContent = v.toFixed(1) + ' °C'; t.setAttribute('aria-valuetext', v.toFixed(1) + ' degrees Celsius'); }
+    if (t.id === 'cProbe') { S.sim.probe = v; $('cProbeVal').textContent = v + ' mmHg'; t.setAttribute('aria-valuetext', v + ' millimeters of mercury'); if (S.sim.inst !== 'probe') { S.sim.inst = 'probe'; } }
+    touch(t.id); updateSim(t.id); return;
+  }
+  if (t.id === 'hookText') { S.hook.text = t.value; save(); }
+  if (t.id === 'gapText') { S.predict.gap = t.value; save(); }
+  if (t.id === 'exText') { S.explain.text = t.value; save(); }
+  if (t.id === 'se1') { S.worked.se1 = t.value; save(); }
+  if (t.id === 'trText') { S.transfer.text = t.value; save(); }
+  if (t.id === 'q1in') { S.explore.q1 = t.value; save(); }
+  if (t.id === 'w2in' || t.id === 'w3in') { S.worked[t.id.slice(0, 2)] = t.value; save(); }
+  if (t.id && t.id.startsWith('ex-e')) { S.exit.started = true; S.exit.answers[t.id.slice(3)] = t.value; save(); }
+});
+main.addEventListener('change', e => {
+  const t = e.target; const n = t.name || '';
+  if (n === 'predConf') { S.predict.conf = t.value; save(); partialPredict(); return; }
+  if (n === 'bpg') { S.sim.bpg = t.value; touch('bpg'); updateSim(); return; }
+  if (t.id === 'cFetal') { S.sim.fetal = t.checked; touch('fetal'); save(); $('simCtrls').innerHTML = simControlsHTML(); $('cFetal').focus(); updateSim(); return; }
+  if (t.id === 'cCO') { S.sim.co = t.checked; touch('co'); updateSim(); return; }
+  if (n === 'inst') { S.sim.inst = t.value; updateSim(); const f = document.querySelector(`input[name="inst"][value="${t.value}"]`); if (f) f.focus(); return; }
+  if (n === 'q2') { S.explore.q2 = t.value; save(); return; }
+  if (n === 'exChoice') { S.explain.choice = t.value; save(); return; }
+  if (n.startsWith('ans-') || n.startsWith('rsn-') || n.startsWith('conf-')) {
+    const [kind, qid] = n.split('-'); const st = S.mcq[qid] = S.mcq[qid] || {};
+    if (kind === 'ans') st.ans = t.value; else if (kind === 'rsn') st.reason = t.value; else st.conf = t.value;
+    save(); rerenderKeepScroll(); return;
+  }
+  if (n.startsWith('ex-e')) { S.exit.started = true; const q = EXIT.find(x => x.id === n.slice(3)); S.exit.answers[q.id] = q.type === 'multi' ? [...document.querySelectorAll(`input[name="${n}"]:checked`)].map(i => i.value) : t.value; save(); }
+});
+function partialPredict() {
+  const fig = $('predChart'); if (fig) fig.outerHTML = predictSVG();
+  const p = S.predict; const v = $('predVal'); if (v) v.textContent = p.value == null ? '—' : p.value + '%';
+  const r = $('predRange'); if (r) r.setAttribute('aria-valuetext', p.value == null ? 'not placed' : p.value + ' percent');
+  const btn = document.querySelector('[data-act="commit"]'); if (btn) { if (p.value != null && p.conf) btn.removeAttribute('aria-disabled'); else btn.setAttribute('aria-disabled', 'true'); }
+  const m = $('commitMsg'); if (m) m.textContent = p.value == null ? 'Place a point, then pick a confidence.' : !p.conf ? 'Now pick a confidence.' : 'Ready. Committing locks your answer.';
+}
+/* Pointer drag on the prediction chart */
+let dragging = false;
+function predFromEvent(e) {
+  const svg = $('predChart'); if (!svg || S.predict.committed) return;
+  const pt = svg.createSVGPoint(); pt.x = e.clientX; pt.y = e.clientY; const loc = pt.matrixTransform(svg.getScreenCTM().inverse());
+  const s = 1 - (loc.y - CH.mt) / (CH.h - CH.mt - CH.mb); S.predict.value = Math.max(0, Math.min(100, Math.round(s * 100)));
+  const r = $('predRange'); if (r) r.value = S.predict.value; save(); partialPredict();
+}
+main.addEventListener('pointerdown', e => { if (e.target.closest('#predChart') && !S.predict.committed) { dragging = true; predFromEvent(e); e.preventDefault(); } });
+window.addEventListener('pointermove', e => { if (dragging) predFromEvent(e); });
+window.addEventListener('pointerup', () => { dragging = false; });
+
+/* Clear progress (in-page dialog) */
+function openClear() { const d = $('confirmDlg'); if (d.showModal) d.showModal(); else d.setAttribute('open', ''); $('dlgNo').focus(); }
+$('clearBtn').addEventListener('click', openClear);
+$('dlgNo').addEventListener('click', () => $('confirmDlg').close());
+$('dlgYes').addEventListener('click', () => {
+  store.del(STORAGE_KEY); store.del(CARDS_KEY); S = freshState(); CARDSTATE = { v: 1, cards: {} }; review = { queue: null, i: 0, showing: false }; resumeDismissed = true;
+  $('confirmDlg').close(); save(); render(); announce('Progress cleared. Back at step 1.'); const h = document.querySelector('#main h2'); if (h) { h.setAttribute('tabindex', '-1'); h.focus(); } window.scrollTo(0, 0);
+});
+
+render();
+</script>
+</body>
+</html>

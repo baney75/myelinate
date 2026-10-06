@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- CONTENT: document title (also used in the page footer below) -->
+<title>Topic practice test</title>
+<!--
+  Myelinate print template: practice test with a separate answer key.
+  How to use (see skills/print/SKILL.md):
+    1. Replace everything between CONTENT markers. Keep the structure and classes.
+    2. Change the footer title in the @page rule to match <title>.
+    3. Paper: Letter by default. For A4 change `size: letter` to `size: A4`,
+       or run scripts/make_pdf.py with --format A4 (that flag overrides this CSS).
+    4. Render: python3 scripts/make_pdf.py templates/practice-test.html out.pdf --png-preview previews/
+       No code execution? Open in a Chromium browser -> Print -> Save as PDF (margins: Default).
+  Rules kept by this template: >= 11pt body, questions never split across pages,
+  answer space sized to the expected answer, key on separate pages, meaning never in color alone,
+  no background fills, vector SVG figures, no answers in alt/aria/title text before the key.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #16313b; --muted: #4c6269; --rule: #b9b2a0; --line: #8f9c9f; --grid: #d3d8d9; --accent: #a54320;
+    --serif: Newsreader, Georgia, 'Times New Roman', 'DejaVu Serif', serif;
+    --sans: Inter, 'IBM Plex Sans', 'Helvetica Neue', Arial, 'DejaVu Sans', sans-serif;
+  }
+  @page {
+    size: letter;
+    margin: 0.7in 0.75in 0.8in;
+    /* CONTENT: footer title */
+    @bottom-left { content: "Topic practice test"; font: 500 8pt Inter, Arial, sans-serif; color: #4c6269; }
+    @bottom-right { content: "Page " counter(page) " of " counter(pages); font: 500 8pt Inter, Arial, sans-serif; color: #4c6269; }
+  }
+  @page key { @top-right { content: "ANSWER KEY \2014  do not read until you finish"; font: 700 8pt Inter, Arial, sans-serif; letter-spacing: 0.12em; color: #a54320; } }
+  * { box-sizing: border-box; }
+  html, body { background: #fff; }
+  body { margin: 0; color: var(--ink); font: 11pt/1.45 var(--sans); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  @media screen { body { max-width: 7.2in; margin: 0.4in auto; padding: 0 16px; } .newpage { border-top: 1px dashed var(--rule); padding-top: 0.3in; margin-top: 0.3in; } }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -0.015em; margin: 0; }
+  h1 { font-size: 24pt; line-height: 1.1; }
+  h2 { font-size: 15pt; display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1pt solid var(--ink); padding-bottom: 3pt; margin: 18pt 0 10pt; break-after: avoid; }
+  h2 small { font: 500 9pt var(--sans); color: var(--muted); letter-spacing: 0; }
+  h3 { font-size: 12.5pt; margin: 12pt 0 4pt; break-after: avoid; }
+  p { margin: 0 0 6pt; }
+  .kicker { font: 700 8pt var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 6pt; }
+  .muted { color: var(--muted); }
+  .small { font-size: 9.5pt; }
+  .newpage { break-before: page; }
+  .key { page: key; }
+
+  /* Cover */
+  .fields { display: grid; grid-template-columns: 2fr 1fr; gap: 10pt 18pt; margin: 16pt 0 14pt; }
+  .field { display: flex; align-items: flex-end; gap: 6pt; font-weight: 600; font-size: 10pt; }
+  .field span { flex: 1; border-bottom: 0.8pt solid var(--ink); height: 16pt; }
+  .facts { width: 100%; border-collapse: collapse; margin: 6pt 0 12pt; }
+  .facts th, .facts td { text-align: left; padding: 5pt 8pt; border: 0.6pt solid var(--rule); vertical-align: top; }
+  .facts th { width: 30%; font-size: 9pt; text-transform: uppercase; letter-spacing: 0.08em; }
+  .instructions { margin: 0; padding-left: 1.2em; }
+  .instructions li { margin-bottom: 3pt; }
+  .callout { border: 0.8pt solid var(--ink); border-left: 3pt solid var(--accent); padding: 7pt 10pt; margin: 12pt 0; break-inside: avoid; }
+
+  /* Questions */
+  .q { break-inside: avoid; display: grid; grid-template-columns: 2em 1fr; column-gap: 6pt; margin: 0 0 15pt; }
+  .q > .n { font: 600 14pt/1.2 var(--serif); color: var(--accent); }
+  .q .pts { float: right; margin-left: 10pt; font-size: 9pt; color: var(--muted); white-space: nowrap; }
+  .q .stem { margin-bottom: 5pt; }
+  .opts { list-style: none; padding: 0; margin: 4pt 0 0; }
+  .opts li { display: grid; grid-template-columns: 1.7em 1fr; align-items: start; margin: 0 0 4pt; }
+  .bubble { display: inline-flex; width: 1.3em; height: 1.3em; border: 0.8pt solid var(--ink); border-radius: 50%; align-items: center; justify-content: center; font-size: 8.5pt; font-weight: 600; margin-top: 1pt; }
+  .lines { margin-top: 2pt; }
+  .lines i { display: block; height: 0.34in; border-bottom: 0.6pt solid var(--line); }
+  .work { border: 0.8pt solid var(--line); border-radius: 3pt; padding: 5pt 7pt; margin-top: 4pt; }
+  .work .lbl { font-size: 7.5pt; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .ansline { margin-top: 8pt; font-weight: 600; }
+  .ansline .g { display: inline-flex; align-items: flex-end; gap: 5pt; margin-right: 14pt; white-space: nowrap; }
+  .ansline .blank { display: inline-block; width: 1.1in; border-bottom: 0.8pt solid var(--ink); height: 15pt; }
+  .figure { margin: 6pt 0 2pt; }
+  .figure svg { display: block; width: 100%; height: auto; max-width: 5.6in; }
+  .figure.draw svg { max-width: 6.3in; } /* learner draws here: give the hand room */
+  svg text { font-family: Inter, 'DejaVu Sans', Arial, sans-serif; }
+  svg { fill: #16313b; } /* default ink; fill attributes on shapes or groups override it */
+  .bank { border: 0.8pt dashed var(--line); padding: 5pt 8pt; font-size: 10pt; margin-top: 6pt; }
+  .bank b { font-size: 7.5pt; letter-spacing: 0.12em; text-transform: uppercase; }
+
+  /* Key */
+  .k { break-inside: avoid; border-top: 0.6pt solid var(--rule); padding: 7pt 0 8pt; display: grid; grid-template-columns: 2em 1fr; column-gap: 6pt; }
+  .k > .n { font: 600 13pt/1.2 var(--serif); color: var(--accent); }
+  .k .ans { font-weight: 700; }
+  .meta { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+  .dis { margin: 3pt 0 0; padding-left: 1.1em; font-size: 10pt; }
+  .dis li { margin-bottom: 2pt; }
+  .rubric { margin: 3pt 0 0; padding-left: 1.1em; font-size: 10pt; }
+  ul.rubric { list-style: none; padding-left: 0; }
+  table.grid { width: 100%; border-collapse: collapse; font-size: 10pt; }
+  table.grid th, table.grid td { border: 0.6pt solid var(--rule); padding: 4pt 6pt; text-align: left; vertical-align: top; }
+  table.grid th { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.06em; }
+  table.grid td.c, table.grid th.c { text-align: center; }
+  table.grid tr { break-inside: avoid; }
+  .box { display: inline-block; width: 11pt; height: 11pt; border: 0.8pt solid var(--ink); vertical-align: middle; }
+  .write { display: inline-block; min-width: 0.5in; border-bottom: 0.6pt solid var(--ink); height: 12pt; }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER + INSTRUCTIONS ============ -->
+<header>
+  <!-- CONTENT: course or subject, test name, one-line scope -->
+  <div class="kicker">Course · Practice test</div>
+  <h1>Topic practice test</h1>
+  <p class="muted">Covers: objectives O1–O4 from the study guide. Mirrors the real exam's format and timing.</p>
+</header>
+
+<div class="fields">
+  <div class="field">Name <span></span></div>
+  <div class="field">Date <span></span></div>
+  <div class="field">Start time <span></span></div>
+  <div class="field">End time <span></span></div>
+</div>
+
+<table class="facts">
+  <!-- CONTENT: match the real exam -->
+  <tr><th>Time limit</th><td>50 minutes. Stop when time is up and mark where you were.</td></tr>
+  <tr><th>Total points</th><td>20 points · Section A 8 · B 4 · C 4 · D 4</td></tr>
+  <tr><th>Allowed</th><td>Pencil, scientific calculator. No notes, phone, or textbook.</td></tr>
+</table>
+
+<h3>Instructions</h3>
+<ol class="instructions">
+  <!-- CONTENT: keep the closed-book and marking rules; adapt the rest -->
+  <li>Take this test closed-book, timed, in one sitting, like the real exam.</li>
+  <li>Multiple choice: fill in one bubble. Choose the single best answer.</li>
+  <li>Written answers: use the space given. It is sized for a complete answer.</li>
+  <li>If you check notes for an item, finish it, then circle its number. That item is scored "with notes," not unaided.</li>
+  <li>The answer key starts on a new page marked ANSWER KEY. Remove it before you start.</li>
+</ol>
+
+<div class="callout small">After you finish: score with the key, fill in the scoring sheet and the error-analysis page, or photograph every page and upload it to be graded.</div>
+
+<!-- ============ SECTION A: MULTIPLE CHOICE ============ -->
+<h2 class="newpage">Section A · Multiple choice <small>4 items · 2 pts each</small></h2>
+
+<!-- CONTENT: MCQ items. One .q per item. Single best answer, 4 homogeneous options, no "all/none of the above". -->
+<div class="q">
+  <div class="n">1</div>
+  <div>
+    <span class="pts">[2 pts]</span>
+    <p class="stem">Stem: a short case or set-up that ends in a complete question you could answer with the options covered.</p>
+    <ul class="opts">
+      <li><span class="bubble">A</span><span>Option from misconception 1</span></li>
+      <li><span class="bubble">B</span><span>Correct option</span></li>
+      <li><span class="bubble">C</span><span>Option from misconception 2</span></li>
+      <li><span class="bubble">D</span><span>Option from misconception 3</span></li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============ SECTION B: SHORT ANSWER ============ -->
+<h2>Section B · Short answer <small>1 item · 4 pts</small></h2>
+<!-- CONTENT: short-answer items. Set the number of <i></i> lines to the expected answer length (about one line per 10-12 words). -->
+<div class="q">
+  <div class="n">2</div>
+  <div>
+    <span class="pts">[4 pts]</span>
+    <p class="stem">Explain, in 2–3 sentences, why X causes Y. Name the principle.</p>
+    <div class="lines"><i></i><i></i><i></i><i></i></div>
+  </div>
+</div>
+
+<!-- ============ SECTION C: CALCULATION ============ -->
+<h2>Section C · Calculation <small>1 item · 4 pts</small></h2>
+<!-- CONTENT: calculation items. Give constants in the stem unless the exam expects them memorized. Size the work box to the steps. -->
+<div class="q">
+  <div class="n">3</div>
+  <div>
+    <span class="pts">[4 pts]</span>
+    <p class="stem">Given A = … and B = …, calculate C. Show your setup and units.</p>
+    <div class="work" style="min-height: 1.9in"><div class="lbl">Work</div></div>
+    <div class="ansline"><span class="g">Answer <span class="blank"></span> units</span></div>
+  </div>
+</div>
+
+<!-- ============ SECTION D: DRAW AND LABEL ============ -->
+<h2>Section D · Draw and label <small>1 item · 4 pts</small></h2>
+<!-- CONTENT: draw-and-label items. Inline SVG only. Blank figures carry numbers, never answer text, in text, title, aria-label or file names. -->
+<div class="q">
+  <div class="n">4</div>
+  <div>
+    <span class="pts">[4 pts]</span>
+    <p class="stem">Name the structure at each numbered leader line.</p>
+    <div class="figure">
+      <svg viewBox="0 0 480 220" role="img" aria-label="Item 4 figure with four numbered leader lines">
+        <rect x="150" y="40" width="180" height="140" rx="70" fill="none" stroke="#16313b" stroke-width="2"/>
+        <circle cx="240" cy="110" r="30" fill="none" stroke="#16313b" stroke-width="2"/>
+        <g stroke="#16313b" stroke-width="1">
+          <line x1="215" y1="100" x2="90" y2="60"/><line x1="330" y1="110" x2="400" y2="110"/>
+          <line x1="190" y1="160" x2="90" y2="180"/><line x1="285" y1="60" x2="400" y2="40"/>
+        </g>
+        <g font-size="12" font-weight="700" text-anchor="middle">
+          <circle cx="78" cy="56" r="10" fill="#fff" stroke="#16313b"/><text x="78" y="60">1</text>
+          <circle cx="412" cy="40" r="10" fill="#fff" stroke="#16313b"/><text x="412" y="44">2</text>
+          <circle cx="412" cy="110" r="10" fill="#fff" stroke="#16313b"/><text x="412" y="114">3</text>
+          <circle cx="78" cy="182" r="10" fill="#fff" stroke="#16313b"/><text x="78" y="186">4</text>
+        </g>
+      </svg>
+    </div>
+    <table class="grid"><tr><td class="c" style="width:2em">1</td><td></td><td class="c" style="width:2em">2</td><td></td></tr>
+      <tr><td class="c">3</td><td></td><td class="c">4</td><td></td></tr></table>
+  </div>
+</div>
+
+<p class="muted small" style="text-align:center;margin-top:18pt">End of test. Record your end time. Do not turn the page until you are done.</p>
+
+<!-- ============ ANSWER KEY (separate pages) ============ -->
+<section class="key newpage">
+  <div class="kicker">Answer key</div>
+  <h1>Answer key and explanations</h1>
+  <p class="muted small">Every item maps to an objective and a source. Score written items with the rubric, not by keywords.</p>
+
+  <!-- CONTENT: blueprint. One row per objective; weight = share of points; every objective sampled. -->
+  <h3>Blueprint</h3>
+  <table class="grid">
+    <tr><th>Objective</th><th>Items</th><th class="c">Points</th><th class="c">Share</th></tr>
+    <tr><td>O1 · objective text</td><td>1</td><td class="c">2</td><td class="c">10%</td></tr>
+  </table>
+
+  <!-- CONTENT: one .k per item. MCQ: answer, why, each distractor's misconception. Open items: model answer + rubric. -->
+  <h3>Key</h3>
+  <div class="k">
+    <div class="n">1</div>
+    <div>
+      <div><span class="ans">B.</span> Why the correct answer is correct, in one or two sentences.</div>
+      <ul class="dis">
+        <li><b>A</b> (misconception name): why it tempts and why it is wrong.</li>
+        <li><b>C</b> (misconception name): …</li>
+        <li><b>D</b> (misconception name): …</li>
+      </ul>
+      <div class="meta">Objective O1 · Source: study guide line / slide / textbook section</div>
+    </div>
+  </div>
+  <div class="k">
+    <div class="n">2</div>
+    <div>
+      <div><span class="ans">Model answer.</span> …</div>
+      <ol class="rubric">
+        <li>1 pt: names the principle.</li>
+        <li>2 pts: mechanism step(s) stated correctly.</li>
+        <li>1 pt: links mechanism to the outcome asked.</li>
+      </ol>
+      <div class="meta">Objective O2 · Source: …</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCORING SHEET ============ -->
+<section class="newpage">
+  <div class="kicker">After the test</div>
+  <h1>Scoring sheet</h1>
+  <p class="small">Mark one column per item. <b>Unaided</b>: correct with no notes, hints or word bank. <b>With notes</b>: correct only after checking anything (circled items). <b>Missed</b>: wrong or blank. Partial credit counts in Points earned; mark the error type for anything short of full points.</p>
+  <table class="grid">
+    <tr><th class="c">Item</th><th>Objective</th><th class="c">Pts</th><th class="c">Unaided</th><th class="c">With notes</th><th class="c">Missed</th><th class="c">Earned</th><th class="c">Error type<br>K · M · R · T</th></tr>
+    <!-- CONTENT: one row per item -->
+    <tr><td class="c">1</td><td>O1</td><td class="c">2</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td></tr>
+  </table>
+  <p style="margin-top:10pt"><b>Total</b>: <span class="write"></span> / 20 points &nbsp;·&nbsp; <b>Unaided only</b>: <span class="write"></span> / 20 &nbsp;·&nbsp; <b>Time used</b>: <span class="write"></span> min</p>
+  <p class="small muted">The unaided total is your exam estimate. Points earned with notes show exposure, not mastery.</p>
+</section>
+
+<!-- ============ ERROR ANALYSIS ============ -->
+<section class="newpage">
+  <div class="kicker">After the test</div>
+  <h1>Error analysis</h1>
+  <p class="small">Give every lost point one cause. The cause decides the fix; bring this page to your next study plan.</p>
+  <table class="grid">
+    <tr><th style="width:18%">Type</th><th>What it looks like</th><th>Fix</th><th class="c">Items</th></tr>
+    <tr><td><b>K</b> · Knowledge</td><td>Didn't know or misremembered the fact or concept.</td><td>Relearn it, then retrieve it: tutor drill, flashcards, retest in 1–3 days.</td><td class="c"><span class="write"></span></td></tr>
+    <tr><td><b>M</b> · Misread</td><td>Knew it; misread the stem, an option, units, or "NOT/EXCEPT."</td><td>Underline the question ask and key qualifiers; answer before reading options.</td><td class="c"><span class="write"></span></td></tr>
+    <tr><td><b>R</b> · Reasoning</td><td>Knew the pieces; chained them wrong or picked a tempting distractor.</td><td>Worked examples and contrast items on that step; explain why each wrong option is wrong.</td><td class="c"><span class="write"></span></td></tr>
+    <tr><td><b>T</b> · Time</td><td>Ran out of time or rushed it.</td><td>Timed mixed sets; set a per-item pace; skip and return.</td><td class="c"><span class="write"></span></td></tr>
+  </table>
+  <h3>By objective</h3>
+  <table class="grid">
+    <tr><th>Objective</th><th class="c">Points lost</th><th class="c">Main type</th><th>Next action (and when)</th></tr>
+    <!-- CONTENT: one row per objective -->
+    <tr><td>O1</td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td><td></td></tr>
+  </table>
+  <h3>Retest list</h3>
+  <p class="small">Items to redo cold in 2–3 days, without looking at this key:</p>
+  <div class="lines"><i></i><i></i></div>
+</section>
+
+</body>
+</html>

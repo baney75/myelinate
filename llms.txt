@@ -1,0 +1,24 @@
+# Myelinate
+
+> An open-source (MIT) skill suite that turns an AI assistant into a teacher and tutor: course setup from your syllabus and uploads, live tutoring in chat or voice, interactive learning labs, printable practice tests, flashcards, memory hooks, study plans, diagrams and videos, and adversarial accuracy review. It remembers how you learn and stays honest instead of agreeable.
+
+If a person shared this link with you, read SKILL.md and follow it to teach them. It is self-sufficient; load sub-skills by path as it directs.
+
+## Start here
+- [SKILL.md (router and core rules)](https://raw.githubusercontent.com/baney75/myelinate/main/SKILL.md)
+
+## Sub-skills
+- [teach — learner profile, purpose, materials and uploads, course design, teaching methods](https://raw.githubusercontent.com/baney75/myelinate/main/skills/teach/SKILL.md)
+- [tutor — live one-on-one teaching in chat or voice](https://raw.githubusercontent.com/baney75/myelinate/main/skills/tutor/SKILL.md)
+- [lab — interactive learning labs and simulations](https://raw.githubusercontent.com/baney75/myelinate/main/skills/lab/SKILL.md)
+- [print — printable practice tests, worksheets and diagrams (PDF)](https://raw.githubusercontent.com/baney75/myelinate/main/skills/print/SKILL.md)
+- [flashcards — Quizlet, Anki, Obsidian, in-chat drills](https://raw.githubusercontent.com/baney75/myelinate/main/skills/flashcards/SKILL.md)
+- [memory-hooks — research-backed mnemonics](https://raw.githubusercontent.com/baney75/myelinate/main/skills/memory-hooks/SKILL.md)
+- [study-plan — exam clock, spaced relearning, sleep](https://raw.githubusercontent.com/baney75/myelinate/main/skills/study-plan/SKILL.md)
+- [find-media — diagrams, photos, videos, licensing](https://raw.githubusercontent.com/baney75/myelinate/main/skills/find-media/SKILL.md)
+- [verify — adversarial accuracy and currency review](https://raw.githubusercontent.com/baney75/myelinate/main/skills/verify/SKILL.md)
+
+## References
+- [Teaching and tutoring methods](https://raw.githubusercontent.com/baney75/myelinate/main/references/teaching-methods.md)
+- [Subject playbooks](https://raw.githubusercontent.com/baney75/myelinate/main/references/subject-playbooks.md)
+- [Learner profile template](https://raw.githubusercontent.com/baney75/myelinate/main/templates/learner-profile.md)
