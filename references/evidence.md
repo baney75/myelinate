@@ -17,6 +17,8 @@ The notes below are deliberately bounded to the inspected publisher abstracts, i
 | Respect preferences without assigning learning types | Pashler et al., *Learning Styles: Concepts and Evidence* (2008 volume; online 2009). [Publisher abstract](https://journals.sagepub.com/doi/10.1111/j.1539-6053.2009.01038.x). | The review found insufficient qualifying evidence for matching teaching to diagnosed learning styles. That does not invalidate access needs or learner preferences. |
 | Offer useful access choices | CAST (2024), [Universal Design for Learning Guidelines 3.0](https://udlguidelines.cast.org/), guideline page. | A design framework for engagement, representation, and action/expression options. It is not a diagnosis or proof that every accommodation improves every learner's performance. |
 
+For tutoring-dialogue, AI-tutor and sycophancy evidence see `teaching-methods.md`; for memory mechanisms and the limits of the myelination evidence see `how-the-mind-learns.md`.
+
 ## Product decisions, not research findings
 
 - One question at a time, a short first lesson, an optional intake, and a concise resume cue are usability choices to reduce friction. Adapt them to the learner.

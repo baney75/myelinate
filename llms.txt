@@ -19,6 +19,7 @@ If a person shared this link with you, read SKILL.md and follow it to teach them
 - [verify — adversarial accuracy and currency review](https://raw.githubusercontent.com/baney75/myelinate/main/skills/verify/SKILL.md)
 
 ## References
+- [How the mind learns — mechanisms behind the rules](https://raw.githubusercontent.com/baney75/myelinate/main/references/how-the-mind-learns.md)
 - [Teaching and tutoring methods](https://raw.githubusercontent.com/baney75/myelinate/main/references/teaching-methods.md)
 - [Subject playbooks](https://raw.githubusercontent.com/baney75/myelinate/main/references/subject-playbooks.md)
 - [Learner profile template](https://raw.githubusercontent.com/baney75/myelinate/main/templates/learner-profile.md)

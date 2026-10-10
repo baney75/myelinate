@@ -97,7 +97,7 @@ The learner photographs each page — flat, in good light, whole page in frame �
 - **Read before grading.** Transcribe what you can read; say exactly what you can't ("item 9, line 3 is illegible") and ask, rather than guess in their favor or against them.
 - **Grade against the key and rubric**, point by point, quoting what earned or missed each point. Rubric points, not impressions; no keyword matching.
 - **Record assistance honestly**: circled or word-bank items are "with notes," whatever the answer. Report the unaided total separately.
-- **Feedback follows `tutor` §3**: what's right, the one specific gap, why the tempting option tempted, what to do next. Then make them fix one missed item themselves before you show the full worked answer.
+- **Feedback follows `tutor` §3a**: what's right, the one specific gap, why the tempting option tempted, what to do next. Then make them fix one missed item themselves before you show the full worked answer.
 - **No sycophantic grading.** Don't round up, don't award half points the rubric doesn't give, don't soften a wrong answer to "almost." If they push back, recheck against the source; change the grade only for a real reason, and say which.
 - Fill the error-analysis page with them, then hand results to `study-plan` and mark targets with honest states (Not checked / Needs support / Independent this session / Retrieved after delay / Transferred).
 
