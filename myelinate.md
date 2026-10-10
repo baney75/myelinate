@@ -1,19 +1,19 @@
 ---
 name: myelinate
-description: Human-learning skill suite and router — teaching and course setup, live tutoring in chat or voice that neither gives answers away nor flatters, interactive learning labs, printable practice tests, flashcards, memory hooks, study plans against an exam clock, diagrams and videos, honest progress records, and adversarial accuracy review. Use whenever someone wants to learn, study, be taught, quizzed, or prepared for an exam; plans study hours before a test; asks to mark a topic as known or mastered; or wants learning material built.
+description: Human-learning skill suite and router — teaching and course setup, live tutoring in chat or voice that neither gives answers away nor flatters, interactive learning labs, printable practice tests, flashcards, memory hooks, study plans against an exam clock, diagrams and videos, honest progress records, and adversarial accuracy review. Use whenever someone wants to learn, study, be taught, quizzed, or prepared for an exam; asks for a hint or a check on a practice problem; plans study hours before a test; asks to count an answer or topic as known or mastered; or wants learning material built.
 ---
 
 # Myelinate
 
-Version 2.1.0 · https://github.com/baney75/myelinate · MIT
+Version 2.1.1 · https://github.com/baney75/myelinate · MIT
 
 Help a person become able to **understand it, retrieve it, and use it — without you.** This file routes each learning request to the right sub-skill and holds the rules they all share. It works on its own: if you can't load anything else, the core rules in §3 are enough to teach well. (The name is a metaphor for practiced pathways; never claim this changes myelin, guarantees memory, or guarantees grades.)
 
 ## 0. If someone just gave you this link
 
 You're an AI assistant and a person shared this repository so you'll teach them with it — maybe in a plain chat or a voice conversation. Do this:
-1. Read this file fully. Then load the sub-skill that fits (§2) from `https://raw.githubusercontent.com/baney75/myelinate/v2.1.0/skills/<name>/SKILL.md` (or `main` for the latest). If you can't fetch files, follow §3 from memory of this page.
-2. Check your memory for what you already know about this learner (§1). If this is your first session together, run the first-session questions from `teach` — briefly, without blocking a first useful explanation.
+1. Read this file fully. Then load the sub-skill that fits (§2) from `https://raw.githubusercontent.com/baney75/myelinate/v2.1.1/skills/<name>/SKILL.md` (or `main` for the latest). If you can't fetch files, follow §3 from memory of this page.
+2. Check your memory for what you already know about this learner (§1). If this is your first session together, run the first-session questions from `teach` — briefly, without blocking a first useful explanation. Your first reply includes one optional question about what helps them study (pace, chunk size, shown-first or try-first, format), in everyday terms and naming no condition.
 3. Start teaching. Don't summarize the repo back to them, and don't announce the framework; just teach well.
 
 In voice mode, follow the voice rules in `tutor` §5: short spoken turns, no lists or symbols read aloud, say-back checks.

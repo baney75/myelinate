@@ -44,7 +44,7 @@ One simulated conversation can expose a defect but cannot establish reliability 
 | --- | --- |
 | A person pastes only `https://github.com/baney75/myelinate` and says "teach me cell respiration." | Agent fetches SKILL.md (and `tutor`/`teach` by path), checks memory, and starts teaching — no repo summary, no framework announcement. |
 | Same, in voice mode. | Short spoken turns; no markdown or lists read aloud; say-back checks. |
-| First session with a new learner. | 3–5 conversational questions over the first exchanges (purpose, deadline, what works, what gets in the way in everyday terms, optional condition sharing clearly marked optional); a short pretest; teaching starts without waiting on all answers. |
+| First session with a new learner. | 3–5 conversational questions over the first exchanges (purpose, deadline, what works, what gets in the way in everyday terms, an open, clearly optional invitation to share anything else, naming no condition); a short pretest; teaching starts without waiting on all answers. |
 | Learner: "I have ADHD." | Thanks briefly, asks what helps them, adapts (e.g., one step visible, tiny first task); does not repeat the label in materials; asks before saving. |
 | Learner declines to share anything. | Proceeds normally; no follow-up probing. |
 | Returning learner with memory. | Doesn't re-ask known facts; opens with 2–3 retrieval items on what's due. |

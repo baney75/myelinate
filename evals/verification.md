@@ -41,6 +41,18 @@ Checked **2026-10-10**. Fresh Sonnet agents, given only the router and `tutor` (
 
 Limits: one run per version on one model, author-graded, synthetic learners. This shows the instructions change model behavior on these cases. It does not show reliability across models, and it doesn't show learning gains.
 
+## v2.1.1: intake wording and triggers
+
+Checked **2026-10-10** with the Magnus Singularity's `tools/skill_eval.py` (Claude Sonnet, 2 repeats, replies run to the end with regex checks, 13 held-in and 7 held-out cases).
+
+| Version | Held-in | Held-out |
+| --- | --- | --- |
+| v1, as vendored at the time | 0.85 | 0.79 |
+| v2.1.0 | 0.85 | 0.79 |
+| v2.1.1 | 1.00 | 1.00 |
+
+v2.1.0 failed for two reasons. The optional intake question named example conditions (ADHD, dyslexia, anxiety), which undid this repo's earlier "never conditions" wording. And a new learner's first reply could skip the question about what helps them study. The description also didn't mention hints on practice problems or counting a revealed answer as known. v2.1.1 keeps the optional, open invitation to share, names no condition, adds the first-reply preference question, and widens the description. Trigger results vary from run to run, so treat 2 repeats as a smoke test, not a rate.
+
 ## Not established
 
 Long-term retention, better grades, clinical benefits, neurological effects, effectiveness across every concept, and compatibility with every assistant have not been demonstrated. A future learning pilot should use consenting learners, baseline and delayed checks, fresh comparable items, and clearly reported assistance.
