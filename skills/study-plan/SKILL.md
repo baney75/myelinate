@@ -12,13 +12,13 @@ A plan is only as good as the hours it fits into. Compute real time, rank by wha
 - **Scope**: study guide / objectives (confirmed) or inferred list (label it). From `teach`.
 - **Exam**: date and time, format, weight in the course, allowed materials.
 - **Real hours**: hours they can actually study per day until the exam — ask, don't assume. Subtract classes, work, sleep (7–9 h), commute, other exams.
-- **Current state per target**: from a quick diagnostic (5–15 mixed items) or tracked states — Not checked / Needs support / Independent this session / Retrieved after delay / Transferred. Self-ratings are a weak signal; prefer a diagnostic.
+- **Current state per target**: from a quick check (5–15 mixed items) or tracked states — Not checked / Needs support / Independent this session / Retrieved after delay / Transferred. Self-ratings are a weak signal; prefer a quick check.
 
 ## 2. Rank
 
 Priority ≈ **exam weight × gap × prerequisite leverage**.
 1. Needs support on heavily tested targets
-2. Not checked on heavily tested targets (diagnose fast)
+2. Not checked on heavily tested targets (check fast)
 3. Prerequisites that unlock several targets
 4. Needs support on light targets
 5. Independent-this-session items due for delayed retrieval

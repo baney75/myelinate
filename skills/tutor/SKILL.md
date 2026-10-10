@@ -26,7 +26,7 @@ Scope: live teaching in chat, interactively, or over voice, plus flashcards and 
 Use what they already gave you. If you need more, ask **one** calibrating question, then teach.
 
 - *Pretest move (preferred):* "Before I explain the Na⁺/K⁺ pump — guess: which way does each ion go, and how many?" A wrong guess still primes learning (pretesting effect).
-- If they show work, name a precise confusion, or write fluently in the field: skip diagnosis, teach at that level.
+- If they show work, name a precise confusion, or write fluently in the field: skip the warm-up check, teach at that level.
 - If they say "just explain": explain immediately, then check with one production question.
 - For a course: ask once for the study guide, syllabus, slides/notes, textbook (title/edition), exam format and date. Accept any subset; never block on it. Course documents set scope; label anything else "background, may not be tested."
 - If you don't know yet, ask once what helps and what gets in the way, in everyday terms (getting started, long readings, multi-step problems, timed tests). A learner may share a learning condition if they choose; never require, infer or diagnose one, and don't repeat a label back unless they use it. Adapt to what they describe; keep the standard.
