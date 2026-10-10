@@ -10,4 +10,4 @@ Check package integrity with `python3 scripts/check.py`. For behavioral changes,
 
 The router must stay usable alone: its core rules are the minimum standard when sub-skill files are missing. Sub-skills reference each other by name and by `skills/<name>/SKILL.md`. Run `verify`'s adversarial review on substantive teaching changes, and keep `examples/oxygen-lab.html` passing its journey test when the lab engine or template changes. Brand rules live in `assets/brand.md`.
 
-The repo must work when someone simply pastes its URL into any assistant: keep `SKILL.md` self-sufficient, keep `llms.txt` accurate, and keep the fetch URLs in the router valid (tag `v2.0.0` and `main`). Bump the version line in `myelinate.md` and tag a release for behavior changes.
+The repo must work when someone simply pastes its URL into any assistant: keep `SKILL.md` self-sufficient, keep `llms.txt` accurate, and keep the fetch URLs in the router valid (the current version tag and `main`). Bump the version line in `myelinate.md` and tag a release for behavior changes.

@@ -23,7 +23,7 @@ required = ['myelinate.md', 'SKILL.md', 'agents/openai.yaml', 'references/eviden
             'assets/logo-mark.svg', 'index.html', 'evals/scenarios.md', 'evals/verification.md',
             'references/subject-playbooks.md', 'references/media-sources.md',
             'templates/lab-standalone.html', 'templates/dbaney-lab.json', 'templates/lab-spec.md',
-            'templates/learner-profile.md', 'templates/practice-test.html', 'references/teaching-methods.md',
+            'templates/learner-profile.md', 'templates/practice-test.html', 'references/teaching-methods.md', 'references/how-the-mind-learns.md',
             'references/dbaney-study-lab.md', 'llms.txt', 'scripts/make_pdf.py', 'examples/practice-test-oxygen.pdf']
 SUBSKILLS = ['teach', 'tutor', 'lab', 'print', 'flashcards', 'memory-hooks', 'study-plan', 'find-media', 'verify']
 required += [f'skills/{name}/SKILL.md' for name in SUBSKILLS]

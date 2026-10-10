@@ -107,7 +107,7 @@ For course material, Myelinate can produce a compact scope map, concept explanat
 
 ## Evidence without mythology
 
-Retrieval, spacing, feedback, and worked examples have substantial research behind them. Their effects depend on the task, learner, timing, and comparison. The [evidence ledger](references/evidence.md) links the sources, inspected scope, and limits. The [research method](references/research-method.md) explains how the tutor evaluates sources for a new topic.
+Retrieval, spacing, feedback, and worked examples have substantial research behind them. Their effects depend on the task, learner, timing, and comparison. The [evidence ledger](references/evidence.md) links the sources, inspected scope, and limits. [How the mind learns](references/how-the-mind-learns.md) explains the memory mechanisms behind each tutoring rule (prediction error, generation, consolidation, metacognitive illusions) and the limits of the myelination evidence, which is mostly from mice. The [research method](references/research-method.md) explains how the tutor evaluates sources for a new topic.
 
 “Myelinate” is a name, not a claim that a prompt changes your myelin. This package cannot force permanent memory or guarantee a grade. A good-looking study guide is not a learning outcome. The tutor reports actual attempts and delays; the complete skill's learning efficacy has not been established.
 
