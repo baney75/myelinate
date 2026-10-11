@@ -5,7 +5,8 @@ Keep this in your assistant's memory, or save this file and paste it at the star
 - **Name / how to address me:**
 - **Learning for:** <course + exam / MCAT / job / curiosity / faith / project>
 - **Success test:** "I can ___ without help."
-- **Courses and exams:** <course, professor's notation notes, exam dates, formats>
+- **Courses I'm enrolled in:** <course, school, professor's notation notes, exam dates, formats — tutored by `tutor`>
+- **Learning goals outside a course:** <personal, work, or project goal; benchmark; current unit and project milestone — taught by `teach`>
 - **Materials on hand:** <syllabus, study guide, slides, notes, textbook + edition — where they live>
 - **What works for me:** <e.g., shown first then try; short chunks; talking it through; diagrams with labels; practice tests on paper>
 - **What gets in the way:** <e.g., getting started; long readings; losing track of multi-step problems; freezing on timed tests>

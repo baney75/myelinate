@@ -1,0 +1,15 @@
+{
+  "name": "baney75",
+  "description": "Donovan Baney's open-source learning skills",
+  "owner": {
+    "name": "Donovan Baney",
+    "url": "https://dbaney.com"
+  },
+  "plugins": [
+    {
+      "name": "myelinate",
+      "source": "./",
+      "description": "Claude as teacher and tutor: course tutoring, assignment coaching, university-standard courses, learning while building, tests and grading, visuals and 3D models."
+    }
+  ]
+}

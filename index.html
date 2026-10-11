@@ -3,8 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Myelinate — Understand it. Retrieve it. Use it.</title>
-<meta name="description" content="Myelinate is an open-source agent skill suite for learning: courses, live tutoring, interactive labs, printable tests, flashcards and study plans. Honest, not agreeable. Paste the link into any chat to use it.">
+<title>Myelinate 2.2 — Open-source AI tutor and learning skills</title>
+<meta name="description" content="Open-source Claude Code plugin and skill suite: a Socratic AI tutor with 14 skills for courses, homework coaching, tests, labs and study plans. Honest, not agreeable.">
+<link rel="canonical" href="https://baney75.github.io/myelinate/">
+<meta name="author" content="Donovan Baney">
 <meta name="color-scheme" content="light dark">
 <meta name="theme-color" content="#f7f3e9" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0f1e24" media="(prefers-color-scheme: dark)">
@@ -12,13 +14,54 @@
 <link rel="icon" href="assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Myelinate — Understand it. Retrieve it. Use it.">
-<meta property="og:description" content="An open-source skill suite that teaches one step at a time, asks before it tells, remembers how you learn, and won’t just agree with you.">
+<meta property="og:site_name" content="Myelinate">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Myelinate 2.2 — Open-source AI tutor and learning skills">
+<meta property="og:description" content="A Socratic AI tutor as an open-source Claude Code plugin and skill suite. 14 skills for courses, homework coaching, tests, labs, flashcards and study plans. Honest, not agreeable.">
 <meta property="og:url" content="https://baney75.github.io/myelinate/">
 <meta property="og:image" content="https://baney75.github.io/myelinate/assets/social-preview.png">
+<meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1280">
 <meta property="og:image:height" content="640">
+<meta property="og:image:alt" content="Myelinate social card: the nerve-fiber mark and the line Understand it. Retrieve it. Use it.">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Myelinate 2.2 — Open-source AI tutor and learning skills">
+<meta name="twitter:description" content="A Socratic AI tutor as an open-source Claude Code plugin and skill suite. 14 skills for courses, homework coaching, tests, labs, flashcards and study plans. Honest, not agreeable.">
+<meta name="twitter:image" content="https://baney75.github.io/myelinate/assets/social-preview.png">
+<meta name="twitter:image:alt" content="Myelinate social card: the nerve-fiber mark and the line Understand it. Retrieve it. Use it.">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": [
+    "SoftwareApplication",
+    "SoftwareSourceCode"
+  ],
+  "name": "Myelinate",
+  "alternateName": "Myelinate learning skill suite",
+  "description": "Open-source Claude Code plugin and skill suite that makes Claude a Socratic tutor and teacher: course tutoring, assignment coaching, tests and grading, labs, flashcards and study plans. Honest, not agreeable.",
+  "url": "https://baney75.github.io/myelinate/",
+  "image": "https://baney75.github.io/myelinate/assets/social-preview.png",
+  "version": "2.2.0",
+  "softwareVersion": "2.2.0",
+  "license": "https://opensource.org/licenses/MIT",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Any",
+  "programmingLanguage": "Markdown",
+  "codeRepository": "https://github.com/baney75/myelinate",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "keywords": "AI tutor, Claude Code plugin, agent skills, Socratic method, personalized learning, retrieval practice, spaced repetition, education",
+  "author": {
+    "@type": "Person",
+    "name": "Donovan Baney",
+    "url": "https://dbaney.com"
+  }
+}
+</script>
 <script>
   // Apply a saved theme before first paint so the page never flashes.
   (function () {
@@ -341,6 +384,9 @@
   @media (max-width: 860px) { .install { grid-template-columns: minmax(0, 1fr); } }
   .inst { background: var(--paper-raised); border: 1px solid var(--rule-strong); border-radius: 18px; padding: 26px; min-width: 0; display: flex; flex-direction: column; gap: 14px; }
   @media (max-width: 480px) { .inst { padding: 20px 18px; } }
+  .inst--wide { grid-column: 1 / -1; }
+  .inst--wide .code { flex: none; }
+  .inst--wide .code--cmd pre { white-space: pre-wrap; overflow-wrap: anywhere; }
   .inst h3 { font-size: 27px; display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
   .inst h3 small { font: 600 12px/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
   .inst ol { margin: 0; padding-left: 1.25em; color: var(--ink-soft); font-size: 16px; }
@@ -359,6 +405,7 @@
   .guard svg { width: 24px; height: 24px; color: var(--accent); margin-top: 3px; }
   .guard h3 { font-size: 22px; margin-bottom: 6px; }
   .guard p { margin: 0; color: var(--ink-soft); font-size: 16px; }
+  .name-note + .name-note { margin-top: 20px; }
   .name-note { margin: 40px 0 0; padding: 22px 24px; border-left: 3px solid var(--accent); background: var(--paper-raised); border-radius: 0 12px 12px 0; max-width: 48em; font: italic 400 19px/1.5 var(--serif); color: var(--ink-soft); }
   .name-note strong { font-style: normal; font-weight: 600; color: var(--ink); }
 
@@ -429,14 +476,16 @@
       <div>
         <p class="eyebrow rise">An open-source skill suite for learning</p>
         <h1 id="hero-title" class="rise rise-2"><span class="line">Understand it.</span><span class="line">Retrieve it.</span><span class="line">Use it<span class="dot">.</span></span></h1>
-        <p class="pitch rise rise-3">Myelinate turns a capable AI assistant into a tutor that <strong>asks before it tells</strong>, remembers how you learn, builds courses, labs, cards and printable tests from your own materials, and is <strong>honest, not agreeable</strong>.</p>
+        <p class="pitch rise rise-3">Myelinate turns a capable AI assistant into a tutor that <strong>asks before it tells</strong>, learns how you learn, teaches with rendered diagrams and 3D models, builds courses, labs, cards and printable tests from your own materials, and is <strong>honest, not agreeable</strong>.</p>
         <div class="ctas rise rise-4">
           <a class="btn btn-primary" href="#paste"><svg aria-hidden="true"><use href="#i-down"/></svg>Use it in any chat</a>
           <a class="btn btn-ghost" href="examples/oxygen-lab.html">See the sample lab<svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
         </div>
-        <p class="sub-cta rise rise-4"><a href="#install">Install as a skill folder</a>, or try the earlier <a href="examples/lesson.html">limiting-reactants lesson</a>.</p>
+        <p class="sub-cta rise rise-4"><a href="#install">Install as a Claude Code plugin or skill folder</a>, or try the earlier <a href="examples/lesson.html">limiting-reactants lesson</a>.</p>
         <ul class="facts rise rise-5" aria-label="At a glance">
           <li>MIT licensed</li>
+          <li>Claude Code plugin, 14 skills</li>
+          <li>Zero-config</li>
           <li>Plain Markdown skills</li>
           <li>No API keys or hosted service</li>
         </ul>
@@ -485,100 +534,135 @@
   <section class="section" id="routing" aria-labelledby="routing-title">
     <div class="wrap">
       <p class="kicker"><b>01</b> How it routes</p>
-      <h2 id="routing-title">One entry point. Nine specialists.</h2>
-      <p class="lede">Ask in plain language. The router reads what you are after — understanding, a lab, cards, a plan — and hands the request, with your context, to the skill built for it. Skills hand off to each other, so a course can end in a printable practice test and high-stakes material can pass through <em>verify</em> before it ships.</p>
+      <h2 id="routing-title">One entry point. Fourteen specialists.</h2>
+      <p class="lede">Ask in plain language. The router reads what you are after — understanding, a lab, cards, a plan — and hands the request, with your context, to the skill built for it. Skills hand off to each other, so a course can end in a printable practice test and high-stakes material can pass through <em>verify</em> before it ships. Installed as a Claude Code plugin, each skill loads on its own when your request fits it, and stays out of the way of ordinary coding.</p>
       <div class="route">
         <div class="route-req" aria-hidden="true">
           <div class="card"><div class="lbl">You ask</div><q>Teach me limiting reactants. Exam is Friday.</q></div>
           <div class="card router"><div class="lbl">Router</div><h3>myelinate</h3><p>Reads the goal, picks the skill, passes along your context.</p></div>
         </div>
-        <svg class="route-svg" viewBox="0 0 1040 560" role="img" aria-labelledby="route-t route-d">
+        <svg class="route-svg" viewBox="0 0 1040 808" role="img" aria-labelledby="route-t route-d">
 <title id="route-t">How Myelinate routes a request</title>
-<desc id="route-d">A request such as “Teach me limiting reactants, exam Friday” goes to the Myelinate router, which reads the goal and hands the request and its context to one of nine skills: teach: Learns how you learn; builds and teaches your course.; tutor: Live teaching in chat or voice, one step at a time.; lab: Builds interactive simulations as web pages.; print: Printable tests, answer keys, diagrams and worksheets.; flashcards: Cards ready for Quizlet, Anki or Obsidian.; memory-hooks: Research-backed mnemonics for what won’t stick.; study-plan: Works back from the exam: spacing, relearning, sleep.; find-media: Diagrams, photos and videos, with licensing noted.; verify: Adversarial review before high-stakes material ships.</desc>
+<desc id="route-d">A request such as “Teach me limiting reactants, exam Friday” goes to the Myelinate router, which reads the goal and hands the request and its context to one of fourteen skills: tutor: Your enrolled class, taught live in chat or voice.; teach: Designs and teaches a course for your own goals.; assignment: Coaches graded work instead of doing it for you.; project: Learn while you build, only when you ask.; assess: Tests, honest grading, gradebook, bonus work.; course-project: A full university-level course as a Claude Project.; notes: Reads your notes, flags gaps, makes practice.; lab: Builds interactive simulations as web pages.; print: Printable tests, study guides, answer keys, diagrams.; flashcards: Cards ready for Quizlet, Anki or Obsidian.; memory-hooks: Research-backed mnemonics for what won’t stick.; study-plan: Exam clock, spacing, sleep, opt-in reminders.; find-media: Diagrams, photos and videos, with licensing noted.; verify: Adversarial review before high-stakes material ships.</desc>
 <g class="r-card">
-  <rect x="1" y="216" width="246" height="128" rx="14"/>
+  <rect x="1" y="340" width="246" height="128" rx="14"/>
 </g>
-<text class="r-eyebrow" x="24" y="248">YOU ASK</text>
-<text class="r-quote" x="24" y="282">“Teach me limiting</text>
-<text class="r-quote" x="24" y="308">reactants. Exam is Friday.”</text>
-<path class="r-wire" d="M248 280H300"/>
-<path class="r-arrow" d="M292 274l8 6-8 6"/>
+<text class="r-eyebrow" x="24" y="372">YOU ASK</text>
+<text class="r-quote" x="24" y="406">“Teach me limiting</text>
+<text class="r-quote" x="24" y="432">reactants. Exam is Friday.”</text>
+<path class="r-wire" d="M248 404H300"/>
+<path class="r-arrow" d="M292 398l8 6-8 6"/>
 <g class="r-card r-card--router">
-  <rect x="302" y="196" width="252" height="168" rx="14"/>
+  <rect x="302" y="320" width="252" height="168" rx="14"/>
 </g>
-<use href="#mark" x="324" y="210" width="44" height="44" class="r-mark"/>
-<text class="r-name" x="324" y="282">myelinate</text>
-<text class="r-eyebrow r-eyebrow--accent" x="324" y="306">ROUTER</text>
-<text class="r-desc" x="324" y="330">Reads the goal, picks the skill,</text>
-<text class="r-desc" x="324" y="350">passes along your context.</text>
-<path class="r-wire" d="M554 280H584"/>
-<path class="r-axon" d="M584 16V544"/>
+<use href="#mark" x="324" y="334" width="44" height="44" class="r-mark"/>
+<text class="r-name" x="324" y="406">myelinate</text>
+<text class="r-eyebrow r-eyebrow--accent" x="324" y="430">ROUTER</text>
+<text class="r-desc" x="324" y="454">Reads the goal, picks the skill,</text>
+<text class="r-desc" x="324" y="474">passes along your context.</text>
+<path class="r-wire" d="M554 404H584"/>
+<path class="r-axon" d="M584 16V792"/>
 <rect class="r-myelin" x="577" y="12" width="14" height="20" rx="7"/>
-<rect class="r-myelin" x="577" y="48" width="14" height="44" rx="7"/>
-<rect class="r-myelin" x="577" y="108" width="14" height="44" rx="7"/>
-<rect class="r-myelin" x="577" y="168" width="14" height="44" rx="7"/>
-<rect class="r-myelin" x="577" y="228" width="14" height="44" rx="7"/>
-<rect class="r-myelin" x="577" y="288" width="14" height="44" rx="7"/>
-<rect class="r-myelin" x="577" y="348" width="14" height="44" rx="7"/>
-<rect class="r-myelin" x="577" y="408" width="14" height="44" rx="7"/>
-<rect class="r-myelin" x="577" y="468" width="14" height="44" rx="7"/>
-<rect class="r-myelin" x="577" y="528" width="14" height="20" rx="7"/>
-<a href="https://github.com/baney75/myelinate/blob/main/skills/teach/SKILL.md" class="r-skill">
+<rect class="r-myelin" x="577" y="48" width="14" height="40" rx="7"/>
+<rect class="r-myelin" x="577" y="104" width="14" height="40" rx="7"/>
+<rect class="r-myelin" x="577" y="160" width="14" height="40" rx="7"/>
+<rect class="r-myelin" x="577" y="216" width="14" height="40" rx="7"/>
+<rect class="r-myelin" x="577" y="272" width="14" height="40" rx="7"/>
+<rect class="r-myelin" x="577" y="328" width="14" height="40" rx="7"/>
+<rect class="r-myelin" x="577" y="384" width="14" height="40" rx="7"/>
+<rect class="r-myelin" x="577" y="440" width="14" height="40" rx="7"/>
+<rect class="r-myelin" x="577" y="496" width="14" height="40" rx="7"/>
+<rect class="r-myelin" x="577" y="552" width="14" height="40" rx="7"/>
+<rect class="r-myelin" x="577" y="608" width="14" height="40" rx="7"/>
+<rect class="r-myelin" x="577" y="664" width="14" height="40" rx="7"/>
+<rect class="r-myelin" x="577" y="720" width="14" height="40" rx="7"/>
+<rect class="r-myelin" x="577" y="776" width="14" height="20" rx="7"/>
+<a href="https://github.com/baney75/myelinate/blob/main/skills/tutor/SKILL.md" class="r-skill">
   <path class="r-hop" d="M584 40C592 22 618 22 626 40"/>
   <circle class="r-node" cx="584" cy="40" r="4.5"/>
-  <text class="r-skill-name" x="636" y="38">teach</text>
-  <text class="r-desc" x="636" y="60">Learns how you learn; builds and teaches your course.</text>
+  <text class="r-skill-name" x="636" y="38">tutor</text>
+  <text class="r-desc" x="636" y="60">Your enrolled class, taught live in chat or voice.</text>
 </a>
-<a href="https://github.com/baney75/myelinate/blob/main/skills/tutor/SKILL.md" class="r-skill">
-  <path class="r-hop" d="M584 100C592 82 618 82 626 100"/>
-  <circle class="r-node" cx="584" cy="100" r="4.5"/>
-  <text class="r-skill-name" x="636" y="98">tutor</text>
-  <text class="r-desc" x="636" y="120">Live teaching in chat or voice, one step at a time.</text>
+<a href="https://github.com/baney75/myelinate/blob/main/skills/teach/SKILL.md" class="r-skill">
+  <path class="r-hop" d="M584 96C592 78 618 78 626 96"/>
+  <circle class="r-node" cx="584" cy="96" r="4.5"/>
+  <text class="r-skill-name" x="636" y="94">teach</text>
+  <text class="r-desc" x="636" y="116">Designs and teaches a course for your own goals.</text>
+</a>
+<a href="https://github.com/baney75/myelinate/blob/main/skills/assignment/SKILL.md" class="r-skill">
+  <path class="r-hop" d="M584 152C592 134 618 134 626 152"/>
+  <circle class="r-node" cx="584" cy="152" r="4.5"/>
+  <text class="r-skill-name" x="636" y="150">assignment</text>
+  <text class="r-desc" x="636" y="172">Coaches graded work instead of doing it for you.</text>
+</a>
+<a href="https://github.com/baney75/myelinate/blob/main/skills/project/SKILL.md" class="r-skill">
+  <path class="r-hop" d="M584 208C592 190 618 190 626 208"/>
+  <circle class="r-node" cx="584" cy="208" r="4.5"/>
+  <text class="r-skill-name" x="636" y="206">project</text>
+  <text class="r-desc" x="636" y="228">Learn while you build, only when you ask.</text>
+</a>
+<a href="https://github.com/baney75/myelinate/blob/main/skills/assess/SKILL.md" class="r-skill">
+  <path class="r-hop" d="M584 264C592 246 618 246 626 264"/>
+  <circle class="r-node" cx="584" cy="264" r="4.5"/>
+  <text class="r-skill-name" x="636" y="262">assess</text>
+  <text class="r-desc" x="636" y="284">Tests, honest grading, gradebook, bonus work.</text>
+</a>
+<a href="https://github.com/baney75/myelinate/blob/main/skills/course-project/SKILL.md" class="r-skill">
+  <path class="r-hop" d="M584 320C592 302 618 302 626 320"/>
+  <circle class="r-node" cx="584" cy="320" r="4.5"/>
+  <text class="r-skill-name" x="636" y="318">course-project</text>
+  <text class="r-desc" x="636" y="340">A full university-level course as a Claude Project.</text>
+</a>
+<a href="https://github.com/baney75/myelinate/blob/main/skills/notes/SKILL.md" class="r-skill">
+  <path class="r-hop" d="M584 376C592 358 618 358 626 376"/>
+  <circle class="r-node" cx="584" cy="376" r="4.5"/>
+  <text class="r-skill-name" x="636" y="374">notes</text>
+  <text class="r-desc" x="636" y="396">Reads your notes, flags gaps, makes practice.</text>
 </a>
 <a href="https://github.com/baney75/myelinate/blob/main/skills/lab/SKILL.md" class="r-skill">
-  <path class="r-hop" d="M584 160C592 142 618 142 626 160"/>
-  <circle class="r-node" cx="584" cy="160" r="4.5"/>
-  <text class="r-skill-name" x="636" y="158">lab</text>
-  <text class="r-desc" x="636" y="180">Builds interactive simulations as web pages.</text>
+  <path class="r-hop" d="M584 432C592 414 618 414 626 432"/>
+  <circle class="r-node" cx="584" cy="432" r="4.5"/>
+  <text class="r-skill-name" x="636" y="430">lab</text>
+  <text class="r-desc" x="636" y="452">Builds interactive simulations as web pages.</text>
 </a>
 <a href="https://github.com/baney75/myelinate/blob/main/skills/print/SKILL.md" class="r-skill">
-  <path class="r-hop" d="M584 220C592 202 618 202 626 220"/>
-  <circle class="r-node" cx="584" cy="220" r="4.5"/>
-  <text class="r-skill-name" x="636" y="218">print</text>
-  <text class="r-desc" x="636" y="240">Printable tests, answer keys, diagrams and worksheets.</text>
+  <path class="r-hop" d="M584 488C592 470 618 470 626 488"/>
+  <circle class="r-node" cx="584" cy="488" r="4.5"/>
+  <text class="r-skill-name" x="636" y="486">print</text>
+  <text class="r-desc" x="636" y="508">Printable tests, study guides, answer keys, diagrams.</text>
 </a>
 <a href="https://github.com/baney75/myelinate/blob/main/skills/flashcards/SKILL.md" class="r-skill">
-  <path class="r-hop" d="M584 280C592 262 618 262 626 280"/>
-  <circle class="r-node" cx="584" cy="280" r="4.5"/>
-  <text class="r-skill-name" x="636" y="278">flashcards</text>
-  <text class="r-desc" x="636" y="300">Cards ready for Quizlet, Anki or Obsidian.</text>
+  <path class="r-hop" d="M584 544C592 526 618 526 626 544"/>
+  <circle class="r-node" cx="584" cy="544" r="4.5"/>
+  <text class="r-skill-name" x="636" y="542">flashcards</text>
+  <text class="r-desc" x="636" y="564">Cards ready for Quizlet, Anki or Obsidian.</text>
 </a>
 <a href="https://github.com/baney75/myelinate/blob/main/skills/memory-hooks/SKILL.md" class="r-skill">
-  <path class="r-hop" d="M584 340C592 322 618 322 626 340"/>
-  <circle class="r-node" cx="584" cy="340" r="4.5"/>
-  <text class="r-skill-name" x="636" y="338">memory-hooks</text>
-  <text class="r-desc" x="636" y="360">Research-backed mnemonics for what won’t stick.</text>
+  <path class="r-hop" d="M584 600C592 582 618 582 626 600"/>
+  <circle class="r-node" cx="584" cy="600" r="4.5"/>
+  <text class="r-skill-name" x="636" y="598">memory-hooks</text>
+  <text class="r-desc" x="636" y="620">Research-backed mnemonics for what won’t stick.</text>
 </a>
 <a href="https://github.com/baney75/myelinate/blob/main/skills/study-plan/SKILL.md" class="r-skill">
-  <path class="r-hop" d="M584 400C592 382 618 382 626 400"/>
-  <circle class="r-node" cx="584" cy="400" r="4.5"/>
-  <text class="r-skill-name" x="636" y="398">study-plan</text>
-  <text class="r-desc" x="636" y="420">Works back from the exam: spacing, relearning, sleep.</text>
+  <path class="r-hop" d="M584 656C592 638 618 638 626 656"/>
+  <circle class="r-node" cx="584" cy="656" r="4.5"/>
+  <text class="r-skill-name" x="636" y="654">study-plan</text>
+  <text class="r-desc" x="636" y="676">Exam clock, spacing, sleep, opt-in reminders.</text>
 </a>
 <a href="https://github.com/baney75/myelinate/blob/main/skills/find-media/SKILL.md" class="r-skill">
-  <path class="r-hop" d="M584 460C592 442 618 442 626 460"/>
-  <circle class="r-node" cx="584" cy="460" r="4.5"/>
-  <text class="r-skill-name" x="636" y="458">find-media</text>
-  <text class="r-desc" x="636" y="480">Diagrams, photos and videos, with licensing noted.</text>
+  <path class="r-hop" d="M584 712C592 694 618 694 626 712"/>
+  <circle class="r-node" cx="584" cy="712" r="4.5"/>
+  <text class="r-skill-name" x="636" y="710">find-media</text>
+  <text class="r-desc" x="636" y="732">Diagrams, photos and videos, with licensing noted.</text>
 </a>
 <a href="https://github.com/baney75/myelinate/blob/main/skills/verify/SKILL.md" class="r-skill">
-  <path class="r-hop" d="M584 520C592 502 618 502 626 520"/>
-  <circle class="r-node" cx="584" cy="520" r="4.5"/>
-  <text class="r-skill-name" x="636" y="518">verify</text>
-  <text class="r-desc" x="636" y="540">Adversarial review before high-stakes material ships.</text>
+  <path class="r-hop" d="M584 768C592 750 618 750 626 768"/>
+  <circle class="r-node" cx="584" cy="768" r="4.5"/>
+  <text class="r-skill-name" x="636" y="766">verify</text>
+  <text class="r-desc" x="636" y="788">Adversarial review before high-stakes material ships.</text>
 </a>
 </svg>
-        <ol class="route-list" aria-label="The nine skills the router can hand off to"><li><a href="https://github.com/baney75/myelinate/blob/main/skills/teach/SKILL.md"><span class="rl-name">teach</span><span class="rl-desc">Learns how you learn; builds and teaches your course.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/tutor/SKILL.md"><span class="rl-name">tutor</span><span class="rl-desc">Live teaching in chat or voice, one step at a time.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/lab/SKILL.md"><span class="rl-name">lab</span><span class="rl-desc">Builds interactive simulations as web pages.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/print/SKILL.md"><span class="rl-name">print</span><span class="rl-desc">Printable tests, answer keys, diagrams and worksheets.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/flashcards/SKILL.md"><span class="rl-name">flashcards</span><span class="rl-desc">Cards ready for Quizlet, Anki or Obsidian.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/memory-hooks/SKILL.md"><span class="rl-name">memory-hooks</span><span class="rl-desc">Research-backed mnemonics for what won’t stick.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/study-plan/SKILL.md"><span class="rl-name">study-plan</span><span class="rl-desc">Works back from the exam: spacing, relearning, sleep.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/find-media/SKILL.md"><span class="rl-name">find-media</span><span class="rl-desc">Diagrams, photos and videos, with licensing noted.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/verify/SKILL.md"><span class="rl-name">verify</span><span class="rl-desc">Adversarial review before high-stakes material ships.</span></a></li></ol>
+        <ol class="route-list" aria-label="The fourteen skills the router can hand off to"><li><a href="https://github.com/baney75/myelinate/blob/main/skills/tutor/SKILL.md"><span class="rl-name">tutor</span><span class="rl-desc">Your enrolled class, taught live in chat or voice.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/teach/SKILL.md"><span class="rl-name">teach</span><span class="rl-desc">Designs and teaches a course for your own goals.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/assignment/SKILL.md"><span class="rl-name">assignment</span><span class="rl-desc">Coaches graded work instead of doing it for you.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/project/SKILL.md"><span class="rl-name">project</span><span class="rl-desc">Learn while you build, only when you ask.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/assess/SKILL.md"><span class="rl-name">assess</span><span class="rl-desc">Tests, honest grading, gradebook, bonus work.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/course-project/SKILL.md"><span class="rl-name">course-project</span><span class="rl-desc">A full university-level course as a Claude Project.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/notes/SKILL.md"><span class="rl-name">notes</span><span class="rl-desc">Reads your notes, flags gaps, makes practice.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/lab/SKILL.md"><span class="rl-name">lab</span><span class="rl-desc">Builds interactive simulations as web pages.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/print/SKILL.md"><span class="rl-name">print</span><span class="rl-desc">Printable tests, study guides, answer keys, diagrams.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/flashcards/SKILL.md"><span class="rl-name">flashcards</span><span class="rl-desc">Cards ready for Quizlet, Anki or Obsidian.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/memory-hooks/SKILL.md"><span class="rl-name">memory-hooks</span><span class="rl-desc">Research-backed mnemonics for what won’t stick.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/study-plan/SKILL.md"><span class="rl-name">study-plan</span><span class="rl-desc">Exam clock, spacing, sleep, opt-in reminders.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/find-media/SKILL.md"><span class="rl-name">find-media</span><span class="rl-desc">Diagrams, photos and videos, with licensing noted.</span></a></li><li><a href="https://github.com/baney75/myelinate/blob/main/skills/verify/SKILL.md"><span class="rl-name">verify</span><span class="rl-desc">Adversarial review before high-stakes material ships.</span></a></li></ol>
       </div>
       <p class="route-note">Each skill is a Markdown file you can read in full. Nothing runs in the background, and nothing is sent anywhere your assistant does not already send it.</p>
     </div>
@@ -678,7 +762,7 @@
           <div class="code"><div class="code-bar"><span>Prompt</span><button class="copy" type="button" aria-label="Copy prompt"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="lbl-copy">Copy</span><span class="lbl-done">Copied</span></button></div><pre><code>Use myelinate to teach me limiting reactants. I understand moles, but I keep choosing the wrong reactant. I have 20 minutes. Explain first, then help me practice.</code></pre></div>
         </div>
         <div class="prompt">
-          <p class="prompt-label">Prepare for an exam <span class="route-to">teach → study-plan</span></p>
+          <p class="prompt-label">Prepare for an exam <span class="route-to">tutor → study-plan</span></p>
           <div class="code"><div class="code-bar"><span>Prompt</span><button class="copy" type="button" aria-label="Copy prompt"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="lbl-copy">Copy</span><span class="lbl-done">Copied</span></button></div><pre><code>Use myelinate with my syllabus and study guide. Exam 2 is Friday. Map what is tested, find my weak spots, and plan the days between now and then.</code></pre></div>
         </div>
         <div class="prompt">
@@ -700,12 +784,44 @@
       </div>
       <div class="prompts prompts--more">
         <div class="prompt">
-          <p class="prompt-label">Set up a course from uploads <span class="route-to">teach</span></p>
+          <p class="prompt-label">Set up a course from uploads <span class="route-to">tutor</span></p>
           <div class="code"><div class="code-bar"><span>Prompt</span><button class="copy" type="button" aria-label="Copy prompt"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="lbl-copy">Copy</span><span class="lbl-done">Copied</span></button></div><pre><code>Use myelinate. Here’s my syllabus PDF and slide deck — set up the course.</code></pre></div>
         </div>
         <div class="prompt">
           <p class="prompt-label">Print it <span class="route-to">print</span></p>
           <div class="code"><div class="code-bar"><span>Prompt</span><button class="copy" type="button" aria-label="Copy prompt"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="lbl-copy">Copy</span><span class="lbl-done">Copied</span></button></div><pre><code>Use myelinate. Make me a printable 25-question practice test for Exam 2 with the answer key on separate pages.</code></pre></div>
+        </div>
+        <div class="prompt">
+          <p class="prompt-label">Check your notes <span class="route-to">notes</span></p>
+          <div class="code"><div class="code-bar"><span>Prompt</span><button class="copy" type="button" aria-label="Copy prompt"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="lbl-copy">Copy</span><span class="lbl-done">Copied</span></button></div><pre><code>Use myelinate. Here is my Notion page for chapter 7. Tell me honestly what I understand, what I only copied from the slides, and what I have wrong, then quiz me from it.</code></pre></div>
+        </div>
+        <div class="prompt">
+          <p class="prompt-label">Study guide for recall <span class="route-to">print</span></p>
+          <div class="code"><div class="code-bar"><span>Prompt</span><button class="copy" type="button" aria-label="Copy prompt"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="lbl-copy">Copy</span><span class="lbl-done">Copied</span></button></div><pre><code>Use myelinate to make a printable study guide for Exam 2: questions first, answers at the back, blank diagrams to label, and a mixed self-test.</code></pre></div>
+        </div>
+        <div class="prompt">
+          <p class="prompt-label">Learn something for yourself <span class="route-to">teach</span></p>
+          <div class="code"><div class="code-bar"><span>Prompt</span><button class="copy" type="button" aria-label="Copy prompt"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="lbl-copy">Copy</span><span class="lbl-done">Copied</span></button></div><pre><code>Use myelinate. I want to learn to read ECGs well enough for clinical shadowing. Design the course, then teach it to me one lesson at a time.</code></pre></div>
+        </div>
+        <div class="prompt">
+          <p class="prompt-label">Get help with homework <span class="route-to">assignment</span></p>
+          <div class="code"><div class="code-bar"><span>Prompt</span><button class="copy" type="button" aria-label="Copy prompt"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="lbl-copy">Copy</span><span class="lbl-done">Copied</span></button></div><pre><code>Use myelinate. Here is my problem set, due Thursday. Coach me through it, but I will write and submit my own work.</code></pre></div>
+        </div>
+        <div class="prompt">
+          <p class="prompt-label">Learn while you build <span class="route-to">project</span></p>
+          <div class="code"><div class="code-bar"><span>Prompt</span><button class="copy" type="button" aria-label="Copy prompt"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="lbl-copy">Copy</span><span class="lbl-done">Copied</span></button></div><pre><code>Use myelinate to help me build a garden irrigation controller. Explain how each part works as we go, and tell me when I should just follow the wiring diagram.</code></pre></div>
+        </div>
+        <div class="prompt">
+          <p class="prompt-label">Test me and grade it <span class="route-to">assess</span></p>
+          <div class="code"><div class="code-bar"><span>Prompt</span><button class="copy" type="button" aria-label="Copy prompt"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="lbl-copy">Copy</span><span class="lbl-done">Copied</span></button></div><pre><code>Use myelinate to write a 20-question test on chapters 4–6, give it to me one question at a time, grade it against a key and rubric, and keep a gradebook.</code></pre></div>
+        </div>
+        <div class="prompt">
+          <p class="prompt-label">Run a whole course <span class="route-to">course-project</span></p>
+          <div class="code"><div class="code-bar"><span>Prompt</span><button class="copy" type="button" aria-label="Copy prompt"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="lbl-copy">Copy</span><span class="lbl-done">Copied</span></button></div><pre><code>Use myelinate to build a full university-level software engineering course I can run as a Claude Project: syllabus, lessons, assignments and tests.</code></pre></div>
+        </div>
+        <div class="prompt">
+          <p class="prompt-label">Pick the skill yourself <span class="route-to">Claude Code</span></p>
+          <div class="code"><div class="code-bar"><span>Prompt</span><button class="copy" type="button" aria-label="Copy prompt"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="lbl-copy">Copy</span><span class="lbl-done">Copied</span></button></div><pre><code>/myelinate:assess Quiz me on chapter 5 and grade my answers honestly.</code></pre></div>
         </div>
       </div>
       <p class="sr-only" id="copy-status" aria-live="polite"></p>
@@ -716,8 +832,14 @@
     <div class="wrap">
       <p class="kicker"><b>04</b> Install</p>
       <h2 id="install-title">Add it to the assistant you already use.</h2>
-      <p class="lede">Myelinate is a folder of Markdown skills. No packages, keys or accounts beyond your assistant’s own.</p>
+      <p class="lede">Myelinate is a Claude Code plugin and a folder of Markdown skills. No packages, keys or accounts beyond your assistant’s own.</p>
       <div class="install">
+        <article class="inst inst--wide">
+          <h3>Claude Code <small>Plugin &middot; recommended</small></h3>
+          <div class="code code--cmd"><div class="code-bar"><span>Claude Code</span><button class="copy" type="button" aria-label="Copy the plugin install command"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="lbl-copy">Copy</span><span class="lbl-done">Copied</span></button></div><pre><code>/plugin install myelinate --marketplace baney75/myelinate</code></pre></div>
+          <p>Installs all fourteen skills and the router. Each one loads by itself when your request fits it. Force one with a slash command: <code>/myelinate:myelinate</code> for the router, or <code>/myelinate:tutor</code>, <code>/myelinate:assignment</code>, <code>/myelinate:project</code> and so on.</p>
+          <p class="fine">On Claude Code before 2.1.275, run <code>/plugin marketplace add baney75/myelinate</code>, then <code>/plugin install myelinate@baney75</code>. To limit it, tell Claude (or save to its memory) where you don’t want Myelinate, such as “don’t tutor me on my coding projects”. Ordinary coding, building and work requests don’t trigger it in the first place.</p>
+        </article>
         <article class="inst">
           <h3>Claude <small>apps</small></h3>
           <ol>
@@ -728,7 +850,7 @@
           <p class="fine">No skill uploads where you are? Paste <a href="https://github.com/baney75/myelinate/blob/main/SKILL.md">SKILL.md</a> into a project’s instructions instead.</p>
         </article>
         <article class="inst">
-          <h3>Claude Code <small>macOS · Linux</small></h3>
+          <h3>Claude Code <small>Skill folder · macOS · Linux</small></h3>
           <div class="code code--cmd"><div class="code-bar"><span>Terminal</span><button class="copy" type="button" aria-label="Copy Claude Code install commands"><svg aria-hidden="true"><use href="#i-copy"/></svg><span class="lbl-copy">Copy</span><span class="lbl-done">Copied</span></button></div><pre><code>git clone https://github.com/baney75/myelinate.git
 mkdir -p ~/.claude/skills
 ln -s "$PWD/myelinate" ~/.claude/skills/myelinate</code></pre></div>
@@ -784,6 +906,7 @@ ln -s "$PWD/myelinate" "${CODEX_HOME:-$HOME/.codex}/skills/myelinate"</code></pr
           <div><h3>No guaranteed memory</h3><p>It cannot force permanent memory or promise a grade, and it will not claim to.</p></div>
         </div>
       </div>
+      <p class="name-note"><strong>The aim.</strong> Socrates called himself a midwife: he didn’t hand people conclusions, he helped them bring out their own thinking and tested whether it held up. Myelinate teaches the same way, so you leave more capable, not more dependent.</p>
       <p class="name-note"><strong>About the name.</strong> Myelin insulates nerve fibers so signals jump from node to node. Practice strengthens the pathways you use. Here it is a metaphor, not a mechanism: no prompt changes your myelin.</p>
     </div>
   </section>
@@ -797,6 +920,8 @@ ln -s "$PWD/myelinate" "${CODEX_HOME:-$HOME/.codex}/skills/myelinate"</code></pr
     </div>
     <ul class="foot-links">
       <li><a href="https://github.com/baney75/myelinate">GitHub</a></li>
+      <li><a href="https://github.com/baney75/myelinate/blob/main/CHANGELOG.md">Changelog</a></li>
+      <li><a href="https://github.com/baney75/myelinate/blob/main/CONTRIBUTING.md">Contribute</a></li>
       <li><a href="https://github.com/baney75/myelinate/blob/main/references/evidence.md">Evidence ledger</a></li>
       <li><a href="https://github.com/baney75/myelinate/blob/main/references/how-the-mind-learns.md">How the mind learns</a></li>
       <li><a href="examples/oxygen-lab.html">Sample lab</a></li>
@@ -804,7 +929,7 @@ ln -s "$PWD/myelinate" "${CODEX_HOME:-$HOME/.codex}/skills/myelinate"</code></pr
       <li><a href="https://dbaney.com">dbaney.com</a></li>
     </ul>
     <div class="foot-meta">
-      <span>MIT License. Research and linked third-party material keep their own rights.</span>
+      <span>Version 2.2.0 · MIT License. Research and linked third-party material keep their own rights.</span>
       <span>Not a medical, clinical or academic-outcome claim.</span>
     </div>
   </div>

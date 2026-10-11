@@ -7,6 +7,8 @@ description: Build, test and retire research-backed mnemonics (acronyms, keyword
 
 A memory hook is a deliberately built retrieval cue for material that has little internal logic: names, codes, orders, lists, foreign words, drug stems. Hooks are scaffolding. The goal is fluent retrieval of the real fact, after which the hook fades. A hook that replaces understanding is a liability: it produces confident recall of a label with nothing behind it.
 
+Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
+
 Evidence tags: **Strong** (replicated, meta-analytic or classroom-relevant), **Moderate** (consistent lab evidence, limited transfer or delay data), **Weak** (thin, mixed, or mostly short-delay lab lists), **Craft** (expert practice, not tested as such).
 
 ## 0. Rules that override everything else

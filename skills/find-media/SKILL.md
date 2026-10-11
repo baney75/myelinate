@@ -1,11 +1,13 @@
 ---
 name: find-media
-description: Find, vet, license-check and use diagrams, photos, micrographs, 3D models, simulations and videos (including specific YouTube recommendations) for learning — or draw the figure yourself when nothing good exists.
+description: Find, vet, license-check and use diagrams, photos, micrographs, 3D models, simulations and videos (including specific YouTube recommendations) for learning, or make a schematic when nothing good exists. Use when a learner or a Myelinate skill needs a figure, image or video to teach or study a concept; not for architecture or work diagrams.
 ---
 
 # Find Media
 
 Media earns its place when it shows something words cannot: spatial layout, a process unfolding, a structure in 3D, a real specimen, a quantity changing. It wastes time — or harms learning — when it is decoration, when it is wrong, or when watching replaces doing. This skill covers what to show, where to get it legally, how to check it, and how to make the learner use it actively.
+
+Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
 
 Evidence tags: **Strong**, **Moderate**, **Weak**, **Craft** (as in **memory-hooks**). Source table with URLs and licenses: [media-sources.md](../../references/media-sources.md).
 
@@ -83,7 +85,7 @@ When a figure becomes a quiz ("label structure 3"):
 
 Generate when no licensed figure is accurate, when the available ones are cluttered, when you need a blank or masked version, or when the learner should see the exact case from their problem. Often better, because it can show only what matters.
 
-- **SVG** for anatomy schematics, cell diagrams, mechanisms with curved arrows, free-body diagrams. Hand-authored SVG is editable and maskable.
+- **SVG** for schematics: simplified anatomy relationships, cell diagrams, mechanisms with curved arrows, free-body diagrams. Hand-authored SVG is editable and maskable. **Not for complex real anatomy** (bone markings, skull foramina, plexuses, histology): generated drawings of those are too often wrong. Use the learner's textbook or lecture figures, or licensed real images, and mask their labels for quizzing (`references/visual-teaching.md`).
 - **Mermaid** for flowcharts, pathways, decision trees, argument maps, timelines.
 - **matplotlib (or similar)** for plots from real equations or data: Michaelis–Menten curves with and without inhibitor, titration curves, kinematics graphs, dose–response.
 - **Desmos/GeoGebra** links when the learner should drag a parameter.
@@ -164,6 +166,8 @@ In a tutoring session, a figure is a teaching move, not a deliverable:
 2. Show it inline if the platform renders images or widgets; otherwise give a direct link with the figure number and what to look at ("Figure 22.20 — look only at the dashed curve").
 3. Ask one question about it ("Where on this curve does exercising muscle sit?"). Hide or cover labels you're about to quiz.
 4. Licensing still applies to anything you embed in a saved or shared artifact; a link for private study is fine.
+
+When the learner should operate the figure (rotate a molecule, move a slider, step a mechanism), build it as an inline interactive instead: `references/visual-teaching.md`.
 
 In voice mode, describe the figure in words and offer to send it in text.
 

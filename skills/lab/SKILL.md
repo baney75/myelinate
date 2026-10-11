@@ -1,11 +1,13 @@
 ---
 name: lab
-description: Build interactive learning labs — predict-first simulations, faded worked examples, misconception-based practice, spaced flashcards — as standalone pages or dbaney.com study labs. Use when someone wants a lab, study pack, or interactive lesson built.
+description: Build interactive learning labs — predict-first simulations, faded worked examples, misconception-based practice, spaced flashcards — as standalone pages or dbaney.com study labs. Use when a learner wants a learning lab, an interactive lesson, a study pack or a simulation to learn a concept (not a dev or test environment).
 ---
 
 # Lab
 
 A lab is a page that makes the learner **think with the idea** — predict, manipulate, explain, apply — and then proves what they can do without help. A beautiful page that the learner reads and clicks through is not a lab; it's a brochure. Every element must either (a) make the learner generate something, (b) give feedback on what they generated, or (c) carry a variable of the concept.
+
+Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
 
 The reference implementation is `examples/oxygen-lab.html` (template: `templates/lab-standalone.html`). Open it before building your first lab; copy its engine, not its content.
 
@@ -19,7 +21,7 @@ The reference implementation is `examples/oxygen-lab.html` (template: `templates
 
 ## 1. Before building: the lab brief
 
-Get or infer (route through `teach` if missing):
+Get or infer (course learners: `tutor` §1a course context; self-directed learners: `teach`'s curriculum):
 - **Why** — course exam, MCAT, clinical, curiosity. Course? Get the **study guide, syllabus, slides/notes, textbook (title/edition/chapters), exam format and date.** Missing materials don't block a provisional lab; they block calling it "aligned."
 - **Targets** — 3–7 observable objectives ("predict the direction of an O₂ curve shift from a change in pH and explain why unloading rises"), each tagged confirmed-in-scope or inferred.
 - **Target platform** — (a) standalone page (Artifact or HTML file), or (b) **dbaney.com study lab** (see §8), or (c) printable pack.

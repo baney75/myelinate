@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://baney75.github.io/myelinate/sitemap.xml

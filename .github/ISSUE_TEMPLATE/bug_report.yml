@@ -1,0 +1,42 @@
+name: Bug report
+description: Something in the package, plugin install, site, or example pages is broken.
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. For a tutoring answer that was wrong or unhelpful, use the "Teaching-quality report" form instead. For a security or privacy problem, see SECURITY.md rather than filing a public issue.
+        Do not paste real learner records, private course material, or health information.
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Where
+      options:
+        - Plugin install (Claude Code)
+        - Skill folder install
+        - Paste-the-link use
+        - Website
+        - Example lab or lesson
+        - scripts/check.py
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Assistant and version
+      description: For example, Claude Code 2.1.280, Claude app, Codex, or another assistant.
+  - type: input
+    id: version
+    attributes:
+      label: Myelinate version
+      description: The version line in myelinate.md, or the plugin version.
+      placeholder: "2.2.0"

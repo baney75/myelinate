@@ -1,0 +1,27 @@
+name: Feature request
+description: Propose a new skill, a change to an existing one, or a site or packaging improvement.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The learning problem
+      description: Who is learning what, what gets in the way, and what the current skills do about it.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you propose
+      description: What the learner would experience. If it changes teaching behavior, say which scenario in evals/scenarios.md would test it.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and limits
+      description: "A source for the approach and what it does and does not show. Claims here follow the same rule as the repo: sources and limits, no promised outcomes."
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered

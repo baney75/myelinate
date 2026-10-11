@@ -2,7 +2,7 @@
 
 Use this when planning a course of study, a tutoring session or a lab in a specific discipline. Each playbook gives: what expertise looks like, the activities that build it, common traps, how to practice and self-test, the best resource types, and how a tutor and a lab should approach it.
 
-Source review: **2026-10-06**. Evidence tags: **Strong** (replicated, meta-analytic or large classroom data), **Moderate** (consistent but limited designs or populations), **Weak** (thin or contested), **Craft** (expert practice and discipline-based convention, not tested as such). Citations were checked against publisher, Crossref, Europe PMC or ERIC records; where only an abstract was read, claims stay within it.
+Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**. Evidence tags: **Strong** (replicated, meta-analytic or large classroom data), **Moderate** (consistent but limited designs or populations), **Weak** (thin or contested), **Craft** (expert practice and discipline-based convention, not tested as such). Citations were checked against publisher, Crossref, Europe PMC or ERIC records; where only an abstract was read, claims stay within it.
 
 ## Cross-cutting rules (apply to every subject)
 
@@ -26,7 +26,7 @@ Source review: **2026-10-06**. Evidence tags: **Strong** (replicated, meta-analy
 
 **Resources:** virtual microscopy (Michigan Histology), Radiopaedia normal anatomy, OpenStax A&P figures, 3D apps; atlas images linked not copied (see **find-media**).
 
-**Tutor:** pre-train names on a schematic, then the real image; quiz spatially ("what lies posterior to…?"); use contrast pairs. **Lab:** a pannable slide or 3D model with toggleable labels, a "find the structure" task with click feedback, and a fully masked quiz mode.
+**Tutor:** pre-train names on a schematic, then the real image; for detailed structure (bone markings, foramina, plexuses, slides) use the learner's textbook or lecture figures or licensed real images, not generated drawings (`visual-teaching.md`); quiz spatially ("what lies posterior to…?"); use contrast pairs. **Lab:** a pannable slide or 3D model with toggleable labels, a "find the structure" task with click feedback, and a fully masked quiz mode.
 
 ## 2. Physiology
 
@@ -96,7 +96,7 @@ Source review: **2026-10-06**. Evidence tags: **Strong** (replicated, meta-analy
 
 **Resources:** PhET chemistry sims, OpenStax Chemistry, LibreTexts, Chad's Prep or The Organic Chemistry Tutor for worked examples.
 
-**Tutor:** always ask for a particle picture. **Lab:** simulation + particle view + graph side by side.
+**Tutor:** always ask for a particle picture. Render the three levels linked (particle view, equation, graph) and give the learner the control (add solute, heat, change volume); show molecular shape in 3D beside the Lewis structure (`visual-teaching.md`). **Lab:** simulation + particle view + graph side by side.
 
 ## 7. Organic chemistry
 
@@ -112,17 +112,20 @@ Source review: **2026-10-06**. Evidence tags: **Strong** (replicated, meta-analy
 1. **Fluency with the electron-pushing formalism first**: arrows from electrons (lone pair or bond) to an atom or bond; formal charges on every intermediate; explicit hydrogens when they move.
 2. **Mechanism families, not reaction lists**: nucleophilic substitution, elimination, addition, acyl substitution, enolate chemistry. Classify each new reaction into a family and explain the arrows.
 3. **Reagent cards — after understanding.** A reagent → transformation card is fine for retrieval once the learner can draw the mechanism; reagent cards alone produce the rote-learner profile above.
-4. **Model kits** for stereochemistry, conformations, chair flips, SN2 inversion and E2 anti-periplanar geometry. Draw and build.
+4. **Model kits and linked 3D views** for stereochemistry, conformations, chair flips, SN2 inversion and E2 anti-periplanar geometry. Draw and build. Feedback from concrete or virtual 3D models improved students' translation between 2D diagrams, held at a one-week delay, and did not create dependence on the model (Stull & Hegarty 2015, *Proc. Cogn Sci Soc* 37; abstract reviewed). **Moderate.** In live teaching, link the line drawing (numbered carbons), the Newman or chair projection and a 3D model, with the same color for the same atom in every view (`visual-teaching.md`).
+   - **Newman projections:** sight down one bond; inventory the three groups on each carbon (four bonds minus the sighted one); collapse everything beyond each carbon into one label (CH₃, CH₂CH₃, CH(CH₃)₂); count hidden hydrogens in the line drawing; start from the zigzag, which is all-anti; orientation is a choice, only the angles matter. Score conformations with the course's interaction table (intro default: OpenStax *Organic Chemistry* Table 3.5 — H/H eclipsed 4.0 kJ/mol, H/CH₃ eclipsed 6.0, CH₃/CH₃ eclipsed 11.0, CH₃/CH₃ gauche 3.8).
+   - **Chairs:** draw the chair with parallel bond pairs; mark axial and equatorial; ring-flip swaps them; larger groups prefer equatorial (1,3-diaxial strain). Confirm every chair in 3D before scoring it.
+   - **Stereochemistry:** assign priorities, orient the lowest away, read the direction; swapping any two groups inverts R/S. Rotate a 3D model to check a wedge-dash drawing.
 5. **Spectroscopy** as inference: degrees of unsaturation → IR functional groups → ¹H NMR (shift, integration, splitting) → ¹³C → assemble and check.
 6. **Synthesis** by retrosynthesis on simple targets, then multistep.
 
-**Traps:** arrows from atoms or positive charges; pentavalent carbon; ignoring formal charge; memorizing "SN1 vs SN2" tables without reasoning about substrate, nucleophile, solvent, leaving group; flat drawings for 3D questions; treating spectroscopy as table lookup.
+**Traps:** arrows from atoms or positive charges; pentavalent carbon; ignoring formal charge; memorizing "SN1 vs SN2" tables without reasoning about substrate, nucleophile, solvent, leaving group; flat drawings for 3D questions; treating spectroscopy as table lookup. In conformations: drawing the inside of a substituent on a Newman projection, miscounting the hidden hydrogens in a line drawing, believing a particular group must go "on top," and confusing a rotation of the whole drawing with a change of conformation.
 
 **Practice and self-test:** unfamiliar-reaction items in both formats (draw arrows given products; draw products given arrows); "predict the product and justify each arrow"; mixed mechanism sets; spectroscopy unknowns.
 
 **Resources:** ChemTube3D and MolView for 3D; model kit; Leah4sci, Chad's Prep, Professor Dave for walkthroughs; course text.
 
-**Tutor:** never accept a product without arrows; ask "where are the electrons coming from?" at every step. **Lab:** arrow-drawing canvas with step-by-step feedback, 3D viewer synced to 2D drawing, mechanism-family sorter.
+**Tutor:** never accept a product without arrows; ask "where are the electrons coming from?" at every step. For any 3D question (conformations, chairs, stereocenters, SN2, E2), render linked views the learner can rotate, with energies or answers hidden until they predict (`visual-teaching.md` has a worked Newman example). **Lab:** arrow-drawing canvas with step-by-step feedback, 3D viewer synced to 2D drawing, mechanism-family sorter.
 
 ## 8. Physics
 

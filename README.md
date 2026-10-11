@@ -1,14 +1,23 @@
 <p align="center"><img src="assets/hero.svg" alt="Myelinate. Understand it. Retrieve it. Use it. An open-source skill suite for learning: courses, live tutoring, labs, printable tests, flashcards and study plans. Honest, not agreeable, with an adversarial accuracy review before high-stakes material ships." width="100%"></p>
 
+<p align="center">
+  <a href="https://github.com/baney75/myelinate/actions/workflows/check.yml"><img src="https://github.com/baney75/myelinate/actions/workflows/check.yml/badge.svg" alt="Package check workflow status"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-a54320" alt="License: MIT"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-2.2.0-16313b" alt="Version 2.2.0"></a>
+  <a href="#claude-code-plugin-recommended"><img src="https://img.shields.io/badge/Claude%20Code-plugin-a54320" alt="Claude Code plugin"></a>
+</p>
+
 **An open-source agent skill suite that turns “teach me this” into explanation, practice, feedback, and a reason to come back.**
 
 Ask about a concept. Bring your course materials if you have them. Myelinate routes the request to the right skill, teaches in manageable steps, and checks what you can do with it. It is honest, not agreeable: it won’t confirm a wrong answer or cave when you push back on a correct correction, and it changes its mind on evidence. It is a set of Markdown skills for a capable AI assistant, not a separate model or a hosted tutoring service.
 
 [Website](https://baney75.github.io/myelinate/) · [Read the router skill](myelinate.md) · [Try the sample lesson](https://baney75.github.io/myelinate/examples/lesson.html) · [See the evidence](references/evidence.md)
 
-## Use it in any chat
+**Contents:** [Quick start](#quick-start) · [What's inside](#whats-inside) · [Start with one good question](#start-with-one-good-question) · [What makes the lesson useful](#what-makes-the-lesson-useful) · [Install](#install) · [See the approach](#see-the-approach) · [Evidence](#evidence-without-mythology) · [Improve it](#improve-it)
 
-No install needed. Paste this into an assistant that can open links, in chat or voice mode:
+## Quick start
+
+**Use it in any chat (no install).** Paste this into an assistant that can open links, in chat or voice mode:
 
 ```text
 Use the Myelinate learning skill: https://github.com/baney75/myelinate — read SKILL.md and follow it to teach me.
@@ -16,25 +25,38 @@ Use the Myelinate learning skill: https://github.com/baney75/myelinate — read 
 
 The assistant fetches [SKILL.md](SKILL.md) and follows it. If yours can't browse, [install the folder](#install) or paste SKILL.md itself.
 
+**Or install it as a Claude Code plugin** (every skill loads by itself when it fits):
+
+```text
+/plugin install myelinate --marketplace baney75/myelinate
+```
+
+Older Claude Code, other assistants and Codex: see [Install](#install).
+
 ![Sample Myelinate lesson on limiting reactants](assets/sample-lesson.jpg)
 
 ## What's inside
 
-`SKILL.md` is a router. It reads what you are after and hands the request, with your context, to one of nine skills:
+`SKILL.md` is a router. It reads what you are after and hands the request, with your context, to one of fourteen skills. Installed as a plugin, each one loads by itself when the moment fits:
 
 | Skill | What it does |
 | --- | --- |
-| [teach](skills/teach/SKILL.md) | Finds out why you're learning and how you learn, gathers your syllabus, study guide, notes and textbook (including uploads), designs the course and teaches it with the best classroom methods. |
-| [tutor](skills/tutor/SKILL.md) | Live teaching in chat or voice, one step at a time, with predictions, hints and feedback. |
+| [tutor](skills/tutor/SKILL.md) | For a class you're enrolled in: gathers your syllabus, study guide, notes and textbook (including uploads), then teaches live in chat or voice in your course's scope and notation, one step at a time, with rendered diagrams and interactive 3D models. Loads on its own when your assistant's memory shows the question belongs to a class. |
+| [teach](skills/teach/SKILL.md) | For learning that isn't for a class (a personal goal, a work skill, a project you'll sell or open-source): designs the curriculum and lesson plans at university standard, anchors them in your project, and teaches each lesson live. |
+| [assignment](skills/assignment/SKILL.md) | Help on homework, lab reports, essays and coding assignments that teaches you to do them instead of doing them for you. Tool steps (drawing a structure, formatting) can be done; the graded thinking stays yours. |
+| [project](skills/project/SKILL.md) | Learn while you build something of your own, in the mix you choose: build and learn, teach me to do it, or just tell me how. Stays out of the way of ordinary coding and work. |
+| [notes](skills/notes/SKILL.md) | Reads your own notes (Google Drive, OneDrive, Notion, Obsidian or photos of paper) to see how you're grasping it, flags misconceptions and slide-copying, and turns your notes into practice. |
+| [assess](skills/assess/SKILL.md) | Tests written to the objectives, graded against a key and rubric, honest scores, optional bonus work, and a gradebook. |
+| [course-project](skills/course-project/SKILL.md) | Turns a big goal ("teach me software engineering") into a full course researched against accredited university syllabi, with a lesson plan, assignments, tests and teacher instructions to run as a Claude Project. |
 | [lab](skills/lab/SKILL.md) | Builds interactive learning labs and simulations as web pages. |
-| [print](skills/print/SKILL.md) | Printable PDFs: practice tests with separate answer keys, labeled and blank diagrams, worksheets. |
+| [print](skills/print/SKILL.md) | Printable PDFs: study guides built for active recall (questions first, answers at the back), practice tests with separate answer keys, labeled and blank diagrams, worksheets. |
 | [flashcards](skills/flashcards/SKILL.md) | Makes cards ready for Quizlet, Anki or Obsidian. |
 | [memory-hooks](skills/memory-hooks/SKILL.md) | Writes research-backed mnemonics for material that will not stick. |
-| [study-plan](skills/study-plan/SKILL.md) | Works back from the exam date: spaced relearning, practice and sleep. |
+| [study-plan](skills/study-plan/SKILL.md) | Works back from the exam date: spaced relearning, practice and sleep, with opt-in calendar reminders through a calendar you have connected. |
 | [find-media](skills/find-media/SKILL.md) | Finds diagrams, photos and videos (including YouTube) and notes their licenses. |
 | [verify](skills/verify/SKILL.md) | Adversarial review of accuracy and currency before high-stakes material ships. |
 
-On the first session, Myelinate asks a few questions about how you learn (pace, chunk size, what's hard) and saves that profile to your assistant's memory or a file you keep, then reads it at the start of later sessions. Sharing a learning condition is optional and never required.
+When a concept has shape (a molecule in 3D, a conformation, a mechanism, a curve), Myelinate renders it and gives you the controls instead of describing it in a paragraph, linked to the notation your course uses. On the first session, it asks a few questions about how you learn (pace, chunk size, what's hard) and saves that profile to your assistant's memory or a file you keep, then reads it at the start of later sessions. Sharing a learning condition is optional and never required.
 
 ## Start with one good question
 
@@ -69,7 +91,19 @@ The tutor asks about the goal, course context, and optional access preferences. 
 
 ## Install
 
-### Claude
+### Claude Code plugin (recommended)
+
+Installs every skill so each one loads automatically when it fits:
+
+```text
+/plugin install myelinate --marketplace baney75/myelinate
+```
+
+On Claude Code before 2.1.275, run `/plugin marketplace add baney75/myelinate`, then `/plugin install myelinate@baney75`. Force any skill with a slash command: `/myelinate:myelinate` for the router, or `/myelinate:tutor`, `/myelinate:assignment`, `/myelinate:project`, and so on.
+
+**Stopping it.** Tell Claude, or save to its memory, where you don't want Myelinate ("don't tutor me on my coding projects", "just answer my Spanish questions"). It respects that scope; a slash command still works when you want it. Ordinary coding, building and work requests don't trigger it in the first place.
+
+### Claude apps
 
 In the Claude apps, [download this repository as a ZIP](https://github.com/baney75/myelinate/archive/refs/heads/main.zip) and upload it where Claude lets you add a skill (in Settings, under Skills). Then start a chat with “Use myelinate to…”.
 
@@ -115,7 +149,7 @@ Learner health disclosures and course records stay out of public outputs. Saving
 
 ## Improve it
 
-Useful contributions include a reproducible tutoring failure, a better-supported source, an accessibility fix, or a clearer exercise. Use fictional or consented, de-identified examples; do not upload private course material, learner health information, or restricted exams.
+Useful contributions include a reproducible tutoring failure, a better-supported source, an accessibility fix, or a clearer exercise. Use fictional or consented, de-identified examples; do not upload private course material, learner health information, or restricted exams. See [CONTRIBUTING.md](CONTRIBUTING.md) for the checks to run, [CHANGELOG.md](CHANGELOG.md) for what changed in each version, [SECURITY.md](SECURITY.md) for prompt-injection and privacy reports, and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for how we work together. To cite Myelinate, use [CITATION.cff](CITATION.cff).
 
 ```sh
 python3 scripts/check.py          # package integrity and local links

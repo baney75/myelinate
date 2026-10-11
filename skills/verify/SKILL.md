@@ -7,6 +7,8 @@ description: Adversarially review teaching content for accuracy, course alignmen
 
 Teaching something wrong is worse than not teaching it: a confidently learned error is hard to remove and costs points on the exam or worse in a clinic. This skill is a deliberate attempt to **break** the material before the learner does. A check that could not have failed is not verification.
 
+Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
+
 ## 1. When to run it
 
 Always, before delivery:

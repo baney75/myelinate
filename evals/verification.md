@@ -53,6 +53,15 @@ Checked **2026-10-10** with the Magnus Singularity's `tools/skill_eval.py` (Clau
 
 v2.1.0 failed for two reasons. The optional intake question named example conditions (ADHD, dyslexia, anxiety), which undid this repo's earlier "never conditions" wording. And a new learner's first reply could skip the question about what helps them study. The description also didn't mention hints on practice problems or counting a revealed answer as known. v2.1.1 keeps the optional, open invitation to share, names no condition, adds the first-reply preference question, and widens the description. Trigger results vary from run to run, so treat 2 repeats as a smoke test, not a rate.
 
+## v2.2.0: course tutoring vs self-directed teaching, assignments, projects, notes, plugin
+
+Checked **2026-10-11**.
+
+- **Package:** `python3 scripts/check.py` PASS (52 required files). `claude plugin validate .` passed, including `--strict`. Installed from the local marketplace with Claude Code 2.1.296: all 15 skills (router plus 14 sub-skills) load; about 2,500 always-on tokens.
+- **Automatic invocation (real, not simulated):** headless `claude -p` with the plugin installed and only the Skill tool allowed, one run per prompt, 11 prompts. Learning prompts loaded the expected skill: a class question about Newman projections → `tutor`; "write the abstract for my lab report" → `assignment`; learn-while-building an ESP32 plant monitor → `project`; a full course in a Claude Project → `course-project`; "are my notes good?" with pasted notes → `notes` (its reply led with the swapped Na⁺/K⁺ stoichiometry); flashcards for an exam → `flashcards`. Five work prompts (unit tests, OAuth with token refresh, a failing CI check, a mid-task useEffect question, a team roadmap update) loaded no Myelinate skill. 11/11 as expected. One run each, so treat this as a smoke test, not a rate.
+- **Adversarial review:** a fresh agent reviewed the full diff and simulated seven cases. It found three blockers (the phrase "unit tests" in `assess`'s description; opt-out rules visible only in the router; opt-out wording that could read as permission to write graded work) and thirteen should-fix items. All were fixed before release, then the trigger tests above were run on the fixed version.
+- **Not tested:** learning outcomes; voice mode; Claude apps' skill upload; other assistants; calendar and notes connectors end to end.
+
 ## Not established
 
 Long-term retention, better grades, clinical benefits, neurological effects, effectiveness across every concept, and compatibility with every assistant have not been demonstrated. A future learning pilot should use consenting learners, baseline and delayed checks, fresh comparable items, and clearly reported assistance.
