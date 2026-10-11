@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: "If you use Myelinate, please cite it as below."
+title: "Myelinate: an open-source learning skill suite"
+type: software
+version: 2.2.0
+date-released: 2026-10-11
+license: MIT
+abstract: >-
+  An open-source Claude Code plugin and agent skill suite that makes an AI
+  assistant a Socratic tutor and teacher: course tutoring, assignment coaching,
+  tests and grading, labs, flashcards and study plans. Honest, not agreeable.
+  Its own effect on learning has not been established.
+authors:
+  - family-names: Baney
+    given-names: Donovan
+    website: "https://dbaney.com"
+repository-code: "https://github.com/baney75/myelinate"
+url: "https://baney75.github.io/myelinate/"
+keywords:
+  - education
+  - tutoring
+  - agent skills
+  - Claude Code plugin
+  - Socratic method
+  - retrieval practice
+  - spaced repetition

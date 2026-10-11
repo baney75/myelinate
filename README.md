@@ -1,20 +1,37 @@
 <p align="center"><img src="assets/hero.svg" alt="Myelinate. Understand it. Retrieve it. Use it. An open-source skill suite for learning: courses, live tutoring, labs, printable tests, flashcards and study plans. Honest, not agreeable, with an adversarial accuracy review before high-stakes material ships." width="100%"></p>
 
+<p align="center">
+  <a href="https://github.com/baney75/myelinate/actions/workflows/check.yml"><img src="https://github.com/baney75/myelinate/actions/workflows/check.yml/badge.svg" alt="Package check workflow status"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-a54320" alt="License: MIT"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-2.2.0-16313b" alt="Version 2.2.0"></a>
+  <a href="#claude-code-plugin-recommended"><img src="https://img.shields.io/badge/Claude%20Code-plugin-a54320" alt="Claude Code plugin"></a>
+</p>
+
 **An open-source agent skill suite that turns “teach me this” into explanation, practice, feedback, and a reason to come back.**
 
 Ask about a concept. Bring your course materials if you have them. Myelinate routes the request to the right skill, teaches in manageable steps, and checks what you can do with it. It is honest, not agreeable: it won’t confirm a wrong answer or cave when you push back on a correct correction, and it changes its mind on evidence. It is a set of Markdown skills for a capable AI assistant, not a separate model or a hosted tutoring service.
 
 [Website](https://baney75.github.io/myelinate/) · [Read the router skill](myelinate.md) · [Try the sample lesson](https://baney75.github.io/myelinate/examples/lesson.html) · [See the evidence](references/evidence.md)
 
-## Use it in any chat
+**Contents:** [Quick start](#quick-start) · [What's inside](#whats-inside) · [Start with one good question](#start-with-one-good-question) · [What makes the lesson useful](#what-makes-the-lesson-useful) · [Install](#install) · [See the approach](#see-the-approach) · [Evidence](#evidence-without-mythology) · [Improve it](#improve-it)
 
-No install needed. Paste this into an assistant that can open links, in chat or voice mode:
+## Quick start
+
+**Use it in any chat (no install).** Paste this into an assistant that can open links, in chat or voice mode:
 
 ```text
 Use the Myelinate learning skill: https://github.com/baney75/myelinate — read SKILL.md and follow it to teach me.
 ```
 
 The assistant fetches [SKILL.md](SKILL.md) and follows it. If yours can't browse, [install the folder](#install) or paste SKILL.md itself.
+
+**Or install it as a Claude Code plugin** (every skill loads by itself when it fits):
+
+```text
+/plugin install myelinate --marketplace baney75/myelinate
+```
+
+Older Claude Code, other assistants and Codex: see [Install](#install).
 
 ![Sample Myelinate lesson on limiting reactants](assets/sample-lesson.jpg)
 
@@ -74,7 +91,7 @@ The tutor asks about the goal, course context, and optional access preferences. 
 
 ## Install
 
-### Claude Code (plugin, recommended)
+### Claude Code plugin (recommended)
 
 Installs every skill so each one loads automatically when it fits:
 
@@ -132,7 +149,7 @@ Learner health disclosures and course records stay out of public outputs. Saving
 
 ## Improve it
 
-Useful contributions include a reproducible tutoring failure, a better-supported source, an accessibility fix, or a clearer exercise. Use fictional or consented, de-identified examples; do not upload private course material, learner health information, or restricted exams.
+Useful contributions include a reproducible tutoring failure, a better-supported source, an accessibility fix, or a clearer exercise. Use fictional or consented, de-identified examples; do not upload private course material, learner health information, or restricted exams. See [CONTRIBUTING.md](CONTRIBUTING.md) for the checks to run, [CHANGELOG.md](CHANGELOG.md) for what changed in each version, [SECURITY.md](SECURITY.md) for prompt-injection and privacy reports, and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) for how we work together. To cite Myelinate, use [CITATION.cff](CITATION.cff).
 
 ```sh
 python3 scripts/check.py          # package integrity and local links
