@@ -63,12 +63,15 @@ Some figures earn more craft than a quick diagram: solid, shaded objects built f
 | --- | --- |
 | Lab preparation (any science) | The actual setup before lab day: a titration with buret, stopcock and meniscus read at eye level; a distillation with the thermometer bulb at the side arm; a spectrophotometer's light path; a micropipette's two stops. The learner assembles or operates it and predicts readings |
 | Physics | Ripple tank interference, a pendulum or spring-mass rig with live energy readouts, optics benches with real ray paths, circuits on a breadboard with meters that read the model |
-| Chemistry | Glassware and reactions with rendered color changes, precipitates and gas evolution driven by the stoichiometry; spot-plate tests; flame tests |
+| Chemistry | Glassware and reactions with color changes, precipitates and gas evolution driven by the chemistry (indicator and pH, solubility, amounts); spot-plate tests; flame tests |
 | Earth and environmental science | Stream tables, a groundwater cutaway, a weather instrument station |
 | Engineering and technology | Engines, gearboxes, pumps, valves and sensors taken apart and put back together, every number from the model |
 | Measurement skills | Calipers, micrometers, dial gauges, graduated cylinders: read the scale, then check against the model's true value |
 
-**2. Explain an abstract idea by a working object.** Some ideas have no natural picture: a cache, a rate limiter, a feedback loop, an equilibrium, a buffer. For those, invent a real, recognizable machine whose working *is* the concept, and let the learner operate it. A pin-tumbler lock that turns only when every pin matches teaches a cache key; a set of drawers each as deep as its bytes teaches memory layout. Either way, adapted for learning:
+**2. Explain an abstract idea by a working object.** Some ideas have no natural picture: a cache, a rate limiter, a feedback loop, an equilibrium, a buffer. For those, invent a real, recognizable machine whose working *is* the concept, and let the learner operate it. A pin-tumbler lock that turns only when every pin matches teaches a cache key; a set of drawers each as deep as its bytes teaches memory layout.
+
+Both kinds of crafted figure follow these rules, adapted for learning:
+
 1. **Truth first.** Write the model before drawing: the real numbers, thresholds and behavior, in one small module that drives every part, readout and motion. A figure whose machine moves differently from the concept teaches the wrong thing.
 2. **One-to-one mapping, said in one sentence:** what moves and what that motion means. For a working-object metaphor, say **where it breaks** (a lock has no eviction; a real cache does); unmarked analogies become misconceptions. For real apparatus, match the learner's actual equipment and procedure (their lab manual's glassware, volumes and steps), and say what the figure simplifies.
 3. **Detail serves the mechanism.** Every part belongs to the machine and sits on another part; nothing is decoration. Exactly one part is lit or accented: the one the learner should watch. That's the signaling principle; detail that competes with it is a seductive detail and costs learning (`find-media` §1).
@@ -77,7 +80,6 @@ Some figures earn more craft than a quick diagram: solid, shaded objects built f
 6. **Calm, learner-driven motion:** time-based easing, responds to pointer and keyboard, an idle loop only when nobody's touching it, stops when offscreen, and goes still under reduced motion.
 7. **Verify like a critic.** Render at desktop and phone width (390 px), in light and dark, at rest and at several moments of motion, and look at every image. Zoom in about 4× on every joint: every line ends on something, nothing passes through anything, nothing pops between frames.
 8. **Size it honestly.** A crafted figure of this kind takes far longer than a live-turn diagram (the Anatomy skill sizes its smallest figures at 30–90 minutes). In a live session, use a quick linked diagram; build the crafted figure for a `lab`, a course or a study pack, and say how long it will take first.
-
 9. **Effects only where lines can't draw it.** Use a shader for light, water, flame, heat, glow or caustics, driven by the physical model, and keep the figure readable without it (some devices can't run WebGL).
 
 If the **Anatomy** skill is installed (`npx skills add wheresryan22/anatomy`), use it to build these figures; its kit, shader layer, audits and capture scripts do the craft and verification above. Despite the name, it draws machines and apparatus, not human anatomy: for bodies, bones and tissues, use real images (above).
