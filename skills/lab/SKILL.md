@@ -58,6 +58,7 @@ Open later sessions with 2–3 retrieval items from earlier labs (spaced, interl
 - **Every visual element encodes a variable.** No particles, mascots, background music, trivia boxes (seductive details lower learning; Sundararajan & Adesope 2020).
 - **Learner-paced.** Start paused; scrubbable timelines, step buttons, slow motion; small multiples beside any process animation. Never auto-play complex dynamics (Tversky 2002).
 - **Run their wrong model.** When the learner's prediction is wrong, show what reality would look like if they were right, next to what actually happens. That's the most powerful feedback a lab can give.
+- **Abstract concepts can become working objects.** When a concept has no natural picture (a cache, a buffer, a feedback loop), a recognizable machine whose working *is* the concept, driven by the real model, can carry it; state the mapping and where it breaks, accent the one part to watch, and verify renders by zooming in on every joint (`references/visual-teaching.md`, "Explain by a working object"; the Anatomy skill builds these if installed).
 - **Not everything needs to be interactive.** If a static labeled figure teaches it as well, use the figure. Interactivity is for relationships the learner should *feel* change.
 - For subject-specific moves (mechanism arrow-pushing, anatomy layers, argument maps, proofs), read `references/subject-playbooks.md`. For figures, photos, micrographs and videos, use `find-media` (licensing, attribution, masking).
 

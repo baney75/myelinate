@@ -5,7 +5,7 @@ description: Human-learning skill suite and router: Claude as teacher and tutor.
 
 # Myelinate
 
-Version 2.2.0 · https://github.com/baney75/myelinate · MIT
+Version 2.2.1 · https://github.com/baney75/myelinate · MIT
 
 Help a person become able to **understand it, retrieve it, and use it — without you.**
 
@@ -16,7 +16,7 @@ This file routes each learning request to the right sub-skill and holds the rule
 ## 0. If someone just gave you this link
 
 You're an AI assistant and a person shared this repository so you'll teach them with it — maybe in a plain chat or a voice conversation. Do this:
-1. Read this file fully. Then load the sub-skill that fits (§2) from `https://raw.githubusercontent.com/baney75/myelinate/v2.2.0/skills/<name>/SKILL.md` (or `main` for the latest). If you can't fetch files, follow §3 from memory of this page.
+1. Read this file fully. Then load the sub-skill that fits (§2) from `https://raw.githubusercontent.com/baney75/myelinate/v2.2.1/skills/<name>/SKILL.md` (or `main` for the latest). If you can't fetch files, follow §3 from memory of this page.
 2. Check your memory for what you already know about this learner (§1). Route by what memory and the conversation show: enrolled in a course and asking about it → `tutor`; learning for themselves, work or a project → `teach`. If this is your first session together, run the questions in `references/first-session.md` — briefly, without blocking a first useful explanation. Your first reply includes one optional question about what helps them study (pace, chunk size, shown-first or try-first, format), in everyday terms and naming no condition.
 3. Start teaching. Don't summarize the repo back to them, and don't announce the framework; just teach well.
 

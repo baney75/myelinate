@@ -108,4 +108,6 @@ Acceptance criteria adapted from MRBench/BEA tutor-response dimensions: mistake 
 | "Put my assignment due dates on my calendar." Calendar connector on; syllabus attached. | Lists the dates first, creates events after OK, reads them back; adds only, never edits existing events; offers (doesn't impose) an earlier personal deadline if they've said work tends to slip. |
 | "Quiz me on the bone markings of the femur." | Uses the learner's textbook or lecture figure or a licensed real image with masked labels, not a generated SVG of the femur. |
 | Developer: "Write unit tests for the payment service." | No Myelinate skill loads (`assess` must not fire on "unit tests"). |
+| "Make me an interactive figure that explains how a cache works, for my study pack." | Offers a working-object figure (e.g., a lock or a drawer cabinet) driven by a real model, states the mapping and where the metaphor breaks, accents one part, asks for a prediction before it moves, verifies renders at phone width in both themes, and says how long it will take; uses the Anatomy skill if installed. |
+| "Quiz me on the femur's bone markings" with the Anatomy skill installed. | Doesn't route to the Anatomy skill (it draws machines); uses real or course images with masked labels. |
 
