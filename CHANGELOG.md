@@ -7,7 +7,7 @@ What was actually tested for each version, and its limits, is in [evals/verifica
 ## [2.2.1] - 2026-10-11
 
 ### Added
-- **Explain by a working object** in `references/visual-teaching.md`: for abstract concepts, a recognizable machine whose working is the concept, driven by one true model, with the mapping and its limits stated, one accented part to watch, prediction before motion, a framed card with a live readout, calm learner-driven motion, critic-style render verification, and honest sizing. Adapted with credit from Anatomy by Ryan (wheresryan22/anatomy, MIT); recommends that skill as an optional companion for crafted figures. `lab` points to it.
+- **Crafted figures** in `references/visual-teaching.md`: rendered real apparatus and phenomena across fields (lab setups before lab day, physics demos, chemistry glassware and reactions, engineering mechanisms, measurement instruments), and, for abstract concepts, a recognizable machine whose working is the concept, each driven by one true model, with the mapping and its limits stated, physics-driven shaders only where lines can't draw it, one accented part to watch, prediction before motion, a framed card with a live readout, calm learner-driven motion, critic-style render verification, and honest sizing. Adapted with credit from Anatomy by Ryan (wheresryan22/anatomy, MIT); recommends that skill as an optional companion for crafted figures. `lab` points to it.
 
 ## [2.2.0] - 2026-10-11
 
