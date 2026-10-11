@@ -7,6 +7,8 @@ description: Create printable PDFs — practice tests with separate answer keys,
 
 Paper practice is a **rehearsal of the real exam and of the hand's work**: closed book, timed, written, drawn. A printable is worth making when it makes the learner retrieve, draw or reason without help, and when its key tells them exactly what they got wrong and why. A handsome PDF that the learner reads like notes is a handout, not practice.
 
+Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
+
 Templates: `templates/practice-test.html`, `templates/diagram-worksheet.html`. Renderer: `scripts/make_pdf.py`. Reference: `examples/practice-test-oxygen.html` and its PDF. Copy their structure, not their content.
 
 Evidence tags: **Strong** (replicated, meta-analytic or classroom-relevant), **Moderate** (consistent evidence, limited transfer or delay data), **Weak** (thin or mixed), **Craft** (expert practice, not tested as such).

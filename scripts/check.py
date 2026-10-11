@@ -24,8 +24,11 @@ required = ['myelinate.md', 'SKILL.md', 'agents/openai.yaml', 'references/eviden
             'references/subject-playbooks.md', 'references/media-sources.md',
             'templates/lab-standalone.html', 'templates/dbaney-lab.json', 'templates/lab-spec.md',
             'templates/learner-profile.md', 'templates/practice-test.html', 'references/teaching-methods.md', 'references/how-the-mind-learns.md',
-            'references/dbaney-study-lab.md', 'references/first-session.md', 'references/visual-teaching.md', 'llms.txt', 'scripts/make_pdf.py', 'examples/practice-test-oxygen.pdf']
-SUBSKILLS = ['teach', 'tutor', 'lab', 'print', 'flashcards', 'memory-hooks', 'study-plan', 'find-media', 'verify']
+            'references/dbaney-study-lab.md', 'references/first-session.md', 'references/visual-teaching.md', 'references/personalization.md',
+            'templates/course-project-prompt.md', 'templates/gradebook.md', '.claude-plugin/plugin.json',
+            '.claude-plugin/marketplace.json', 'llms.txt', 'scripts/make_pdf.py', 'examples/practice-test-oxygen.pdf']
+SUBSKILLS = ['teach', 'tutor', 'assignment', 'project', 'assess', 'course-project', 'lab', 'print', 'flashcards',
+             'memory-hooks', 'study-plan', 'find-media', 'verify']
 required += [f'skills/{name}/SKILL.md' for name in SUBSKILLS]
 for name in required:
     if not (ROOT / name).is_file():
@@ -46,6 +49,22 @@ for name in SUBSKILLS:
             errors.append(f'skills/{name}/SKILL.md: description over 1024 characters')
     if f'skills/{name}/SKILL.md' not in body:
         errors.append(f'Router does not route to skills/{name}/SKILL.md')
+
+for manifest in ('.claude-plugin/plugin.json', '.claude-plugin/marketplace.json'):
+    path = ROOT / manifest
+    if path.is_file():
+        import json
+        try:
+            data = json.loads(path.read_text())
+        except ValueError as exc:
+            errors.append(f'{manifest}: invalid JSON ({exc})')
+            continue
+        if manifest.endswith('plugin.json'):
+            version = re.search(r'^Version ([0-9.]+) ', body, re.M)
+            if data.get('name') != 'myelinate':
+                errors.append('plugin.json: name must be myelinate')
+            if version and data.get('version') != version.group(1):
+                errors.append('plugin.json: version differs from myelinate.md')
 
 class Links(HTMLParser):
     def __init__(self):

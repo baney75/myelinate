@@ -36,7 +36,7 @@ Then a short **pretest** (2–5 items on the target; to the learner, call it a q
 | Rereading to be sure | Replace rereading with a retrieval check; trust evidence, not the feeling of familiarity |
 | Can't picture the structure or process | Render it and let them operate it (`visual-teaching.md`) |
 
-Check whether each adaptation actually helped and keep only what does.
+Check whether each adaptation actually helped and keep only what does. Over later sessions, keep learning what works for this person: `personalization.md`.
 
 ## 4. Save what helps
 

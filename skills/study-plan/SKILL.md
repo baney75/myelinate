@@ -7,6 +7,8 @@ description: Turn a deadline and a scope into a realistic study schedule — exa
 
 A plan is only as good as the hours it fits into. Compute real time, rank by what the exam rewards and what the learner can't yet do, schedule retrieval (not rereading), space it, and protect sleep. Then say plainly what won't fit.
 
+Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
+
 ## 1. Inputs
 
 - **Scope**: study guide / objectives (confirmed) or inferred list (label it). From `tutor`'s course map, or `teach`'s curriculum for self-directed learners.

@@ -13,7 +13,7 @@ Source review: **2026-10-11**. Evidence tags as in `subject-playbooks.md`.
 
 ## The rule
 
-When the concept has shape, **render it; don't describe it.** Then ask one question about what's on the screen. Prose carries the teaching; the visual carries the structure; the learner carries the thinking.
+When the concept has shape, **default to rendering it rather than describing it.** Then ask one question about what's on the screen. It's a default, not a mandate: if this learner does better with a worked example, an analogy, talking it through or building it, lean there, and notice which route precedes their unassisted successes (`personalization.md`). Prose carries the teaching; the visual carries the structure; the learner carries the thinking.
 
 Not everything needs a picture. Definitions, quick confirmations, pure procedure the learner already sees, and voice turns usually don't. A visual that isn't carrying the concept is decoration.
 

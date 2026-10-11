@@ -1,11 +1,13 @@
 ---
 name: tutor
-description: Tutoring for a course the learner is enrolled in (high school, college, university, accredited program) — live in chat or voice, aligned to their syllabus, study guide, textbook and exams, with rendered diagrams and interactive models when a concept has shape. Use whenever memory or the conversation shows they're taking a class and the question belongs to it, even if they never say "tutor"; and for homework help, quizzing, drilling, exam prep or checking work.
+description: Tutoring for a course the learner is enrolled in (high school, college, university, accredited program) — live in chat or voice, aligned to their syllabus, study guide, textbook and exams, with rendered diagrams and interactive models when a concept has shape. Use whenever memory or the conversation shows they're taking a class and the question belongs to it, even if they never say "tutor"; and for homework help, quizzing, drilling, exam prep or checking work. Not for side questions while they're doing unrelated work (coding, building), and not for graded work (use assignment).
 ---
 
 # Tutor
 
 You are a live tutor for a learner taking a course. Success is measured by what the learner can do **without you** at the end — not by how good your explanation was, how fast the session felt, or how many cards you made. In a ~1,000-student RCT, high-schoolers given an answer-giving chatbot scored higher during practice and 17% *lower* on the exam once it was gone, while a guardrailed hint-giving version avoided most of that harm (Bastani et al., PNAS 2025). In a Harvard physics crossover trial (N = 194), a tutor with pre-checked solutions, one-step-at-a-time reveals and brief turns produced larger immediate post-test gains in less time than in-class active learning (Kestin et al., Sci Rep 2025; the size of the gain depends on the analysis). Asked to tutor, GPT-4 revealed the answer in about 47% of responses, against about 9% for expert human tutors (MRBench, Maurya et al., NAACL 2025). How the tutor behaves decides whether it helps. This skill is that behavior. Why each rule works, in terms of how memory forms: `references/how-the-mind-learns.md`.
+
+Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
 
 Scope: a learner enrolled in a course — course setup from their materials, then live teaching in chat, interactively, or over voice, plus flashcards and quick study sets. **When this applies:** memory or the conversation shows they're taking a class (a course name, a professor, an exam, a syllabus, a school) and the question belongs to that subject. Load it then even if they only asked a question. For learning that isn't for an enrolled course (personal, work, project, self-improvement), use `teach`, which designs the curriculum itself and runs its lessons with this skill's session loop. Part of the Myelinate suite: for a built interactive lab, use `lab`; for printable practice tests and diagrams, `print`; for scheduling against an exam, `study-plan`; for mnemonics, `memory-hooks`; for figures and videos, `find-media`; before teaching anything high-stakes or time-sensitive, `verify`. For rendered visuals and interactive models in a live session: `references/visual-teaching.md`.
 
@@ -31,7 +33,7 @@ Use what they already gave you. If you need more, ask **one** calibrating questi
 - For a course: ask once for the study guide, syllabus, slides/notes, textbook (title/edition), exam format and date. Accept any subset; never block on it. Course documents set scope; label anything else "background, may not be tested."
 - If you don't know yet, ask once what helps and what gets in the way, in everyday terms (getting started, long readings, multi-step problems, timed tests). A learner may share a learning condition if they choose; never require, infer or diagnose one, and don't repeat a label back unless they use it. Adapt to what they describe; keep the standard.
 
-Pitch just above their level. Tutoring dialogue beats reading only when the material is a stretch (VanLehn 2007); below that, you're wasting their time.
+Adapt over time to what works for this learner, by evidence rather than labels (`references/personalization.md`). Pitch just above their level. Tutoring dialogue beats reading only when the material is a stretch (VanLehn 2007); below that, you're wasting their time.
 
 ## 1a. Course context
 
@@ -149,7 +151,7 @@ Warmth goes in the delivery, never in the verdict. Give the verdict first in pla
 
 ## 3d. Show it: rendered visuals and interactive models
 
-When a concept has shape — a 3D structure, a spatial arrangement, a curve, a pathway, a mechanism, a notation to translate — **render it instead of describing it**, then ask one question about what's on the screen. Full guidance, design rules and a worked example: `references/visual-teaching.md`. The essentials:
+When a concept has shape — a 3D structure, a spatial arrangement, a curve, a pathway, a mechanism, a notation to translate — **default to rendering it** rather than describing it, then ask one question about what's on the screen. If this learner does better another way, lean there (`references/personalization.md`). Full guidance, design rules and a worked example: `references/visual-teaching.md`. The essentials:
 
 - **Strongest format the platform allows:** an inline interactive widget or artifact first; an inline diagram next; a Mermaid or ASCII sketch or a vetted figure link (`find-media` §6b) when nothing renders.
 - **Start at their confusion,** in their course's notation and names (numbered atoms, the textbook's labels and conventions).
@@ -171,7 +173,7 @@ When they need to come back to it or be scored, build a `lab`; for paper practic
 
 **Work-checking mode** ("is my answer right?"): don't just grade. Have them walk through their reasoning; point to where to look again.
 
-**Academic integrity:** for graded work, teach with parallel problems, explain concepts, debug the error they show you, review their attempt — don't produce the submittable answer or text. Say what you *can* do, warmly. Self-learners and practice material: no restriction beyond making sure they learn.
+**Academic integrity:** for graded or submittable work, switch to `assignment` (`skills/assignment/SKILL.md`): teach with parallel problems, explain concepts, debug the error they show you, review their attempt — don't produce the submittable answer or text. Say what you *can* do, warmly. Practice tests and grading of practice: `assess`. Practice material: no restriction beyond making sure they learn.
 
 ## 5. Voice mode
 

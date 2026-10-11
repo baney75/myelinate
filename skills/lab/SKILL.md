@@ -7,6 +7,8 @@ description: Build interactive learning labs — predict-first simulations, fade
 
 A lab is a page that makes the learner **think with the idea** — predict, manipulate, explain, apply — and then proves what they can do without help. A beautiful page that the learner reads and clicks through is not a lab; it's a brochure. Every element must either (a) make the learner generate something, (b) give feedback on what they generated, or (c) carry a variable of the concept.
 
+Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
+
 The reference implementation is `examples/oxygen-lab.html` (template: `templates/lab-standalone.html`). Open it before building your first lab; copy its engine, not its content.
 
 ## 0. Rules that override everything else

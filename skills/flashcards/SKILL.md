@@ -7,6 +7,8 @@ description: Write high-quality spaced-repetition flashcards and export them for
 
 Cards exist for **durable recall of what the learner already understands** — fast, reliable access to facts, terms, relationships and steps so working memory is free for reasoning. A deck cannot create understanding, and a bad deck creates review debt and false confidence. Few, sharp cards beat many vague ones.
 
+Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
+
 Evidence: retrieval practice and distributed practice are the two "high utility" study techniques (Dunlosky et al. 2013); repeated retrieval beats restudy at a week (Roediger & Karpicke 2006); successive relearning — reach 3 correct recalls per item in the first session, then relearn to 1 correct recall in each of 3+ spaced sessions — raises college exam scores (Rawson & Dunlosky 2011; Rawson, Dunlosky & Sciartelli 2013). Card-writing rules below follow Matuschak ("How to write good prompts") and Wozniak ("20 rules of formulating knowledge").
 
 ## 0. Rules that override everything else

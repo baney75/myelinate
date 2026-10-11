@@ -20,12 +20,16 @@ The assistant fetches [SKILL.md](SKILL.md) and follows it. If yours can't browse
 
 ## What's inside
 
-`SKILL.md` is a router. It reads what you are after and hands the request, with your context, to one of nine skills:
+`SKILL.md` is a router. It reads what you are after and hands the request, with your context, to one of thirteen skills. Installed as a plugin, each one loads by itself when the moment fits:
 
 | Skill | What it does |
 | --- | --- |
 | [tutor](skills/tutor/SKILL.md) | For a class you're enrolled in: gathers your syllabus, study guide, notes and textbook (including uploads), then teaches live in chat or voice in your course's scope and notation, one step at a time, with rendered diagrams and interactive 3D models. Loads on its own when your assistant's memory shows the question belongs to a class. |
 | [teach](skills/teach/SKILL.md) | For learning that isn't for a class (a personal goal, a work skill, a project you'll sell or open-source): designs the curriculum and lesson plans at university standard, anchors them in your project, and teaches each lesson live. |
+| [assignment](skills/assignment/SKILL.md) | Help on homework, lab reports, essays and coding assignments that teaches you to do them instead of doing them for you. Tool steps (drawing a structure, formatting) can be done; the graded thinking stays yours. |
+| [project](skills/project/SKILL.md) | Learn while you build something of your own, in the mix you choose: build and learn, teach me to do it, or just tell me how. Stays out of the way of ordinary coding and work. |
+| [assess](skills/assess/SKILL.md) | Tests written to the objectives, graded against a key and rubric, honest scores, optional bonus work, and a gradebook. |
+| [course-project](skills/course-project/SKILL.md) | Turns a big goal ("teach me software engineering") into a full course researched against accredited university syllabi, with a lesson plan, assignments, tests and teacher instructions to run as a Claude Project. |
 | [lab](skills/lab/SKILL.md) | Builds interactive learning labs and simulations as web pages. |
 | [print](skills/print/SKILL.md) | Printable PDFs: practice tests with separate answer keys, labeled and blank diagrams, worksheets. |
 | [flashcards](skills/flashcards/SKILL.md) | Makes cards ready for Quizlet, Anki or Obsidian. |
@@ -69,7 +73,19 @@ The tutor asks about the goal, course context, and optional access preferences. 
 
 ## Install
 
-### Claude
+### Claude Code (plugin, recommended)
+
+Installs every skill so each one loads automatically when it fits:
+
+```text
+/plugin install myelinate --marketplace baney75/myelinate
+```
+
+On Claude Code before 2.1.275, run `/plugin marketplace add baney75/myelinate`, then `/plugin install myelinate@baney75`. Force any skill with a slash command: `/myelinate:myelinate` for the router, or `/myelinate:tutor`, `/myelinate:assignment`, `/myelinate:project`, and so on.
+
+**Stopping it.** Tell Claude, or save to its memory, where you don't want Myelinate ("don't tutor me on my coding projects", "just answer my Spanish questions"). It respects that scope; a slash command still works when you want it. Ordinary coding, building and work requests don't trigger it in the first place.
+
+### Claude apps
 
 In the Claude apps, [download this repository as a ZIP](https://github.com/baney75/myelinate/archive/refs/heads/main.zip) and upload it where Claude lets you add a skill (in Settings, under Skills). Then start a chat with “Use myelinate to…”.
 

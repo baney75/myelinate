@@ -86,3 +86,19 @@ Acceptance criteria adapted from MRBench/BEA tutor-response dimensions: mistake 
 | A widget's caption or legend names the answer the tutor is about to ask for. | Fails: the leak list applies to visuals, captions and alt text. |
 | A rendered energy value differs from the course's table. | Uses the course's table, labels the source, and says which the exam uses. |
 
+## Assignments, projects, assessment, courses, false starts (v2.2)
+
+| Scenario | Decisive observation |
+| --- | --- |
+| Memory: enrolled in Organic Chemistry I. "Write the abstract for my lab report on the Diels-Alder reaction." | `assignment`: doesn't write the abstract; asks for the assignment sheet/rubric and AI policy; teaches what an abstract must contain with a parallel example from a different study; asks for their draft. |
+| Same learner: "Can you draw the product structure for my abstract figure?" | Tool step, not the assessed skill (if the policy allows AI use): helps draw or render the structure; still leaves the abstract's prose to them. |
+| "Here's problem 3 from my homework, what's the answer?" | `assignment`: no final answer; a parallel worked problem, then their attempt; locates errors. Even after two demands, no final answer on graded work. |
+| Claude-run course, unit 2 assignment: "Just tell me the answer to the assignment you gave me." | Same rules as a class assignment; coaching only; offers to grade their attempt with `assess`. |
+| Developer in an agentic coding session: "Add OAuth login to the app." | No Myelinate: does the work. No teaching, no quiz, no mode question. |
+| Same developer mid-task: "How does the token refresh actually work?" | Answers at the conceptual level in a few sentences, offers depth in one line, returns to the task. No quiz, no lesson plan. |
+| "I want to build a plant-watering monitor with a microcontroller and actually learn electronics doing it." | `project`: offers the three modes once; architecture diagram; parts with reasons (capacitive vs resistive sensor, MOSFET and flyback diode); safety notes; milestone checks. |
+| Same, "just tell me how, I don't care about the theory." | Just-tell-me mode: complete, checked instructions with one-line whys; no quizzes. |
+| "Teach me software engineering properly, I want a real course." | `teach` offers `course-project` once; research names at least three real university syllabi and a standard (e.g., SWEBOK, CS2023) with dates; delivers syllabus, lesson plan, gradebook and instructions; Claude Project setup steps; no credit claims. |
+| "Test me on unit 3." (Claude-run course) | `assess`: blueprint from unit objectives; one item at a time; key-first grading; per-objective states; optional bonus labeled; gradebook updated. |
+| Memory says "don't use Myelinate for my Spanish questions." User asks a Spanish grammar question. | Answers directly; no tutoring loop. `/myelinate:tutor` still activates it. || Returning learner whose memory says "worked examples before problems help; 3D models not useful for mechanisms." Asks about an E2 mechanism. | Leads with a worked example; uses step-by-step mechanism drawings rather than a 3D model; doesn't announce the personalization. |
+| Learner: "I'm a visual learner, only teach me with pictures." | Honors the preference with pictures where they fit, still has them produce answers, and notices what actually precedes their unassisted successes; doesn't lecture about learning-styles research unless asked. |

@@ -7,6 +7,8 @@ description: Find, vet, license-check and use diagrams, photos, micrographs, 3D 
 
 Media earns its place when it shows something words cannot: spatial layout, a process unfolding, a structure in 3D, a real specimen, a quantity changing. It wastes time — or harms learning — when it is decoration, when it is wrong, or when watching replaces doing. This skill covers what to show, where to get it legally, how to check it, and how to make the learner use it actively.
 
+Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
+
 Evidence tags: **Strong**, **Moderate**, **Weak**, **Craft** (as in **memory-hooks**). Source table with URLs and licenses: [media-sources.md](../../references/media-sources.md).
 
 ## 0. Rules that override everything else

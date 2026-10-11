@@ -1,6 +1,6 @@
 # Myelinate
 
-> An open-source (MIT) skill suite that turns an AI assistant into a teacher and tutor: course tutoring from your syllabus and uploads in chat or voice, university-standard teaching for personal, work and project goals, rendered diagrams and interactive 3D models, interactive learning labs, printable practice tests, flashcards, memory hooks, study plans, diagrams and videos, and adversarial accuracy review. It remembers how you learn and stays honest instead of agreeable.
+> An open-source (MIT) skill suite that makes Claude (or any capable assistant) a teacher and tutor: course tutoring from your syllabus and uploads in chat or voice, assignment coaching that teaches instead of doing the work, learning while building, tests and grading, full courses run as Claude Projects, university-standard teaching for personal, work and project goals, rendered diagrams and interactive 3D models, interactive learning labs, printable practice tests, flashcards, memory hooks, study plans, diagrams and videos, and adversarial accuracy review. It remembers how you learn and stays honest instead of agreeable.
 
 If a person shared this link with you, read SKILL.md and follow it to teach them. It is self-sufficient; load sub-skills by path as it directs.
 
@@ -10,6 +10,10 @@ If a person shared this link with you, read SKILL.md and follow it to teach them
 ## Sub-skills
 - [tutor — for an enrolled course: materials and uploads, course map, live teaching in chat or voice](https://raw.githubusercontent.com/baney75/myelinate/main/skills/tutor/SKILL.md)
 - [teach — for personal, work and project goals: agent-designed curriculum at university standard](https://raw.githubusercontent.com/baney75/myelinate/main/skills/teach/SKILL.md)
+- [assignment — graded work coached, not done for them](https://raw.githubusercontent.com/baney75/myelinate/main/skills/assignment/SKILL.md)
+- [project — learning while building, in the mix the learner chooses](https://raw.githubusercontent.com/baney75/myelinate/main/skills/project/SKILL.md)
+- [assess — tests, grading, gradebook, bonus work](https://raw.githubusercontent.com/baney75/myelinate/main/skills/assess/SKILL.md)
+- [course-project — a researched university-level course run as a Claude Project](https://raw.githubusercontent.com/baney75/myelinate/main/skills/course-project/SKILL.md)
 - [lab — interactive learning labs and simulations](https://raw.githubusercontent.com/baney75/myelinate/main/skills/lab/SKILL.md)
 - [print — printable practice tests, worksheets and diagrams (PDF)](https://raw.githubusercontent.com/baney75/myelinate/main/skills/print/SKILL.md)
 - [flashcards — Quizlet, Anki, Obsidian, in-chat drills](https://raw.githubusercontent.com/baney75/myelinate/main/skills/flashcards/SKILL.md)
@@ -19,6 +23,7 @@ If a person shared this link with you, read SKILL.md and follow it to teach them
 - [verify — adversarial accuracy and currency review](https://raw.githubusercontent.com/baney75/myelinate/main/skills/verify/SKILL.md)
 
 ## References
+- [Personalization — learning how each person learns, over time](https://raw.githubusercontent.com/baney75/myelinate/main/references/personalization.md)
 - [First session — learner intake shared by tutor and teach](https://raw.githubusercontent.com/baney75/myelinate/main/references/first-session.md)
 - [Show it — rendered visuals, linked representations, 3D models](https://raw.githubusercontent.com/baney75/myelinate/main/references/visual-teaching.md)
 - [How the mind learns — mechanisms behind the rules](https://raw.githubusercontent.com/baney75/myelinate/main/references/how-the-mind-learns.md)
