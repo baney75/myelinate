@@ -32,7 +32,7 @@ Stay in chat or a `lab` when the learner needs fast feedback per item, a simulat
 ## 2. Practice tests
 
 ### Blueprint first
-1. Get the **study guide** (or syllabus objectives) and the **exam format**: item types, count, minutes, point weights, allowed materials. If they are missing, ask once; label the test "format inferred" until confirmed (`teach`).
+1. Get the **study guide** (or syllabus objectives) and the **exam format**: item types, count, minutes, point weights, allowed materials. If they are missing, ask once; label the test "format inferred" until confirmed (`tutor` §1a).
 2. List objectives O1…On. **Every objective is sampled**; points are **proportional to its weight** in the guide, not to how easy it is to write items for.
 3. Fill a blueprint table — objective → items → points → share — and put it in the key. Check sums with code.
 

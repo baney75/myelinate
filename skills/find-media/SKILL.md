@@ -165,6 +165,8 @@ In a tutoring session, a figure is a teaching move, not a deliverable:
 3. Ask one question about it ("Where on this curve does exercising muscle sit?"). Hide or cover labels you're about to quiz.
 4. Licensing still applies to anything you embed in a saved or shared artifact; a link for private study is fine.
 
+When the learner should operate the figure (rotate a molecule, move a slider, step a mechanism), build it as an inline interactive instead: `references/visual-teaching.md`.
+
 In voice mode, describe the figure in words and offer to send it in text.
 
 ## 7. Anti-patterns

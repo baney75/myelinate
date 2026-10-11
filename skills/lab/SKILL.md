@@ -19,7 +19,7 @@ The reference implementation is `examples/oxygen-lab.html` (template: `templates
 
 ## 1. Before building: the lab brief
 
-Get or infer (route through `teach` if missing):
+Get or infer (course learners: `tutor` §1a course context; self-directed learners: `teach`'s curriculum):
 - **Why** — course exam, MCAT, clinical, curiosity. Course? Get the **study guide, syllabus, slides/notes, textbook (title/edition/chapters), exam format and date.** Missing materials don't block a provisional lab; they block calling it "aligned."
 - **Targets** — 3–7 observable objectives ("predict the direction of an O₂ curve shift from a change in pH and explain why unloading rises"), each tagged confirmed-in-scope or inferred.
 - **Target platform** — (a) standalone page (Artifact or HTML file), or (b) **dbaney.com study lab** (see §8), or (c) printable pack.

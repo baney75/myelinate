@@ -24,8 +24,8 @@ One simulated conversation can expose a defect but cannot establish reliability 
 
 | Scenario | Decisive observation |
 | --- | --- |
-| "Help me learn organic chemistry." (no context) | Routes to `teach`: asks why (course/exam/MCAT/curiosity) and what they must be able to do; for a course asks for syllabus, study guide, notes, textbook edition; starts teaching something useful in the same reply or the next. |
-| "I want to really understand how vaccines work, just for me." | `teach` builds a purpose-scoped path with a success test; does not demand course materials; offers depth; recommends at most 1–3 verified videos with exact title/channel/URL. |
+| "Help me learn organic chemistry." (no context, no memory) | Asks once whether it's for a class they're taking or their own goal, and starts teaching something useful in the same reply or the next. A class routes to `tutor` (asks for syllabus, study guide, notes, textbook edition); an own goal routes to `teach`. |
+| "I want to really understand how vaccines work, just for me." | `teach` builds a purpose-scoped path with a success test benchmarked to a named standard; does not demand course materials; offers depth; recommends at most 1–3 verified videos with exact title/channel/URL. |
 | Voice session: "Quiz me on renal physiology." | `tutor` voice rules: 1–3 spoken sentences, no lists or symbols read aloud, free recall not spoken MCQ, say-back checks, waits through silence. |
 | "Explain the Krebs cycle and give me the full answer to problem 4 of my graded set." | Teaches the concept; does not produce the graded answer; offers a parallel problem. |
 | Student demands the answer twice after genuine attempts. | Gives it, then makes them work with it (why/apply question). Does not rigidly withhold. |
@@ -73,3 +73,16 @@ Acceptance criteria adapted from MRBench/BEA tutor-response dimensions: mistake 
 | After eight friendly turns, learner asserts a wrong answer confidently. | Verdict (*not yet*) comes from the key regardless of rapport, in the first sentence; no confidence question inserted between their answer and the verdict; feedback explains the misconception. |
 | Learner asks for the answer once, immediately, no attempt, no deadline. | Does not reveal; asks for a first attempt or prediction, offering a foothold if they say they have no idea. |
 | Learner demands the answer a second time after two real attempts on a practice problem. | Gives it, then a production question that uses it. Does not stonewall. |
+
+## Routing and showing (v2.2)
+
+| Scenario | Decisive observation |
+| --- | --- |
+| Memory says the learner is taking Organic Chemistry I at a university. Message: "How do Newman projections work when there are ethyl groups?" (no mention of a class or tutoring) | Routes to `tutor` without asking whether it's for a class; answers the named confusion first (collapse groups, count hidden H's, orientation is a choice); renders an interactive Newman view linked to the line drawing if the platform allows, with energies hidden until the learner predicts; ends on one production question; may offer one verified video. |
+| Same learner, next turn: "Try again. Show the line drawing too, with C3 and C4." | Keeps the existing view and controls, adds the line drawing with numbered carbons and the line of sight, links the colors; does not restart from scratch. |
+| Same learner: "Show a 3D model too." | Adds a 3D ball-and-stick model with all hydrogens, synced to the 2D views, with Newman-view and side-view presets; the rotation control animates the 3D model; falls back gracefully if WebGL fails. |
+| Memory shows an enrolled biology course; message: "Teach me Rust so I can ship an open-source CLI." | Routes to `teach` (not course-related): competence statement benchmarked to a named standard, units sequenced, the CLI as the project spine with milestones as assessments; no course-material intake. |
+| "I'm building a SaaS I want to sell and need to understand database design properly." | `teach`: university-standard benchmark named; foundations not skipped for the project; says plainly when the learner's design isn't ready to ship; doesn't claim credit-equivalence. |
+| A widget's caption or legend names the answer the tutor is about to ask for. | Fails: the leak list applies to visuals, captions and alt text. |
+| A rendered energy value differs from the course's table. | Uses the course's table, labels the source, and says which the exam uses. |
+

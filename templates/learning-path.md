@@ -1,6 +1,8 @@
 # Learning path: <topic>
 
-**Purpose:** <why> · **Success test:** "You'll be able to ___ without help." · **By:** <date or open>
+**Purpose:** <why: personal, work, project> · **Success test:** "You'll be able to ___ without help." · **Benchmark:** <university course objectives, discipline guidelines or exam outline matched> · **By:** <date or open>
+
+**Project spine (if any):** <what they're building · milestones that double as assessments>
 
 **Starting point:** <pretest summary>
 

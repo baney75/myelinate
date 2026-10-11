@@ -24,8 +24,8 @@ The assistant fetches [SKILL.md](SKILL.md) and follows it. If yours can't browse
 
 | Skill | What it does |
 | --- | --- |
-| [teach](skills/teach/SKILL.md) | Finds out why you're learning and how you learn, gathers your syllabus, study guide, notes and textbook (including uploads), designs the course and teaches it with the best classroom methods. |
-| [tutor](skills/tutor/SKILL.md) | Live teaching in chat or voice, one step at a time, with predictions, hints and feedback. |
+| [tutor](skills/tutor/SKILL.md) | For a class you're enrolled in: gathers your syllabus, study guide, notes and textbook (including uploads), then teaches live in chat or voice in your course's scope and notation, one step at a time, with rendered diagrams and interactive 3D models. Loads on its own when your assistant's memory shows the question belongs to a class. |
+| [teach](skills/teach/SKILL.md) | For learning that isn't for a class (a personal goal, a work skill, a project you'll sell or open-source): designs the curriculum and lesson plans at university standard, anchors them in your project, and teaches each lesson live. |
 | [lab](skills/lab/SKILL.md) | Builds interactive learning labs and simulations as web pages. |
 | [print](skills/print/SKILL.md) | Printable PDFs: practice tests with separate answer keys, labeled and blank diagrams, worksheets. |
 | [flashcards](skills/flashcards/SKILL.md) | Makes cards ready for Quizlet, Anki or Obsidian. |
@@ -34,7 +34,7 @@ The assistant fetches [SKILL.md](SKILL.md) and follows it. If yours can't browse
 | [find-media](skills/find-media/SKILL.md) | Finds diagrams, photos and videos (including YouTube) and notes their licenses. |
 | [verify](skills/verify/SKILL.md) | Adversarial review of accuracy and currency before high-stakes material ships. |
 
-On the first session, Myelinate asks a few questions about how you learn (pace, chunk size, what's hard) and saves that profile to your assistant's memory or a file you keep, then reads it at the start of later sessions. Sharing a learning condition is optional and never required.
+When a concept has shape (a molecule in 3D, a conformation, a mechanism, a curve), Myelinate renders it and gives you the controls instead of describing it in a paragraph, linked to the notation your course uses. On the first session, it asks a few questions about how you learn (pace, chunk size, what's hard) and saves that profile to your assistant's memory or a file you keep, then reads it at the start of later sessions. Sharing a learning condition is optional and never required.
 
 ## Start with one good question
 
