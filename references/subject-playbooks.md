@@ -26,7 +26,7 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Resources:** virtual microscopy (Michigan Histology), Radiopaedia normal anatomy, OpenStax A&P figures, 3D apps; atlas images linked not copied (see **find-media**).
 
-**Tutor:** pre-train names on a schematic, then the real image; quiz spatially ("what lies posterior to…?"); use contrast pairs. **Lab:** a pannable slide or 3D model with toggleable labels, a "find the structure" task with click feedback, and a fully masked quiz mode.
+**Tutor:** pre-train names on a schematic, then the real image; for detailed structure (bone markings, foramina, plexuses, slides) use the learner's textbook or lecture figures or licensed real images, not generated drawings (`visual-teaching.md`); quiz spatially ("what lies posterior to…?"); use contrast pairs. **Lab:** a pannable slide or 3D model with toggleable labels, a "find the structure" task with click feedback, and a fully masked quiz mode.
 
 ## 2. Physiology
 

@@ -1,6 +1,6 @@
 ---
 name: find-media
-description: Find, vet, license-check and use diagrams, photos, micrographs, 3D models, simulations and videos (including specific YouTube recommendations) for learning — or draw the figure yourself when nothing good exists.
+description: Find, vet, license-check and use diagrams, photos, micrographs, 3D models, simulations and videos (including specific YouTube recommendations) for learning, or make a schematic when nothing good exists. Use when a learner or a Myelinate skill needs a figure, image or video to teach or study a concept; not for architecture or work diagrams.
 ---
 
 # Find Media
@@ -85,7 +85,7 @@ When a figure becomes a quiz ("label structure 3"):
 
 Generate when no licensed figure is accurate, when the available ones are cluttered, when you need a blank or masked version, or when the learner should see the exact case from their problem. Often better, because it can show only what matters.
 
-- **SVG** for anatomy schematics, cell diagrams, mechanisms with curved arrows, free-body diagrams. Hand-authored SVG is editable and maskable.
+- **SVG** for schematics: simplified anatomy relationships, cell diagrams, mechanisms with curved arrows, free-body diagrams. Hand-authored SVG is editable and maskable. **Not for complex real anatomy** (bone markings, skull foramina, plexuses, histology): generated drawings of those are too often wrong. Use the learner's textbook or lecture figures, or licensed real images, and mask their labels for quizzing (`references/visual-teaching.md`).
 - **Mermaid** for flowcharts, pathways, decision trees, argument maps, timelines.
 - **matplotlib (or similar)** for plots from real equations or data: Michaelis–Menten curves with and without inhibitor, titration curves, kinematics graphs, dose–response.
 - **Desmos/GeoGebra** links when the learner should drag a parameter.

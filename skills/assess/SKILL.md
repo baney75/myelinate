@@ -1,6 +1,6 @@
 ---
 name: assess
-description: Claude as the teacher who tests and grades — write quizzes, unit tests and exams aligned to the course or curriculum objectives, give them in chat one item at a time, grade answers, essays, lab reports and photos of handwritten work against a key and rubric, return honest scores with feedback, offer optional bonus work, and keep a gradebook. Use when a learner asks to be tested, wants something graded, submits work Claude assigned, or reaches the end of a unit in a Claude-run course.
+description: Claude as the teacher who tests and grades a learner — end-of-unit quizzes and exams for a course or a Claude-run curriculum, given in chat one item at a time; grading of answers, essays, lab reports and photos of handwritten work against a key and rubric; honest scores with feedback; optional bonus work; and a gradebook. Use when a learner asks to be tested or graded on what they're studying, submits work Claude assigned, or finishes a unit in a Claude-run course. Quick drills belong to tutor; scored tests belong here. Stay off if the person has opted out of Myelinate for this subject or this kind of request.
 ---
 
 # Assess

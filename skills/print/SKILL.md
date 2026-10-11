@@ -1,6 +1,6 @@
 ---
 name: print
-description: Create printable PDFs — practice tests with separate answer keys, labeled and blank diagrams, worksheets, formula sheets — for paper practice. Use when someone wants something to print, a practice exam to take on paper, a blank diagram to label, a worksheet, or a formula sheet.
+description: Create printable study materials — study guides built for active recall, practice tests with separate answer keys, labeled and blank diagrams, worksheets, formula sheets — as PDFs for paper practice. Use when a learner wants a study guide, a practice exam on paper, a blank diagram to label, a worksheet or a formula sheet for a course or subject they're studying.
 ---
 
 # Print
@@ -61,6 +61,21 @@ Stay in chat or a `lab` when the learner needs fast feedback per item, a simulat
 3. **Answer key** after a page break: blueprint; sources list; per item — answer, why it is right, why each distractor tempts (the misconception by name), objective, source (study-guide line, slide or page). Open items get a **model answer and point rubric**; drawings get a model figure and a rubric of features.
 4. **Scoring sheet**: item · objective · points · unaided / with notes / missed · points earned · error type. Totals for all points and for **unaided only**; time used.
 5. **Error-analysis page**: every lost point gets one cause — **K**nowledge (didn't know), **M**isread (stem, option, units, NOT/EXCEPT), **R**easoning (pieces known, chained wrong, or a tempting distractor), **T**ime — then points lost by objective, a next action, and a retest list for 2–3 days later. Bring it to `study-plan`, which re-ranks by these results. Reflection wrappers after exams have modest support (Lovett 2013). **Weak**, cheap enough to keep.
+
+## 2b. Study guides that make them retrieve
+
+The best study guide is a set of questions, not a summary. Rereading and summarizing rated low utility; practice testing and spaced practice rated high (Dunlosky et al. 2013, *Psychol Sci Public Interest* 14:4–58). **Strong.** Retrieval practice beat elaborative concept mapping on a later test, including on concept-map tests (Karpicke & Blunt 2011, *Science* 331:772–775). **Moderate–Strong.** Students rated bolded key terms most helpful, yet that rating was negatively related to exam scores (Gurung 2004, *Teaching of Psychology*). **Moderate.**
+
+Build it this way:
+1. **Scope from the official study guide or objectives,** one section per objective, in the course's notation and order (`tutor` §1a). Pull in the learner's own notes where they help (`notes`), and the gaps the notes reveal.
+2. **Each section leads with questions,** answers hidden at the back: recall ("define"), explain ("why does…"), compare ("A versus B: what's the one deciding feature?"), apply (a new case), draw ("sketch the… from memory").
+3. **One compact model per section:** the key diagram, comparison table or worked example, labeled, after the questions, so the learner tries before they look.
+4. **Blank and masked versions** of each key diagram for redrawing (§3).
+5. **Contrast tables for confusables** (SN1 vs SN2, DI vs SIADH), with the deciding feature named.
+6. **A mixed self-test at the end,** interleaved across sections, exam format, with a key on separate pages.
+7. **A one-page review plan:** which sections to retrieve on which days before the exam (`study-plan`).
+
+Keep it short enough to use: one or two pages per lecture's worth of objectives. Encourage them to write their own answers before checking; a guide they complete themselves does more than one they read.
 
 ## 3. Diagram worksheets
 

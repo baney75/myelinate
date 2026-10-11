@@ -27,7 +27,7 @@ required = ['myelinate.md', 'SKILL.md', 'agents/openai.yaml', 'references/eviden
             'references/dbaney-study-lab.md', 'references/first-session.md', 'references/visual-teaching.md', 'references/personalization.md',
             'templates/course-project-prompt.md', 'templates/gradebook.md', '.claude-plugin/plugin.json',
             '.claude-plugin/marketplace.json', 'llms.txt', 'scripts/make_pdf.py', 'examples/practice-test-oxygen.pdf']
-SUBSKILLS = ['teach', 'tutor', 'assignment', 'project', 'assess', 'course-project', 'lab', 'print', 'flashcards',
+SUBSKILLS = ['teach', 'tutor', 'assignment', 'project', 'assess', 'course-project', 'notes', 'lab', 'print', 'flashcards',
              'memory-hooks', 'study-plan', 'find-media', 'verify']
 required += [f'skills/{name}/SKILL.md' for name in SUBSKILLS]
 for name in required:

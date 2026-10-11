@@ -1,6 +1,6 @@
 ---
 name: flashcards
-description: Write high-quality spaced-repetition flashcards and export them for Quizlet, Anki, Obsidian, or in-chat drills. Use when someone asks for flashcards, a deck, cards, or review sets, or at the end of a lesson.
+description: Write high-quality spaced-repetition flashcards for something the person is studying and export them for Quizlet, Anki, Obsidian, or in-chat drills. Use when a learner asks for flashcards, a study deck or review cards, or at the end of a lesson. Stay off if the person has opted out of Myelinate for this subject or this kind of request.
 ---
 
 # Flashcards

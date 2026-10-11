@@ -20,7 +20,7 @@ The assistant fetches [SKILL.md](SKILL.md) and follows it. If yours can't browse
 
 ## What's inside
 
-`SKILL.md` is a router. It reads what you are after and hands the request, with your context, to one of thirteen skills. Installed as a plugin, each one loads by itself when the moment fits:
+`SKILL.md` is a router. It reads what you are after and hands the request, with your context, to one of fourteen skills. Installed as a plugin, each one loads by itself when the moment fits:
 
 | Skill | What it does |
 | --- | --- |
@@ -28,6 +28,7 @@ The assistant fetches [SKILL.md](SKILL.md) and follows it. If yours can't browse
 | [teach](skills/teach/SKILL.md) | For learning that isn't for a class (a personal goal, a work skill, a project you'll sell or open-source): designs the curriculum and lesson plans at university standard, anchors them in your project, and teaches each lesson live. |
 | [assignment](skills/assignment/SKILL.md) | Help on homework, lab reports, essays and coding assignments that teaches you to do them instead of doing them for you. Tool steps (drawing a structure, formatting) can be done; the graded thinking stays yours. |
 | [project](skills/project/SKILL.md) | Learn while you build something of your own, in the mix you choose: build and learn, teach me to do it, or just tell me how. Stays out of the way of ordinary coding and work. |
+| [notes](skills/notes/SKILL.md) | Reads your own notes (Google Drive, OneDrive, Notion, Obsidian or photos of paper) to see how you're grasping it, flags misconceptions and slide-copying, and turns your notes into practice. |
 | [assess](skills/assess/SKILL.md) | Tests written to the objectives, graded against a key and rubric, honest scores, optional bonus work, and a gradebook. |
 | [course-project](skills/course-project/SKILL.md) | Turns a big goal ("teach me software engineering") into a full course researched against accredited university syllabi, with a lesson plan, assignments, tests and teacher instructions to run as a Claude Project. |
 | [lab](skills/lab/SKILL.md) | Builds interactive learning labs and simulations as web pages. |

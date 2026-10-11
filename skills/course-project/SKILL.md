@@ -1,6 +1,6 @@
 ---
 name: course-project
-description: Turn a big self-directed learning goal ("teach me software engineering", "I want to learn organic chemistry properly", "a full course in Latin") into a complete, researched university-level course that runs inside a Claude Project — syllabus benchmarked against accredited university syllabi and discipline standards, unit-by-unit lesson plan, assignments, tests, gradebook, and tested project instructions the learner pastes in. Use when a learning goal is too large for one chat, or the learner wants a structured course with its own memory and files.
+description: Turn a large self-directed learning goal into a complete, researched university-level course that runs inside a Claude Project — syllabus benchmarked against accredited university syllabi and discipline standards, unit-by-unit lesson plan, assignments, tests, gradebook, and project instructions the learner pastes in. Use when a learner asks for a full structured course or a course in a Claude Project, or accepts teach's offer of one.
 ---
 
 # Course project
@@ -60,7 +60,7 @@ Checked against Claude's help center on **2026-10-11**; re-check if this date is
 3. In the project's knowledge panel, choose **+** and add the syllabus, lesson plan and gradebook.
 4. Start a chat in the project: "Begin the course."
 
-Notes: free accounts can create up to five projects. Memory is project-scoped and on by default on Free, Pro and Max (on Team and Enterprise an owner must enable it); a chat started with memory off neither uses nor adds to it. Chats in a project don't share context with each other except through memory and the project files, which is why the gradebook matters.
+Notes: free accounts can create up to five projects. Memory is project-scoped and on by default on Free, Pro and Max (on Team and Enterprise it's off by default until an owner turns it on); a chat started with memory off neither uses nor adds to it. Chats in a project don't share context with each other except through memory and the project files, which is why the gradebook matters.
 
 **Other assistants:** ChatGPT and Grok also have project features with instructions and files. The same instructions and files work there; check their current help pages for the steps.
 

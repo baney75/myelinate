@@ -12,6 +12,7 @@ If a person shared this link with you, read SKILL.md and follow it to teach them
 - [teach — for personal, work and project goals: agent-designed curriculum at university standard](https://raw.githubusercontent.com/baney75/myelinate/main/skills/teach/SKILL.md)
 - [assignment — graded work coached, not done for them](https://raw.githubusercontent.com/baney75/myelinate/main/skills/assignment/SKILL.md)
 - [project — learning while building, in the mix the learner chooses](https://raw.githubusercontent.com/baney75/myelinate/main/skills/project/SKILL.md)
+- [notes — reads the learner's notes to see how they're grasping it](https://raw.githubusercontent.com/baney75/myelinate/main/skills/notes/SKILL.md)
 - [assess — tests, grading, gradebook, bonus work](https://raw.githubusercontent.com/baney75/myelinate/main/skills/assess/SKILL.md)
 - [course-project — a researched university-level course run as a Claude Project](https://raw.githubusercontent.com/baney75/myelinate/main/skills/course-project/SKILL.md)
 - [lab — interactive learning labs and simulations](https://raw.githubusercontent.com/baney75/myelinate/main/skills/lab/SKILL.md)

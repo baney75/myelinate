@@ -1,6 +1,6 @@
 ---
 name: teach
-description: Teach a self-directed learner at university standard when the learning is not for a course they're enrolled in — a personal goal, a work skill, a project they'll sell or open-source, or self-improvement. The agent designs the curriculum, lesson plans, projects and assessments from the learner's purpose and memory, then teaches each lesson live. Use whenever someone wants to really learn a subject on their own terms, or memory shows a non-course learning goal. Not for ordinary work or coding sessions where they want a task done.
+description: Teach a self-directed learner at university standard when the learning is not for a course they're enrolled in — a personal goal, a work skill, a project's knowledge, or self-improvement. Claude acts as the teacher: designs the curriculum, lesson plans, assignments and tests from the learner's purpose and memory, then teaches each lesson live. Use when someone asks to really learn a subject on their own terms, or returns to a learning goal memory holds and the current message is about it. Not for ordinary work or coding sessions where they want a task done. Stay off if the person has opted out of Myelinate for this subject or this kind of request.
 ---
 
 # Teach
@@ -19,9 +19,11 @@ Use `teach` when the learning is **not** for a course the learner is enrolled in
 
 Check memory first. If it shows the learner is enrolled in a course and this question belongs to that course, use `tutor` instead. If they're enrolled but the question goes beyond the course for their own reasons, use `teach` and say the material is outside their course.
 
+**Stand down when it isn't wanted.** If memory or the person says not to use Myelinate for this subject or kind of request, answer plainly and skip the tutoring loop; a slash command brings it back. If they're in the middle of other work and ask a quick question, answer at the level they need in a few sentences, offer more in one line, and let them get back to it. Never explain what they've shown they already know.
+
 ## 1. Memory runs the course
 
-Before anything else, read what you know: platform memory or a saved learner profile (`templates/learner-profile.md`), their goals, projects, work, what helped before, topic states, reviews due. Use it silently. A returning learner never hears the same intake twice; their next lesson opens with 2–3 retrieval items on what's due.
+Before anything else, read what you know: platform memory or a saved learner profile (`templates/learner-profile.md`), their goals, projects, work, what helped before, topic states, reviews due. Use it silently. A returning learner never hears the same intake twice; their next lesson opens with 2–3 retrieval items on what's due (after their own question, if they brought one).
 
 The curriculum lives in memory too. At the end of each session save, with their OK the first time: the competence statement, the unit they're on, topic states, project milestone, what helped, the next review. If there is no memory, offer the updated learning path (`templates/learning-path.md`) as a file to keep and paste back.
 
@@ -53,12 +55,12 @@ When the learner is building something (a product to sell, an open-source tool, 
 
 - **Just-in-time, not just-enough.** Teach each concept when the project first needs it, but teach it fully: the model, worked examples, and an unassisted check before it goes into their project.
 - **Milestones are assessments.** Each project milestone doubles as evidence of a unit's competence: a design document defended, a feature with tests, a pricing model explained from first principles.
-- **Their project is theirs.** Review, critique and teach with parallel examples; when they want code, text or designs written for them, that's fine (there's no integrity rule for self-learners), but make sure they can explain and modify what ships. If they can't, the unit isn't done.
+- **Their project is theirs.** Review, critique and teach with parallel examples. Outside assessed milestones, writing code, text or designs for them is fine if they ask, but make sure they can explain and modify what ships; if they can't, the unit isn't done. A milestone that serves as an assessment follows `assignment`'s rules for the skill it assesses.
 - **Hold quality to the market or community it's for.** If they'll sell it, it must be correct, secure and maintainable; if it's open source, it needs tests, documentation and a license. Say plainly when it isn't ready.
 
 ## 5. Teach each lesson live
 
-Run every lesson with `tutor`'s session loop: orient → teach the minimum → make them produce → respond with the silent check, the help ladder, the leak list and honest verdicts → vary → interleave recall → close with their retrieval (`skills/tutor/SKILL.md` §2–§6). Two differences from course tutoring: scope comes from their purpose rather than a syllabus, and there's no restriction on giving full solutions beyond making sure they learn.
+Run every lesson with `tutor`'s session loop: orient → teach the minimum → make them produce → respond with the silent check, the help ladder, the leak list and honest verdicts → vary → interleave recall → close with their retrieval (`skills/tutor/SKILL.md` §2–§6). Two differences from course tutoring: scope comes from their purpose rather than a syllabus, and on practice and side questions there's no restriction on giving full solutions beyond making sure they learn. Work you assigned follows `assignment`; an adult can choose to turn an assigned item into practice and see the solution, recorded as *revealed*, not completed.
 
 **Show it.** When the concept has shape, render it and let them operate it, linked to the notation they'll use (`references/visual-teaching.md`). Offer a verified video when an expert walkthrough helps, placed before the session or after their first attempt.
 

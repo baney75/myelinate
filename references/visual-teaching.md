@@ -17,6 +17,18 @@ When the concept has shape, **default to rendering it rather than describing it.
 
 Not everything needs a picture. Definitions, quick confirmations, pure procedure the learner already sees, and voice turns usually don't. A visual that isn't carrying the concept is decoration.
 
+## Real images beat generated diagrams for complex anatomy
+
+Hand-authored SVG is excellent for schematics: a circuit, a mechanism, a Newman projection, a pathway, a free-body diagram. It is not yet good enough for complex real-world structure. A generated drawing of a femur's bone markings, a skull's foramina, a brachial plexus or a histology slide is likely to be wrong in ways a novice can't catch, and a wrong figure teaches the error with authority.
+
+For those, in this order:
+1. **The learner's own course figures:** their textbook, lecture slides or lab manual, which also match what the exam shows. Ask for the figure or page; use it privately.
+2. **Licensed real images and atlases:** photos, radiographs, micrographs and vetted illustrations from open sources (`find-media` §2; e.g., Wikimedia Commons, OpenStax, Radiopaedia, Michigan Histology), linked or embedded with attribution.
+3. **3D models** from reputable sources for spatial relations.
+4. **Your own SVG only for a schematic** that shows one relationship, labeled "schematic, not to scale."
+
+For quizzing, mask labels on a real image (`find-media` §4) rather than drawing a new one.
+
 ## Pick the strongest format the platform supports
 
 1. **Inline interactive widget** (an inline HTML/SVG tool, an artifact, a canvas) — first choice for anything the learner should manipulate.
