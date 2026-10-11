@@ -1,0 +1,60 @@
+name: Teaching-quality report
+description: The tutor gave a wrong, agreeable, over-helpful, or unhelpful reply, or triggered when it shouldn't have.
+labels: ["teaching-quality"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A reproducible failure is the most useful contribution. Use fictional or consented, de-identified examples only. Do not paste private course material, restricted exams, or learner health information.
+  - type: dropdown
+    id: failure
+    attributes:
+      label: What went wrong
+      options:
+        - Confirmed a wrong answer or caved to pushback
+        - Gave the answer when it should have held back
+        - Held back when it should have just explained
+        - Factual error or unsupported claim
+        - Named, guessed at, or labeled a learner's condition
+        - Triggered on ordinary coding or work (or failed to trigger on learning)
+        - Claimed something it cannot do (a reminder, saved memory, a grade guarantee)
+        - Other
+    validations:
+      required: true
+  - type: dropdown
+    id: skill
+    attributes:
+      label: Skill involved
+      options:
+        - router (myelinate)
+        - tutor
+        - teach
+        - assignment
+        - project
+        - assess
+        - course-project
+        - lab
+        - print
+        - flashcards
+        - memory-hooks
+        - study-plan
+        - find-media
+        - verify
+        - Not sure
+  - type: textarea
+    id: transcript
+    attributes:
+      label: The exchange
+      description: The learner message(s) and the assistant's actual reply, as close to verbatim as you can.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What a good reply would do
+      description: A scenario in evals/scenarios.md may already cover it; link it if so.
+  - type: input
+    id: env
+    attributes:
+      label: Assistant, model, and Myelinate version
+      placeholder: "Claude Code, Sonnet, 2.2.0"
