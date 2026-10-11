@@ -53,6 +53,22 @@ In voice, describe the picture in words, then offer to send it in text.
 10. **Prose outside the widget.** The visual holds labels and controls only. Explanations, the recipe and the question go in your reply.
 11. **One question after it.** "Rotate the back carbon until the two biggest groups are anti. How many gauche interactions are left?" Not "does this help?"
 
+## Explain by a working object (for crafted figures)
+
+Some ideas have no natural picture: a cache, a rate limiter, a feedback loop, an equilibrium, a buffer. For those, one powerful move is to invent a real, recognizable machine whose working *is* the concept, and let the learner operate it. A pin-tumbler lock that turns only when every pin matches teaches a cache key; a set of drawers each as deep as its bytes teaches memory layout. This approach, and the craft and verification rules below, are adapted from Anatomy by Ryan (github.com/wheresryan22/anatomy, MIT), a figure-building skill for Claude.
+
+Adapted for learning:
+1. **Truth first.** Write the model before drawing: the real numbers, thresholds and behavior, in one small module that drives every part, readout and motion. A figure whose machine moves differently from the concept teaches the wrong thing.
+2. **One-to-one mapping, said in one sentence:** what moves and what that motion means. Then say **where the metaphor breaks** (a lock has no eviction; a real cache does). Unmarked analogies become misconceptions.
+3. **Detail serves the mechanism.** Every part belongs to the machine and sits on another part; nothing is decoration. Exactly one part is lit or accented: the one the learner should watch. That's the signaling principle; detail that competes with it is a seductive detail and costs learning (`find-media` §1).
+4. **The learner predicts before it moves.** The machine starts at rest; ask what will happen when they turn the knob; then let them turn it.
+5. **A framed card:** figure number and a short title on top, the interaction hint and a live readout (computed from the model) at the bottom, the legend and a true caption underneath. Words stay out of the drawing.
+6. **Calm, learner-driven motion:** time-based easing, responds to pointer and keyboard, an idle loop only when nobody's touching it, stops when offscreen, and goes still under reduced motion.
+7. **Verify like a critic.** Render at desktop and phone width (390 px), in light and dark, at rest and at several moments of motion, and look at every image. Zoom in about 4× on every joint: every line ends on something, nothing passes through anything, nothing pops between frames.
+8. **Size it honestly.** A crafted figure of this kind takes far longer than a live-turn diagram (the Anatomy skill sizes its smallest figures at 30–90 minutes). In a live session, use a quick linked diagram; build the crafted figure for a `lab`, a course or a study pack, and say how long it will take first.
+
+If the **Anatomy** skill is installed (`npx skills add wheresryan22/anatomy`), use it to build these figures; its kit, audits and capture scripts do the craft and verification above. Despite the name, it draws machines, not human anatomy: for bodies, bones and tissues, use real images (above).
+
 ## Iterate toward the learner
 
 When the learner says "try again" or asks for another view, read it as a missing translation step. Keep what worked, add the representation they asked for, and **link** it to the existing ones rather than starting over. A good escalation path:
@@ -134,6 +150,7 @@ A learner understands Newman projections for butane but can't tell "what goes on
 ## Anti-patterns
 
 - Describing a 3D structure in a paragraph when a model could be shown.
+- A machine metaphor with no stated mapping or no word on where it breaks; a richly detailed figure with no single accented part to watch.
 - A widget that reveals the answer before the learner predicts, or a caption that names the masked label.
 - Representations that use different colors or names for the same thing, or aren't linked.
 - Decorative animation, mascots, particles that encode nothing.

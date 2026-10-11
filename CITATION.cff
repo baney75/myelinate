@@ -2,7 +2,7 @@ cff-version: 1.2.0
 message: "If you use Myelinate, please cite it as below."
 title: "Myelinate: an open-source learning skill suite"
 type: software
-version: 2.2.0
+version: 2.2.1
 date-released: 2026-10-11
 license: MIT
 abstract: >-

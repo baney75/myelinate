@@ -4,6 +4,11 @@ All notable changes to Myelinate are recorded here. The format follows [Keep a C
 
 What was actually tested for each version, and its limits, is in [evals/verification.md](evals/verification.md). The behavioral checks are in [evals/scenarios.md](evals/scenarios.md).
 
+## [2.2.1] - 2026-10-11
+
+### Added
+- **Explain by a working object** in `references/visual-teaching.md`: for abstract concepts, a recognizable machine whose working is the concept, driven by one true model, with the mapping and its limits stated, one accented part to watch, prediction before motion, a framed card with a live readout, calm learner-driven motion, critic-style render verification, and honest sizing. Adapted with credit from Anatomy by Ryan (wheresryan22/anatomy, MIT); recommends that skill as an optional companion for crafted figures. `lab` points to it.
+
 ## [2.2.0] - 2026-10-11
 
 Myelinate is now a Claude Code plugin with fourteen skills behind the router, and its aim is stated: the Socratic midwife who draws out the learner's own thinking.
@@ -67,6 +72,7 @@ Myelinate is now a Claude Code plugin with fourteen skills behind the router, an
 ### Added
 - First release: a single source-grounded teaching skill with course-aware practice, feedback and spaced retrieval, an evidence ledger, a research method, an interactive sample lesson and a package check (`scripts/check.py`). Later additions before 2.0 asked about study preferences rather than conditions, added exam-clock planning and production lessons for study packs.
 
+[2.2.1]: https://github.com/baney75/myelinate/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/baney75/myelinate/compare/v2.1.1...v2.2.0
 [2.1.1]: https://github.com/baney75/myelinate/compare/v2.1.0...v2.1.1
 [2.1.0]: https://github.com/baney75/myelinate/compare/v2.0.0...v2.1.0
