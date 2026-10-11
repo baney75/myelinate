@@ -159,3 +159,9 @@ python3 scripts/check.py --sync   # regenerate SKILL.md after editing myelinate.
 `myelinate.md` is the authored source; `SKILL.md` is an identical generated entrypoint for skill discovery. [Behavioral scenarios](evals/scenarios.md) test decisions that a syntax checker cannot. [Verification notes](evals/verification.md) describe what has actually been checked.
 
 MIT licensed. Research and linked third-party material retain their own rights.
+
+## Sponsors
+
+<!-- sponsors:start -->
+No sponsors yet. [Sponsor on GitHub](https://github.com/sponsors/baney75) and your name appears here automatically.
+<!-- sponsors:end -->
