@@ -49,10 +49,10 @@ Older Claude Code, other assistants and Codex: see [Install](#install).
 | [assess](skills/assess/SKILL.md) | Tests written to the objectives, graded against a key and rubric, honest scores, optional bonus work, and a gradebook. |
 | [course-project](skills/course-project/SKILL.md) | Turns a big goal ("teach me software engineering") into a full course researched against accredited university syllabi, with a lesson plan, assignments, tests and teacher instructions to run as a Claude Project. |
 | [lab](skills/lab/SKILL.md) | Builds interactive learning labs and simulations as web pages. |
-| [print](skills/print/SKILL.md) | Printable PDFs: practice tests with separate answer keys, labeled and blank diagrams, worksheets. |
+| [print](skills/print/SKILL.md) | Printable PDFs: study guides built for active recall (questions first, answers at the back), practice tests with separate answer keys, labeled and blank diagrams, worksheets. |
 | [flashcards](skills/flashcards/SKILL.md) | Makes cards ready for Quizlet, Anki or Obsidian. |
 | [memory-hooks](skills/memory-hooks/SKILL.md) | Writes research-backed mnemonics for material that will not stick. |
-| [study-plan](skills/study-plan/SKILL.md) | Works back from the exam date: spaced relearning, practice and sleep. |
+| [study-plan](skills/study-plan/SKILL.md) | Works back from the exam date: spaced relearning, practice and sleep, with opt-in calendar reminders through a calendar you have connected. |
 | [find-media](skills/find-media/SKILL.md) | Finds diagrams, photos and videos (including YouTube) and notes their licenses. |
 | [verify](skills/verify/SKILL.md) | Adversarial review of accuracy and currency before high-stakes material ships. |
 

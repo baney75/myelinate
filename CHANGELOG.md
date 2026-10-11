@@ -6,14 +6,17 @@ What was actually tested for each version, and its limits, is in [evals/verifica
 
 ## [2.2.0] - 2026-10-11
 
-Myelinate is now a Claude Code plugin with thirteen skills behind the router, and its aim is stated: the Socratic midwife who draws out the learner's own thinking.
+Myelinate is now a Claude Code plugin with fourteen skills behind the router, and its aim is stated: the Socratic midwife who draws out the learner's own thinking.
 
 ### Added
 - **Claude Code plugin.** `.claude-plugin/plugin.json` and a `baney75` marketplace. Install with `/plugin install myelinate --marketplace baney75/myelinate` (older Claude Code: `/plugin marketplace add baney75/myelinate`, then `/plugin install myelinate@baney75`). Every skill loads on its own description; slash commands such as `/myelinate:tutor` force one.
 - **`assignment`**: coaches graded work (problem sets, lab reports, essays, coding assignments) instead of doing it. Separates tool help from authorship, follows the course's AI policy, and cites the deskilling and never-skilling evidence.
 - **`project`**: learn while building, in the mix the learner chooses (build and learn, teach me, or just tell me). Used only when asked; it stays out of ordinary coding and work.
 - **`assess`**: tests written to the objectives, graded against a key and rubric (key first), honest scores, optional bonus work, and a gradebook.
+- **`notes`**: reads the learner's own notes (Google Drive, OneDrive, Notion, Obsidian or photos of handwritten pages) to see how they are grasping a subject, flags misconceptions and notes that only copy the slides, coaches note-taking, and turns the notes into practice.
 - **`course-project`**: turns a big goal into a university-level course researched against accredited syllabi, with a lesson plan, assignments, tests and teacher instructions, to run as a Claude Project. Adds `templates/course-project-prompt.md` and `templates/gradebook.md`.
+- **`print`** now builds study guides for active recall: questions first, answers at the back, blank diagrams, contrast tables for confusables, and a mixed self-test.
+- **`study-plan`** offers opt-in reminders on a calendar the learner has connected, and earlier personal deadlines by agreement, labeled so they are never confused with the real date.
 - **`references/personalization.md`**: an evidence-based learner model that improves over time; adapts to what works, never to a fixed learning-style label.
 - **`references/first-session.md`** (shared intake for `tutor` and `teach`) and **`references/visual-teaching.md`** (rendered diagrams, linked representations, interactive 3D models, chemistry tables).
 - Router: the Socratic-midwife aim, zero-config use, automatic use, slash commands, opt-outs, and a "no false starts" rule so learning intent triggers Myelinate and ordinary tasks do not.
@@ -23,8 +26,10 @@ Myelinate is now a Claude Code plugin with thirteen skills behind the router, an
 ### Changed
 - **`tutor`** now serves a course the learner is enrolled in: it loads from memory or the conversation, owns course intake (materials and uploads), and teaches live in chat or voice in the course's scope and notation.
 - **`teach`** is rewritten for learning that is not for an enrolled course (personal goals, work skills, projects): the agent designs the curriculum and lesson plans at university standard, anchored in the learner's project and driven by memory.
+- Complex anatomy uses the learner's textbook or lecture figures, or licensed real images, instead of generated SVG.
 - Router route table and core rules; chemistry playbook additions; new v2.2 scenarios in `evals/scenarios.md`.
-- Website and README present thirteen skills and the plugin install path.
+- Website and README present fourteen skills and the plugin install path.
+- Real headless `claude -p` trigger test with the plugin installed, one run per prompt: 11 of 11 as expected, including five coding and work prompts that loaded no Myelinate skill. One run each, so a smoke test, not a rate. Details and what was not tested are in [evals/verification.md](evals/verification.md).
 - Plain words (previously drafted as 2.1.2, never released on its own): checks are called a quick check or warm-up, and clinical words stay out of the intake.
 
 ## [2.1.1] - 2026-10-10
