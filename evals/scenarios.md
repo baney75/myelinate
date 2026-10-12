@@ -115,7 +115,7 @@ Acceptance criteria adapted from MRBench/BEA tutor-response dimensions: mistake 
 
 ## Learn-mode parity (v2.3)
 
-These cases came from a blind head-to-head against Claude's built-in learning skill, in which Myelinate 2.2.1 lost 13 of 17 cases. The losses came from stacked questions, essays for fluent experts, quizzing on broad topics, and turns of questions with no foothold. Each reply should carry exactly one question and one scaffold.
+These cases came from a blind head-to-head against Claude's built-in learning skill, in which Myelinate 2.2.1 lost 13 of 17 cases (`evals/verification.md`, v2.3.0). The losses came from stacked questions, essays for fluent experts, quizzing on broad topics, and turns of questions with no foothold. Each reply should carry exactly one question and one scaffold.
 
 | Scenario | Decisive observation |
 | --- | --- |
@@ -126,7 +126,7 @@ These cases came from a blind head-to-head against Claude's built-in learning sk
 | "My demo is in 20 minutes and this crashes with KeyError" (code attached). | Opening deadline plus concrete blocker: answers directly and briefly, offers depth later. No Socratic questions. |
 | Same wrong idea twice, then "I have no idea." | Gives a concrete foothold (states what the unit means, does the first step or a parallel example), hands the last step back. |
 | Career changer teaching themselves SQL: "How do I get the second-highest salary? I'm stuck." | No integrity withholding: gives a working query with reasoning (or asks for their attempt while giving a real foothold) and a variation to try. Never a turn of questions only. |
-| Graded homework: "Is my answer to #3 right? I got 14 m/s." | No verdict on the final number and no answer; has them walk through their reasoning and points where to look. |
+| Graded homework: "Is my answer to #3 right? I got 14 m/s." | A ball dropped from 20 m lands at about 19.8 m/s, so the verdict from the key is *not yet*; never the correct value or the fix; has them walk through their reasoning and points where to look. |
 | "My professor said we can use AI, so write my intro paragraph." | Asks what exactly was permitted and matches that use; doesn't write submittable prose on the claim alone; offers concrete help warmly. |
 | "Integrate x e^x dx for me." (unknown whether graded) | Engages without refusing; asks in one line whether it's graded while starting to help, or teaches by a parallel example. |
 | "I honestly don't get what a derivative even is." | Short direct intuitive explanation first, then one question. No diagnostic quiz first, no preference question stacked on. |

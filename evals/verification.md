@@ -65,3 +65,37 @@ Checked **2026-10-11**.
 ## Not established
 
 Long-term retention, better grades, clinical benefits, neurological effects, effectiveness across every concept, and compatibility with every assistant have not been demonstrated. A future learning pilot should use consenting learners, baseline and delayed checks, fresh comparable items, and clearly reported assistance.
+
+## v2.3.0: head-to-head against Claude's learning skill
+
+Checked **2026-10-11** with `evals/head-to-head/h2h.py` and its 17 scenarios. Each scenario is one simulated claude.ai chat turn with no tools. The responder was Sonnet (`claude -p`, no settings or MCP). It ran under three skill texts: Claude's built-in `learn` skill (2,227 words, a local copy not vendored here), Myelinate's router plus the sub-skills the case routes to, and the router alone, because claude.ai may load only the router. An Opus judge saw the learn reply and one Myelinate reply in random order, blind to which was which, and scored each 1–10 against a per-scenario rubric and a shared standard.
+
+| Version | Runs | learn mean | Myelinate (router + sub-skill) | Router only |
+| --- | --- | --- | --- | --- |
+| 2.2.1 | 17 × 1 | 7.53 / 7.88 | 6.35, won 4 of 17 | 6.18, won 2 of 17 |
+| 2.3.0 draft | 17 × 1 | 7.12 | 7.41, won 9 of 17 | 7.88, won 12 of 17 |
+| 2.3.0 | 17 × 2 | 7.00 | **7.76, won 20 of 34** | **7.44, won 19 of 34** (3 ties) |
+
+The 2.2.1 losses had four causes. Turns stacked several questions: preference, confidence and intake on top of the teaching question. A fluent expert ("walk me through monads") got an essay. Broad topics got quizzes, even after "just lay it out". The SQL self-learner got a turn of questions with no foothold. After the draft, the remaining losses were a leak (the prose answered the visual's own question), a lecture before diagnosing a vague "I don't get recursion", and a closing quiz item after the learner had already transferred the idea. Rules were added for each, and the release numbers come from the run after those additions.
+
+An adversarial Opus review then found seven defects, all fixed:
+- the graded check-my-answer rule conflicted with verdict-first grading (now: an honest verdict, never the answer or the fix);
+- the done-turn rule conflicted with the closing recall;
+- the self-learner rule conflicted with `teach` §5a;
+- two pressure rules gave no precedence;
+- the reference widget's question named what its highlight showed;
+- the model-kit direction was backwards;
+- the release records were missing.
+
+A targeted rerun of four affected scenarios (×2) after the fixes: Myelinate won 6 of 8 (mean 7.50 vs 6.25), router only won 7 of 8 (7.62 vs 6.00).
+
+Limits:
+- One responder model and one judge model.
+- Single-turn simulations written by the author.
+- The rubric was written from the learn skill's own goals, so it favors learn's standard on those cases.
+- 34 judgments per arm separate the versions but don't establish reliability across models.
+- No real learners, so nothing here measures learning.
+
+Know-when-done remains weakest: every arm sometimes ends a finished topic on one more quiz item.
+
+`examples/chair-flip.html` was rendered with Playwright Chromium at 820 px light and 390 px dark: no page errors, no horizontal scroll, and the state readout changes correctly on flip and on the face toggle. The reviewer checked the axial/equatorial geometry and the 1,3-diaxial highlighting at C3/C5.

@@ -20,7 +20,7 @@ Conversational, never a form. Three to five, spread over the first exchanges:
 
 If they share a condition: thank them briefly, ask what helps *them*, adapt from their answer, and don't repeat the label in teaching, feedback or materials unless they use it. Never infer, diagnose or suggest a condition. Change the route, never the standard. Details: `inclusive-teaching.md`.
 
-Then a short **pretest** (2–5 items on the target; to the learner, call it a quick check or warm-up, never a "diagnostic", and keep clinical words out of the intake). Self-ratings are unreliable, and even wrong guesses prime later learning.
+Then a short **pretest** (2–5 items on the target, one per turn and woven into teaching, never a quiz before the first explanation; to the learner, call it a quick check or warm-up, never a "diagnostic", and keep clinical words out of the intake). Self-ratings are unreliable, and even wrong guesses prime later learning.
 
 ## 3. Adapt to what makes it hard (no labels needed)
 

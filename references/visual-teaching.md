@@ -54,7 +54,7 @@ A live-turn widget has to load instantly, run anywhere, and teach one relationsh
 7. **Host theme and phone first.** Read colors from CSS variables (the host's tokens, or your own with a dark set), size the canvas to its container times `devicePixelRatio`, set `touch-action: none` on the canvas, and use 44 px buttons.
 8. **Say what the model simplifies,** in a one-line note under it or in your reply. The chair morphs straight from one form to the other to show which position maps to which; the real path goes through half-chair and twist-boat forms.
 
-The reply around the widget follows the usual rhythm: the few rules it illustrates, the caveat, a hands-on check if they have one (a model kit: build it, push C1 up and C4 down, track one colored atom), and one question that makes them **operate** the widget and predict: "Set the methyl axial and look at the amber hydrogens. Then flip. Which conformer is lower in energy, and what is the methyl bumping into?"
+The reply around the widget follows the usual rhythm: the few rules it illustrates, the caveat, a hands-on check if they have one (a model kit: build it, push the up carbon C1 down and the down carbon C4 up, and track one colored atom), and one question that makes them **operate** the widget and predict: "Set the methyl axial, then flip. Which conformer is lower in energy?" The amber hydrogens are the scaffold for their reason; don't name them in the question.
 
 ## Design rules for a teaching visual
 
