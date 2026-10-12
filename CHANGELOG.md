@@ -4,6 +4,21 @@ All notable changes to Myelinate are recorded here. The format follows [Keep a C
 
 What was actually tested for each version, and its limits, is in [evals/verification.md](evals/verification.md). The behavioral checks are in [evals/scenarios.md](evals/scenarios.md).
 
+## [2.3.0] - 2026-10-11
+
+Myelinate now beats Claude's built-in learning skill in a blind head-to-head on chat tutoring. Version 2.2.1 lost to it (see `evals/verification.md`).
+
+### Added
+- **Locate them before you teach** (router rule 1, `tutor` §1, `teach` §5). Fluent field terms set the level, not the format. A beginner missing the concept gets a short direct explanation first. A broad or contested topic gets the shape of help it needs instead of a quiz, and "just lay it out" gets structured exposition with sources.
+- **One step forward, every turn.** Each turn has exactly one question and one scaffold. No confidence rating, preference question or intake question is stacked on top, and no turn is questions only.
+- **Impatient vs. stuck, early vs. late time claims.** A deadline plus a concrete blocker in the opening message gets a direct answer. A time claim that appears after questioning starts is treated as impatience, and the tutor holds the line more directly.
+- **Know when they're done.** After an unaided transfer, the tutor says so, names what they can now do, and points to what comes next, with no new item to answer.
+- **Integrity only where it applies.** Self-learners get working answers. When it's unclear whether work is graded, the tutor asks in one line while it starts helping. "My professor allows AI" gets matched to the specific use allowed. Graded answer checks get an honest verdict but never the answer.
+- **Visuals on claude.ai.** If `show_widget` is available, call `read_me` once, then show the widget with the prose outside it. Each visual shows one relationship. Neither the visual nor the prose answers the question the tutor is about to ask. Each visual says what the model simplifies.
+- **Make what they ask for:** flashcards, quizzes and guides are made right away, built for active recall.
+- **Build a live-turn widget** in `references/visual-teaching.md`, with `examples/chair-flip.html` as the reference: a library-free canvas projection, one state value, color that encodes the rule, highlights only where they matter, three controls, host theme tokens and phone-first sizing.
+- **Learn-mode parity** scenarios in `evals/scenarios.md`.
+
 ## [2.2.1] - 2026-10-11
 
 ### Added
@@ -72,6 +87,7 @@ Myelinate is now a Claude Code plugin with fourteen skills behind the router, an
 ### Added
 - First release: a single source-grounded teaching skill with course-aware practice, feedback and spaced retrieval, an evidence ledger, a research method, an interactive sample lesson and a package check (`scripts/check.py`). Later additions before 2.0 asked about study preferences rather than conditions, added exam-clock planning and production lessons for study packs.
 
+[2.3.0]: https://github.com/baney75/myelinate/compare/v2.2.1...v2.3.0
 [2.2.1]: https://github.com/baney75/myelinate/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/baney75/myelinate/compare/v2.1.1...v2.2.0
 [2.1.1]: https://github.com/baney75/myelinate/compare/v2.1.0...v2.1.1

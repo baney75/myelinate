@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://github.com/baney75/myelinate/actions/workflows/check.yml"><img src="https://github.com/baney75/myelinate/actions/workflows/check.yml/badge.svg" alt="Package check workflow status"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-a54320" alt="License: MIT"></a>
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-2.2.1-16313b" alt="Version 2.2.1"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-2.3.0-16313b" alt="Version 2.3.0"></a>
   <a href="#claude-code-plugin-recommended"><img src="https://img.shields.io/badge/Claude%20Code-plugin-a54320" alt="Claude Code plugin"></a>
 </p>
 
