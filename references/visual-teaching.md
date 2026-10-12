@@ -39,6 +39,23 @@ For quizzing, mask labels on a real image (`find-media` §4) rather than drawing
 
 In voice, describe the picture in words, then offer to send it in text.
 
+**On claude.ai and other chat apps, use the inline widget tool.** If a tool such as `show_widget` (or a visualizer with a `read_me`) is available, call `read_me` once, silently, for the module that fits (usually diagram or interactive). Then call `show_widget` with the visual alone. Your explanation and your question go in your own reply around it, never inside the tool call. If no such tool exists, an artifact is next; failing that, draw it in markdown or a code block.
+
+## Build a live-turn widget
+
+A live-turn widget has to load instantly, run anywhere, and teach one relationship. The reference is `examples/chair-flip.html`, about 140 lines that let a learner flip a cyclohexane chair and watch one methyl change from axial to equatorial. It shows the recipe:
+
+1. **No libraries for small geometry.** A 2D canvas with a hand-rolled projection (yaw and pitch, then a painter's sort, far to near) draws a ball-and-stick molecule, vectors or a lattice in about 40 lines. It needs no CDN or WebGL, so nothing can fail to load. Use three.js or 3Dmol.js only for real structure files or large models.
+2. **One state value drives everything.** The chair is a function of a single `t` from 0 (chair A) to 1 (chair B). Every atom, color and readout is computed from it, so the views can't disagree.
+3. **Color encodes the rule.** Axial is one color and equatorial is another, and the color is recomputed from geometry every frame. Watching a hydrogen change color during the flip teaches "axial swaps with equatorial" without a caption.
+4. **Light up only what matters, only when it matters.** The C3 and C5 hydrogens turn amber only when the methyl is axial, because those are what it bumps into. Everything else stays quiet.
+5. **Three controls at most:** the variable being taught (Ring flip), an invariance control (move the methyl to the other face: up stays up), and Reset view. Rotation is by dragging, plus arrow keys.
+6. **A live state readout that names the position, not the answer.** "Methyl is axial" helps the learner track; the energy comparison they're asked to predict stays out of the widget.
+7. **Host theme and phone first.** Read colors from CSS variables (the host's tokens, or your own with a dark set), size the canvas to its container times `devicePixelRatio`, set `touch-action: none` on the canvas, and use 44 px buttons.
+8. **Say what the model simplifies,** in a one-line note under it or in your reply. The chair morphs straight from one form to the other to show which position maps to which; the real path goes through half-chair and twist-boat forms.
+
+The reply around the widget follows the usual rhythm: the few rules it illustrates, the caveat, a hands-on check if they have one (a model kit: build it, push C1 up and C4 down, track one colored atom), and one question that makes them **operate** the widget and predict: "Set the methyl axial and look at the amber hydrogens. Then flip. Which conformer is lower in energy, and what is the methyl bumping into?"
+
 ## Design rules for a teaching visual
 
 1. **Start at the confusion.** Build the view that answers what they asked ("what goes on top?"), not a tour of the topic.
@@ -99,7 +116,7 @@ Each step keeps the controls and colors of the last, so the learner never has to
 Use 3D for stereochemistry, conformations, chair cyclohexanes, molecular geometry (VSEPR), crystal lattices, protein structure, anatomy, vectors and fields.
 
 - **Coordinates.** Build small molecules from ideal geometry (C–C 1.54 Å, C–H 1.09 Å, tetrahedral 109.5°, sp² 120°), or load a real conformer: PubChem 3D SDF for small molecules, RCSB PDB for macromolecules (license notes in `references/media-sources.md`).
-- **Libraries.** three.js (cdnjs, with OrbitControls for drag and pinch) for ball-and-stick models you build yourself; 3Dmol.js for files from PubChem or the PDB. Load only from CDNs the platform allows.
+- **Libraries.** For a few dozen atoms in a live turn, use no library: a canvas projection (`examples/chair-flip.html`). three.js (cdnjs, with OrbitControls for drag and pinch) for larger ball-and-stick models you build yourself; 3Dmol.js for files from PubChem or the PDB. Load only from CDNs the platform allows.
 - **Sync with the 2D views.** Drive the 3D geometry from the same state as the 2D drawing (a dihedral angle, a ring flip, an R/S choice). Animate the learner's change in 3D so they see the motion, not just the result.
 - **Show the hidden atoms.** Skeletal drawings hide hydrogens and carbons. The 3D model shows them all; that is much of its value.
 - **Fallback.** If WebGL or the library fails, say so on the page and keep the 2D views working.

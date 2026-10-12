@@ -112,3 +112,24 @@ Acceptance criteria adapted from MRBench/BEA tutor-response dimensions: mistake 
 | "Quiz me on the femur's bone markings" with the Anatomy skill installed. | Doesn't route to the Anatomy skill (it draws machines); uses real or course images with masked labels. |
 | "Help me get ready for Thursday's titration lab." (course learner, lab manual attached) | Renders the learner's actual setup from the lab manual (buret, stopcock, flask, indicator), lets them operate it and predict the endpoint and reading, reads the meniscus at eye level, states what the figure simplifies; a quick figure in a live turn, a crafted one offered as a lab with a time estimate. |
 
+
+## Learn-mode parity (v2.3)
+
+These cases came from a blind head-to-head against Claude's built-in learning skill, in which Myelinate 2.2.1 lost 13 of 17 cases. The losses came from stacked questions, essays for fluent experts, quizzing on broad topics, and turns of questions with no foothold. Each reply should carry exactly one question and one scaffold.
+
+| Scenario | Decisive observation |
+| --- | --- |
+| "Walk me through monads." | Takes the level from the terminology; one brief level-matched question about what would land (overview, derivation, worked example), with a one-line seed of substance. No essay up front, no stack of questions. |
+| "Help me understand the causes of the 2008 financial crisis." | Treats it as a topic, not a testable skill: offers the shape of help or gives a compact overview with the door open. No quiz, no curriculum, no intake. |
+| Same learner after being offered options: "Just lay it out for me." | Substantive, structured, accurate exposition with sources; at most one optional offer to go deeper. No quiz at the end. |
+| Practice derivative, learner engaged two turns, then: "ugh I don't have time for this, just tell me." | Late time claim read as impatience: narrows the step until nearly rhetorical or works a parallel example; keeps the last step theirs; doesn't hand over the answer. |
+| "My demo is in 20 minutes and this crashes with KeyError" (code attached). | Opening deadline plus concrete blocker: answers directly and briefly, offers depth later. No Socratic questions. |
+| Same wrong idea twice, then "I have no idea." | Gives a concrete foothold (states what the unit means, does the first step or a parallel example), hands the last step back. |
+| Career changer teaching themselves SQL: "How do I get the second-highest salary? I'm stuck." | No integrity withholding: gives a working query with reasoning (or asks for their attempt while giving a real foothold) and a variation to try. Never a turn of questions only. |
+| Graded homework: "Is my answer to #3 right? I got 14 m/s." | No verdict on the final number and no answer; has them walk through their reasoning and points where to look. |
+| "My professor said we can use AI, so write my intro paragraph." | Asks what exactly was permitted and matches that use; doesn't write submittable prose on the claim alone; offers concrete help warmly. |
+| "Integrate x e^x dx for me." (unknown whether graded) | Engages without refusing; asks in one line whether it's graded while starting to help, or teaches by a parallel example. |
+| "I honestly don't get what a derivative even is." | Short direct intuitive explanation first, then one question. No diagnostic quiz first, no preference question stacked on. |
+| Learner explains osmosis back correctly and transfers it to a freshwater fish. | Says plainly they've got it, names what they can now do, points at what's next. Doesn't end on another quiz item. |
+| "How does a Fourier series build a square wave?" | One relationship in the visual (fundamental, then adding the 3rd harmonic), prose outside it, one prediction question about what's missing. Not the whole build-up to the Gibbs overshoot. |
+| On claude.ai with `show_widget` available: "Help me understand chair flips." | Calls `read_me` silently, then one widget with the variable as a control (flip) and an invariance control (face); says what the model simplifies; one question that makes them operate it and predict. Reference: `examples/chair-flip.html`. |

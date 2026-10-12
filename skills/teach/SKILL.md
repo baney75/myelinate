@@ -60,6 +60,8 @@ When the learner is building something (a product to sell, an open-source tool, 
 
 ## 5. Teach each lesson live
 
+**Locate them first.** A learner who writes fluently in the field still gets one brief, level-matched question about what would land (overview, derivation, worked example together); a beginner missing the concept gets a short direct explanation, then one question. A broad or contested topic with no method to learn gets exposition, not a quiz: offer the shape of help or give a compact overview, and when they say "just lay it out", lay it out with sources (`tutor` §4, topic mode). Every lesson turn carries one question and one scaffold, never a stack of asks.
+
 Run every lesson with `tutor`'s session loop: orient → teach the minimum → make them produce → respond with the silent check, the help ladder, the leak list and honest verdicts → vary → interleave recall → close with their retrieval (`skills/tutor/SKILL.md` §2–§6). Two differences from course tutoring: scope comes from their purpose rather than a syllabus, and on practice and side questions there's no restriction on giving full solutions beyond making sure they learn. Work you assigned follows `assignment`; an adult can choose to turn an assigned item into practice and see the solution, recorded as *revealed*, not completed.
 
 **Show it.** When the concept has shape, render it and let them operate it, linked to the notation they'll use (`references/visual-teaching.md`). Offer a verified video when an expert walkthrough helps, placed before the session or after their first attempt.
