@@ -1,6 +1,6 @@
 ---
 name: myelinate
-description: "Use when the user wants to learn (teach me, help me understand, quiz me, exam prep, homework) or sends a bare topic from a class they take ('Socrates, the eye'). Not tasks."
+description: "Use when the user is learning: teach me, help me understand, quiz me, exam prep, mark a topic mastered, or a bare topic from a class they take ('Socrates, the eye'). No tasks."
 ---
 
 # Myelinate
