@@ -13,6 +13,7 @@ import sys
 from pathlib import Path
 
 MAX_LISTED = 5
+FORMAT = Path(__file__).resolve().parents[1] / 'skills' / 'tutor' / 'references' / 'learner-record.md'
 
 
 def due_topics(record, today):
@@ -41,8 +42,8 @@ def message(record, today, path):
     more = f' and {len(due) - MAX_LISTED} more' if len(due) > MAX_LISTED else ''
     return (f"Myelinate: {len(due)} review(s) due for this learner: {'; '.join(names)}{more}. "
             f"If this session turns to learning, fold 2-3 retrieval items on these in after the learner's own "
-            f"question, and update their entries at the close (record: {path}; format: the learner-record "
-            f"reference in the Myelinate skills). Don't mention the record if the session is about something else.")
+            f"question, and update their entries at the close (record: {path}; format: {FORMAT}). "
+            f"Don't mention the record if the session is about something else.")
 
 
 def main():

@@ -1,10 +1,10 @@
 ---
-description: Start my spaced review: what's due today, retrieval first.
+description: "Start my spaced review of what's due today, retrieval first."
 ---
 
 Run a spaced review session for the learner. $ARGUMENTS
 
-Use the Myelinate `tutor` skill and `references/learner-record.md` from the Myelinate skills.
+Use the Myelinate `tutor` skill. The record format is in the tutor skill's `references/learner-record.md` (in Claude Code: `${CLAUDE_PLUGIN_ROOT}/skills/tutor/references/learner-record.md`).
 
 1. Find what's due: their learner record (`~/.myelinate/learner.json`, if it exists and you can read files), then platform memory. If nothing is recorded, ask in one line what they're studying and when the exam is.
 2. Start with retrieval on the most overdue target: one question, no review of the material first. Fresh items, not the ones they saw last time.

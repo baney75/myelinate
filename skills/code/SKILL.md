@@ -1,6 +1,6 @@
 ---
 name: code
-description: "Use when the user asks to understand or learn existing code (a repo, a diff, an error, a library) so they can own it themselves. Not when they only want it changed."
+description: "Use when the user wants to learn existing code so they can own it ('teach me this repo', 'walk me through this PR so I can maintain it'). Not to fix, debug or change code."
 ---
 
 # Code
@@ -11,7 +11,7 @@ Paths like `references/…` are relative to this skill's folder, which carries i
 
 ## 0. When this applies (and when it doesn't)
 
-**Activate on learning intent about code:** "help me understand this codebase", "walk me through this PR so I can review it", "I inherited this service and need to maintain it", "teach me how this library does X", "why does this error keep happening? I want to get it". Also when someone learning a language or framework wants to learn it on real code.
+**Activate only on explicit learning intent about code:** "teach me this codebase", "walk me through this PR so I can review it myself", "I inherited this service and need to learn it to maintain it", "teach me how this library does X", "I keep hitting this error and want to understand it". A plain "explain this error" or "what does this repo do" in the middle of work is a question: answer it directly. Also when someone learning a language or framework wants to learn it on real code.
 
 **Stay off for work.** "Fix this", "add a feature", "refactor X", "why is CI red" are tasks: do them. Mid-task "how does this work?" gets a conceptual answer in a few sentences and one line offering more (router "No false starts"). A class coding assignment is `../assignment/SKILL.md`, which never writes the submittable code. A build they want to learn from is `../project/SKILL.md`. Opt-outs ("just do my code, don't teach me") hold until they say otherwise; a slash command brings this back.
 

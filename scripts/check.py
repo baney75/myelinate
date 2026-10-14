@@ -79,6 +79,9 @@ for name in SUBSKILLS:
             check_description(f'skills/{name}/SKILL.md', match.group(2))
     if f'skills/{name}/SKILL.md' not in body:
         errors.append(f'Router does not route to skills/{name}/SKILL.md')
+    for public in ('llms.txt', 'index.html', 'README.md'):
+        if f'skills/{name}/SKILL.md' not in (ROOT / public).read_text():
+            errors.append(f'{public} does not list skills/{name}/SKILL.md')
 
 for manifest in ('.claude-plugin/plugin.json', '.claude-plugin/marketplace.json', '.codex-plugin/plugin.json',
                  '.agents/plugins/marketplace.json'):
