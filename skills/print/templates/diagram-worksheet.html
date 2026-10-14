@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- CONTENT: document title (also used in the page footer below) -->
+<title>Diagram labeling worksheet</title>
+<!--
+  Myelinate print template: blank-labeling worksheet + separate labeled answer page.
+  How to use (see skills/print/SKILL.md):
+    1. Draw or adapt the figure as inline SVG (licensed or original; record TASL via find-media).
+    2. Blank figure: numbered leader lines only. No label text in <text>, <title>, <desc>, aria-label,
+       ids, class names, comments or file names. Use neutral alt text ("structures numbered 1 to 6").
+    3. Answer page: the SAME figure with each name placed beside its number.
+    4. Render: python3 scripts/make_pdf.py templates/diagram-worksheet.html out.pdf --png-preview previews/
+       No code execution? Open in a Chromium browser -> Print -> Save as PDF.
+  Letter by default; change `size: letter` to `size: A4`, or pass --format A4.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+  :root { --ink: #16313b; --muted: #4c6269; --rule: #b9b2a0; --line: #8f9c9f; --accent: #a54320;
+    --serif: Newsreader, Georgia, 'Times New Roman', 'DejaVu Serif', serif;
+    --sans: Inter, 'IBM Plex Sans', 'Helvetica Neue', Arial, 'DejaVu Sans', sans-serif; }
+  @page {
+    size: letter;
+    margin: 0.7in 0.75in 0.8in;
+    /* CONTENT: footer title */
+    @bottom-left { content: "Diagram labeling worksheet"; font: 500 8pt Inter, Arial, sans-serif; color: #4c6269; }
+    @bottom-right { content: "Page " counter(page) " of " counter(pages); font: 500 8pt Inter, Arial, sans-serif; color: #4c6269; }
+  }
+  @page key { @top-right { content: "ANSWER PAGE \2014  do not read until you finish"; font: 700 8pt Inter, Arial, sans-serif; letter-spacing: 0.12em; color: #a54320; } }
+  * { box-sizing: border-box; }
+  html, body { background: #fff; }
+  body { margin: 0; color: var(--ink); font: 11pt/1.45 var(--sans); }
+  @media screen { body { max-width: 7.2in; margin: 0.4in auto; padding: 0 16px; } .newpage { border-top: 1px dashed var(--rule); padding-top: 0.3in; margin-top: 0.3in; } }
+  h1, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -0.015em; margin: 0; }
+  h1 { font-size: 22pt; line-height: 1.1; }
+  h3 { font-size: 12.5pt; margin: 12pt 0 4pt; break-after: avoid; }
+  p { margin: 0 0 6pt; }
+  .kicker { font: 700 8pt var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 6pt; }
+  .muted { color: var(--muted); } .small { font-size: 9.5pt; }
+  .newpage { break-before: page; }
+  .key { page: key; }
+  .fields { display: grid; grid-template-columns: 2fr 1fr; gap: 10pt 18pt; margin: 12pt 0; }
+  .field { display: flex; align-items: flex-end; gap: 6pt; font-weight: 600; font-size: 10pt; }
+  .field span { flex: 1; border-bottom: 0.8pt solid var(--ink); height: 16pt; }
+  .figure { margin: 8pt 0; break-inside: avoid; }
+  .figure svg { display: block; width: 100%; height: auto; }
+  svg text { font-family: Inter, 'DejaVu Sans', Arial, sans-serif; }
+  svg { fill: #16313b; } /* default ink; fill attributes on shapes or groups override it */
+  table.grid { width: 100%; border-collapse: collapse; font-size: 10.5pt; }
+  table.grid td { border: 0.6pt solid var(--rule); padding: 4pt 6pt; height: 0.4in; vertical-align: middle; }
+  table.grid td.c { text-align: center; width: 2.2em; font-weight: 700; }
+  table.grid tr { break-inside: avoid; }
+  .bank { border: 0.8pt dashed var(--line); padding: 5pt 8pt; font-size: 10pt; margin-top: 8pt; break-inside: avoid; }
+  .bank b { font-size: 7.5pt; letter-spacing: 0.12em; text-transform: uppercase; }
+  .drawbox { border: 0.8pt solid var(--line); border-radius: 3pt; height: 7.6in; break-inside: avoid; }
+  .credit { font-size: 8.5pt; color: var(--muted); margin-top: 4pt; }
+</style>
+</head>
+<body>
+
+<!-- ============ WORKSHEET (blank) ============ -->
+<header>
+  <!-- CONTENT: subject, figure name (must not give away any label), one-line task -->
+  <div class="kicker">Course · Labeling practice</div>
+  <h1>Diagram labeling worksheet</h1>
+  <p class="muted">Write the name of each numbered structure. Try it from memory first.</p>
+</header>
+<div class="fields">
+  <div class="field">Name <span></span></div>
+  <div class="field">Date <span></span></div>
+</div>
+
+<div class="figure">
+  <!-- CONTENT: blank figure. Numbered leader lines only; replace this placeholder drawing. -->
+  <svg viewBox="0 0 640 360" role="img" aria-label="Schematic figure with structures numbered 1 to 6">
+    <g fill="none" stroke="#16313b" stroke-width="2">
+      <ellipse cx="320" cy="180" rx="190" ry="130"/>
+      <circle cx="320" cy="180" r="48"/>
+      <circle cx="320" cy="180" r="16"/>
+      <ellipse cx="215" cy="135" rx="34" ry="16"/>
+      <path d="M380 255 q20 -18 40 0 t40 0"/>
+      <circle cx="420" cy="120" r="6"/>
+    </g>
+    <g stroke="#16313b" stroke-width="1">
+      <line x1="140" y1="215" x2="62" y2="270"/>
+      <line x1="350" y1="160" x2="560" y2="60"/>
+      <line x1="320" y1="180" x2="560" y2="160"/>
+      <line x1="215" y1="135" x2="80" y2="80"/>
+      <line x1="440" y1="255" x2="560" y2="300"/>
+      <line x1="420" y1="120" x2="560" y2="110"/>
+    </g>
+    <g font-size="13" font-weight="700" text-anchor="middle">
+      <circle cx="52" cy="276" r="11" fill="#fff" stroke="#16313b"/><text x="52" y="281">1</text>
+      <circle cx="570" cy="55" r="11" fill="#fff" stroke="#16313b"/><text x="570" y="60">2</text>
+      <circle cx="570" cy="160" r="11" fill="#fff" stroke="#16313b"/><text x="570" y="165">3</text>
+      <circle cx="70" cy="76" r="11" fill="#fff" stroke="#16313b"/><text x="70" y="81">4</text>
+      <circle cx="570" cy="304" r="11" fill="#fff" stroke="#16313b"/><text x="570" y="309">5</text>
+      <circle cx="570" cy="108" r="11" fill="#fff" stroke="#16313b"/><text x="570" y="113">6</text>
+    </g>
+  </svg>
+  <!-- CONTENT: figure credit (TASL) for a sourced figure, or "Original schematic, not to scale." -->
+  <div class="credit">Original schematic, not to scale.</div>
+</div>
+
+<!-- CONTENT: one row per number. Add a "function" column if the exam asks for it. -->
+<table class="grid">
+  <tr><td class="c">1</td><td></td><td class="c">4</td><td></td></tr>
+  <tr><td class="c">2</td><td></td><td class="c">5</td><td></td></tr>
+  <tr><td class="c">3</td><td></td><td class="c">6</td><td></td></tr>
+</table>
+
+<!-- CONTENT: optional word bank. Include decoys so it cannot be solved by elimination; delete the block for a pure recall sheet. -->
+<div class="bank"><b>Word bank</b> (cover it on your first try; labels found with it count as "with help"): term · term · term · term · term · term · decoy · decoy</div>
+
+<!-- Optional page: delete this section if not needed -->
+<section class="newpage">
+  <h3>Draw it from memory</h3>
+  <p class="small muted">Optional, on another day: redraw the figure without looking, then label it. Drawing from memory is retrieval practice.</p>
+  <div class="drawbox"></div>
+</section>
+
+<!-- ============ ANSWER PAGE (separate page) ============ -->
+<section class="key newpage">
+  <div class="kicker">Answer page</div>
+  <h1>Labeled diagram</h1>
+  <p class="small muted">Score each label: unaided, with help (word bank or notes), or missed. Spelling counts only if the course says so.</p>
+  <div class="figure">
+    <!-- CONTENT: the same figure, with each answer placed beside its number -->
+    <svg viewBox="0 0 640 360" role="img" aria-label="Answer figure with each numbered structure named">
+      <g fill="none" stroke="#16313b" stroke-width="2">
+        <ellipse cx="320" cy="180" rx="190" ry="130"/>
+        <circle cx="320" cy="180" r="48"/>
+        <circle cx="320" cy="180" r="16"/>
+        <ellipse cx="215" cy="135" rx="34" ry="16"/>
+        <path d="M380 255 q20 -18 40 0 t40 0"/>
+        <circle cx="420" cy="120" r="6"/>
+      </g>
+      <g stroke="#16313b" stroke-width="1">
+        <line x1="140" y1="215" x2="62" y2="270"/>
+        <line x1="350" y1="160" x2="560" y2="60"/>
+        <line x1="320" y1="180" x2="560" y2="160"/>
+        <line x1="215" y1="135" x2="80" y2="80"/>
+        <line x1="440" y1="255" x2="560" y2="300"/>
+        <line x1="420" y1="120" x2="560" y2="110"/>
+      </g>
+      <g font-size="13" font-weight="700" text-anchor="middle">
+        <circle cx="52" cy="276" r="11" fill="#fff" stroke="#16313b"/><text x="52" y="281">1</text>
+        <circle cx="570" cy="55" r="11" fill="#fff" stroke="#16313b"/><text x="570" y="60">2</text>
+        <circle cx="570" cy="160" r="11" fill="#fff" stroke="#16313b"/><text x="570" y="165">3</text>
+        <circle cx="70" cy="76" r="11" fill="#fff" stroke="#16313b"/><text x="70" y="81">4</text>
+        <circle cx="570" cy="304" r="11" fill="#fff" stroke="#16313b"/><text x="570" y="309">5</text>
+        <circle cx="570" cy="108" r="11" fill="#fff" stroke="#16313b"/><text x="570" y="113">6</text>
+      </g>
+      <g font-size="12.5" font-weight="600" fill="#a54320">
+        <text x="40" y="302">Label 1</text>
+        <text x="586" y="46" text-anchor="end" dy="-14">Label 2</text>
+        <text x="586" y="182" text-anchor="end">Label 3</text>
+        <text x="58" y="56">Label 4</text>
+        <text x="586" y="330" text-anchor="end">Label 5</text>
+        <text x="586" y="130" text-anchor="end">Label 6</text>
+      </g>
+    </svg>
+  </div>
+  <!-- CONTENT: one row per label: name, one-line function or identifying feature, source -->
+  <table class="grid">
+    <tr><td class="c">1</td><td><b>Label 1</b> · identifying feature or function · Source: slide / page</td></tr>
+    <tr><td class="c">2</td><td><b>Label 2</b> · …</td></tr>
+    <tr><td class="c">3</td><td><b>Label 3</b> · …</td></tr>
+    <tr><td class="c">4</td><td><b>Label 4</b> · …</td></tr>
+    <tr><td class="c">5</td><td><b>Label 5</b> · …</td></tr>
+    <tr><td class="c">6</td><td><b>Label 6</b> · …</td></tr>
+  </table>
+  <p class="small" style="margin-top:10pt"><b>Score</b>: unaided <span style="display:inline-block;width:0.5in;border-bottom:0.6pt solid #16313b"></span> / 6 · with help <span style="display:inline-block;width:0.5in;border-bottom:0.6pt solid #16313b"></span> · missed <span style="display:inline-block;width:0.5in;border-bottom:0.6pt solid #16313b"></span>. Redo the missed labels cold in 2–3 days.</p>
+</section>
+
+</body>
+</html>

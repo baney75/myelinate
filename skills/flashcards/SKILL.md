@@ -7,7 +7,7 @@ description: "Use when the user asks for flashcards, a study deck or review card
 
 Cards exist for **durable recall of what the learner already understands** — fast, reliable access to facts, terms, relationships and steps so working memory is free for reasoning. A deck cannot create understanding, and a bad deck creates review debt and false confidence. Few, sharp cards beat many vague ones.
 
-Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
+Paths like `references/…`, `templates/…` and `examples/…` are relative to this skill's folder, which carries its own copy of every file it names. Other Myelinate skills are siblings (`../tutor/SKILL.md`) and are installed as their own skills too. If a file is missing from your copy, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/` plus its path in the repository (`references/…`, `skills/<name>/SKILL.md`); if you can't fetch, work from this file and the router's core rules.
 
 **Stand down when it isn't wanted.** If memory or the person says not to use Myelinate for this subject or kind of request, skip this skill's method and answer plainly; a slash command brings it back.
 

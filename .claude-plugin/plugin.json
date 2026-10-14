@@ -1,8 +1,7 @@
 {
   "name": "myelinate",
   "displayName": "Myelinate",
-  "version": "2.3.1",
-  "description": "Claude as teacher and tutor: course tutoring, assignment help that teaches instead of doing the work, university-standard courses (including Claude Project courses), learning while building, tests and grading, rendered diagrams and 3D models, labs, flashcards and study plans. Honest, not agreeable.",
+  "description": "Claude as teacher and tutor, in chat and in code: class tutoring that triggers on your course topics, assignment coaching that teaches instead of doing the work, learning a codebase you need to own, university-standard courses, tests and grading, rendered visuals, labs, flashcards and study plans. Honest, not agreeable.",
   "author": {
     "name": "Donovan Baney",
     "url": "https://dbaney.com"
@@ -18,9 +17,9 @@
     "teaching",
     "flashcards",
     "spaced-repetition",
-    "retrieval-practice"
+    "retrieval-practice",
+    "code-learning",
+    "socratic"
   ],
-  "skills": [
-    "./"
-  ]
+  "outputStyles": "./output-styles/"
 }

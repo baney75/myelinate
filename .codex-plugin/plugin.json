@@ -1,0 +1,27 @@
+{
+  "name": "myelinate",
+  "version": "2.4.0",
+  "description": "Claude as teacher and tutor, in chat and in code: class tutoring that triggers on your course topics, assignment coaching that teaches instead of doing the work, learning a codebase you need to own, university-standard courses, tests and grading, rendered visuals, labs, flashcards and study plans. Honest, not agreeable.",
+  "author": {
+    "name": "Donovan Baney",
+    "url": "https://dbaney.com"
+  },
+  "homepage": "https://baney75.github.io/myelinate/",
+  "repository": "https://github.com/baney75/myelinate",
+  "license": "MIT",
+  "skills": "./skills",
+  "interface": {
+    "displayName": "Myelinate",
+    "shortDescription": "A tutor that makes you able to do it without it",
+    "longDescription": "Claude as teacher and tutor, in chat and in code: class tutoring that triggers on your course topics, assignment coaching that teaches instead of doing the work, learning a codebase you need to own, university-standard courses, tests and grading, rendered visuals, labs, flashcards and study plans. Honest, not agreeable.",
+    "developerName": "Donovan Baney",
+    "category": "Education",
+    "capabilities": [],
+    "defaultPrompt": [
+      "Teach me the idea behind this, one step at a time",
+      "Help me understand this codebase well enough to change it myself",
+      "Quiz me for my exam on Friday"
+    ],
+    "websiteURL": "https://baney75.github.io/myelinate/"
+  }
+}

@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Chair Flip</title>
+<!-- Reference live-turn widget for references/visual-teaching.md ("Build a live-turn widget").
+     Plain canvas, no libraries: one state value t (0 = chair A, 1 = chair B) drives every atom. -->
+<style>
+:root{--bg:#fafaf7;--fg:#1f1e1c;--muted:#5f5e5a;--btn:#ecebe6;--carbon:#888780;--ax:#c4502a;--eq:#14866a;--me:#6d64d6;--hi:#d98a10}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1a1a19;--fg:#ecebe6;--muted:#a5a49a;--btn:#2c2c2a;--carbon:#a5a49a;--ax:#ec7e5a;--eq:#3bbd8c;--me:#9d97ee;--hi:#f2b544}}
+:root[data-theme="dark"]{--bg:#1a1a19;--fg:#ecebe6;--muted:#a5a49a;--btn:#2c2c2a;--carbon:#a5a49a;--ax:#ec7e5a;--eq:#3bbd8c;--me:#9d97ee;--hi:#f2b544}
+body{margin:0;padding:16px;background:var(--bg);color:var(--fg);font:15px/1.4 system-ui,sans-serif}
+.bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+button{min-height:44px;padding:0 14px;border:0;border-radius:8px;background:var(--btn);color:var(--fg);font:inherit;cursor:pointer}
+button:focus-visible{outline:2px solid var(--me);outline-offset:2px}
+#state{margin-left:auto;font-weight:600}
+canvas{width:100%;height:340px;display:block;cursor:grab;touch-action:none}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:8px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:-1px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+</style>
+</head>
+<body>
+<h1 class="sr">Cyclohexane chair you can rotate and ring-flip, tracking one methyl group between axial and equatorial.</h1>
+<div class="bar">
+  <button id="flip">Ring flip</button>
+  <button id="face" aria-pressed="false">Methyl on top face</button>
+  <button id="reset">Reset view</button>
+  <span id="state" aria-live="polite"></span>
+</div>
+<canvas id="cv" tabindex="0" aria-label="3D chair. Drag or use arrow keys to rotate."></canvas>
+<div class="legend">
+  <span><span class="dot" style="background:var(--carbon)"></span>Carbon</span>
+  <span><span class="dot" style="background:var(--ax)"></span>Axial H</span>
+  <span><span class="dot" style="background:var(--eq)"></span>Equatorial H</span>
+  <span><span class="dot" style="background:var(--me)"></span>Methyl</span>
+  <span><span class="dot" style="background:var(--hi)"></span>H on the same face at C3 and C5</span>
+</div>
+<p class="legend">Schematic: the flip is drawn as a straight morph between the two chairs to show which position maps to which. The real path goes through half-chair and twist-boat forms.</p>
+<script>
+const cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+const css = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let yaw = 0.6, pitch = 0.28, t = 0, target = 0, face = 1, last = null;
+
+function size() {
+  const d = devicePixelRatio || 1;
+  cv.width = cv.clientWidth * d; cv.height = cv.clientHeight * d; ctx.setTransform(d, 0, 0, d, 0, 0);
+}
+const norm = v => { const l = Math.hypot(...v); return v.map(a => a / l); };
+function proj(p) {
+  const cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
+  const x1 = p[0] * cy - p[1] * sy, y1 = p[0] * sy + p[1] * cy;
+  const y2 = y1 * cp - p[2] * sp, z2 = y1 * sp + p[2] * cp;
+  const S = Math.min(cv.clientWidth, 520) / 6.2;
+  return { x: cv.clientWidth / 2 + x1 * S, y: cv.clientHeight / 2 - z2 * S, d: y2 };
+}
+
+function draw() {
+  size();
+  const col = { c: css('--carbon'), ax: css('--ax'), eq: css('--eq'), me: css('--me'), hi: css('--hi') };
+  const c = Math.cos(Math.PI * t), R = 1.45, h = 0.26, items = [], ring = [];
+  const meAx = face === 1 ? c > 0 : c < 0;
+  for (let k = 0; k < 6; k++) {
+    const th = k * Math.PI / 3, s = (k % 2 ? -1 : 1) * c, u = (1 - s) / 2, r = [Math.cos(th), Math.sin(th)];
+    const C = [R * r[0], R * r[1], s * h];
+    ring.push(C); items.push({ type: 'a', p: C, rad: 8, col: col.c, lab: k === 0 ? 'C1' : null });
+    // Each carbon's up bond and down bond swap between axial (vertical) and equatorial (outward) as s changes sign.
+    const up = norm([u * 0.95 * r[0], u * 0.95 * r[1], (1 - u) + u * 0.31]);
+    const dn = norm([(1 - u) * 0.95 * r[0], (1 - u) * 0.95 * r[1], -(1 - u) * 0.31 - u]);
+    [[up, 1], [dn, -1]].forEach(([d, f]) => {
+      const ax = f === 1 ? s > 0 : s < 0, isMe = k === 0 && f === face, L = isMe ? 1.55 : 1.1;
+      const P = [C[0] + d[0] * L, C[1] + d[1] * L, C[2] + d[2] * L];
+      let color = ax ? col.ax : col.eq, rad = 5;
+      if (isMe) { color = col.me; rad = 12; }
+      else if (meAx && (k === 2 || k === 4) && f === face) { color = col.hi; rad = 7; }
+      items.push({ type: 'b', a: C, b: P, col: color, w: isMe ? 3 : 1.5 });
+      items.push({ type: 'a', p: P, rad, col: color, lab: isMe ? 'CH₃' : null });
+    });
+  }
+  for (let k = 0; k < 6; k++) items.push({ type: 'b', a: ring[k], b: ring[(k + 1) % 6], col: col.c, w: 4 });
+  items.forEach(it => {
+    if (it.type === 'a') { it.P = proj(it.p); it.d = it.P.d; }
+    else { it.A = proj(it.a); it.B = proj(it.b); it.d = (it.A.d + it.B.d) / 2 + 0.01; }
+  });
+  items.sort((a, b) => b.d - a.d); // painter's order: far first
+  ctx.clearRect(0, 0, cv.clientWidth, cv.clientHeight);
+  const bg = css('--bg'), fg = css('--fg');
+  items.forEach(it => {
+    if (it.type === 'b') {
+      ctx.strokeStyle = it.col; ctx.lineWidth = it.w; ctx.lineCap = 'round';
+      ctx.beginPath(); ctx.moveTo(it.A.x, it.A.y); ctx.lineTo(it.B.x, it.B.y); ctx.stroke();
+    } else {
+      ctx.fillStyle = it.col; ctx.strokeStyle = bg; ctx.lineWidth = 1.5;
+      ctx.beginPath(); ctx.arc(it.P.x, it.P.y, it.rad, 0, 7); ctx.fill(); ctx.stroke();
+      if (it.lab) { ctx.fillStyle = fg; ctx.font = '600 13px system-ui'; ctx.fillText(it.lab, it.P.x + it.rad + 4, it.P.y - it.rad); }
+    }
+  });
+  const st = document.getElementById('state');
+  st.textContent = 'Methyl is ' + (meAx ? 'axial' : 'equatorial');
+  st.style.color = meAx ? col.ax : col.eq;
+}
+
+function tick(ts) {
+  if (last === null) last = ts;
+  const step = (ts - last) / 900; last = ts;
+  t = t < target ? Math.min(target, t + step) : Math.max(target, t - step);
+  draw();
+  if (t !== target) requestAnimationFrame(tick); else last = null;
+}
+document.getElementById('flip').onclick = () => {
+  target = target ? 0 : 1;
+  if (reduce) { t = target; draw(); } else requestAnimationFrame(tick);
+};
+document.getElementById('face').onclick = e => {
+  face = -face;
+  e.currentTarget.textContent = face === 1 ? 'Methyl on top face' : 'Methyl on bottom face';
+  e.currentTarget.setAttribute('aria-pressed', String(face === -1));
+  draw();
+};
+document.getElementById('reset').onclick = () => { yaw = 0.6; pitch = 0.28; draw(); };
+let drag = null;
+cv.addEventListener('pointerdown', e => { drag = [e.clientX, e.clientY]; cv.setPointerCapture(e.pointerId); cv.style.cursor = 'grabbing'; });
+cv.addEventListener('pointermove', e => {
+  if (!drag) return;
+  yaw += (e.clientX - drag[0]) * 0.01;
+  pitch = Math.max(-1.4, Math.min(1.4, pitch + (e.clientY - drag[1]) * 0.01));
+  drag = [e.clientX, e.clientY]; draw();
+});
+cv.addEventListener('pointerup', () => { drag = null; cv.style.cursor = 'grab'; });
+cv.addEventListener('keydown', e => {
+  const k = { ArrowLeft: [-0.15, 0], ArrowRight: [0.15, 0], ArrowUp: [0, -0.15], ArrowDown: [0, 0.15] }[e.key];
+  if (!k) return;
+  e.preventDefault(); yaw += k[0]; pitch = Math.max(-1.4, Math.min(1.4, pitch + k[1])); draw();
+});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change', draw);
+addEventListener('resize', draw);
+draw();
+</script>
+</body>
+</html>

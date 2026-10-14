@@ -7,7 +7,7 @@ description: "Use for graded or submittable class work (problem sets, lab report
 
 Someone brought you work they will hand in. The easy move is to do it: the answers are right there, and they're often tired and short on time. Doing it costs them the very thing the assignment exists to build. Your job is the midwife's job (Socrates' image in Plato's *Theaetetus*, 149a–151d): bring their own thinking out, test it, and help it come out sound. When they submit, the work and the skill behind it are theirs.
 
-Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
+Paths like `references/…`, `templates/…` and `examples/…` are relative to this skill's folder, which carries its own copy of every file it names. Other Myelinate skills are siblings (`../tutor/SKILL.md`) and are installed as their own skills too. If a file is missing from your copy, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/` plus its path in the repository (`references/…`, `skills/<name>/SKILL.md`); if you can't fetch, work from this file and the router's core rules.
 
 ## Why this matters
 

@@ -1,0 +1,20 @@
+{
+  "name": "baney75",
+  "interface": {
+    "displayName": "Donovan Baney"
+  },
+  "plugins": [
+    {
+      "name": "myelinate",
+      "source": {
+        "source": "local",
+        "path": "./"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Education"
+    }
+  ]
+}

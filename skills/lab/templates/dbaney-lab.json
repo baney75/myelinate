@@ -1,0 +1,78 @@
+{
+  "title": "Oxygen Transport Lab",
+  "subtitle": "Hemoglobin saturation, the Bohr effect, and unloading in tissue",
+  "course": "Human Physiology · TEMPLATE — replace with the real course label",
+  "topics": [
+    {
+      "id": "o2-curve",
+      "title": "Reading the O2–hemoglobin curve",
+      "summary": "Predict saturation from PO2, then explain why the sigmoid shape makes tissue unloading efficient.",
+      "sourceLabel": "TEMPLATE · replace with study guide bullet and slide number",
+      "lessons": [
+        {
+          "id": "curve-model",
+          "title": "Why the curve is S-shaped",
+          "body": "Hemoglobin binds O2 cooperatively: each bound O2 makes the next bind more easily, so saturation rises steeply between about 20 and 60 mmHg and flattens near 100 mmHg. Worked example: at a lung PO2 of 100 mmHg saturation is about 97%; at a resting-tissue PO2 of 40 mmHg it is about 75%, so roughly a quarter of the bound O2 is released.",
+          "bullets": [
+            "Cooperative binding gives the sigmoid shape.",
+            "Flat top: saturation stays high even if lung PO2 falls somewhat.",
+            "Steep middle: small PO2 drops in active tissue release a lot of O2.",
+            "P50 is the PO2 at 50% saturation, about 26–27 mmHg in adults."
+          ],
+          "recallPrompt": "Predict saturation at 100 and at 40 mmHg, and explain why the steep middle matters for exercising muscle.",
+          "recallAnswer": "About 97% and about 75%; in the steep region a small drop in tissue PO2 releases a large amount of O2."
+        }
+      ],
+      "questions": [
+        {
+          "id": "o2-predict-shift",
+          "type": "mcq",
+          "prompt": "Exercising muscle becomes more acidic. Before the lesson, predict: what happens to hemoglobin's O2 affinity there?",
+          "options": [
+            "It decreases, so more O2 is released (right shift)",
+            "It increases, so hemoglobin holds O2 more tightly (left shift)",
+            "It is unchanged; only PO2 controls unloading",
+            "It decreases, so hemoglobin carries more O2 to the muscle"
+          ],
+          "answer": 0,
+          "explanation": "H+ stabilizes the low-affinity (T) state, shifting the curve right so more O2 is unloaded. \"Left shift\" reverses the direction. \"Unchanged\" ignores the Bohr effect. \"Carries more O2 to the muscle\" confuses lower affinity with greater carrying capacity.",
+          "sourceLabel": "TEMPLATE · slide reference"
+        },
+        {
+          "id": "o2-cadet-match",
+          "type": "matching",
+          "prompt": "Match each change to its effect on the curve.",
+          "pairs": [
+            { "left": "Increased temperature", "right": "Right shift" },
+            { "left": "Fetal hemoglobin compared with adult", "right": "Left shift" },
+            { "left": "Carbon monoxide binding", "right": "Left shift with lower O2 content" }
+          ],
+          "explanation": "Heat lowers affinity (right). Fetal Hb binds 2,3-BPG weakly, so its affinity is higher (left). CO raises the affinity of the remaining sites and occupies sites, lowering O2 content.",
+          "sourceLabel": "TEMPLATE · slide reference"
+        },
+        {
+          "id": "o2-explain-unloading",
+          "type": "short-answer",
+          "prompt": "Explain why a sprinting muscle receives much more O2 than a resting one even though arterial PO2 is the same.",
+          "referenceAnswer": "Tissue PO2 falls and acidity, CO2, and temperature rise in the sprinting muscle. The curve shifts right and the muscle sits on the steep part of the curve, so saturation drops far more between arteries and tissue and much more O2 is unloaded.",
+          "rubric": [
+            "Names lower tissue PO2 on the steep part of the curve",
+            "Names at least two right-shift factors (H+, CO2, temperature, 2,3-BPG)",
+            "Connects right shift to lower affinity and greater unloading"
+          ],
+          "explanation": "Unloading is the difference between arterial saturation (lung curve) and tissue saturation (shifted tissue curve).",
+          "sourceLabel": "TEMPLATE · slide reference"
+        }
+      ]
+    }
+  ],
+  "practiceTests": [
+    {
+      "id": "o2-mixed",
+      "title": "Mixed retrieval",
+      "description": "Interleaved items; answer before checking notes.",
+      "questionIds": ["o2-cadet-match", "o2-explain-unloading", "o2-predict-shift"],
+      "ordered": false
+    }
+  ]
+}
