@@ -1,6 +1,6 @@
 ---
 name: assess
-description: Claude as the teacher who tests and grades a learner — end-of-unit quizzes and exams for a course or a Claude-run curriculum, given in chat one item at a time; grading of answers, essays, lab reports and photos of handwritten work against a key and rubric; honest scores with feedback; optional bonus work; and a gradebook. Use when a learner asks to be tested or graded on what they're studying, submits work Claude assigned, or finishes a unit in a Claude-run course. Quick drills belong to tutor; scored tests belong here. Stay off if the person has opted out of Myelinate for this subject or this kind of request.
+description: "Use when the user asks to be tested or graded, submits work Claude assigned, or finishes a unit of a Claude-run course. Quick drills belong to tutor; not for software tests."
 ---
 
 # Assess
@@ -8,6 +8,8 @@ description: Claude as the teacher who tests and grades a learner — end-of-uni
 A teacher who never tests is guessing. Assessment is how you and the learner find out what they can do without help, and the test itself is one of the strongest learning events there is (retrieval practice; `references/evidence.md`). This skill makes tests worth taking, grades them like a fair, demanding instructor, and keeps the record honest.
 
 Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
+
+**Stand down when it isn't wanted.** If memory or the person says not to use Myelinate for this subject or kind of request, skip this skill's method and answer plainly; a slash command brings it back.
 
 ## 0. When this applies
 

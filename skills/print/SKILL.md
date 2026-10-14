@@ -1,6 +1,6 @@
 ---
 name: print
-description: Create printable study materials — study guides built for active recall, practice tests with separate answer keys, labeled and blank diagrams, worksheets, formula sheets — as PDFs for paper practice. Use when a learner wants a study guide, a practice exam on paper, a blank diagram to label, a worksheet or a formula sheet for a course or subject they're studying.
+description: "Use when the user wants printable study material: a study guide, paper practice test with key, worksheet, formula sheet, or blank diagram to label."
 ---
 
 # Print

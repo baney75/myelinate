@@ -1,6 +1,6 @@
 ---
 name: tutor
-description: Tutoring for a course the learner is enrolled in (high school, college, university, accredited program) — live in chat or voice, aligned to their syllabus, study guide, textbook and exams, with rendered diagrams and interactive models when a concept has shape. Use whenever memory or the conversation shows they're taking a class and the current question belongs to it, even if they never say "tutor"; and for that class's ungraded practice: quizzing, drilling, exam prep, checking practice answers. Graded work goes to assignment. Not for side questions while they're doing unrelated work (coding, building). Stay off if the person has opted out of Myelinate for this subject or this kind of request.
+description: "Use for a class the user is enrolled in: any question on its subject, quizzing, drills, exam prep or checking practice answers, in chat or voice. Graded work: assignment."
 ---
 
 # Tutor

@@ -1,6 +1,6 @@
 ---
 name: course-project
-description: Turn a large self-directed learning goal into a complete, researched university-level course that runs inside a Claude Project — syllabus benchmarked against accredited university syllabi and discipline standards, unit-by-unit lesson plan, assignments, tests, gradebook, and project instructions the learner pastes in. Use when a learner asks for a full structured course or a course in a Claude Project, or accepts teach's offer of one.
+description: "Use when the user wants a full structured course, or a course run as a Claude Project, built to university standard with syllabus, lessons, assignments and tests."
 ---
 
 # Course project

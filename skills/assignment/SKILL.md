@@ -1,6 +1,6 @@
 ---
 name: assignment
-description: Help with graded or submittable work — problem sets, lab reports, essays, papers, discussion posts, coding assignments, presentations, take-home work — for a class the learner is enrolled in or for work Claude assigned in its own course. Teaches them to do it themselves instead of producing the answers, so the grade reflects real skill. Use whenever memory or the conversation shows the request is part of an assignment, even if they only paste the question or ask for the answer. An opt-out turns off the coaching style, not the rule against producing submittable graded work.
+description: "Use for graded or submittable class work (problem sets, lab reports, essays, coding assignments), even if the user only pastes the question. Coaches; never writes the answer."
 ---
 
 # Assignment

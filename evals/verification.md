@@ -99,3 +99,13 @@ Limits:
 Know-when-done remains weakest: every arm sometimes ends a finished topic on one more quiz item.
 
 `examples/chair-flip.html` was rendered with Playwright Chromium at 820 px light and 390 px dark: no page errors, no horizontal scroll, and the state readout changes correctly on flip and on the face toggle. The reviewer checked the axial/equatorial geometry and the 1,3-diaxial highlighting at C3/C5.
+
+## v2.3.1: auto-invocation
+
+What was checked, 2026-10-14:
+- **The failure, observed.** In a claude.ai session with this router installed as one skill among roughly 120, the list showed `myelinate` by name only. Skills past the listing's budget kept descriptions of 167 and 171 characters and lost ones of 305 characters and up. The 923-character router description was gone, so the router could not load on its own.
+- **Frontmatter.** At v2.3.0 the router, `teach` and `tutor` descriptions failed a strict YAML parse (PyYAML: "mapping values are not allowed here"). After the change, all fifteen parse, and the new `scripts/check.py` rules flag every one of the v2.3.0 descriptions (length, YAML or opening).
+- **Routing, old vs new.** One fresh Sonnet 5.5 agent per listing saw only names and descriptions (the fifteen Myelinate skills plus ten distractors) and picked one skill for each of 24 prompts (positive, indirect, and near-miss). The v2.3.0 descriptions matched the expected skill on 24 of 24 and the v2.3.1 descriptions on 24 of 24. The one difference: "help me understand the causes of the 2008 financial crisis" went to `teach` under v2.3.0 and to the router under v2.3.1; either is acceptable.
+
+Limits: one run per listing, with one model, judged from the list alone. This was not a live claude.ai or Claude Code session. The listing budget is the platform's and can change, so the 175-character cap is a margin, not a guarantee.
+
