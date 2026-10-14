@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The eye that sees itself</title>
+<style>
+  :root {
+    --bg: #f6f1e7; --card: #fffdf8; --ink: #16313b; --muted: #5b6b70; --rule: #d9cfbd;
+    --accent: #a54320; --btn: #efe6d4; --btn-on: #16313b; --btn-on-ink: #fffdf8;
+    --skin: #d9a77f; --skin-shade: #b9825c; --hair: #3a2a1f; --cloth: #e9e1cf; --cloth-shade: #c9bfa8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #12191c; --card: #1a2327; --ink: #ece6da; --muted: #a3afb2; --rule: #33424a;
+      --accent: #e0835c; --btn: #24323a; --btn-on: #ece6da; --btn-on-ink: #12191c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 Georgia, "Times New Roman", serif; }
+  main { max-width: 960px; margin: 0 auto; padding: 16px; }
+  figure { margin: 0; background: var(--card); border: 1px solid var(--rule); border-radius: 10px; padding: 16px; }
+  .fig-head { display: flex; gap: 10px; align-items: baseline; margin: 0 0 8px; }
+  .fig-num { color: var(--accent); font-variant: small-caps; letter-spacing: .04em; }
+  .fig-title { font-size: 1.1rem; }
+  svg { display: block; width: 100%; height: auto; }
+  .controls { display: flex; flex-wrap: wrap; gap: 10px 18px; align-items: center; margin: 12px 0 4px; font: 15px/1.3 system-ui, sans-serif; }
+  .seg { display: inline-flex; border: 1px solid var(--rule); border-radius: 8px; overflow: hidden; }
+  .seg button { min-height: 44px; padding: 0 14px; border: 0; background: var(--btn); color: var(--ink); font: inherit; cursor: pointer; }
+  .seg button[aria-pressed="true"] { background: var(--btn-on); color: var(--btn-on-ink); }
+  label { display: inline-flex; gap: 10px; align-items: center; }
+  input[type=range] { width: 160px; min-height: 44px; accent-color: var(--accent); }
+  figcaption { margin-top: 10px; border-top: 1px solid var(--rule); padding-top: 10px; color: var(--muted); font-size: .95rem; }
+  .hint { color: var(--muted); font: 14px/1.4 system-ui, sans-serif; margin: 0; }
+</style>
+</head>
+<body>
+<main>
+<figure>
+  <div class="fig-head"><span class="fig-num">Fig. 1</span><span class="fig-title">The eye that sees itself</span></div>
+
+  <svg id="scene" viewBox="0 70 900 470" role="img" aria-labelledby="scene-desc">
+    <desc id="scene-desc">Alcibiades, in profile on the left, looks across at a close-up of Socrates' eye on the right. His line of sight ends at the pupil. A small image of a person appears in the pupil, and a magnified circle shows it more closely.</desc>
+    <defs>
+      <!-- The eye opening. Everything inside the eye is clipped to it. -->
+      <clipPath id="eye-opening">
+        <path d="M462 236 C530 140 748 132 818 228 C752 318 534 326 462 236 Z"/>
+      </clipPath>
+      <clipPath id="pupil-clip"><circle id="pupil-clip-c" cx="640" cy="232" r="29"/></clipPath>
+      <clipPath id="inset-clip"><circle cx="760" cy="440" r="74"/></clipPath>
+      <radialGradient id="sclera" cx="50%" cy="45%" r="60%">
+        <stop offset="0" stop-color="#fbfaf6"/><stop offset=".7" stop-color="#ece7dd"/><stop offset="1" stop-color="#cfc6b6"/>
+      </radialGradient>
+      <radialGradient id="iris" cx="50%" cy="50%" r="50%">
+        <stop offset="0" stop-color="#8a6a3a"/><stop offset=".45" stop-color="#6b5530"/><stop offset=".85" stop-color="#4c3b22"/><stop offset="1" stop-color="#2b2116"/>
+      </radialGradient>
+      <radialGradient id="pupil" cx="45%" cy="40%" r="60%">
+        <stop offset="0" stop-color="#1d2226"/><stop offset="1" stop-color="#050607"/>
+      </radialGradient>
+      <linearGradient id="lid-shade" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#000" stop-opacity=".28"/><stop offset=".35" stop-color="#000" stop-opacity="0"/>
+      </linearGradient>
+      <linearGradient id="skin-grad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="var(--skin-shade)"/><stop offset=".6" stop-color="var(--skin)"/>
+      </linearGradient>
+      <linearGradient id="cloth-grad" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="var(--cloth)"/><stop offset="1" stop-color="var(--cloth-shade)"/>
+      </linearGradient>
+      <!-- The korē: what Alcibiades sees of himself, face-on and mirrored. Drawn once at unit size. -->
+      <g id="kore">
+        <path d="M-30 46 C-26 26 -14 20 0 20 C14 20 26 26 30 46 Z" fill="#c9c2b4"/>
+        <path d="M-6 12 L-6 22 L6 22 L6 12 Z" fill="#b8987e"/>
+        <ellipse cx="0" cy="0" rx="11" ry="14" fill="#c9a588"/>
+        <path d="M-12 -2 C-14 -14 -6 -19 0 -19 C8 -19 14 -14 12 -2 C10 -9 4 -12 0 -12 C-5 -12 -10 -9 -12 -2 Z" fill="#4a3a2e"/>
+        <ellipse cx="-4.2" cy="-1" rx="1.6" ry="1.1" fill="#2a211b"/>
+        <ellipse cx="4.2" cy="-1" rx="1.6" ry="1.1" fill="#2a211b"/>
+        <path d="M-6.5 -4.2 L-2 -4.8 M2 -4.8 L6.5 -4.2" stroke="#4a3a2e" stroke-width="1" stroke-linecap="round"/>
+        <path d="M0 0 L-1.2 4.5 L1.2 4.5" fill="none" stroke="#a5806a" stroke-width=".8" stroke-linejoin="round"/>
+        <path d="M-3 8 C-1 9 1 9 3 8" fill="none" stroke="#8c5f4f" stroke-width="1" stroke-linecap="round"/>
+        <path d="M-30 46 C-22 34 -10 30 -6 30 M30 46 C22 34 10 30 6 30" fill="none" stroke="#a9a192" stroke-width="1.2"/>
+      </g>
+    </defs>
+
+    <!-- Alcibiades, in profile, facing right -->
+    <g id="viewer">
+      <path d="M118 540 L132 410 C140 372 168 352 194 344 L240 344 C276 352 312 372 322 410 L338 540 Z" fill="url(#cloth-grad)"/>
+      <path d="M210 352 C236 380 262 420 270 540" fill="none" stroke="var(--cloth-shade)" stroke-width="3" opacity=".7"/>
+      <path d="M196 300 L194 348 L240 348 L236 296 Z" fill="var(--skin-shade)"/>
+      <path d="M172 118 C222 92 272 108 282 160 L285 178 C286 186 283 191 288 199 L304 228 C306 234 300 237 292 237 C294 245 298 249 294 255 C291 259 288 259 292 264 C296 271 290 283 280 289 C268 297 250 297 240 293 L236 300 C222 304 206 302 196 300 C188 284 172 270 162 252 C130 214 132 146 172 118 Z" fill="url(#skin-grad)"/>
+      <path d="M166 112 C198 90 244 88 270 122 C262 126 252 126 240 128 C224 132 212 146 206 166 C200 186 196 206 188 226 C182 240 172 250 163 252 C134 214 130 150 166 112 Z" fill="var(--hair)"/>
+      <path d="M196 196 C188 196 186 212 192 222 C196 228 204 226 204 216 C204 206 202 196 196 196 Z" fill="var(--skin-shade)"/>
+      <path d="M262 178 C266 172 276 172 282 178" fill="none" stroke="var(--hair)" stroke-width="3" stroke-linecap="round"/>
+      <path d="M262 188 C268 182 276 182 281 188 C276 193 268 193 262 188 Z" fill="#f4efe6"/>
+      <circle id="viewer-iris" cx="276" cy="188" r="3.6" fill="#3d2c1e"/>
+      <path d="M262 188 C268 182 276 182 281 188" fill="none" stroke="#5a3e2b" stroke-width="1.4"/>
+    </g>
+
+    <!-- Socrates' eye, close up -->
+    <g id="other-eye">
+      <path d="M470 150 C560 92 730 88 808 150" fill="none" stroke="#3b2c22" stroke-width="9" stroke-linecap="round" opacity=".85"/>
+      <path d="M452 236 C522 122 756 114 828 226 C758 336 528 344 452 236 Z" fill="#d6ab86"/>
+      <path d="M474 196 C560 150 724 146 800 190" fill="none" stroke="#b98a66" stroke-width="2"/>
+      <g clip-path="url(#eye-opening)">
+        <rect x="440" y="120" width="400" height="230" fill="url(#sclera)"/>
+        <ellipse cx="474" cy="240" rx="12" ry="9" fill="#e3a59a"/>
+        <circle cx="640" cy="232" r="70" fill="url(#iris)"/>
+        <g id="iris-fibers" stroke="#c9a36b" stroke-opacity=".35" stroke-width="1.2"></g>
+        <circle cx="640" cy="232" r="70" fill="none" stroke="#1d150e" stroke-width="5" opacity=".8"/>
+        <circle id="pupil-disc" cx="640" cy="232" r="29" fill="url(#pupil)"/>
+        <g clip-path="url(#pupil-clip)">
+          <use id="kore-in-pupil" href="#kore" transform="translate(640 228) scale(.42)" opacity=".9"/>
+        </g>
+        <ellipse cx="668" cy="206" rx="9" ry="6" fill="#fff" opacity=".85" transform="rotate(-25 668 206)"/>
+        <rect x="440" y="120" width="400" height="230" fill="url(#lid-shade)"/>
+      </g>
+      <path d="M462 236 C530 140 748 132 818 228" fill="none" stroke="#3b2c22" stroke-width="3.5" stroke-linecap="round"/>
+      <path d="M818 228 C752 318 534 326 462 236" fill="none" stroke="#9c6f52" stroke-width="2"/>
+      <g stroke="#2b1f17" stroke-width="2" stroke-linecap="round">
+        <path d="M560 170 l-4 -12"/><path d="M590 160 l-2 -13"/><path d="M620 155 l0 -13"/><path d="M650 154 l2 -13"/><path d="M680 156 l4 -13"/><path d="M710 162 l6 -12"/><path d="M740 172 l7 -10"/><path d="M768 186 l8 -9"/>
+      </g>
+    </g>
+
+    <!-- Line of sight, drawn over the eye so it visibly ends where he looks -->
+    <line id="gaze" x1="280" y1="188" x2="611" y2="230" stroke="var(--accent)" stroke-width="2" stroke-dasharray="7 6" stroke-linecap="round"/>
+    <circle id="gaze-end" cx="611" cy="230" r="3.5" fill="var(--accent)"/>
+
+    <!-- Magnified view of the pupil -->
+    <g id="inset">
+      <line id="lead-a" x1="613" y1="246" x2="690" y2="460" stroke="var(--muted)" stroke-width="1"/>
+      <line id="lead-b" x1="667" y1="246" x2="830" y2="460" stroke="var(--muted)" stroke-width="1"/>
+      <circle cx="760" cy="440" r="76" fill="var(--card)" stroke="var(--muted)" stroke-width="1.5"/>
+      <g clip-path="url(#inset-clip)">
+        <rect x="680" y="360" width="160" height="160" fill="url(#pupil)"/>
+        <use id="kore-in-inset" href="#kore" transform="translate(760 440) scale(1.55)"/>
+      </g>
+    </g>
+  </svg>
+
+  <div class="controls">
+    <span class="seg" role="group" aria-label="Where Alcibiades looks">
+      <button type="button" data-look="pupil" aria-pressed="true">Into the pupil</button>
+      <button type="button" data-look="white" aria-pressed="false">At the white</button>
+    </span>
+    <label>Lean closer <input id="lean" type="range" min="0" max="100" value="40" aria-label="How close Alcibiades leans"></label>
+  </div>
+  <p class="hint">Choose where Alcibiades looks, then lean closer.</p>
+  <figcaption>Plato, <i>Alcibiades I</i> 132c–133c. Not to scale: the eye is shown close up, and the reflection in the pupil is drawn larger than life so it can be seen. The Greek <i>korē</i> means both "pupil" and "little doll" or "girl".</figcaption>
+</figure>
+</main>
+<script>
+(() => {
+  const svg = document.getElementById('scene');
+  const fibers = document.getElementById('iris-fibers');
+  const NS = 'http://www.w3.org/2000/svg';
+  for (let i = 0; i < 48; i++) {
+    const a = (i / 48) * Math.PI * 2, r0 = 33, r1 = 66;
+    const l = document.createElementNS(NS, 'line');
+    l.setAttribute('x1', 640 + r0 * Math.cos(a)); l.setAttribute('y1', 232 + r0 * Math.sin(a));
+    l.setAttribute('x2', 640 + r1 * Math.cos(a + .05)); l.setAttribute('y2', 232 + r1 * Math.sin(a + .05));
+    fibers.appendChild(l);
+  }
+  const pupil = { x: 640, y: 232, r: 29 };
+  const white = { x: 530, y: 238 };
+  const q = new URLSearchParams(location.search);   // ?look=white&lean=100 sets the state for renders
+  const state = { look: q.get('look') === 'white' ? 'white' : 'pupil', lean: Math.min(100, Math.max(0, +(q.get('lean') ?? 40))) };
+  const viewer = document.getElementById('viewer');
+  const gaze = document.getElementById('gaze'), gazeEnd = document.getElementById('gaze-end');
+  const korePupil = document.getElementById('kore-in-pupil'), koreInset = document.getElementById('kore-in-inset');
+
+  function render() {
+    const dx = state.lean * 1.1;              // the viewer moves right as he leans in (max 110 px)
+    viewer.setAttribute('transform', `translate(${dx} 0)`);
+    const ex = 280 + dx, ey = 188;            // front edge of his eye
+    let tx, ty;
+    if (state.look === 'pupil') {
+      const vx = pupil.x - ex, vy = pupil.y - ey, d = Math.hypot(vx, vy);
+      tx = pupil.x - vx / d * pupil.r; ty = pupil.y - vy / d * pupil.r;   // ends on the pupil's edge
+    } else { tx = white.x; ty = white.y; }
+    gaze.setAttribute('x1', ex); gaze.setAttribute('y1', ey);
+    gaze.setAttribute('x2', tx); gaze.setAttribute('y2', ty);
+    gazeEnd.setAttribute('cx', tx); gazeEnd.setAttribute('cy', ty);
+    // A closer face makes a larger reflection; it shows only when he looks into the pupil.
+    const s = .32 + state.lean / 100 * .2;
+    korePupil.setAttribute('transform', `translate(640 228) scale(${s})`);
+    koreInset.setAttribute('transform', `translate(760 440) scale(${(s / .42 * 1.55).toFixed(3)})`);
+    const show = state.look === 'pupil';
+    korePupil.style.display = show ? '' : 'none';
+    koreInset.style.display = show ? '' : 'none';
+  }
+  document.querySelectorAll('[data-look]').forEach(b => b.addEventListener('click', () => {
+    state.look = b.dataset.look;
+    document.querySelectorAll('[data-look]').forEach(x => x.setAttribute('aria-pressed', String(x === b)));
+    render();
+  }));
+  document.getElementById('lean').value = state.lean;
+  document.querySelectorAll('[data-look]').forEach(x => x.setAttribute('aria-pressed', String(x.dataset.look === state.look)));
+  document.getElementById('lean').addEventListener('input', e => { state.lean = +e.target.value; render(); });
+  render();
+})();
+</script>
+</body>
+</html>

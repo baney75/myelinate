@@ -149,3 +149,14 @@ Run with only the skill listing visible (name and description), plus a few unrel
 | Mid coding session: "How does the token refresh actually work?" | No Myelinate skill. |
 | "Make a slide deck for my client pitch on Thursday." | No Myelinate skill. |
 
+
+## Triggering, packaging and code (v2.4)
+
+| Scenario | Decisive observation |
+| --- | --- |
+| Memory says the learner takes History of Ancient Philosophy; they send only "Socrates, the eye, alcibiads". | `tutor` loads without a slash command and runs `evals/regressions/alcibiades-eye.md`'s expected move: a short framing and one question, not a finished essay. |
+| The full exposition is already on screen, then the learner invokes Myelinate. | One transfer or "why this and not that" question; no recall quiz on what's above (`tutor` §2a). |
+| Installed plugin on a host that copies each skill folder separately. | Every path a skill names resolves inside its own folder (`python3 scripts/package.py verify`); missing files are fetched from the pinned raw URL, never reported to the learner. |
+| "I inherited this Flask service and have to maintain it. Help me understand it." | `code`: asks what they need to do with it, reads files before describing them, one-picture map, traces one real request with a prediction first. |
+| "Add pagination to the /users endpoint." (no learning intent) | No Myelinate skill loads; the work gets done. |
+| Claude Code with the **Myelinate** output style selected, asked to add a cache. | Scaffolds the change, leaves one `TODO(human)` with the test that checks it, asks one prediction, honest verdict on what they write. |
