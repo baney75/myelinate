@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oxygen transport practice test</title>
+<!-- Built from templates/practice-test.html (Myelinate print skill). Render: python3 scripts/make_pdf.py examples/practice-test-oxygen.html examples/practice-test-oxygen.pdf -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #16313b; --muted: #4c6269; --rule: #b9b2a0; --line: #8f9c9f; --grid: #d3d8d9; --accent: #a54320;
+    --serif: Newsreader, Georgia, 'Times New Roman', 'DejaVu Serif', serif;
+    --sans: Inter, 'IBM Plex Sans', 'Helvetica Neue', Arial, 'DejaVu Sans', sans-serif;
+  }
+  @page {
+    size: letter;
+    margin: 0.7in 0.75in 0.8in;
+    @bottom-left { content: "Oxygen transport practice test"; font: 500 8pt Inter, Arial, sans-serif; color: #4c6269; }
+    @bottom-right { content: "Page " counter(page) " of " counter(pages); font: 500 8pt Inter, Arial, sans-serif; color: #4c6269; }
+  }
+  @page key { @top-right { content: "ANSWER KEY \2014  do not read until you finish"; font: 700 8pt Inter, Arial, sans-serif; letter-spacing: 0.12em; color: #a54320; } }
+  * { box-sizing: border-box; }
+  html, body { background: #fff; }
+  body { margin: 0; color: var(--ink); font: 11pt/1.45 var(--sans); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  @media screen { body { max-width: 7.2in; margin: 0.4in auto; padding: 0 16px; } .newpage { border-top: 1px dashed var(--rule); padding-top: 0.3in; margin-top: 0.3in; } }
+  h1, h2, h3 { font-family: var(--serif); font-weight: 500; letter-spacing: -0.015em; margin: 0; }
+  h1 { font-size: 24pt; line-height: 1.1; }
+  h2 { font-size: 15pt; display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1pt solid var(--ink); padding-bottom: 3pt; margin: 18pt 0 10pt; break-after: avoid; }
+  h2 small { font: 500 9pt var(--sans); color: var(--muted); letter-spacing: 0; }
+  h3 { font-size: 12.5pt; margin: 12pt 0 4pt; break-after: avoid; }
+  p { margin: 0 0 6pt; }
+  .kicker { font: 700 8pt var(--sans); letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); margin-bottom: 6pt; }
+  .muted { color: var(--muted); }
+  .small { font-size: 9.5pt; }
+  .newpage { break-before: page; }
+  .key { page: key; }
+
+  /* Cover */
+  .fields { display: grid; grid-template-columns: 2fr 1fr; gap: 10pt 18pt; margin: 16pt 0 14pt; }
+  .field { display: flex; align-items: flex-end; gap: 6pt; font-weight: 600; font-size: 10pt; }
+  .field span { flex: 1; border-bottom: 0.8pt solid var(--ink); height: 16pt; }
+  .facts { width: 100%; border-collapse: collapse; margin: 6pt 0 12pt; }
+  .facts th, .facts td { text-align: left; padding: 5pt 8pt; border: 0.6pt solid var(--rule); vertical-align: top; }
+  .facts th { width: 30%; font-size: 9pt; text-transform: uppercase; letter-spacing: 0.08em; }
+  .instructions { margin: 0; padding-left: 1.2em; }
+  .instructions li { margin-bottom: 3pt; }
+  .callout { border: 0.8pt solid var(--ink); border-left: 3pt solid var(--accent); padding: 7pt 10pt; margin: 12pt 0; break-inside: avoid; }
+
+  /* Questions */
+  .q { break-inside: avoid; display: grid; grid-template-columns: 2em 1fr; column-gap: 6pt; margin: 0 0 15pt; }
+  .q > .n { font: 600 14pt/1.2 var(--serif); color: var(--accent); }
+  .q .pts { float: right; margin-left: 10pt; font-size: 9pt; color: var(--muted); white-space: nowrap; }
+  .q .stem { margin-bottom: 5pt; }
+  .opts { list-style: none; padding: 0; margin: 4pt 0 0; }
+  .opts li { display: grid; grid-template-columns: 1.7em 1fr; align-items: start; margin: 0 0 4pt; }
+  .bubble { display: inline-flex; width: 1.3em; height: 1.3em; border: 0.8pt solid var(--ink); border-radius: 50%; align-items: center; justify-content: center; font-size: 8.5pt; font-weight: 600; margin-top: 1pt; }
+  .lines { margin-top: 2pt; }
+  .lines i { display: block; height: 0.34in; border-bottom: 0.6pt solid var(--line); }
+  .work { border: 0.8pt solid var(--line); border-radius: 3pt; padding: 5pt 7pt; margin-top: 4pt; }
+  .work .lbl { font-size: 7.5pt; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+  .ansline { margin-top: 8pt; font-weight: 600; }
+  .ansline .g { display: inline-flex; align-items: flex-end; gap: 5pt; margin-right: 14pt; white-space: nowrap; }
+  .ansline .blank { display: inline-block; width: 1.1in; border-bottom: 0.8pt solid var(--ink); height: 15pt; }
+  .figure { margin: 6pt 0 2pt; }
+  .figure svg { display: block; width: 100%; height: auto; max-width: 5.6in; }
+  .figure.draw svg { max-width: 6.3in; } /* learner draws here: give the hand room */
+  svg text { font-family: Inter, 'DejaVu Sans', Arial, sans-serif; }
+  svg { fill: #16313b; } /* default ink; fill attributes on shapes or groups override it */
+  .bank { border: 0.8pt dashed var(--line); padding: 5pt 8pt; font-size: 10pt; margin-top: 6pt; }
+  .bank b { font-size: 7.5pt; letter-spacing: 0.12em; text-transform: uppercase; }
+
+  /* Key */
+  .k { break-inside: avoid; border-top: 0.6pt solid var(--rule); padding: 7pt 0 8pt; display: grid; grid-template-columns: 2em 1fr; column-gap: 6pt; }
+  .k > .n { font: 600 13pt/1.2 var(--serif); color: var(--accent); }
+  .k .ans { font-weight: 700; }
+  .meta { font-size: 9pt; color: var(--muted); margin-top: 3pt; }
+  .dis { margin: 3pt 0 0; padding-left: 1.1em; font-size: 10pt; }
+  .dis li { margin-bottom: 2pt; }
+  .rubric { margin: 3pt 0 0; padding-left: 1.1em; font-size: 10pt; }
+  ul.rubric { list-style: none; padding-left: 0; }
+  table.grid { width: 100%; border-collapse: collapse; font-size: 10pt; }
+  table.grid th, table.grid td { border: 0.6pt solid var(--rule); padding: 4pt 6pt; text-align: left; vertical-align: top; }
+  table.grid th { font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.06em; }
+  table.grid td.c, table.grid th.c { text-align: center; }
+  table.grid tr { break-inside: avoid; }
+  .box { display: inline-block; width: 11pt; height: 11pt; border: 0.8pt solid var(--ink); vertical-align: middle; }
+  .write { display: inline-block; min-width: 0.5in; border-bottom: 0.6pt solid var(--ink); height: 12pt; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="kicker">Pre-med physiology · Practice test</div>
+  <h1>Oxygen transport practice test</h1>
+  <p class="muted">The O₂–hemoglobin dissociation curve, the Bohr effect, fetal hemoglobin and carbon monoxide.</p>
+</header>
+
+<div class="fields">
+  <div class="field">Name <span></span></div>
+  <div class="field">Date <span></span></div>
+  <div class="field">Start time <span></span></div>
+  <div class="field">End time <span></span></div>
+</div>
+
+<table class="facts">
+  <tr><th>Time limit</th><td>50 minutes. Stop when time is up and mark where you were.</td></tr>
+  <tr><th>Total points</th><td>40 points · A 16 · B 6 · C 7 · D 11</td></tr>
+  <tr><th>Allowed</th><td>Pencil, eraser, scientific calculator. No notes, phone, or textbook.</td></tr>
+  <tr><th>Covers</th><td>O1 Read the curve<br>O2 Predict shifts and explain the Bohr effect<br>O3 Apply affinity to fetal Hb, stored blood and CO<br>O4 Calculate saturation and O₂ content<br>O5 Direction of O₂ diffusion</td></tr>
+</table>
+
+<h3>Instructions</h3>
+<ol class="instructions">
+  <li>Take this test closed-book, timed, in one sitting.</li>
+  <li>Multiple choice: fill in one bubble. Choose the single best answer.</li>
+  <li>Written answers: use the space given. It is sized for a complete answer.</li>
+  <li>If you check notes or the word bank for an item, finish it, then circle its number. That item is scored "with notes," not unaided.</li>
+  <li>Assume standard conditions (pH 7.40, PCO₂ 40 mmHg, 37 °C) unless an item says otherwise.</li>
+  <li>The answer key starts on a new page marked ANSWER KEY. Remove it before you start.</li>
+</ol>
+
+<div class="callout small">After you finish: score with the key, then fill in the scoring sheet and the error-analysis page. Or photograph every page, flat and in good light, and upload the photos to be graded.</div>
+
+<h2 class="newpage">Section A · Multiple choice <small>8 items · 2 pts each</small></h2>
+
+<div class="q"><div class="n">1</div><div>
+  <span class="pts">[2 pts]</span>
+  <p class="stem">A blood sample's P50 rises from 27 to 33 mmHg. Its hemoglobin concentration does not change. Which statement about the sample is correct?</p>
+  <ul class="opts">
+    <li><span class="bubble">A</span><span>Its O₂ affinity increased, so it releases less O₂ in the tissues.</span></li>
+    <li><span class="bubble">B</span><span>Its O₂ affinity decreased, so it releases more O₂ at a tissue PO₂ of 40 mmHg.</span></li>
+    <li><span class="bubble">C</span><span>Its maximum O₂-carrying capacity fell, because fewer heme sites are available.</span></li>
+    <li><span class="bubble">D</span><span>Its saturation at a PO₂ of 100 mmHg falls to about half of normal.</span></li>
+  </ul>
+</div></div>
+
+<div class="q"><div class="n">2</div><div>
+  <span class="pts">[2 pts]</span>
+  <p class="stem">Why is the O₂–hemoglobin dissociation curve sigmoid rather than hyperbolic?</p>
+  <ul class="opts">
+    <li><span class="bubble">A</span><span>Each of the four hemes has a different fixed affinity, and they fill one at a time from highest to lowest.</span></li>
+    <li><span class="bubble">B</span><span>O₂ must first dissolve in plasma, and plasma becomes saturated with O₂ at about 60 mmHg.</span></li>
+    <li><span class="bubble">C</span><span>2,3-BPG binds after the first O₂ and speeds the loading of the rest.</span></li>
+    <li><span class="bubble">D</span><span>O₂ binding at one heme raises the O₂ affinity of the remaining hemes in the same tetramer.</span></li>
+  </ul>
+</div></div>
+
+<div class="q"><div class="n">3</div><div>
+  <span class="pts">[2 pts]</span>
+  <p class="stem">Compared with the same muscle at rest, which combination of local changes in a sprinting quadriceps shifts the O₂–Hb curve of its capillary blood to the right?</p>
+  <ul class="opts">
+    <li><span class="bubble">A</span><span>PCO₂ down, pH up, temperature up</span></li>
+    <li><span class="bubble">B</span><span>PCO₂ up, pH up, temperature down</span></li>
+    <li><span class="bubble">C</span><span>PCO₂ up, pH down, temperature up</span></li>
+    <li><span class="bubble">D</span><span>PCO₂ up, pH down, temperature down</span></li>
+  </ul>
+</div></div>
+
+<div class="q"><div class="n">4</div><div>
+  <span class="pts">[2 pts]</span>
+  <p class="stem">Fetal blood leaving the placenta can carry more O₂ per deciliter than the maternal blood leaving the same exchange site, yet O₂ still moves from maternal to fetal blood. Which quantity sets the direction of net O₂ diffusion?</p>
+  <ul class="opts">
+    <li><span class="bubble">A</span><span>Partial pressure of O₂ (PO₂)</span></li>
+    <li><span class="bubble">B</span><span>O₂ content (mL O₂ per dL blood)</span></li>
+    <li><span class="bubble">C</span><span>Percent hemoglobin saturation</span></li>
+    <li><span class="bubble">D</span><span>Hemoglobin concentration</span></li>
+  </ul>
+</div></div>
+
+<div class="q"><div class="n">5</div><div>
+  <span class="pts">[2 pts]</span>
+  <p class="stem">In the placenta, maternal HbA and fetal HbF are exposed to the same PO₂ of about 30 mmHg. Compared with HbA, how saturated is HbF at that PO₂, and why?</p>
+  <ul class="opts">
+    <li><span class="bubble">A</span><span>Less saturated, because HbF has lower O₂ affinity so it can release O₂ to fetal tissues.</span></li>
+    <li><span class="bubble">B</span><span>More saturated, because HbF binds 2,3-BPG weakly and so has higher O₂ affinity.</span></li>
+    <li><span class="bubble">C</span><span>Equally saturated; the fetus gains O₂ only because it has more hemoglobin.</span></li>
+    <li><span class="bubble">D</span><span>More saturated, because HbF binds 2,3-BPG more strongly than HbA does.</span></li>
+  </ul>
+</div></div>
+
+<div class="q"><div class="n">6</div><div>
+  <span class="pts">[2 pts]</span>
+  <p class="stem">A climber flies to 4,300 m and within minutes is hyperventilating. Over the following days, red-cell 2,3-BPG rises. What happens to the position of the O₂–Hb curve in the first 30 minutes?</p>
+  <ul class="opts">
+    <li><span class="bubble">A</span><span>It shifts left, because lower PCO₂ and higher pH raise hemoglobin's O₂ affinity.</span></li>
+    <li><span class="bubble">B</span><span>It shifts right, because altitude raises 2,3-BPG.</span></li>
+    <li><span class="bubble">C</span><span>It shifts right, because the low inspired PO₂ lowers hemoglobin's O₂ affinity.</span></li>
+    <li><span class="bubble">D</span><span>It does not shift, because changes in PCO₂ and pH alter breathing, not hemoglobin.</span></li>
+  </ul>
+</div></div>
+
+<div class="q"><div class="n">7</div><div>
+  <span class="pts">[2 pts]</span>
+  <p class="stem">A patient pulled from a house fire has 30% carboxyhemoglobin, hemoglobin 15 g/dL and arterial PO₂ 100 mmHg. Which statement best describes this patient's arterial blood compared with normal?</p>
+  <ul class="opts">
+    <li><span class="bubble">A</span><span>PaO₂ is low, because CO displaces O₂ from the plasma.</span></li>
+    <li><span class="bubble">B</span><span>O₂ content is low, but the remaining Hb releases O₂ more easily (right shift), which partly compensates.</span></li>
+    <li><span class="bubble">C</span><span>PaO₂ is normal, O₂ content is low, and the remaining Hb holds its O₂ more tightly (left shift).</span></li>
+    <li><span class="bubble">D</span><span>O₂ content is normal, because PaO₂ is normal.</span></li>
+  </ul>
+</div></div>
+
+<div class="q"><div class="n">8</div><div>
+  <span class="pts">[2 pts]</span>
+  <p class="stem">A trauma patient receives packed red cells stored for about three weeks; their 2,3-BPG is nearly gone. In the first hours after transfusion, at the same tissue PO₂, how do the transfused cells compare with the patient's own red cells?</p>
+  <ul class="opts">
+    <li><span class="bubble">A</span><span>They release more O₂, because low 2,3-BPG lowers hemoglobin's O₂ affinity.</span></li>
+    <li><span class="bubble">B</span><span>They release the same O₂, because the patient's pH and temperature set the curve.</span></li>
+    <li><span class="bubble">C</span><span>They release less O₂, because stored cells carry less hemoglobin per cell.</span></li>
+    <li><span class="bubble">D</span><span>They release less O₂, because low 2,3-BPG leaves their hemoglobin with higher O₂ affinity.</span></li>
+  </ul>
+</div></div>
+
+<h2>Section B · Short answer <small>2 items · 3 pts each</small></h2>
+
+<div class="q"><div class="n">9</div><div>
+  <span class="pts">[3 pts]</span>
+  <p class="stem">Name the effect by which blood acidity and CO₂ in metabolically active tissue change O₂ delivery, and explain in 2–3 sentences how it works at the hemoglobin molecule and what it means for that tissue.</p>
+  <div class="lines"><i></i><i></i><i></i><i></i><i></i></div>
+</div></div>
+
+<div class="q"><div class="n">10</div><div>
+  <span class="pts">[3 pts]</span>
+  <p class="stem">Person X has anemia with hemoglobin 10.5 g/dL. Person Y has hemoglobin 15 g/dL with 30% carboxyhemoglobin. Both have reduced arterial O₂ content. Explain why Y's tissues are worse off than X's would be at a similar content.</p>
+  <div class="lines"><i></i><i></i><i></i><i></i><i></i></div>
+</div></div>
+
+<h2>Section C · Calculation <small>2 items · 7 pts</small></h2>
+
+<div class="q"><div class="n">11</div><div>
+  <span class="pts">[4 pts]</span>
+  <p class="stem">Use the Hill equation, S = P<sup>n</sup> / (P<sup>n</sup> + P50<sup>n</sup>), with n = 2.7 and P50 = 26.6 mmHg.<br>
+  (a) Calculate S at an arterial PO₂ of 100 mmHg. [1]<br>
+  (b) Calculate S at a mixed venous PO₂ of 40 mmHg. [1]<br>
+  (c) With hemoglobin 15 g/dL and 1.34 mL O₂ per g Hb, and ignoring dissolved O₂, how much O₂ does each deciliter of blood unload between 100 and 40 mmHg? [2]</p>
+  <div class="work" style="min-height: 2.6in"><div class="lbl">Work</div></div>
+  <div class="ansline"><span class="g">(a) <span class="blank" style="width:0.8in"></span> %</span><span class="g">(b) <span class="blank" style="width:0.8in"></span> %</span><span class="g">(c) <span class="blank" style="width:0.8in"></span> mL O₂/dL</span></div>
+</div></div>
+
+<div class="q"><div class="n">12</div><div>
+  <span class="pts">[3 pts]</span>
+  <p class="stem">The house-fire patient from item 7 has hemoglobin 15 g/dL and 30% carboxyhemoglobin. Assume the hemoglobin not bound to CO is fully saturated with O₂. Ignoring dissolved O₂, calculate the arterial O₂ content, and compare it with the same person's content with no CO (also fully saturated).</p>
+  <div class="work" style="min-height: 2.1in"><div class="lbl">Work</div></div>
+  <div class="ansline"><span class="g">With CO <span class="blank" style="width:0.75in"></span> mL/dL</span><span class="g">Without CO <span class="blank" style="width:0.75in"></span> mL/dL</span><span class="g">Change <span class="blank" style="width:0.6in"></span> %</span></div>
+</div></div>
+
+<h2>Section D · Draw and label <small>2 items · 11 pts</small></h2>
+
+<div class="q"><div class="n">13</div><div>
+  <span class="pts">[6 pts]</span>
+  <p class="stem">(a) With a solid line, sketch the normal adult O₂–Hb curve. Mark and label P50, the arterial point (PO₂ 100 mmHg) and the mixed venous point (PO₂ 40 mmHg), each with its approximate saturation. [4]<br>
+  (b) With a dashed line, sketch the curve for capillary blood in an exercising muscle. Draw an arrow at 40 mmHg showing the extra O₂ it unloads. [2]</p>
+  <div class="figure draw">
+    <svg viewBox="0 0 480 310" role="img" aria-label="Item 13: blank axes, PO2 0 to 100 mmHg, saturation 0 to 100 percent, with grid">
+      <g stroke="#d3d8d9" stroke-width="0.7"><line x1="100" y1="30" x2="100" y2="270"/><line x1="140" y1="30" x2="140" y2="270"/><line x1="180" y1="30" x2="180" y2="270"/><line x1="220" y1="30" x2="220" y2="270"/><line x1="260" y1="30" x2="260" y2="270"/><line x1="300" y1="30" x2="300" y2="270"/><line x1="340" y1="30" x2="340" y2="270"/><line x1="380" y1="30" x2="380" y2="270"/><line x1="420" y1="30" x2="420" y2="270"/><line x1="460" y1="30" x2="460" y2="270"/><line x1="60" y1="246" x2="460" y2="246"/><line x1="60" y1="222" x2="460" y2="222"/><line x1="60" y1="198" x2="460" y2="198"/><line x1="60" y1="174" x2="460" y2="174"/><line x1="60" y1="150" x2="460" y2="150"/><line x1="60" y1="126" x2="460" y2="126"/><line x1="60" y1="102" x2="460" y2="102"/><line x1="60" y1="78" x2="460" y2="78"/><line x1="60" y1="54" x2="460" y2="54"/><line x1="60" y1="30" x2="460" y2="30"/></g>
+      <g stroke="#16313b" stroke-width="1.3"><line x1="60" y1="270" x2="460" y2="270"/><line x1="60" y1="30" x2="60" y2="270"/></g><g font-size="11"><text x="60" y="286" text-anchor="middle">0</text><text x="140" y="286" text-anchor="middle">20</text><text x="220" y="286" text-anchor="middle">40</text><text x="300" y="286" text-anchor="middle">60</text><text x="380" y="286" text-anchor="middle">80</text><text x="460" y="286" text-anchor="middle">100</text><text x="52" y="274" text-anchor="end">0</text><text x="52" y="226" text-anchor="end">20</text><text x="52" y="178" text-anchor="end">40</text><text x="52" y="130" text-anchor="end">60</text><text x="52" y="82" text-anchor="end">80</text><text x="52" y="34" text-anchor="end">100</text></g><text x="260" y="304" text-anchor="middle" font-size="11.5" font-weight="600">PO₂ (mmHg)</text><text transform="translate(18 150) rotate(-90)" text-anchor="middle" font-size="11.5" font-weight="600">Hb saturation (%)</text>
+    </svg>
+  </div>
+</div></div>
+
+<div class="q"><div class="n">14</div><div>
+  <span class="pts">[5 pts]</span>
+  <p class="stem">The solid curve is normal adult blood at standard conditions. For each number, write the name of the feature. For curves 1 and 2, also give one condition that produces that curve (name and condition both needed for the point). For 3, give the approximate value. For 4 and 5, say what that part of the solid curve means for O₂ loading or unloading.</p>
+  <div class="figure">
+    <svg viewBox="0 0 480 345" role="img" aria-label="Item 14: three saturation curves with features numbered 1 to 5">
+      <g stroke="#d3d8d9" stroke-width="0.7"><line x1="100" y1="30" x2="100" y2="270"/><line x1="140" y1="30" x2="140" y2="270"/><line x1="180" y1="30" x2="180" y2="270"/><line x1="220" y1="30" x2="220" y2="270"/><line x1="260" y1="30" x2="260" y2="270"/><line x1="300" y1="30" x2="300" y2="270"/><line x1="340" y1="30" x2="340" y2="270"/><line x1="380" y1="30" x2="380" y2="270"/><line x1="420" y1="30" x2="420" y2="270"/><line x1="460" y1="30" x2="460" y2="270"/><line x1="60" y1="246" x2="460" y2="246"/><line x1="60" y1="222" x2="460" y2="222"/><line x1="60" y1="198" x2="460" y2="198"/><line x1="60" y1="174" x2="460" y2="174"/><line x1="60" y1="150" x2="460" y2="150"/><line x1="60" y1="126" x2="460" y2="126"/><line x1="60" y1="102" x2="460" y2="102"/><line x1="60" y1="78" x2="460" y2="78"/><line x1="60" y1="54" x2="460" y2="54"/><line x1="60" y1="30" x2="460" y2="30"/></g>
+      <g stroke="#16313b" stroke-width="1.3"><line x1="60" y1="270" x2="460" y2="270"/><line x1="60" y1="30" x2="60" y2="270"/></g><g font-size="11"><text x="60" y="286" text-anchor="middle">0</text><text x="140" y="286" text-anchor="middle">20</text><text x="220" y="286" text-anchor="middle">40</text><text x="300" y="286" text-anchor="middle">60</text><text x="380" y="286" text-anchor="middle">80</text><text x="460" y="286" text-anchor="middle">100</text><text x="52" y="274" text-anchor="end">0</text><text x="52" y="226" text-anchor="end">20</text><text x="52" y="178" text-anchor="end">40</text><text x="52" y="130" text-anchor="end">60</text><text x="52" y="82" text-anchor="end">80</text><text x="52" y="34" text-anchor="end">100</text></g><text x="260" y="340" text-anchor="middle" font-size="11.5" font-weight="600">PO₂ (mmHg)</text><text transform="translate(18 150) rotate(-90)" text-anchor="middle" font-size="11.5" font-weight="600">Hb saturation (%)</text>
+      <g fill="none" stroke="#16313b"><path d="M60.0 270.0 L68.0 269.5 L76.0 266.5 L84.0 259.8 L92.0 248.8 L100.0 234.0 L108.0 216.2 L116.0 196.8 L124.0 177.4 L132.0 158.7 L140.0 141.7 L148.0 126.6 L156.0 113.4 L164.0 102.0 L172.0 92.4 L180.0 84.1 L188.0 77.2 L196.0 71.3 L204.0 66.3 L212.0 62.0 L220.0 58.4 L228.0 55.2 L236.0 52.5 L244.0 50.2 L252.0 48.2 L260.0 46.4 L268.0 44.9 L276.0 43.5 L284.0 42.3 L292.0 41.2 L300.0 40.3 L308.0 39.5 L316.0 38.7 L324.0 38.0 L332.0 37.4 L340.0 36.9 L348.0 36.4 L356.0 36.0 L364.0 35.6 L372.0 35.2 L380.0 34.8 L388.0 34.5 L396.0 34.3 L404.0 34.0 L412.0 33.8 L420.0 33.5 L428.0 33.3 L436.0 33.2 L444.0 33.0 L452.0 32.8 L460.0 32.7" stroke-width="2" stroke-dasharray="7 4"/><path d="M60.0 270.0 L68.0 269.8 L76.0 268.6 L84.0 265.8 L92.0 261.0 L100.0 254.0 L108.0 244.9 L116.0 234.0 L124.0 221.5 L132.0 208.0 L140.0 194.0 L148.0 180.1 L156.0 166.6 L164.0 153.7 L172.0 141.7 L180.0 130.7 L188.0 120.7 L196.0 111.6 L204.0 103.5 L212.0 96.3 L220.0 89.9 L228.0 84.1 L236.0 79.1 L244.0 74.5 L252.0 70.5 L260.0 66.9 L268.0 63.8 L276.0 60.9 L284.0 58.4 L292.0 56.1 L300.0 54.0 L308.0 52.2 L316.0 50.5 L324.0 49.0 L332.0 47.6 L340.0 46.4 L348.0 45.3 L356.0 44.3 L364.0 43.3 L372.0 42.5 L380.0 41.7 L388.0 41.0 L396.0 40.3 L404.0 39.7 L412.0 39.1 L420.0 38.6 L428.0 38.1 L436.0 37.7 L444.0 37.3 L452.0 36.9 L460.0 36.5" stroke-width="2.4"/><path d="M60.0 270.0 L68.0 269.9 L76.0 269.3 L84.0 267.8 L92.0 265.3 L100.0 261.5 L108.0 256.4 L116.0 250.0 L124.0 242.3 L132.0 233.5 L140.0 223.8 L148.0 213.4 L156.0 202.6 L164.0 191.7 L172.0 180.8 L180.0 170.1 L188.0 159.8 L196.0 150.0 L204.0 140.8 L212.0 132.1 L220.0 124.1 L228.0 116.7 L236.0 109.8 L244.0 103.6 L252.0 97.8 L260.0 92.6 L268.0 87.8 L276.0 83.5 L284.0 79.5 L292.0 75.9 L300.0 72.6 L308.0 69.6 L316.0 66.8 L324.0 64.3 L332.0 62.0 L340.0 59.9 L348.0 58.0 L356.0 56.2 L364.0 54.6 L372.0 53.1 L380.0 51.7 L388.0 50.4 L396.0 49.2 L404.0 48.1 L412.0 47.1 L420.0 46.2 L428.0 45.3 L436.0 44.5 L444.0 43.7 L452.0 43.0 L460.0 42.4" stroke-width="2.4" stroke-dasharray="1.5 4" stroke-linecap="round"/><line x1="166.4" y1="150" x2="166.4" y2="270" stroke-width="1" stroke-dasharray="3 3"/></g><circle cx="166.4" cy="150" r="3.6" fill="#16313b"/>
+      <g stroke="#16313b" stroke-width="1" fill="none"><line x1="84" y1="119" x2="106" y2="213"/><line x1="353" y1="198" x2="285" y2="81"/><line x1="207" y1="243" x2="169" y2="266"/><path d="M300 292 V298 H460 V292"/><line x1="380" y1="298" x2="380" y2="305"/><path d="M100 292 V298 H220 V292"/><line x1="160" y1="298" x2="160" y2="305"/></g><circle cx="82" cy="110" r="9" fill="#fff" stroke="#16313b" stroke-width="1.1"/><text x="82" y="114" text-anchor="middle" font-size="11.5" font-weight="700">1</text><circle cx="360" cy="205" r="9" fill="#fff" stroke="#16313b" stroke-width="1.1"/><text x="360" y="209" text-anchor="middle" font-size="11.5" font-weight="700">2</text><circle cx="215" cy="238" r="9" fill="#fff" stroke="#16313b" stroke-width="1.1"/><text x="215" y="242" text-anchor="middle" font-size="11.5" font-weight="700">3</text><circle cx="380" cy="314" r="9" fill="#fff" stroke="#16313b" stroke-width="1.1"/><text x="380" y="318" text-anchor="middle" font-size="11.5" font-weight="700">4</text><circle cx="160" cy="314" r="9" fill="#fff" stroke="#16313b" stroke-width="1.1"/><text x="160" y="318" text-anchor="middle" font-size="11.5" font-weight="700">5</text>
+    </svg>
+  </div>
+  <table class="grid">
+    <tr><td class="c" style="width:2em">1</td><td style="height:0.42in"></td></tr>
+    <tr><td class="c">2</td><td style="height:0.42in"></td></tr>
+    <tr><td class="c">3</td><td style="height:0.42in"></td></tr>
+    <tr><td class="c">4</td><td style="height:0.42in"></td></tr>
+    <tr><td class="c">5</td><td style="height:0.42in"></td></tr>
+  </table>
+  <div class="bank"><b>Word bank</b> (cover it on your first try; using it makes the item "with notes"): left shift · right shift · P50 · plateau (loading zone) · steep part (unloading zone) · Hill coefficient · venous point</div>
+</div></div>
+
+<p class="muted small" style="text-align:center;margin-top:14pt">End of test. Record your end time. Do not turn the page until you are done.</p>
+
+<section class="key newpage">
+  <div class="kicker">Answer key</div>
+  <h1>Answer key and explanations</h1>
+  <p class="muted small">Score written items with the rubric, not by keywords. Values from the Hill model (n = 2.7, P50 = 26.6 mmHg) were computed, not read off a graph.</p>
+
+  <h3>Blueprint</h3>
+  <table class="grid">
+    <tr><th>Objective</th><th>Items</th><th class="c">Points</th><th class="c">Share</th></tr>
+    <tr><td>O1 · Read the curve: shape, P50, plateau and steep part, arterial and venous points</td><td>1, 2, 13a, 14</td><td class="c">13</td><td class="c">33%</td></tr>
+    <tr><td>O2 · Predict shifts from PCO₂, pH, temperature, 2,3-BPG; explain the Bohr effect</td><td>3, 6, 9, 13b</td><td class="c">9</td><td class="c">22%</td></tr>
+    <tr><td>O3 · Apply affinity to fetal Hb, stored blood and CO</td><td>5, 7, 8, 10</td><td class="c">9</td><td class="c">22%</td></tr>
+    <tr><td>O4 · Calculate saturation, O₂ content and unloading</td><td>11, 12</td><td class="c">7</td><td class="c">18%</td></tr>
+    <tr><td>O5 · Direction of O₂ diffusion (PO₂ gradient)</td><td>4</td><td class="c">2</td><td class="c">5%</td></tr>
+  </table>
+  <p class="small muted" style="margin-top:4pt">Transfer items (new surface, same principle): 6, 8, 10, 12. In a course test, weights follow the study guide and each Source cites its line or slide.</p>
+
+  <h3>Sources</h3>
+  <ol class="small" style="padding-left:1.4em;margin:0">
+    <li><b>S1</b> Severinghaus JW. Simple, accurate equations for human blood O₂ dissociation computations. <i>J Appl Physiol</i> 1979;46:599–602. Standard curve, P50 26.6 mmHg.</li>
+    <li><b>S2</b> A medical physiology text, O₂ transport chapter (e.g., Boron &amp; Boulpaep, <i>Medical Physiology</i>; Hall, <i>Guyton and Hall Textbook of Medical Physiology</i>).</li>
+    <li><b>S3</b> Roughton FJW, Darling RC. The effect of carbon monoxide on the oxyhemoglobin dissociation curve. <i>Am J Physiol</i> 1944;141:17–31.</li>
+    <li><b>S4</b> Benesch R, Benesch RE. The effect of organic phosphates from the human erythrocyte on the allosteric properties of hemoglobin. <i>Biochem Biophys Res Commun</i> 1967;26:162–167.</li>
+  </ol>
+
+  <h3>Section A</h3>
+  <div class="k"><div class="n">1</div><div>
+    <div><span class="ans">B.</span> P50 is the PO₂ that half-saturates Hb. Needing more PO₂ to get there means lower affinity (right shift). In the Hill model, saturation at 40 mmHg falls from about 74% to 63%, so more O₂ is released.</div>
+    <ul class="dis">
+      <li><b>A</b> (P50 read backwards): a higher number feels like "more binding." It means the opposite.</li>
+      <li><b>C</b> (affinity confused with capacity): capacity depends on Hb amount, which did not change.</li>
+      <li><b>D</b> (plateau ignored): at 100 mmHg the curve is flat; S drops only from about 97% to 95%.</li>
+    </ul>
+    <div class="meta">O1 · S1, S2</div>
+  </div></div>
+  <div class="k"><div class="n">2</div><div>
+    <div><span class="ans">D.</span> Cooperativity: binding shifts the tetramer from the T (tense) toward the R (relaxed) state, raising the affinity of the remaining sites. The Hill coefficient of about 2.7 (greater than 1) measures this.</div>
+    <ul class="dis">
+      <li><b>A</b> (independent sites): sites filling from highest to lowest affinity would flatten the curve, not make it sigmoid.</li>
+      <li><b>B</b> (plasma limits binding): dissolved O₂ rises linearly with PO₂ (0.003 mL/dL per mmHg); plasma does not saturate.</li>
+      <li><b>C</b> (2,3-BPG role reversed): 2,3-BPG binds deoxy-Hb and lowers affinity.</li>
+    </ul>
+    <div class="meta">O1 · S2</div>
+  </div></div>
+  <div class="k"><div class="n">3</div><div>
+    <div><span class="ans">C.</span> Working muscle makes CO₂, acid and heat. All three lower affinity and shift the curve right, so more O₂ unloads where it is needed.</div>
+    <ul class="dis">
+      <li><b>A</b> (CO₂ thought to be consumed): muscle produces CO₂; falling PCO₂ shifts left.</li>
+      <li><b>B</b> (pH scale read backwards): more H⁺ means lower pH; and cooling shifts left.</li>
+      <li><b>D</b> (temperature effect reversed): heat lowers affinity; cooling raises it.</li>
+    </ul>
+    <div class="meta">O2 · S2</div>
+  </div></div>
+  <div class="k"><div class="n">4</div><div>
+    <div><span class="ans">A.</span> Gases diffuse down their partial-pressure gradient. Only dissolved O₂ diffuses, and its amount is set by PO₂. Hb-bound O₂ adds to content but does not drive diffusion.</div>
+    <ul class="dis">
+      <li><b>B</b> (content gradient): the stem's own case refutes it: fetal content can be higher while O₂ still flows in.</li>
+      <li><b>C</b> (saturation as driving force): saturation reflects affinity as well as PO₂.</li>
+      <li><b>D</b> (Hb pulls O₂): Hb raises carrying capacity; it does not set direction.</li>
+    </ul>
+    <div class="meta">O5 · S2</div>
+  </div></div>
+  <div class="k"><div class="n">5</div><div>
+    <div><span class="ans">B.</span> HbF's γ chains bind 2,3-BPG weakly, so HbF escapes that right shift (P50 about 19 vs 26.6 mmHg). In the model at 30 mmHg: HbF about 77%, HbA about 58%. High-affinity HbF keeps fetal plasma PO₂ low, so the maternal-to-fetal gradient persists.</div>
+    <ul class="dis">
+      <li><b>A</b> (fetal Hb has lower affinity): reasoning from "the fetus must release O₂" gets the direction backwards.</li>
+      <li><b>C</b> (only Hb amount matters): fetal Hb concentration is higher, but affinity also differs.</li>
+      <li><b>D</b> (2,3-BPG effect reversed): stronger 2,3-BPG binding would lower affinity.</li>
+    </ul>
+    <div class="meta">O3 · S2, S4</div>
+  </div></div>
+  <div class="k"><div class="n">6</div><div>
+    <div><span class="ans">A.</span> Within minutes, hyperventilation causes respiratory alkalosis, so lower PCO₂ and higher pH shift the curve left. The 2,3-BPG rise (a right shift) builds over hours to days.</div>
+    <ul class="dis">
+      <li><b>B</b> (time course mixed up): true for days later, not the first 30 minutes.</li>
+      <li><b>C</b> (PO₂ treated as a shifter): a lower PO₂ moves the point down the curve; it does not shift the curve.</li>
+      <li><b>D</b> (blood chemistry thought not to touch hemoglobin): blowing off CO₂ lowers H⁺ (CO₂ + H₂O ⇌ H₂CO₃ ⇌ H⁺ + HCO₃⁻), and less CO₂ and H⁺ bound to Hb raises its O₂ affinity (Bohr effect in reverse).</li>
+    </ul>
+    <div class="meta">O2 · transfer · S2</div>
+  </div></div>
+  <div class="k"><div class="n">7</div><div>
+    <div><span class="ans">C.</span> CO binds heme with roughly 200–250 times O₂'s affinity, cutting O₂ content. PaO₂ measures dissolved O₂, so it stays normal. CO also raises the O₂ affinity of the remaining sites, a left shift that impairs unloading.</div>
+    <ul class="dis">
+      <li><b>A</b> (PaO₂ confused with bound O₂): CO competes for heme, not for dissolved O₂.</li>
+      <li><b>B</b> (CO shifts right): the shift is left, which makes things worse.</li>
+      <li><b>D</b> (PaO₂ = content): content depends on functional Hb and saturation.</li>
+    </ul>
+    <div class="meta">O3 · S3</div>
+  </div></div>
+  <div class="k"><div class="n">8</div><div>
+    <div><span class="ans">D.</span> 2,3-BPG lives inside each red cell. Without it, transfused cells are left-shifted and hold their O₂ until they rebuild 2,3-BPG over the following days.</div>
+    <ul class="dis">
+      <li><b>A</b> (direction of the 2,3-BPG effect reversed): 2,3-BPG lowers affinity, so losing it <em>raises</em> affinity.</li>
+      <li><b>B</b> (only the environment sets the curve): intracellular 2,3-BPG travels with the cell.</li>
+      <li><b>C</b> (content confused with affinity): the cells' Hb per cell is not why they release less.</li>
+    </ul>
+    <div class="meta">O3 · transfer · S2, S4</div>
+  </div></div>
+
+  <h3>Section B</h3>
+  <div class="k"><div class="n">9</div><div>
+    <div><span class="ans">Model answer.</span> The Bohr effect. H⁺ binds hemoglobin (protonating histidine residues) and CO₂ binds its amino ends as carbamino groups; both stabilize the deoxy (T) state and lower O₂ affinity. The curve shifts right, so at the same tissue PO₂ less O₂ stays bound and more is unloaded where metabolism is highest.</div>
+    <ol class="rubric">
+      <li>1 pt: names the Bohr effect, or says right shift / lower affinity.</li>
+      <li>1 pt: mechanism: H⁺ and/or CO₂ bind Hb and favor the deoxy (T) state.</li>
+      <li>1 pt: consequence: lower saturation at the same tissue PO₂, so more O₂ unloaded in that muscle.</li>
+    </ol>
+    <div class="meta">O2 · S2 (Bohr, Hasselbalch &amp; Krogh 1904)</div>
+  </div></div>
+  <div class="k"><div class="n">10</div><div>
+    <div><span class="ans">Model answer.</span> Both have about 10.5 g/dL of Hb able to carry O₂ (15 × 0.70), so content is similar. But in Y, CO raises the O₂ affinity of the remaining sites (left shift). Y's Hb gives up less O₂ at a given tissue PO₂, so tissue PO₂ must fall lower before the O₂ is released.</div>
+    <ol class="rubric">
+      <li>1 pt: functional Hb, and so content, is similar.</li>
+      <li>1 pt: CO left-shifts the curve of the remaining Hb (raises affinity).</li>
+      <li>1 pt: so less O₂ unloads at tissue PO₂ (or tissue PO₂ must fall lower). Do not require CO's effect on cytochrome oxidase; it is a true extra.</li>
+    </ol>
+    <div class="meta">O3 · transfer · S3</div>
+  </div></div>
+
+  <h3>Section C</h3>
+  <div class="k"><div class="n">11</div><div>
+    <div><span class="ans">(a) 97%</span> · (100/26.6)<sup>2.7</sup> = 3.759<sup>2.7</sup> ≈ 35.7; S = 35.7 / 36.7 ≈ 0.973.<br>
+    <span class="ans">(b) 75%</span> · (40/26.6)<sup>2.7</sup> = 1.504<sup>2.7</sup> ≈ 3.01; S = 3.01 / 4.01 ≈ 0.751.<br>
+    <span class="ans">(c) ≈ 4.5 mL O₂/dL</span> · capacity 1.34 × 15 = 20.1 mL/dL; 20.1 × (0.973 − 0.751) ≈ 4.47 mL/dL.</div>
+    <ol class="rubric">
+      <li>(a) 1 pt: 97% (accept 97–98%). (b) 1 pt: 75% (accept 74–76%).</li>
+      <li>(c) 1 pt: setup, capacity × difference in saturation. 1 pt: 4.4–4.6 mL O₂/dL with units.</li>
+    </ol>
+    <div class="meta">O4 · S1 (P50), S2 (1.34 mL/g)</div>
+  </div></div>
+  <div class="k"><div class="n">12</div><div>
+    <div><span class="ans">With CO ≈ 14.1 mL/dL; without CO ≈ 20.1 mL/dL; 30% lower.</span> 1.34 × 15 × 0.70 = 14.07; 1.34 × 15 = 20.10; 14.07 / 20.10 = 0.70. (Real arterial blood is about 97% saturated, which scales both values by 0.97 and leaves the 30% drop unchanged.)</div>
+    <ol class="rubric">
+      <li>1 pt: uses 70% of Hb as available for O₂.</li>
+      <li>1 pt: 14.1 mL/dL (accept 14.0–14.1; 13.6 if 97% saturation was used).</li>
+      <li>1 pt: 20.1 mL/dL without CO (19.5 at 97%) and a 30% drop.</li>
+    </ol>
+    <div class="meta">O4 · transfer · S2, S3</div>
+  </div></div>
+
+  <h3>Section D</h3>
+  <div class="k"><div class="n">13</div><div>
+    <div><span class="ans">Model answer.</span></div>
+    <div class="figure">
+      <svg viewBox="0 0 480 310" role="img" aria-label="Item 13 model answer: normal curve with P50, arterial and venous points, and a dashed right-shifted curve">
+        <g stroke="#d3d8d9" stroke-width="0.7"><line x1="100" y1="30" x2="100" y2="270"/><line x1="140" y1="30" x2="140" y2="270"/><line x1="180" y1="30" x2="180" y2="270"/><line x1="220" y1="30" x2="220" y2="270"/><line x1="260" y1="30" x2="260" y2="270"/><line x1="300" y1="30" x2="300" y2="270"/><line x1="340" y1="30" x2="340" y2="270"/><line x1="380" y1="30" x2="380" y2="270"/><line x1="420" y1="30" x2="420" y2="270"/><line x1="460" y1="30" x2="460" y2="270"/><line x1="60" y1="246" x2="460" y2="246"/><line x1="60" y1="222" x2="460" y2="222"/><line x1="60" y1="198" x2="460" y2="198"/><line x1="60" y1="174" x2="460" y2="174"/><line x1="60" y1="150" x2="460" y2="150"/><line x1="60" y1="126" x2="460" y2="126"/><line x1="60" y1="102" x2="460" y2="102"/><line x1="60" y1="78" x2="460" y2="78"/><line x1="60" y1="54" x2="460" y2="54"/><line x1="60" y1="30" x2="460" y2="30"/></g>
+        <g stroke="#16313b" stroke-width="1.3"><line x1="60" y1="270" x2="460" y2="270"/><line x1="60" y1="30" x2="60" y2="270"/></g><g font-size="11"><text x="60" y="286" text-anchor="middle">0</text><text x="140" y="286" text-anchor="middle">20</text><text x="220" y="286" text-anchor="middle">40</text><text x="300" y="286" text-anchor="middle">60</text><text x="380" y="286" text-anchor="middle">80</text><text x="460" y="286" text-anchor="middle">100</text><text x="52" y="274" text-anchor="end">0</text><text x="52" y="226" text-anchor="end">20</text><text x="52" y="178" text-anchor="end">40</text><text x="52" y="130" text-anchor="end">60</text><text x="52" y="82" text-anchor="end">80</text><text x="52" y="34" text-anchor="end">100</text></g><text x="260" y="304" text-anchor="middle" font-size="11.5" font-weight="600">PO₂ (mmHg)</text><text transform="translate(18 150) rotate(-90)" text-anchor="middle" font-size="11.5" font-weight="600">Hb saturation (%)</text>
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#a54320"/></marker></defs><g fill="none" stroke="#16313b"><path d="M60.0 270.0 L68.0 269.8 L76.0 268.6 L84.0 265.8 L92.0 261.0 L100.0 254.0 L108.0 244.9 L116.0 234.0 L124.0 221.5 L132.0 208.0 L140.0 194.0 L148.0 180.1 L156.0 166.6 L164.0 153.7 L172.0 141.7 L180.0 130.7 L188.0 120.7 L196.0 111.6 L204.0 103.5 L212.0 96.3 L220.0 89.9 L228.0 84.1 L236.0 79.1 L244.0 74.5 L252.0 70.5 L260.0 66.9 L268.0 63.8 L276.0 60.9 L284.0 58.4 L292.0 56.1 L300.0 54.0 L308.0 52.2 L316.0 50.5 L324.0 49.0 L332.0 47.6 L340.0 46.4 L348.0 45.3 L356.0 44.3 L364.0 43.3 L372.0 42.5 L380.0 41.7 L388.0 41.0 L396.0 40.3 L404.0 39.7 L412.0 39.1 L420.0 38.6 L428.0 38.1 L436.0 37.7 L444.0 37.3 L452.0 36.9 L460.0 36.5" stroke-width="2.4"/><path d="M60.0 270.0 L68.0 269.9 L76.0 269.3 L84.0 267.8 L92.0 265.3 L100.0 261.5 L108.0 256.4 L116.0 250.0 L124.0 242.3 L132.0 233.5 L140.0 223.8 L148.0 213.4 L156.0 202.6 L164.0 191.7 L172.0 180.8 L180.0 170.1 L188.0 159.8 L196.0 150.0 L204.0 140.8 L212.0 132.1 L220.0 124.1 L228.0 116.7 L236.0 109.8 L244.0 103.6 L252.0 97.8 L260.0 92.6 L268.0 87.8 L276.0 83.5 L284.0 79.5 L292.0 75.9 L300.0 72.6 L308.0 69.6 L316.0 66.8 L324.0 64.3 L332.0 62.0 L340.0 59.9 L348.0 58.0 L356.0 56.2 L364.0 54.6 L372.0 53.1 L380.0 51.7 L388.0 50.4 L396.0 49.2 L404.0 48.1 L412.0 47.1 L420.0 46.2 L428.0 45.3 L436.0 44.5 L444.0 43.7 L452.0 43.0 L460.0 42.4" stroke-width="2" stroke-dasharray="7 4"/><line x1="166.4" y1="150" x2="166.4" y2="270" stroke-width="1" stroke-dasharray="3 3"/><line x1="220" y1="89.9" x2="220" y2="270" stroke-width="1" stroke-dasharray="3 3"/></g><circle cx="166.4" cy="150" r="4" fill="#16313b"/><circle cx="460" cy="36.5" r="4" fill="#16313b"/><circle cx="220" cy="89.9" r="4" fill="#16313b"/><circle cx="220" cy="124.1" r="4" fill="#fff" stroke="#16313b" stroke-width="1.5"/><line x1="220" y1="95" x2="220" y2="117" stroke="#a54320" stroke-width="1.8" marker-end="url(#ah)"/><text x="158" y="136" text-anchor="end" font-size="10.5" font-weight="600" fill="#a54320">P50 ≈ 27 mmHg</text><text x="158" y="149" text-anchor="end" font-size="10.5" font-weight="600" fill="#a54320">S = 50%</text><text x="452" y="24" text-anchor="end" font-size="10.5" font-weight="600" fill="#a54320">Arterial: 100 mmHg, ≈97%</text><text x="212" y="78" text-anchor="end" font-size="10.5" font-weight="600" fill="#a54320">Venous: 40 mmHg, ≈75%</text><text x="228" y="142" text-anchor="start" font-size="10.5" font-weight="600" fill="#a54320">Extra O₂ unloaded (≈75% → 61%)</text><g stroke="#16313b"><line x1="330" y1="226" x2="360" y2="226" stroke-width="2.4"/><line x1="330" y1="246" x2="360" y2="246" stroke-width="2" stroke-dasharray="7 4"/></g><text x="366" y="230" text-anchor="start" font-size="10.5" font-weight="500" fill="#16313b">Normal</text><text x="366" y="250" text-anchor="start" font-size="10.5" font-weight="500" fill="#16313b">Exercising muscle</text>
+      </svg>
+    </div>
+    <ol class="rubric">
+      <li>1 pt: sigmoid: flat near 0, steep from about 10 to 50 mmHg, plateau above about 70 mmHg.</li>
+      <li>1 pt: P50 marked at about 27 mmHg, 50% (accept 25–28).</li>
+      <li>1 pt: arterial point at 100 mmHg, about 97%.</li>
+      <li>1 pt: venous point at 40 mmHg, about 75%.</li>
+      <li>1 pt: dashed curve to the right of the solid curve all along, reaching nearly the same plateau.</li>
+      <li>1 pt: arrow at 40 mmHg pointing down from solid to dashed curve (model: about 75% to 61%).</li>
+    </ol>
+    <div class="meta">O1 (a), O2 (b) · S1, S2</div>
+  </div></div>
+  <div class="k"><div class="n">14</div><div>
+    <div class="figure">
+      <svg viewBox="0 0 480 345" role="img" aria-label="Item 14 answer graph with each numbered feature named">
+        <g stroke="#d3d8d9" stroke-width="0.7"><line x1="100" y1="30" x2="100" y2="270"/><line x1="140" y1="30" x2="140" y2="270"/><line x1="180" y1="30" x2="180" y2="270"/><line x1="220" y1="30" x2="220" y2="270"/><line x1="260" y1="30" x2="260" y2="270"/><line x1="300" y1="30" x2="300" y2="270"/><line x1="340" y1="30" x2="340" y2="270"/><line x1="380" y1="30" x2="380" y2="270"/><line x1="420" y1="30" x2="420" y2="270"/><line x1="460" y1="30" x2="460" y2="270"/><line x1="60" y1="246" x2="460" y2="246"/><line x1="60" y1="222" x2="460" y2="222"/><line x1="60" y1="198" x2="460" y2="198"/><line x1="60" y1="174" x2="460" y2="174"/><line x1="60" y1="150" x2="460" y2="150"/><line x1="60" y1="126" x2="460" y2="126"/><line x1="60" y1="102" x2="460" y2="102"/><line x1="60" y1="78" x2="460" y2="78"/><line x1="60" y1="54" x2="460" y2="54"/><line x1="60" y1="30" x2="460" y2="30"/></g>
+        <g stroke="#16313b" stroke-width="1.3"><line x1="60" y1="270" x2="460" y2="270"/><line x1="60" y1="30" x2="60" y2="270"/></g><g font-size="11"><text x="60" y="286" text-anchor="middle">0</text><text x="140" y="286" text-anchor="middle">20</text><text x="220" y="286" text-anchor="middle">40</text><text x="300" y="286" text-anchor="middle">60</text><text x="380" y="286" text-anchor="middle">80</text><text x="460" y="286" text-anchor="middle">100</text><text x="52" y="274" text-anchor="end">0</text><text x="52" y="226" text-anchor="end">20</text><text x="52" y="178" text-anchor="end">40</text><text x="52" y="130" text-anchor="end">60</text><text x="52" y="82" text-anchor="end">80</text><text x="52" y="34" text-anchor="end">100</text></g><text x="260" y="340" text-anchor="middle" font-size="11.5" font-weight="600">PO₂ (mmHg)</text><text transform="translate(18 150) rotate(-90)" text-anchor="middle" font-size="11.5" font-weight="600">Hb saturation (%)</text>
+        <g fill="none" stroke="#16313b"><path d="M60.0 270.0 L68.0 269.5 L76.0 266.5 L84.0 259.8 L92.0 248.8 L100.0 234.0 L108.0 216.2 L116.0 196.8 L124.0 177.4 L132.0 158.7 L140.0 141.7 L148.0 126.6 L156.0 113.4 L164.0 102.0 L172.0 92.4 L180.0 84.1 L188.0 77.2 L196.0 71.3 L204.0 66.3 L212.0 62.0 L220.0 58.4 L228.0 55.2 L236.0 52.5 L244.0 50.2 L252.0 48.2 L260.0 46.4 L268.0 44.9 L276.0 43.5 L284.0 42.3 L292.0 41.2 L300.0 40.3 L308.0 39.5 L316.0 38.7 L324.0 38.0 L332.0 37.4 L340.0 36.9 L348.0 36.4 L356.0 36.0 L364.0 35.6 L372.0 35.2 L380.0 34.8 L388.0 34.5 L396.0 34.3 L404.0 34.0 L412.0 33.8 L420.0 33.5 L428.0 33.3 L436.0 33.2 L444.0 33.0 L452.0 32.8 L460.0 32.7" stroke-width="2" stroke-dasharray="7 4"/><path d="M60.0 270.0 L68.0 269.8 L76.0 268.6 L84.0 265.8 L92.0 261.0 L100.0 254.0 L108.0 244.9 L116.0 234.0 L124.0 221.5 L132.0 208.0 L140.0 194.0 L148.0 180.1 L156.0 166.6 L164.0 153.7 L172.0 141.7 L180.0 130.7 L188.0 120.7 L196.0 111.6 L204.0 103.5 L212.0 96.3 L220.0 89.9 L228.0 84.1 L236.0 79.1 L244.0 74.5 L252.0 70.5 L260.0 66.9 L268.0 63.8 L276.0 60.9 L284.0 58.4 L292.0 56.1 L300.0 54.0 L308.0 52.2 L316.0 50.5 L324.0 49.0 L332.0 47.6 L340.0 46.4 L348.0 45.3 L356.0 44.3 L364.0 43.3 L372.0 42.5 L380.0 41.7 L388.0 41.0 L396.0 40.3 L404.0 39.7 L412.0 39.1 L420.0 38.6 L428.0 38.1 L436.0 37.7 L444.0 37.3 L452.0 36.9 L460.0 36.5" stroke-width="2.4"/><path d="M60.0 270.0 L68.0 269.9 L76.0 269.3 L84.0 267.8 L92.0 265.3 L100.0 261.5 L108.0 256.4 L116.0 250.0 L124.0 242.3 L132.0 233.5 L140.0 223.8 L148.0 213.4 L156.0 202.6 L164.0 191.7 L172.0 180.8 L180.0 170.1 L188.0 159.8 L196.0 150.0 L204.0 140.8 L212.0 132.1 L220.0 124.1 L228.0 116.7 L236.0 109.8 L244.0 103.6 L252.0 97.8 L260.0 92.6 L268.0 87.8 L276.0 83.5 L284.0 79.5 L292.0 75.9 L300.0 72.6 L308.0 69.6 L316.0 66.8 L324.0 64.3 L332.0 62.0 L340.0 59.9 L348.0 58.0 L356.0 56.2 L364.0 54.6 L372.0 53.1 L380.0 51.7 L388.0 50.4 L396.0 49.2 L404.0 48.1 L412.0 47.1 L420.0 46.2 L428.0 45.3 L436.0 44.5 L444.0 43.7 L452.0 43.0 L460.0 42.4" stroke-width="2.4" stroke-dasharray="1.5 4" stroke-linecap="round"/><line x1="166.4" y1="150" x2="166.4" y2="270" stroke-width="1" stroke-dasharray="3 3"/></g><circle cx="166.4" cy="150" r="3.6" fill="#16313b"/>
+        <g stroke="#16313b" stroke-width="1" fill="none"><line x1="84" y1="119" x2="106" y2="213"/><line x1="353" y1="198" x2="285" y2="81"/><line x1="207" y1="243" x2="169" y2="266"/><path d="M300 292 V298 H460 V292"/><line x1="380" y1="298" x2="380" y2="305"/><path d="M100 292 V298 H220 V292"/><line x1="160" y1="298" x2="160" y2="305"/></g><circle cx="82" cy="110" r="9" fill="#fff" stroke="#16313b" stroke-width="1.1"/><text x="82" y="114" text-anchor="middle" font-size="11.5" font-weight="700">1</text><circle cx="360" cy="205" r="9" fill="#fff" stroke="#16313b" stroke-width="1.1"/><text x="360" y="209" text-anchor="middle" font-size="11.5" font-weight="700">2</text><circle cx="215" cy="238" r="9" fill="#fff" stroke="#16313b" stroke-width="1.1"/><text x="215" y="242" text-anchor="middle" font-size="11.5" font-weight="700">3</text><circle cx="380" cy="314" r="9" fill="#fff" stroke="#16313b" stroke-width="1.1"/><text x="380" y="318" text-anchor="middle" font-size="11.5" font-weight="700">4</text><circle cx="160" cy="314" r="9" fill="#fff" stroke="#16313b" stroke-width="1.1"/><text x="160" y="318" text-anchor="middle" font-size="11.5" font-weight="700">5</text>
+        <text x="70" y="95" text-anchor="start" font-size="10.5" font-weight="600" fill="#a54320">Left shift</text><text x="374" y="209" text-anchor="start" font-size="10.5" font-weight="600" fill="#a54320">Right shift</text><text x="229" y="242" text-anchor="start" font-size="10.5" font-weight="600" fill="#a54320">P50 ≈ 27 mmHg</text><text x="394" y="318" text-anchor="start" font-size="10.5" font-weight="600" fill="#a54320">Plateau: loading</text><text x="174" y="318" text-anchor="start" font-size="10.5" font-weight="600" fill="#a54320">Steep: unloading</text>
+      </svg>
+    </div>
+    <ul class="rubric">
+      <li><b>1</b> Left-shifted curve (higher affinity, lower P50). Any one: fetal Hb, CO, low 2,3-BPG (stored blood), alkalosis or low PCO₂, low temperature. [1 — both the name and a condition are required]</li>
+      <li><b>2</b> Right-shifted curve (lower affinity, higher P50). Any one: high PCO₂, acidosis, high temperature, high 2,3-BPG (e.g., after days at altitude). [1 — both required]</li>
+      <li><b>3</b> P50 of normal blood, about 27 mmHg (accept 25–28). [1]</li>
+      <li><b>4</b> Plateau, the loading zone: large falls in PO₂ barely lower saturation, so loading in the lungs is protected. [1]</li>
+      <li><b>5</b> Steep part, the unloading zone: small falls in tissue PO₂ release large amounts of O₂. [1]</li>
+    </ul>
+    <div class="meta">O1 · S1, S2 · Curves drawn from the Hill model with P50 19, 26.6 and 34 mmHg (schematic, n = 2.7).</div>
+  </div></div>
+</section>
+
+<section class="newpage">
+  <div class="kicker">After the test</div>
+  <h1>Scoring sheet</h1>
+  <p class="small">Mark one column per item. <b>Unaided</b>: correct with no notes, hints or word bank. <b>With notes</b>: correct only after checking anything (circled items). <b>Missed</b>: wrong or blank. Partial credit goes in Earned; give an error type for anything short of full points.</p>
+  <table class="grid">
+    <tr><th class="c">Item</th><th>Objective</th><th class="c">Pts</th><th class="c">Unaided</th><th class="c">With notes</th><th class="c">Missed</th><th class="c">Earned</th><th class="c">Error type<br>K · M · R · T</th></tr>
+    <tr><td class="c">1</td><td>O1</td><td class="c">2</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td></tr>
+<tr><td class="c">2</td><td>O1</td><td class="c">2</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td></tr>
+<tr><td class="c">3</td><td>O2</td><td class="c">2</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td></tr>
+<tr><td class="c">4</td><td>O5</td><td class="c">2</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td></tr>
+<tr><td class="c">5</td><td>O3</td><td class="c">2</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td></tr>
+<tr><td class="c">6</td><td>O2</td><td class="c">2</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td></tr>
+<tr><td class="c">7</td><td>O3</td><td class="c">2</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td></tr>
+<tr><td class="c">8</td><td>O3</td><td class="c">2</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td></tr>
+<tr><td class="c">9</td><td>O2</td><td class="c">3</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td></tr>
+<tr><td class="c">10</td><td>O3</td><td class="c">3</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td></tr>
+<tr><td class="c">11</td><td>O4</td><td class="c">4</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td></tr>
+<tr><td class="c">12</td><td>O4</td><td class="c">3</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td></tr>
+<tr><td class="c">13</td><td>O1 · O2</td><td class="c">6</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td></tr>
+<tr><td class="c">14</td><td>O1</td><td class="c">5</td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="box"></span></td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td></tr>
+
+  </table>
+  <p style="margin-top:10pt"><b>Total</b>: <span class="write"></span> / 40 &nbsp;·&nbsp; <b>Unaided only</b>: <span class="write"></span> / 40 &nbsp;·&nbsp; <b>Time used</b>: <span class="write"></span> min</p>
+  <p class="small muted">The unaided total is your exam estimate. Points earned with notes show exposure, not mastery.</p>
+</section>
+
+<section class="newpage">
+  <div class="kicker">After the test</div>
+  <h1>Error analysis</h1>
+  <p class="small">Give every lost point one cause. The cause decides the fix; bring this page to your next study plan.</p>
+  <table class="grid">
+    <tr><th style="width:18%">Type</th><th>What it looks like</th><th>Fix</th><th class="c">Items</th></tr>
+    <tr><td><b>K</b> · Knowledge</td><td>Didn't know or misremembered the fact or concept.</td><td>Relearn it, then retrieve it: tutor drill, flashcards, retest in 1–3 days.</td><td class="c"><span class="write"></span></td></tr>
+    <tr><td><b>M</b> · Misread</td><td>Knew it; misread the stem, an option, units, or "NOT/EXCEPT."</td><td>Underline what the question asks and its qualifiers; answer before reading options.</td><td class="c"><span class="write"></span></td></tr>
+    <tr><td><b>R</b> · Reasoning</td><td>Knew the pieces; chained them wrong or picked a tempting distractor.</td><td>Worked examples and contrast items on that step; say why each wrong option is wrong.</td><td class="c"><span class="write"></span></td></tr>
+    <tr><td><b>T</b> · Time</td><td>Ran out of time or rushed it.</td><td>Timed mixed sets; set a per-item pace; skip and return.</td><td class="c"><span class="write"></span></td></tr>
+  </table>
+  <h3>By objective</h3>
+  <table class="grid">
+    <tr><th style="width:42%">Objective</th><th class="c">Points lost</th><th class="c">Main type</th><th>Next action (and when)</th></tr>
+    <tr><td>O1 Read the curve</td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td><td></td></tr>
+    <tr><td>O2 Shifts and the Bohr effect</td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td><td></td></tr>
+    <tr><td>O3 Fetal Hb, stored blood, CO</td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td><td></td></tr>
+    <tr><td>O4 Calculations</td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td><td></td></tr>
+    <tr><td>O5 Diffusion direction</td><td class="c"><span class="write"></span></td><td class="c"><span class="write"></span></td><td></td></tr>
+  </table>
+  <h3>Retest list</h3>
+  <p class="small">Items to redo cold in 2–3 days, without looking at the key:</p>
+  <div class="lines"><i></i><i></i></div>
+</section>
+
+</body>
+</html>

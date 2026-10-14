@@ -7,9 +7,9 @@ description: "Use when a learner or a Myelinate skill needs a vetted figure, pho
 
 Media earns its place when it shows something words cannot: spatial layout, a process unfolding, a structure in 3D, a real specimen, a quantity changing. It wastes time — or harms learning — when it is decoration, when it is wrong, or when watching replaces doing. This skill covers what to show, where to get it legally, how to check it, and how to make the learner use it actively.
 
-Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
+Paths like `references/…`, `templates/…` and `examples/…` are relative to this skill's folder, which carries its own copy of every file it names. Other Myelinate skills are siblings (`../tutor/SKILL.md`) and are installed as their own skills too. If a file is missing from your copy, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/` plus its path in the repository (`references/…`, `skills/<name>/SKILL.md`); if you can't fetch, work from this file and the router's core rules.
 
-Evidence tags: **Strong**, **Moderate**, **Weak**, **Craft** (as in **memory-hooks**). Source table with URLs and licenses: [media-sources.md](../../references/media-sources.md).
+Evidence tags: **Strong**, **Moderate**, **Weak**, **Craft** (as in **memory-hooks**). Source table with URLs and licenses: [media-sources.md](references/media-sources.md).
 
 ## 0. Rules that override everything else
 
@@ -45,7 +45,7 @@ Pick the medium by what must be seen:
 
 ## 2. Where to search
 
-Start from sources that state a license and have editorial review. Full table, URLs, licenses and caveats: [media-sources.md](../../references/media-sources.md). Summary:
+Start from sources that state a license and have editorial review. Full table, URLs, licenses and caveats: [media-sources.md](references/media-sources.md). Summary:
 
 - **Openly licensed, reusable with attribution (check per item):** Wikimedia Commons (MediaSearch has a license filter; licenses vary per file and Wikimedia does not warrant them); Openverse (aggregator; states it does **not** verify licenses); Servier Medical Art (CC BY 4.0); NIH BioArt Source (per-item: public domain or CC BY); PhET simulations (historical collection CC BY 4.0 with a required attribution line; terms changed for sims published after 2026-03-29); Smithsonian Open Access (CC0); RCSB PDB (data CC0; Molecule of the Month and PDB-101 CC BY 4.0).
 - **Open but NonCommercial–ShareAlike:** OpenStax (now CC BY-NC-SA 4.0 across the library; some older editions were CC BY — check the book's license page; third-party images inside may differ); LibreTexts (license varies per page, some "not declared"); Radiopaedia (CC BY-NC-SA 3.0); Michigan Histology (CC BY-NC-SA 4.0; commercial AI training explicitly prohibited); ChemTube3D (CC BY-NC-SA 2.0 UK).

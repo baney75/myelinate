@@ -3,8 +3,8 @@
 <p align="center">
   <a href="https://github.com/baney75/myelinate/actions/workflows/check.yml"><img src="https://github.com/baney75/myelinate/actions/workflows/check.yml/badge.svg" alt="Package check workflow status"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-a54320" alt="License: MIT"></a>
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-2.3.1-16313b" alt="Version 2.3.1"></a>
-  <a href="#claude-code-plugin-recommended"><img src="https://img.shields.io/badge/Claude%20Code-plugin-a54320" alt="Claude Code plugin"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-2.4.0-16313b" alt="Version 2.4.0"></a>
+  <a href="#claude-code"><img src="https://img.shields.io/badge/Claude%20Code-plugin-a54320" alt="Claude Code plugin"></a>
 </p>
 
 **An open-source agent skill suite that turns “teach me this” into explanation, practice, feedback, and a reason to come back.**
@@ -28,16 +28,17 @@ The assistant fetches [SKILL.md](SKILL.md) and follows it. If yours can't browse
 **Or install it as a Claude Code plugin** (every skill loads by itself when it fits):
 
 ```text
-/plugin install myelinate --marketplace baney75/myelinate
+/plugin marketplace add baney75/myelinate
+/plugin install myelinate@baney75
 ```
 
-Older Claude Code, other assistants and Codex: see [Install](#install).
+The Claude apps, Codex and other assistants: see [Install](#install).
 
 ![Sample Myelinate lesson on limiting reactants](assets/sample-lesson.jpg)
 
 ## What's inside
 
-`SKILL.md` is a router. It reads what you are after and hands the request, with your context, to one of fourteen skills. Installed as a plugin, each one loads by itself when the moment fits:
+`SKILL.md` is a router. It reads what you are after and hands the request, with your context, to one of fifteen skills. Installed as a plugin, each one loads by itself when the moment fits:
 
 | Skill | What it does |
 | --- | --- |
@@ -45,6 +46,7 @@ Older Claude Code, other assistants and Codex: see [Install](#install).
 | [teach](skills/teach/SKILL.md) | For learning that isn't for a class (a personal goal, a work skill, a project you'll sell or open-source): designs the curriculum and lesson plans at university standard, anchors them in your project, and teaches each lesson live. |
 | [assignment](skills/assignment/SKILL.md) | Help on homework, lab reports, essays and coding assignments that teaches you to do them instead of doing them for you. Tool steps (drawing a structure, formatting) can be done; the graded thinking stays yours. |
 | [project](skills/project/SKILL.md) | Learn while you build something of your own, in the mix you choose: build and learn, teach me to do it, or just tell me how. Stays out of the way of ordinary coding and work. |
+| [code](skills/code/SKILL.md) | Learn code you have to own: an inherited repository, a pull request to review, a library, an error you want to understand. Maps it in one picture, traces a real behavior with a prediction first, runs the code for the verdict, and leaves you the one change that carries the idea. Stays off when you only want the code changed. |
 | [notes](skills/notes/SKILL.md) | Reads your own notes (Google Drive, OneDrive, Notion, Obsidian or photos of paper) to see how you're grasping it, flags misconceptions and slide-copying, and turns your notes into practice. |
 | [assess](skills/assess/SKILL.md) | Tests written to the objectives, graded against a key and rubric, honest scores, optional bonus work, and a gradebook. |
 | [course-project](skills/course-project/SKILL.md) | Turns a big goal ("teach me software engineering") into a full course researched against accredited university syllabi, with a lesson plan, assignments, tests and teacher instructions to run as a Claude Project. |
@@ -91,47 +93,45 @@ The tutor asks about the goal, course context, and optional access preferences. 
 
 ## Install
 
-### Claude Code plugin (recommended)
+Myelinate is one plugin for Claude Code, the Claude apps (claude.ai, desktop) and Codex. Every skill ships in its own folder with the references and templates it uses, so it works the same wherever it's installed.
 
-Installs every skill so each one loads automatically when it fits:
+### Claude Code
 
 ```text
-/plugin install myelinate --marketplace baney75/myelinate
+/plugin marketplace add baney75/myelinate
+/plugin install myelinate@baney75
 ```
 
-On Claude Code before 2.1.275, run `/plugin marketplace add baney75/myelinate`, then `/plugin install myelinate@baney75`. Force any skill with a slash command: `/myelinate:myelinate` for the router, or `/myelinate:tutor`, `/myelinate:assignment`, `/myelinate:project`, and so on.
+Each skill then loads by itself when it fits; force one with `/myelinate:myelinate` (the router), `/myelinate:tutor`, `/myelinate:code`, and so on. Claude Code also gets:
 
-**Stopping it.** Tell Claude, or save to its memory, where you don't want Myelinate ("don't tutor me on my coding projects", "just answer my Spanish questions"). It respects that scope; a slash command still works when you want it. Ordinary coding, building and work requests don't trigger it in the first place.
+- `/myelinate:quiz <topic>` and `/myelinate:review` (what's due today, retrieval first).
+- **Spaced review across sessions.** If you ask Myelinate to keep your progress, it saves a private record at `~/.myelinate/learner.json`, and each new session starts knowing which reviews are due. Without a record, nothing changes.
+- **An answer-key agent** (`key-worker`) that solves a problem without seeing your answer, so the verdict can't drift toward what you said.
+- **The Myelinate output style** (pick it in `/config`): Claude does the engineering and hands you one decision at a time.
 
-### Claude apps
+**Updates.** The plugin carries no fixed version, so Claude Code updates it whenever the repository changes. Turn on auto-update for the `baney75` marketplace under `/plugin` → Marketplaces, or run `claude plugin update myelinate@baney75`. To follow a branch instead of `main`, add the marketplace as `baney75/myelinate#<branch>`.
 
-In the Claude apps, [download this repository as a ZIP](https://github.com/baney75/myelinate/archive/refs/heads/main.zip) and upload it where Claude lets you add a skill (in Settings, under Skills). Then start a chat with “Use myelinate to…”.
+### Claude apps (claude.ai and desktop)
 
-In Claude Code, clone the repository and link it into your skills directory (macOS/Linux):
-
-```sh
-git clone https://github.com/baney75/myelinate.git
-mkdir -p ~/.claude/skills
-ln -s "$PWD/myelinate" ~/.claude/skills/myelinate
-```
+In **Customize → Plugins**, choose **Add marketplace** and enter `baney75/myelinate`, then install **myelinate**. Or download `myelinate-plugin.zip` from the [latest release](https://github.com/baney75/myelinate/releases/latest) and use **Add → Upload plugin**. If you installed an older Myelinate as a skill, remove it first so only one copy is listed.
 
 ### Codex
 
-Clone this repository and link it into your skill directory (macOS/Linux):
+The repository is a Codex plugin marketplace (`.agents/plugins/marketplace.json`, manifest `.codex-plugin/plugin.json`). Add it as a marketplace in Codex, or clone it and link one skill folder at a time into `~/.agents/skills` (each folder is self-contained):
 
 ```sh
 git clone https://github.com/baney75/myelinate.git
-mkdir -p "${CODEX_HOME:-$HOME/.codex}/skills"
-ln -s "$PWD/myelinate" "${CODEX_HOME:-$HOME/.codex}/skills/myelinate"
+mkdir -p ~/.agents/skills
+for d in myelinate/skills/*/; do ln -s "$PWD/$d" ~/.agents/skills/"$(basename "$d")"; done
 ```
 
-Run the link command from the directory containing the clone. If a `myelinate` skill already exists, inspect it before replacing anything. For Windows, copy `SKILL.md`, `skills/`, `references/`, and `agents/` into a `myelinate` folder under your configured skills directory. Open a new chat if the client needs to refresh discovery, then use `$myelinate`.
+### Any other assistant
 
-### Other assistants
+Paste the link (Quick start), or provide [SKILL.md](SKILL.md) as instructions. The router works alone; when it can browse, it fetches the sub-skills and references it needs from GitHub at the pinned version.
 
-Use an environment's supported skill importer with this folder, or provide [myelinate.md](myelinate.md) as instructions. The router file is usable by itself; supply `skills/` and `references/` for the full suite and its research guidance. Browsing and file-reading tools enable current research and course-source inspection. Without them, the tutor must label its limits. Native invocation and automatic discovery vary by product; compatibility has not been tested in every assistant.
+**Stopping it.** Tell Claude, or save to its memory, where you don't want Myelinate ("don't tutor me on my coding projects", "just answer my Spanish questions"). It respects that scope; a slash command still works when you want it. Ordinary coding, building and work requests don't trigger it in the first place.
 
-No API keys, package installation, or external service is required by the skill itself. Your assistant's ordinary access, tools, and usage limits still apply.
+No API keys, package installation, or external service is required. Your assistant's ordinary access, tools, and usage limits still apply.
 
 ## See the approach
 

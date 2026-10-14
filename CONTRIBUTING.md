@@ -32,7 +32,7 @@ Open an issue first for anything that changes teaching behavior, adds a skill, o
    claude plugin validate .
    ```
 
-   Keep the version in `.claude-plugin/plugin.json` equal to the `Version` line in `myelinate.md`.
+   Keep the version in `.codex-plugin/plugin.json` equal to the `Version` line in `myelinate.md`. Leave `version` out of `.claude-plugin/plugin.json`: installs then update by commit. Edit root sources only; `python3 scripts/check.py --sync` regenerates the copies inside each skill folder.
 4. For a behavioral change, run the relevant cases in [evals/scenarios.md](evals/scenarios.md) with a fresh agent, read its actual replies, and record exactly what you tested. Simulated learners do not establish learning gains, and the pull request should say so.
 5. For a substantive teaching change, run the `verify` skill's adversarial review (`skills/verify/SKILL.md`).
 6. If you changed the lab engine or template, keep `examples/oxygen-lab.html` passing its journey test (`tests/lab_journey.py`).

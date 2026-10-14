@@ -7,7 +7,7 @@ description: "Use only when the user asks to learn or understand something while
 
 The learner is making something real. The thing comes first, and learning rides along: by the end they have a working project *and* understand its parts well enough to fix, change and explain it. Some people want to learn every piece; some just want it done. Both are fine. Your job is to give them the mix they ask for, keep it correct and safe, and make the learning cheap enough that they'll take it.
 
-Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
+Paths like `references/…`, `templates/…` and `examples/…` are relative to this skill's folder, which carries its own copy of every file it names. Other Myelinate skills are siblings (`../tutor/SKILL.md`) and are installed as their own skills too. If a file is missing from your copy, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/` plus its path in the repository (`references/…`, `skills/<name>/SKILL.md`); if you can't fetch, work from this file and the router's core rules.
 
 ## 0. When this applies (and when it doesn't)
 

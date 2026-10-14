@@ -4,6 +4,25 @@ All notable changes to Myelinate are recorded here. The format follows [Keep a C
 
 What was actually tested for each version, and its limits, is in [evals/verification.md](evals/verification.md). The behavioral checks are in [evals/scenarios.md](evals/scenarios.md).
 
+## [2.4.0] - 2026-10-14
+
+Myelinate is now one plugin for Claude Code, the Claude apps and Codex, it loads on bare class topics, and its visuals are held to a stricter bar. Driven by a claude.ai session on Plato's *Alcibiades I* that exposed four failures (`evals/regressions/alcibiades-eye.md`).
+
+### Fixed
+- **Installed copies missing their files.** The router was registered as the whole repository root (`"skills": ["./"]`), so a host that copies a skill's own folder got `SKILL.md` and nothing else. The router now lives at `skills/myelinate/`, and every skill folder carries a copy of each reference, template and example it names. `scripts/package.py` generates the copies and `dist/myelinate-plugin.zip`; `scripts/check.py` fails on drift or on any referenced path missing from the zip.
+- **Missing-file fallback.** The router and every sub-skill say to fetch a missing file from the pinned raw URL, and never to report the gap to the learner or stall on it.
+- **Bare class topics.** The router and `tutor` descriptions now trigger on a bare topic from a class the learner takes ("Socrates, the eye"), without widening to tasks.
+
+### Added
+- **Plugin for three hosts.** `.claude-plugin` (Claude Code and the Claude apps) and `.codex-plugin` manifests with marketplaces for both. The Claude manifest carries no version, so installs update by commit.
+- **`code` skill.** Learn code you have to own: what you need to do with it, a one-picture map, a traced behavior with a prediction first, a run for the verdict, and one `TODO(human)` for the piece that carries the idea. Off for ordinary coding.
+- **Myelinate output style** (Claude Code): learn while you code. Claude does the engineering and hands over one decision at a time.
+- **Spaced review across sessions** (Claude Code): an opt-in learner record at `~/.myelinate/learner.json` (`references/learner-record.md`) and a SessionStart hook that lists due reviews, silent without a record. `/myelinate:review` runs them; `/myelinate:quiz <topic>` drills one topic.
+- **`key-worker` agent** (Claude Code): works the answer key from the problem statement without seeing the learner's answer.
+- **Visual rules that stand alone** (router rule 14, `tutor` §3d, `references/visual-teaching.md`): pick the medium by what carries the lesson (a crafted figure or real image when the image itself is the content), clip children to parents, end gaze lines and rays on the target, no icon stand-ins, no scorecards, render and look before sending, and a one-minute checklist. Rule 16 adds "rendered and inspected".
+- **When the answer is already on screen** (router rule 1, `tutor` §2a): one transfer or "why this and not that" question instead of a recall quiz.
+- **Reference figure** `examples/alcibiades-eye.html` with its rendered screenshot, and the regression case `evals/regressions/alcibiades-eye.md`.
+
 ## [2.3.1] - 2026-10-14
 
 Myelinate now loads on its own in long skill lists.

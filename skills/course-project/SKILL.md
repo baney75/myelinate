@@ -7,7 +7,7 @@ description: "Use when the user wants a full structured course, or a course run 
 
 Some goals are a whole course, not a conversation: software engineering, organic chemistry, a language, statistics for research. For those, build the course properly and give it a home. A Claude Project gives it one: its own instructions (the teacher), its own files (syllabus, lesson plan, gradebook), its own chats, and its own memory. The result should feel like a strong accredited course, sequenced and assessed like one, and more personal than any lecture hall.
 
-Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
+Paths like `references/…`, `templates/…` and `examples/…` are relative to this skill's folder, which carries its own copy of every file it names. Other Myelinate skills are siblings (`../tutor/SKILL.md`) and are installed as their own skills too. If a file is missing from your copy, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/` plus its path in the repository (`references/…`, `skills/<name>/SKILL.md`); if you can't fetch, work from this file and the router's core rules.
 
 ## 0. When to offer it
 
