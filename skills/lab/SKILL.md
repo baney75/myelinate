@@ -1,6 +1,6 @@
 ---
 name: lab
-description: Build interactive learning labs — predict-first simulations, faded worked examples, misconception-based practice, spaced flashcards — as standalone pages or dbaney.com study labs. Use when a learner wants a learning lab, an interactive lesson, a study pack or a simulation to learn a concept (not a dev or test environment).
+description: "Use when the user wants an interactive learning lab, simulation, interactive lesson or study pack to learn a concept. Not a dev or test environment."
 ---
 
 # Lab

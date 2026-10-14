@@ -1,6 +1,6 @@
 ---
 name: notes
-description: Read a learner's own study notes — typed in Google Drive, OneDrive, Notion or Obsidian, or photos of handwritten pages — to see how they're grasping a subject, spot misconceptions and gaps, notice notes that only copy the slides, coach better note-taking, and turn the notes into retrieval practice. Use when a learner shares, uploads or points to their notes, asks "are my notes good?", or wants to study from them; or, when they've connected a notes source and asked for help with a course, read the relevant notes before teaching. Stay off if the person has opted out of Myelinate for this subject or this kind of request.
+description: "Use when the user shares or points to study notes (Drive, OneDrive, Notion, Obsidian, photos of paper), asks whether they're good, or wants to study from them."
 ---
 
 # Notes
@@ -8,6 +8,8 @@ description: Read a learner's own study notes — typed in Google Drive, OneDriv
 A learner's notes are the closest thing you have to watching them think. They show what they noticed, what they connected, what they misunderstood, and whether they're processing the material or just copying it. A teacher who reads them teaches the student in front of them, not a generic one.
 
 Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
+
+**Stand down when it isn't wanted.** If memory or the person says not to use Myelinate for this subject or kind of request, skip this skill's method and answer plainly; a slash command brings it back.
 
 ## 0. Getting the notes (no setup required)
 

@@ -1,6 +1,6 @@
 ---
 name: verify
-description: Adversarially review teaching content for accuracy, course alignment, currency and answer-key correctness before it reaches a learner. Use before shipping a lab, study pack, answer key, flashcard deck, or any lesson on high-stakes or time-sensitive material.
+description: "Use before learning material ships (lab, study pack, answer key, deck, or a lesson on high-stakes or time-sensitive content) to check accuracy, currency and course alignment."
 ---
 
 # Verify

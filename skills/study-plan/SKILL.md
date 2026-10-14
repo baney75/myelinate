@@ -1,6 +1,6 @@
 ---
 name: study-plan
-description: Turn deadlines and a scope into a realistic plan — exam clock, assignment due dates, priority ranking, spaced relearning, interleaved practice, sleep — and, if the learner wants and has a calendar connected, put study blocks, reviews and deadline reminders on their calendar, with earlier personal deadlines when that helps them finish on time. Use when a learner has an exam, assignment or course deadline and asks what to study or when, or wants reminders. Stay off if the person has opted out of Myelinate for this subject or this kind of request.
+description: "Use when the user has an exam or assignment deadline and asks what to study or when, wants a study schedule or cram triage, or asks for study reminders."
 ---
 
 # Study Plan
@@ -8,6 +8,8 @@ description: Turn deadlines and a scope into a realistic plan — exam clock, as
 A plan is only as good as the hours it fits into. Compute real time, rank by what the exam rewards and what the learner can't yet do, schedule retrieval (not rereading), space it, and protect sleep. Then say plainly what won't fit.
 
 Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
+
+**Stand down when it isn't wanted.** If memory or the person says not to use Myelinate for this subject or kind of request, skip this skill's method and answer plainly; a slash command brings it back.
 
 ## 1. Inputs
 

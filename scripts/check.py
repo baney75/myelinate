@@ -36,17 +36,41 @@ for name in required:
 if entry.exists() and source.read_bytes() != entry.read_bytes():
     errors.append('SKILL.md differs from myelinate.md; run --sync and review the diff')
 body = source.read_text()
+# Skill listings give each skill a shared character budget. When the budget runs
+# out, long descriptions are dropped and the skill shows by name only, so it never
+# auto-loads. Keep every description short, trigger-first, and valid YAML.
+DESCRIPTION_MAX = 175
+
+
+def check_description(label, raw):
+    if raw.startswith('"'):
+        if not raw.endswith('"') or '"' in raw[1:-1] or '\\' in raw:
+            errors.append(f'{label}: quoted description must be one plain double-quoted string')
+            return
+        text = raw[1:-1]
+    else:
+        text = raw
+        if ': ' in text or ' #' in text or text[:1] in '\'&*!|>%@`[{':
+            errors.append(f'{label}: description is not valid plain YAML; wrap it in double quotes')
+    if len(text) > DESCRIPTION_MAX:
+        errors.append(f'{label}: description is {len(text)} characters; keep it to {DESCRIPTION_MAX} or less so skill listings keep it')
+    if not text.startswith('Use '):
+        errors.append(f'{label}: description should open with when to use it ("Use when ..." or "Use for ...")')
+
+
 frontmatter = re.match(r'^---\nname: ([a-z0-9-]+)\ndescription: ([^\n]+)\n---\n', body)
 if not frontmatter or frontmatter.group(1) != 'myelinate':
     errors.append('Invalid required skill frontmatter')
+else:
+    check_description('myelinate.md', frontmatter.group(2))
 for name in SUBSKILLS:
     sub = ROOT / 'skills' / name / 'SKILL.md'
     if sub.is_file():
         match = re.match(r'^---\nname: ([a-z0-9-]+)\ndescription: ([^\n]+)\n---\n', sub.read_text())
         if not match or match.group(1) != name:
             errors.append(f'skills/{name}/SKILL.md: invalid frontmatter')
-        elif len(match.group(2)) > 1024:
-            errors.append(f'skills/{name}/SKILL.md: description over 1024 characters')
+        else:
+            check_description(f'skills/{name}/SKILL.md', match.group(2))
     if f'skills/{name}/SKILL.md' not in body:
         errors.append(f'Router does not route to skills/{name}/SKILL.md')
 

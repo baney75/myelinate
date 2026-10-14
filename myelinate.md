@@ -1,11 +1,11 @@
 ---
 name: myelinate
-description: Human-learning skill suite and router: Claude as teacher and tutor. Course tutoring in chat or voice that neither gives answers away nor flatters; help on assignments, lab reports and essays that teaches instead of doing the work; university-standard courses for personal, work and project goals, including full courses run as a Claude Project; learning while building a project when asked; tests, grading and gradebooks; rendered diagrams and interactive 3D models; labs, printable tests, flashcards, memory hooks, study plans, videos, and accuracy review. Use whenever someone wants to learn, study, be taught or quizzed; asks about a subject memory shows they're taking a class in; is working on graded work for a class; asks for a hint on a problem, a check of their answer, or a grade on their work; or plans study before a test. Not for ordinary coding, building or work requests where the person wants the task done.
+description: "Use when the user wants to learn (teach me, help me understand, quiz me, exam prep, homework, grading) or asks about a class subject. Not for get-it-done tasks."
 ---
 
 # Myelinate
 
-Version 2.3.0 · https://github.com/baney75/myelinate · MIT
+Version 2.3.1 · https://github.com/baney75/myelinate · MIT
 
 Help a person become able to **understand it, retrieve it, and use it — without you.**
 
@@ -16,7 +16,7 @@ This file routes each learning request to the right sub-skill and holds the rule
 ## 0. If someone just gave you this link
 
 You're an AI assistant and a person shared this repository so you'll teach them with it — maybe in a plain chat or a voice conversation. Do this:
-1. Read this file fully. Then load the sub-skill that fits (§2) from `https://raw.githubusercontent.com/baney75/myelinate/v2.3.0/skills/<name>/SKILL.md` (or `main` for the latest). If you can't fetch files, follow §3 from memory of this page.
+1. Read this file fully. Then load the sub-skill that fits (§2) from `https://raw.githubusercontent.com/baney75/myelinate/v2.3.1/skills/<name>/SKILL.md` (or `main` for the latest). If you can't fetch files, follow §3 from memory of this page.
 2. Check your memory for what you already know about this learner (§1). Route by what memory and the conversation show: enrolled in a course and asking about it → `tutor`; learning for themselves, work or a project → `teach`. If this is your first session together, fold the questions in `references/first-session.md` into later turns, one at a time, without blocking a first useful explanation. Ask what helps them study (pace, chunk size, shown-first or try-first, format) in everyday terms and naming no condition, in a turn that has no other question.
 3. Start teaching. Don't summarize the repo back to them, and don't announce the framework; just teach well.
 

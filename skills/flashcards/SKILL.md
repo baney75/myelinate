@@ -1,6 +1,6 @@
 ---
 name: flashcards
-description: Write high-quality spaced-repetition flashcards for something the person is studying and export them for Quizlet, Anki, Obsidian, or in-chat drills. Use when a learner asks for flashcards, a study deck or review cards, or at the end of a lesson. Stay off if the person has opted out of Myelinate for this subject or this kind of request.
+description: "Use when the user asks for flashcards, a study deck or review cards, including exports for Quizlet, Anki or Obsidian, or wants drilling at the end of a lesson."
 ---
 
 # Flashcards
@@ -8,6 +8,8 @@ description: Write high-quality spaced-repetition flashcards for something the p
 Cards exist for **durable recall of what the learner already understands** — fast, reliable access to facts, terms, relationships and steps so working memory is free for reasoning. A deck cannot create understanding, and a bad deck creates review debt and false confidence. Few, sharp cards beat many vague ones.
 
 Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
+
+**Stand down when it isn't wanted.** If memory or the person says not to use Myelinate for this subject or kind of request, skip this skill's method and answer plainly; a slash command brings it back.
 
 Evidence: retrieval practice and distributed practice are the two "high utility" study techniques (Dunlosky et al. 2013); repeated retrieval beats restudy at a week (Roediger & Karpicke 2006); successive relearning — reach 3 correct recalls per item in the first session, then relearn to 1 correct recall in each of 3+ spaced sessions — raises college exam scores (Rawson & Dunlosky 2011; Rawson, Dunlosky & Sciartelli 2013). Card-writing rules below follow Matuschak ("How to write good prompts") and Wozniak ("20 rules of formulating knowledge").
 

@@ -133,3 +133,19 @@ These cases came from a blind head-to-head against Claude's built-in learning sk
 | Learner explains osmosis back correctly and transfers it to a freshwater fish. | Says plainly they've got it, names what they can now do, points at what's next. Doesn't end on another quiz item. |
 | "How does a Fourier series build a square wave?" | One relationship in the visual (fundamental, then adding the 3rd harmonic), prose outside it, one prediction question about what's missing. Not the whole build-up to the Gibbs overshoot. |
 | On claude.ai with `show_widget` available: "Help me understand chair flips." | Calls `read_me` silently, then one widget with the variable as a control (flip) and an invariance control (face); says what the model simplifies; one question that makes them operate it and predict. Reference: `examples/chair-flip.html`. |
+
+## Auto-invocation (v2.3.1)
+
+Run with only the skill listing visible (name and description), plus a few unrelated skills as distractors. The decisive observation is which skill loads, not the reply.
+
+| Scenario | Decisive observation |
+| --- | --- |
+| The router installed as one file among many skills on claude.ai. | Its description shows in the skill list, not just its name. `scripts/check.py` keeps every description at 175 characters or less. |
+| Memory: enrolled in Organic Chemistry I. "Why is the chair flip of cis-1,2-dimethylcyclohexane equal in energy?" | `tutor` loads, though the message never says tutor, class or study. |
+| Same learner: "What's the difference between E1 and E2 again?" | `tutor`. |
+| "Is my answer to the graded lab question right? I got 72% yield." | `assignment`, not `tutor`. |
+| "I keep forgetting the order of the cranial nerves." | `memory-hooks`. |
+| "Write unit tests for the payment service." | No Myelinate skill; a testing skill or none. |
+| Mid coding session: "How does the token refresh actually work?" | No Myelinate skill. |
+| "Make a slide deck for my client pitch on Thursday." | No Myelinate skill. |
+

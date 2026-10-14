@@ -4,6 +4,19 @@ All notable changes to Myelinate are recorded here. The format follows [Keep a C
 
 What was actually tested for each version, and its limits, is in [evals/verification.md](evals/verification.md). The behavioral checks are in [evals/scenarios.md](evals/scenarios.md).
 
+## [2.3.1] - 2026-10-14
+
+Myelinate now loads on its own in long skill lists.
+
+### Fixed
+- **Auto-invocation.** Skill listings share a character budget, and once it runs out, long descriptions are dropped and a skill appears by name alone, so it never loads by itself. On claude.ai the 923-character router description was being dropped this way while shorter descriptions in the same list survived. Every description is now 175 characters or less and opens with when to use it, in the words learners type ("teach me", "quiz me", "help me understand", a question from a class).
+- **Valid frontmatter.** The router, `teach` and `tutor` descriptions contained `: ` unquoted, which strict YAML parsers reject. All descriptions are now double-quoted.
+- **Opt-outs still hold.** The "stay off if opted out" clause moved from the descriptions into the bodies of `teach`, `assess`, `notes`, `flashcards` and `study-plan` (`tutor`, `assignment` and `project` already had it).
+
+### Added
+- `scripts/check.py` fails on a description over 175 characters, one that isn't valid YAML, or one that doesn't open with "Use when" or "Use for".
+- Trigger scenarios in `evals/scenarios.md`.
+
 ## [2.3.0] - 2026-10-11
 
 Myelinate now beats Claude's built-in learning skill in a blind head-to-head on chat tutoring. Version 2.2.1 lost to it (see `evals/verification.md`).
@@ -87,6 +100,7 @@ Myelinate is now a Claude Code plugin with fourteen skills behind the router, an
 ### Added
 - First release: a single source-grounded teaching skill with course-aware practice, feedback and spaced retrieval, an evidence ledger, a research method, an interactive sample lesson and a package check (`scripts/check.py`). Later additions before 2.0 asked about study preferences rather than conditions, added exam-clock planning and production lessons for study packs.
 
+[2.3.1]: https://github.com/baney75/myelinate/compare/v2.3.0...v2.3.1
 [2.3.0]: https://github.com/baney75/myelinate/compare/v2.2.1...v2.3.0
 [2.2.1]: https://github.com/baney75/myelinate/compare/v2.2.0...v2.2.1
 [2.2.0]: https://github.com/baney75/myelinate/compare/v2.1.1...v2.2.0

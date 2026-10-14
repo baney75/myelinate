@@ -1,6 +1,6 @@
 ---
 name: find-media
-description: Find, vet, license-check and use diagrams, photos, micrographs, 3D models, simulations and videos (including specific YouTube recommendations) for learning, or make a schematic when nothing good exists. Use when a learner or a Myelinate skill needs a figure, image or video to teach or study a concept; not for architecture or work diagrams.
+description: "Use when a learner or a Myelinate skill needs a vetted figure, photo, 3D model, simulation or video (incl. YouTube picks) to teach a concept. Not for work diagrams."
 ---
 
 # Find Media

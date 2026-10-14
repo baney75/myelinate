@@ -1,6 +1,6 @@
 ---
 name: project
-description: Build a personal project with someone who wants to learn while building — a microcontroller, an app, a home or garden build, a data analysis, a small business — explaining the parts and why they work, in the mix they choose, from "teach me to do it" to "just tell me how". Use only when the person asks to learn, understand, or be taught as part of the build ("teach me how this works while we build it", "I want to understand the circuit"). Not for ordinary coding, product or work sessions where they want the task done; there, answer "how does this work?" briefly at the conceptual level and keep working.
+description: "Use only when the user asks to learn or understand something while building it ('teach me as we build'). Not for coding or work the user just wants done."
 ---
 
 # Project

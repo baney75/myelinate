@@ -1,6 +1,6 @@
 ---
 name: memory-hooks
-description: Build, test and retire research-backed mnemonics (acronyms, keyword images, memory palaces, pegs, chunks, stories) for arbitrary facts, lists, names, sequences and vocabulary — and refuse them when the content should be understood instead.
+description: "Use when the user wants a mnemonic or memory trick for facts, lists, sequences, names or vocabulary that won't stick, or asks how to remember material better."
 ---
 
 # Memory Hooks

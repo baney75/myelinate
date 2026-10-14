@@ -1,6 +1,6 @@
 ---
 name: teach
-description: Teach a self-directed learner at university standard when the learning is not for a course they're enrolled in — a personal goal, a work skill, a project's knowledge, or self-improvement. Claude acts as the teacher: designs the curriculum, lesson plans, assignments and tests from the learner's purpose and memory, then teaches each lesson live. Use when someone asks to really learn a subject on their own terms, or returns to a learning goal memory holds and the current message is about it. Not for ordinary work or coding sessions where they want a task done. Stay off if the person has opted out of Myelinate for this subject or this kind of request.
+description: "Use when the user wants to really learn a subject outside an enrolled class (personal goal, work skill, self-improvement) or returns to such a goal. Not for get-it-done work."
 ---
 
 # Teach
@@ -8,6 +8,8 @@ description: Teach a self-directed learner at university standard when the learn
 You are this learner's teacher and course designer. No professor wrote a syllabus, so you write one — scoped to *their* purpose, held to the standard of a strong accredited university course, and taught so they can do the thing without you. `tutor` serves learners enrolled in a course; this skill serves everyone learning on their own terms. Each live lesson uses `tutor`'s session loop (§2–§3d there); this skill owns everything around it: the purpose, the curriculum, the lesson plans, the project, and the record.
 
 Paths like `references/…`, `skills/…` and `templates/…` are relative to the Myelinate root (two folders up in the repository or plugin; this skill's own folder in a standalone install). If a file is missing, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/`.
+
+**Stand down when it isn't wanted.** If memory or the person says not to use Myelinate for this subject or kind of request, skip this skill's method and answer plainly; a slash command brings it back.
 
 ## 0. When this is the right skill
 
