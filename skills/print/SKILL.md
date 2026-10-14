@@ -101,9 +101,9 @@ Make one only if the exam allows one; then mirror the allowed size and rules (on
 
 ## 6. Making the PDF
 
-1. Author HTML with print CSS from a template; replace content between the `<!-- CONTENT: -->` markers.
-2. Render with headless Chromium:
-   `python3 scripts/make_pdf.py test.html test.pdf --png-preview previews/`
+1. Work in the learner's project folder or a scratch folder (`$TMPDIR/myelinate-print`), never inside this skill's folder: an installed skill is shared and gets replaced on update, and some hosts bundle every file in it. Copy the template there and replace content between the `<!-- CONTENT: -->` markers.
+2. Render with headless Chromium, from that folder, calling the script by its path in this skill:
+   `python3 <this skill's folder>/scripts/make_pdf.py test.html test.pdf --png-preview previews/`
    It waits for web fonts, prints backgrounds, honors CSS `@page` size (unless `--format` is given), adds page numbers when the page has none, and writes `previews/page-NN.png` (pdftoppm, else PyMuPDF). It never downloads a browser; set `MYELINATE_CHROMIUM` to a Chromium executable if needed.
 3. Fallbacks: a Chromium browser → Print → Save as PDF (margins Default; headers and footers off, since the template has its own). Firefox and Safari ignore `@page` margin boxes, so footers drop there. ReportLab or LaTeX (`exam` class) are fine when the environment has them and HTML is not available.
 4. **Chat-only, no code execution**: deliver the print-ready HTML file and say: "Open it in Chrome or Edge, choose Print → Save as PDF, paper Letter (or A4), margins Default." Do not claim you checked the layout.
@@ -124,7 +124,7 @@ Report each check with its result; never "verified" without saying by what.
 1. **Key**: re-derive every answer independently, then compare; recompute every number with code; run `verify` (adversarial review) on the key for anything graded or high-stakes.
 2. **Items**: one defensible answer each; cover-the-options passes; distractors each named; no cues or cross-item leaks; letters balanced.
 3. **Blueprint**: every objective sampled; points sum; shares match the guide.
-4. **Render**: `make_pdf.py --png-preview`, then **look at every page**: page breaks, nothing split or clipped, answer spaces intact, figures legible, footer and page count right, key starting on its own page with the ANSWER KEY mark.
+4. **Render** in the working folder (§6), `make_pdf.py --png-preview`, then **look at every page**: page breaks, nothing split or clipped, answer spaces intact, figures legible, footer and page count right, key starting on its own page with the ANSWER KEY mark.
 5. **Leaks**: search the test pages' HTML for answer strings (label names, key values) before the key section.
 6. **Grayscale**: meaning survives without color (check a grayscale preview when color is used).
 
