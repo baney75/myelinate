@@ -4,6 +4,11 @@ All notable changes to Myelinate are recorded here. The format follows [Keep a C
 
 What was actually tested for each version, and its limits, is in [evals/verification.md](evals/verification.md). The behavioral checks are in [evals/scenarios.md](evals/scenarios.md).
 
+## [2.4.1] - 2026-10-14
+
+### Fixed
+- **`print` no longer writes into its own folder.** The render step ran `make_pdf.py` with paths relative to the skill, so practice tests, PDFs and page previews landed inside the installed skill, which is shared, replaced on update, and bundled whole by some hosts (a rendered test can exceed a bundler's per-file limit). It now works in the learner's project folder or a scratch folder and calls the script by its path in the skill.
+
 ## [2.4.0] - 2026-10-14
 
 Myelinate is now one plugin for Claude Code, the Claude apps and Codex, it loads on bare class topics, and its visuals are held to a stricter bar. Driven by a claude.ai session on Plato's *Alcibiades I* that exposed four failures (`evals/regressions/alcibiades-eye.md`).
