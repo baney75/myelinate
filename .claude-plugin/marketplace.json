@@ -9,7 +9,7 @@
     {
       "name": "myelinate",
       "source": "./",
-      "description": "Claude as teacher and tutor: course tutoring, assignment coaching, university-standard courses, learning while building, tests and grading, visuals and 3D models."
+      "description": "Claude as teacher and tutor, in chat and in code: class tutoring that triggers on your course topics, assignment coaching that teaches instead of doing the work, learning a codebase you need to own, university-standard courses, tests and grading, rendered visuals, labs, flashcards and study plans. Honest, not agreeable."
     }
   ]
 }

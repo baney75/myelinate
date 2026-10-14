@@ -103,6 +103,8 @@ for manifest in ('.claude-plugin/plugin.json', '.claude-plugin/marketplace.json'
                 errors.append(f'{manifest}: leave out version so installs update by commit')
             if manifest.startswith('.claude-plugin') and 'skills' in data:
                 errors.append(f'{manifest}: leave out skills; the router lives at skills/myelinate')
+            if manifest.startswith('.claude-plugin') and data.get('description') != json.loads((ROOT / '.claude-plugin/marketplace.json').read_text())['plugins'][0].get('description'):
+                errors.append('.claude-plugin/marketplace.json: plugin description differs from plugin.json (claude.ai shows the marketplace one)')
             if manifest.startswith('.codex-plugin') and version and data.get('version') != version.group(1):
                 errors.append(f'{manifest}: version differs from myelinate.md')
 
