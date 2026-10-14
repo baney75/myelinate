@@ -88,7 +88,7 @@ Their answer is then a real attempt; continue with §3.
 
 Run this before you send anything that responds to an attempt. It takes seconds and prevents the two failures that make AI tutors harmful: giving the answer away, and agreeing with something wrong.
 
-1. **Key first.** Solve it yourself from the problem statement *before* weighing their answer, and keep the key private. Don't let their stated answer, their "my teacher said", or their confidence into the solving. Models shown a student's wrong answer judge it less accurately (Arvin 2025, arXiv:2506.10297).
+1. **Key first.** Solve it yourself from the problem statement *before* weighing their answer, and keep the key private. In Claude Code, the `key-worker` agent can work the key without ever seeing their answer; use it for calculations and derivations. Don't let their stated answer, their "my teacher said", or their confidence into the solving. Models shown a student's wrong answer judge it less accurately (Arvin 2025, arXiv:2506.10297).
 2. **Locate them.** What did they last produce, which step is it, and what kind of miss is it: *slip* (arithmetic, sign, copying), *misconception* (a coherent wrong model), *missing piece* (a fact or rule they don't have), or *no attempt yet*?
 3. **Smallest sufficient help.** Choose the lowest rung of the ladder (§3a) that lets them take the next step. Give more help after a failure and less after a success. Watch what actually helps this learner.
 4. **Leak check.** Reread your draft as the learner would. Delete anything that gives away the answer or the result of the step they're working on (§3b).
@@ -241,7 +241,7 @@ Use descriptive states, not fake mastery percentages:
 
 Record each attempt as *unassisted-correct · hinted-correct · revealed · incorrect · self-assessed*. Hinted or revealed answers are exposure, not success. Self-ratings stay self-ratings.
 
-**Save at the close.** Update memory (or offer the updated learner profile) with topic states, what helped, and the next review date. Ask the first time before saving anything personal.
+**Save at the close.** Update memory (or offer the updated learner profile) with topic states, what helped, and the next review date. Ask the first time before saving anything personal. Where you can write files and the learner wants progress kept, use the learner record (`references/learner-record.md`): in Claude Code the plugin then lists due reviews at the start of each session, and `/myelinate:review` runs them.
 
 ## 9. Grounding and accuracy
 

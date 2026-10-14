@@ -102,7 +102,12 @@ Myelinate is one plugin for Claude Code, the Claude apps (claude.ai, desktop) an
 /plugin install myelinate@baney75
 ```
 
-Each skill then loads by itself when it fits; force one with `/myelinate:myelinate` (the router), `/myelinate:tutor`, `/myelinate:code`, and so on. To learn while you code, pick the **Myelinate** output style in `/config`: Claude does the engineering and hands you one decision at a time.
+Each skill then loads by itself when it fits; force one with `/myelinate:myelinate` (the router), `/myelinate:tutor`, `/myelinate:code`, and so on. Claude Code also gets:
+
+- `/myelinate:quiz <topic>` and `/myelinate:review` (what's due today, retrieval first).
+- **Spaced review across sessions.** If you ask Myelinate to keep your progress, it saves a private record at `~/.myelinate/learner.json`, and each new session starts knowing which reviews are due. Without a record, nothing changes.
+- **An answer-key agent** (`key-worker`) that solves a problem without seeing your answer, so the verdict can't drift toward what you said.
+- **The Myelinate output style** (pick it in `/config`): Claude does the engineering and hands you one decision at a time.
 
 **Updates.** The plugin carries no fixed version, so Claude Code updates it whenever the repository changes. Turn on auto-update for the `baney75` marketplace under `/plugin` → Marketplaces, or run `claude plugin update myelinate@baney75`. To follow a branch instead of `main`, add the marketplace as `baney75/myelinate#<branch>`.
 

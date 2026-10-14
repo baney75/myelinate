@@ -22,7 +22,7 @@ EXTERNAL = {'scripts/learning-lab.mjs', 'scripts/icons.mjs'}
 ZIP = ROOT / 'dist' / 'myelinate-plugin.zip'
 # Files and folders that make up the installed plugin.
 PLUGIN_FILES = ['.claude-plugin/plugin.json', '.codex-plugin/plugin.json', 'LICENSE', 'README.md']
-PLUGIN_DIRS = ['skills', 'output-styles']
+PLUGIN_DIRS = ['skills', 'output-styles', 'commands', 'agents', 'hooks']
 
 SHARED_RE = re.compile(r"(?<![/\w.<>…-])((?:%s)/[\w.-]+\.[a-z0-9]+)" % '|'.join(SHARED))
 SIBLING_RE = re.compile(r"(?<![/\w.<>…-])\.\./([a-z-]+)/SKILL\.md")

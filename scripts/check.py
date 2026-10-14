@@ -30,7 +30,8 @@ required = ['myelinate.md', 'SKILL.md', 'agents/openai.yaml', 'references/eviden
             'references/dbaney-study-lab.md', 'references/first-session.md', 'references/visual-teaching.md', 'references/personalization.md',
             'templates/course-project-prompt.md', 'templates/gradebook.md', '.claude-plugin/plugin.json',
             '.claude-plugin/marketplace.json', '.codex-plugin/plugin.json', '.agents/plugins/marketplace.json',
-            'output-styles/myelinate.md', 'skills/myelinate/SKILL.md', 'llms.txt', 'scripts/make_pdf.py',
+            'output-styles/myelinate.md', 'commands/quiz.md', 'commands/review.md', 'agents/key-worker.md',
+            'hooks/hooks.json', 'hooks/due_reviews.py', 'references/learner-record.md', 'skills/myelinate/SKILL.md', 'llms.txt', 'scripts/make_pdf.py',
             'scripts/package.py', 'examples/practice-test-oxygen.pdf']
 SUBSKILLS = ['teach', 'tutor', 'assignment', 'project', 'code', 'assess', 'course-project', 'notes', 'lab', 'print',
              'flashcards', 'memory-hooks', 'study-plan', 'find-media', 'verify']
@@ -127,6 +128,22 @@ for path in sorted(ROOT.rglob('*')):
         if not dest.is_relative_to(ROOT) or not dest.exists():
             errors.append(f'{path.relative_to(ROOT)}: broken/escaping local link: {target}')
         count += 1
+# The SessionStart hook must stay silent without a record and list due reviews with one.
+import json, os, subprocess, tempfile
+with tempfile.TemporaryDirectory() as home:
+    env = {**os.environ, 'MYELINATE_HOME': home, 'MYELINATE_TODAY': '2026-10-14'}
+    hook = [sys.executable, str(ROOT / 'hooks' / 'due_reviews.py')]
+    if subprocess.run(hook, env=env, capture_output=True, text=True).stdout.strip():
+        errors.append('hooks/due_reviews.py: prints output with no learner record')
+    Path(home, 'learner.json').write_text(json.dumps({'version': 1, 'topics': [
+        {'topic': 'Limiting reactants', 'course': 'CHEM 111', 'next_review': '2026-10-13'},
+        {'topic': 'Hess law', 'next_review': '2026-10-20'}]}))
+    out = subprocess.run(hook, env=env, capture_output=True, text=True).stdout
+    if 'Limiting reactants (CHEM 111)' not in out or 'Hess' in out or '1 review' not in out:
+        errors.append(f'hooks/due_reviews.py: wrong due list: {out!r}')
+    Path(home, 'learner.json').write_text('{not json')
+    if subprocess.run(hook, env=env, capture_output=True, text=True).returncode != 0:
+        errors.append('hooks/due_reviews.py: a broken record must not fail the session')
 package_errors, package_counts = package.verify()
 errors += package_errors
 if errors:
