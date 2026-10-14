@@ -17,6 +17,24 @@ When the concept has shape, **default to rendering it rather than describing it.
 
 Not everything needs a picture. Definitions, quick confirmations, pure procedure the learner already sees, and voice turns usually don't. A visual that isn't carrying the concept is decoration.
 
+## Choose the medium by what carries the lesson
+
+Two kinds of concept need two kinds of picture.
+
+- **Structure, process, mechanism, curve.** The lesson is in the relations: which part connects to which, what changes when a variable moves. An inline schematic carries it well: `show_widget` or an inline SVG with flat fills and hairline strokes, built in a minute, operable in the turn.
+- **The image itself is the content.** The lesson hinges on what something looks like: an eye, a face, a hand, an anatomical structure, a painting, a literary or philosophical image. A flat schematic of these turns into icons, and an icon carries none of what the lesson needs. Use a crafted artifact page (shading, real proportions, a figure built and checked), a licensed real image, or a generated image you have inspected. Take the time it needs and say so.
+
+**Worked example: the eye in *Alcibiades I* (132c–133c).** Socrates asks how an eye could see itself. It looks into another eye, and in the pupil, the eye's best part, it sees its own image: the *korē*, the "little doll" (the same word means girl and pupil). So a soul knows itself by looking into another soul, at its best part, where wisdom is. The tiny human figure in the pupil *is* the lesson. A schematic of three rows (eye → pupil, soul → wisdom) restates the answer as boxes. An inline widget with an iris larger than the lids, a figure whose dot-eye sits where an ear would be, and an avatar glyph for the korē teaches nothing and looks broken. The right medium is a crafted page: an almond eye with the iris clipped to the lids, a dark pupil holding a small figure that reads as a person at a glance, and a viewer whose gaze line ends in that pupil. The reference build is `examples/alcibiades-eye.html` (screenshot beside it).
+
+## Geometry, recognizability, and honesty in the frame
+
+1. **Children stay inside their parents.** An iris sits inside the eye opening: draw the almond as a `clipPath` and clip the iris, pupil and highlight to it. Labels sit inside their panels; nothing pokes through a boundary it belongs behind.
+2. **Lines end on the meaningful target.** A gaze line, ray, arrow or leader line ends on the thing it's about (the pupil, the focal point, the labeled structure), not on a corner or the panel edge.
+3. **Figures are whole, attached and oriented.** A head sits on a neck on shoulders; the eye is on the face, on the side facing what it looks at; a profile looks toward its target.
+4. **No icon stand-ins.** Never use a generic UI glyph (user avatar, frown or smile face, emoji-like marks, a stock "person" icon) for the image the lesson hinges on. If you can't draw it recognizably at display size, change the medium.
+5. **No scorecards.** Readouts like "Image size: tiny" or "Clarity: small but clear" flatten an idea into a metric and invite the learner to read the card instead of the picture. Add a readout only when the number is the concept (a pH, an energy, a measured length).
+6. **Look before you send.** If you have a browser, a headless renderer or a screenshot tool, render the visual and look at the image at the size the learner will see. Zoom on the joints and on the key image. If you have no way to render, say in one line that the figure is unrendered, so the learner knows to report what looks wrong. "Rendered and inspected" is a claim you make only after looking (router rule 16).
+
 ## Real images beat generated diagrams for complex anatomy
 
 Hand-authored SVG is excellent for schematics: a circuit, a mechanism, a Newman projection, a pathway, a free-body diagram. It is not yet good enough for complex real-world structure. A generated drawing of a femur's bone markings, a skull's foramina, a brachial plexus or a histology slide is likely to be wrong in ways a novice can't catch, and a wrong figure teaches the error with authority.
@@ -125,13 +143,17 @@ Use 3D for stereochemistry, conformations, chair cyclohexanes, molecular geometr
 
 When a short expert walkthrough would help, suggest one or two **verified** videos with exact title, channel and URL, and say when to watch: before the session for names and parts, or after their first attempt to compare reasoning (`find-media` §6). For a course, prefer videos that match the course's notation. Never replace the learner's own attempt with a video.
 
-## Before you send a visual
+## Before you send a visual (under a minute)
 
-- Numbers and structures checked against the key or a source.
-- Labels use the course's names; nothing in a caption, legend or alt text gives away the answer you're about to ask for.
-- Renders at phone width; controls reachable; works in light and dark mode.
-- Model notes for any approximation.
-- Your question is ready, and it asks for something they produce.
+1. **Medium:** is the image itself the content? Then it's a crafted page or a real image, not a flat schematic.
+2. **Containment:** every child shape is inside its parent (iris inside the lids, labels inside panels).
+3. **Targets:** every gaze line, ray and arrow ends on what it's about.
+4. **Recognizable:** the key image reads as what it is at display size; no avatar, face or emoji glyph stands in for it.
+5. **No leak, no scorecard:** nothing in the figure, caption, legend or alt text answers your question; no metric readouts unless the metric is the concept.
+6. **Numbers and structures** checked against the key or a source; model notes for any approximation.
+7. **Phone width and both themes;** controls reachable.
+8. **Rendered and inspected,** or you've said it's unrendered.
+9. **Your one question is ready,** and it asks for something they produce.
 
 ## Worked example: Newman projections (organic chemistry)
 
@@ -186,6 +208,9 @@ A learner understands Newman projections for butane but can't tell "what goes on
 - A widget that reveals the answer before the learner predicts, or a caption that names the masked label.
 - Representations that use different colors or names for the same thing, or aren't linked.
 - Decorative animation, mascots, particles that encode nothing.
+- A flat schematic for a subject whose image is the point; icon glyphs standing in for the key image; shapes poking through their parents; gaze lines ending beside the target.
+- Scorecard readouts that reduce the idea to metrics.
+- Sending a visual you could have rendered and didn't look at.
 - Unverified numbers, or an approximation presented as exact.
 - A layout that breaks on a phone, or text that disappears in dark mode.
 - Starting over from scratch when the learner asks for another view, instead of adding and linking it.
