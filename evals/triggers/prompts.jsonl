@@ -1,0 +1,51 @@
+{"id": "p01", "prompt": "help me study", "accept": ["myelinate", "tutor"], "kind": "positive"}
+{"id": "p02", "prompt": "Explain how vaccines train the immune system.", "accept": ["myelinate", "teach", "tutor"], "kind": "positive"}
+{"id": "p03", "prompt": "I want to finally understand Bayes' theorem. Every time I read about it I get lost halfway.", "accept": ["myelinate", "teach"], "kind": "positive"}
+{"id": "p04", "prompt": "My orgo exam is Thursday. Quiz me on SN1 vs SN2.", "accept": ["tutor", "myelinate"], "kind": "positive"}
+{"id": "p05", "prompt": "For my Intro Psych class: what's the difference between classical and operant conditioning?", "accept": ["tutor", "myelinate"], "kind": "positive"}
+{"id": "p06", "prompt": "quiz me on the causes of World War I", "accept": ["tutor", "myelinate", "assess"], "kind": "positive"}
+{"id": "p07", "prompt": "Problem 3: A 2.0 kg block slides down a frictionless incline at 30 degrees. Find its acceleration and the normal force. This is due at midnight.", "accept": ["assignment"], "kind": "positive"}
+{"id": "p08", "prompt": "Here's the discussion section of my bio lab report. Can you look it over before I submit it tomorrow?", "accept": ["assignment"], "kind": "positive"}
+{"id": "p09", "prompt": "Write my five-paragraph essay on the green light in The Great Gatsby for English class.", "accept": ["assignment"], "kind": "positive"}
+{"id": "p10", "prompt": "I'm a nurse moving into data analytics. Teach me SQL from scratch over the next few weeks.", "accept": ["teach"], "kind": "positive"}
+{"id": "p11", "prompt": "I want to learn music theory for fun so I can write my own songs. Where do I start?", "accept": ["teach", "myelinate"], "kind": "positive"}
+{"id": "p12", "prompt": "Build me a full semester course on linear algebra: syllabus, weekly lessons, assignments and exams.", "accept": ["course-project"], "kind": "positive"}
+{"id": "p13", "prompt": "Design a complete 12-week university-level curriculum that teaches me software engineering, with tests I can take.", "accept": ["course-project", "teach"], "kind": "positive"}
+{"id": "p14", "prompt": "Teach me as we build: I'm making my first iOS app and I want to understand SwiftUI as we go, not just get code.", "accept": ["project"], "kind": "positive"}
+{"id": "p15", "prompt": "Let's build a Raspberry Pi weather station together. I want to learn the electronics along the way.", "accept": ["project"], "kind": "positive"}
+{"id": "p16", "prompt": "I just inherited this Django repo at work. Walk me through it so I can own and maintain it.", "accept": ["code"], "kind": "positive"}
+{"id": "p17", "prompt": "Walk me through this PR so I actually understand the caching change before I'm the one maintaining it.", "accept": ["code"], "kind": "positive"}
+{"id": "p18", "prompt": "Here are photos of my anatomy lecture notes. Are they any good?", "accept": ["notes"], "kind": "positive"}
+{"id": "p19", "prompt": "Can you read my Obsidian notes on macroeconomics and tell me what I'm getting wrong?", "accept": ["notes"], "kind": "positive"}
+{"id": "p20", "prompt": "Give me a full practice exam on unit 3 thermodynamics and grade it like a real test.", "accept": ["assess"], "kind": "positive"}
+{"id": "p21", "prompt": "I finished the problem set you assigned me in our Python course. Here are my answers, grade them.", "accept": ["assess"], "kind": "positive"}
+{"id": "p22", "prompt": "Make me an interactive simulation where I drag sliders and see how supply and demand curves shift the price.", "accept": ["lab"], "kind": "positive"}
+{"id": "p23", "prompt": "Build an interactive web lab for practicing Punnett squares.", "accept": ["lab"], "kind": "positive"}
+{"id": "p24", "prompt": "Make a printable practice test with a separate answer key for my 8th grade fractions unit.", "accept": ["print"], "kind": "positive"}
+{"id": "p25", "prompt": "I need a blank diagram of the heart to label, as a PDF I can print and study from.", "accept": ["print"], "kind": "positive"}
+{"id": "p26", "prompt": "Make Anki flashcards from this chapter on the French Revolution.", "accept": ["flashcards"], "kind": "positive"}
+{"id": "p27", "prompt": "Turn these Spanish vocab words into a Quizlet set.", "accept": ["flashcards"], "kind": "positive"}
+{"id": "p28", "prompt": "I can never remember the order of the cranial nerves. Give me a mnemonic.", "accept": ["memory-hooks"], "kind": "positive"}
+{"id": "p29", "prompt": "What's a good trick to remember the first 20 elements of the periodic table?", "accept": ["memory-hooks"], "kind": "positive"}
+{"id": "p30", "prompt": "My bar exam is in six weeks. Make me a study schedule.", "accept": ["study-plan"], "kind": "positive"}
+{"id": "p31", "prompt": "Finals start Monday and I have three exams. What should I study each day?", "accept": ["study-plan"], "kind": "positive"}
+{"id": "p32", "prompt": "Find me a good YouTube video that explains the Krebs cycle.", "accept": ["find-media"], "kind": "positive"}
+{"id": "p33", "prompt": "I need a freely licensed diagram of a plant cell to use in a lesson I'm teaching.", "accept": ["find-media"], "kind": "positive"}
+{"id": "p34", "prompt": "Before I hand this answer key to my students, double-check that every answer is actually correct.", "accept": ["verify"], "kind": "positive"}
+{"id": "p35", "prompt": "Draw me a concept map of how the causes of the American Civil War connect, I keep mixing them up.", "accept": ["myelinate", "tutor", "teach"], "kind": "positive"}
+{"id": "p36", "prompt": "Show me a diagram of how the electron transport chain works, step by step, so I can actually picture it.", "accept": ["myelinate", "tutor", "teach"], "kind": "positive"}
+{"id": "p37", "prompt": "Walk me through solving 2x^2 + 3x - 5 = 0 one step at a time. I want to get how completing the square works.", "accept": ["myelinate", "tutor", "teach"], "kind": "positive"}
+{"id": "n01", "prompt": "Fix the failing test in auth.test.ts.", "accept": ["none", "debugging"], "kind": "negative"}
+{"id": "n02", "prompt": "Convert this Word doc to a PDF.", "accept": ["none", "pdf", "docx"], "kind": "negative"}
+{"id": "n03", "prompt": "Review this PR for security bugs before we merge.", "accept": ["none", "code-review"], "kind": "negative"}
+{"id": "n04", "prompt": "Add a dark mode toggle to my React app.", "accept": ["none", "frontend-design"], "kind": "negative"}
+{"id": "n05", "prompt": "Write unit tests for the payment module.", "accept": ["none", "debugging"], "kind": "negative"}
+{"id": "n06", "prompt": "Create a calendar event for my dentist appointment Tuesday at 3.", "accept": ["none", "calendar"], "kind": "negative"}
+{"id": "n07", "prompt": "Summarize this news article about the Fed's rate decision.", "accept": ["none"], "kind": "negative"}
+{"id": "n08", "prompt": "Draw an architecture diagram of our microservices for the design doc.", "accept": ["none", "frontend-design", "docx"], "kind": "negative"}
+{"id": "n09", "prompt": "Proofread my cover letter for typos.", "accept": ["none", "writing-editor"], "kind": "negative"}
+{"id": "n10", "prompt": "Build a React quiz app for our startup's employee onboarding.", "accept": ["none", "frontend-design"], "kind": "negative"}
+{"id": "n11", "prompt": "Set up a Python virtualenv and install pandas.", "accept": ["none"], "kind": "negative"}
+{"id": "n12", "prompt": "Make a slide deck for my quarterly sales meeting.", "accept": ["none", "docx"], "kind": "negative"}
+{"id": "n13", "prompt": "Refactor this function to be faster; I don't need an explanation, just the code.", "accept": ["none", "debugging"], "kind": "negative"}
+{"id": "n14", "prompt": "Remind me to call my mom on Sunday.", "accept": ["none", "calendar"], "kind": "negative"}
