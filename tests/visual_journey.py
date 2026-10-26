@@ -32,6 +32,7 @@ with sync_playwright() as playwright:
         check(page.evaluate('document.activeElement.id') == 'reveal', f'{width}px keyboard focus moves to reveal')
         page.keyboard.press('Enter')
         check(page.locator('#frames .frame').count() == 2, f'{width}px reveal adds one step')
+        check('You predicted: Some water rises into the air' in page.locator('#frames .frame').nth(1).inner_text(), f'{width}px first prediction stays beside revealed step')
         check('evaporates' in page.locator('#frames').inner_text().lower(), f'{width}px step text appears after reveal')
         check(page.locator('#reveal').is_disabled(), f'{width}px next reveal needs another prediction')
         check('condenses' not in page.locator('#frames').inner_text().lower(), f'{width}px third step hidden')
@@ -39,6 +40,7 @@ with sync_playwright() as playwright:
         page.locator('#commit').click()
         page.locator('#reveal').click()
         check(page.locator('#frames .frame').count() == 3, f'{width}px second reveal works')
+        check('You predicted: It cools and gathers' in page.locator('#frames .frame').nth(2).inner_text(), f'{width}px second prediction stays beside revealed step')
         scroll, inner = page.evaluate('[document.documentElement.scrollWidth, window.innerWidth]')
         check(scroll <= inner, f'{width}px expanded path has no horizontal overflow ({scroll} <= {inner})')
         if width == 360:
@@ -60,6 +62,7 @@ with sync_playwright() as playwright:
         check('feeds rivers' not in page.locator('#map-status').inner_text().lower(), f'{width}px map reset hides key')
         page.locator('#reset').click()
         check(page.locator('#frames .frame').count() == 1 and page.locator('#reveal').is_disabled() and page.locator('#frames').is_visible(), f'{width}px step reset restores gate')
+        check('You predicted:' not in page.locator('#frames').inner_text(), f'{width}px reset clears prior predictions')
         scroll, inner = page.evaluate('[document.documentElement.scrollWidth, window.innerWidth]')
         check(scroll <= inner, f'{width}px no horizontal overflow ({scroll} <= {inner})')
         check(not errors, f'{width}px no script errors')

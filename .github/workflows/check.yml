@@ -23,7 +23,9 @@ jobs:
       - name: Check entrypoint parity and local references
         run: python3 scripts/check.py
       - name: Trigger guard (prompt labels, committed eval results, baseline floors)
-        run: python3 evals/triggers/check.py
+        run: |
+          python3 evals/triggers/test_check.py
+          python3 evals/triggers/check.py
 
   trigger-eval:
     if: github.event_name == 'workflow_dispatch' && inputs.trigger_eval

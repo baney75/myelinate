@@ -16,15 +16,25 @@ runs are comparable; the CLI does not expose temperature, so run several passes.
 """
 import argparse
 import concurrent.futures as cf
-import hashlib
 import json
 import os
-import re
 import shutil
 import subprocess
 import tempfile
 from collections import Counter
 from pathlib import Path
+
+from common import (
+    ASK,
+    HARNESS,
+    SCHEMA,
+    descriptions_sha256,
+    inputs_sha256,
+    load_distractors,
+    load_prompts,
+    score,
+    suite,
+)
 
 HERE = Path(__file__).resolve().parent
 ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -40,39 +50,11 @@ ap.add_argument('--only', default='', help='comma-separated prompt ids')
 ap.add_argument('--prompts', default=str(HERE / 'prompts.jsonl'), help='prompt set (JSONL)')
 args = ap.parse_args()
 
-FM = re.compile(r'^---\nname: ([a-z0-9-]+)\ndescription: ([^\n]+)\n', re.DOTALL)
-
-
-def suite(root):
-    skills = {}
-    for path in sorted(Path(root, 'skills').glob('*/SKILL.md')):
-        m = FM.match(path.read_text())
-        if m:
-            skills[m.group(1)] = m.group(2).strip().strip('"')
-    return skills
-
-
-def fingerprint(skills):
-    blob = '\n'.join(f'{k}: {v}' for k, v in sorted(skills.items()))
-    return hashlib.sha256(blob.encode()).hexdigest()
-
-
-ASK = """This is a skill-routing check. Below is the first message a user sent you in a new chat.
-Do not answer it, run commands or open files. Using your normal rules for when to load a skill,
-decide which ONE of your available skills you would load before replying, or none if no skill fits.
-Reply with JSON only: {{"skill": "<exact skill name>"}} or {{"skill": "none"}}.
-
-User message:
-<<<
-{prompt}
->>>"""
-SCHEMA = {"type": "object", "properties": {"skill": {"type": "string"}}, "required": ["skill"], "additionalProperties": False}
-
-
 def main():
     skills = suite(args.root)
-    distractors = json.loads((HERE / 'distractors.json').read_text())
-    prompts = [json.loads(l) for l in Path(args.prompts).read_text().splitlines() if l.strip()]
+    distractors = load_distractors()
+    prompts = load_prompts(args.prompts)
+    full_set = inputs_sha256(prompts)
     if args.only:
         keep = set(args.only.split(','))
         prompts = [p for p in prompts if p['id'] in keep]
@@ -129,16 +111,14 @@ def main():
         ok = [(x in p['accept']) if p['kind'] == 'positive' else (x not in names) for x in c]
         rows.append({'id': p['id'], 'kind': p['kind'], 'accept': p['accept'], 'choices': c, 'ok': sum(ok)})
     result = {
-        'model': args.model, 'effort': args.effort, 'passes': args.passes, 'harness': 'codex exec, isolated HOME, skills in ~/.agents/skills', 'prompt_set': Path(args.prompts).name,
-        'descriptions_sha256': fingerprint(skills), 'skills': sorted(names),
-        'positives': len(pos), 'negatives': len(neg),
-        'hit_rate': round(sum(x['hit'] for x in per_pass) / (len(pos) * args.passes), 4) if pos else None,
-        'false_fire_rate': round(sum(x['false_fire'] for x in per_pass) / (len(neg) * args.passes), 4) if neg else None,
+        'model': args.model, 'effort': args.effort, 'passes': args.passes, 'harness': HARNESS,
+        'prompt_set': Path(args.prompts).name, 'partial': bool(args.only),
+        'descriptions_sha256': descriptions_sha256(skills), 'inputs_sha256': full_set, 'skills': sorted(names),
+        **score(prompts, choices, names, args.passes),
         'majority_hit_rate': round(sum(majority[p['id']] in p['accept'] for p in pos) / len(pos), 4) if pos else None,
         'majority_false_fire_rate': round(sum(majority[p['id']] in names for p in neg) / len(neg), 4) if neg else None,
         'per_pass': per_pass,
         'unstable': [r['id'] for r in rows if len(set(r['choices'])) > 1],
-        'errors': sum(c.count('ERROR') for c in choices.values()),
         'rows': rows,
     }
     if args.out:

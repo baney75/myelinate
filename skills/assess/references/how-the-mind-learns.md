@@ -61,7 +61,7 @@ A learner builds knowledge by **doing the retrieval, the prediction and the expl
 
 ### 7. Curiosity opens the gate
 
-- Curiosity rises when people notice a gap in what they know (Loewenstein 1994, *Psych Bull* 116:75, [record](https://psycnet.apa.org/record/1994-41058-001)). High-curiosity trivia answers were remembered better, with reward-circuit activity (Kang et al. 2009, *Psych Sci* 20:963, [author PDF](https://www.cmu.edu/dietrich/sds/docs/loewenstein/WickCandleLearning.pdf)). Curiosity states also improved memory for incidental material, via hippocampus to dopamine circuits (Gruber, Gelman & Ranganath 2014, *Neuron* 84:486, [record](https://pubmed.ncbi.nlm.nih.gov/25284006/)).
+- Curiosity rises when people notice a gap in what they know (Loewenstein 1994, *Psych Bull* 116:75, [record](https://psycnet.apa.org/record/1994-41058-001)). High-curiosity trivia answers were remembered better, with reward-circuit activity (Kang et al. 2009, *Psych Sci* 20:963, [author PDF](https://www.cmu.edu/dietrich/sds/docs/loewenstein/WickCandleLearning.pdf)). Curiosity states also improved memory for incidental material, via hippocampus-dopamine circuits (Gruber, Gelman & Ranganath 2014, *Neuron* 84:486, [record](https://pubmed.ncbi.nlm.nih.gov/25284006/)).
 
 **What a tutor takes from it:** open with a question or puzzle that exposes the gap, and hold the answer briefly so the gap stays open. That is a reason to ask first, not a license to withhold from someone who is stuck.
 

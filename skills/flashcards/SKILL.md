@@ -65,7 +65,7 @@ Ask which tool they use if unknown. Default: Quizlet-ready block + readable tabl
 **Quizlet** (Import → "Between term and definition: Tab", "Between cards: New line"):
 ```
 Rate-limiting enzyme of glycolysis	PFK-1
-Effect of ↓pH on O₂ to Hb curve	Shifts right; more O₂ unloaded to tissue
+Effect of ↓pH on O₂-Hb curve	Shifts right; more O₂ unloaded to tissue
 ```
 No tabs or line breaks inside a card. If a back needs a line break, use a custom card separator (e.g., `;;`) and say so.
 

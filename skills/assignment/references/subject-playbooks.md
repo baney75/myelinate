@@ -7,9 +7,9 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 ## Cross-cutting rules (apply to every subject)
 
 - **Active beats passive.** Freeman et al. (2014, *PNAS* 111:8410 to 8415), meta-analysis of 225 STEM studies: active learning raised exam scores by about 0.47 SD, and students in traditional lecture were about 1.5 times more likely to fail. **Strong.**
-- **Guide novices; fade guidance.** Minimal-guidance discovery underperforms explicit instruction with worked examples for novices (Kirschner, Sweller & Clark 2006, *Educ Psychol* 41:75 to 86). **Moderate to Strong.** Fade support as competence grows.
+- **Guide novices; fade guidance.** Minimal-guidance discovery underperforms explicit instruction with worked examples for novices (Kirschner, Sweller & Clark 2006, *Educ Psychol* 41:75 to 86). **Moderate-Strong.** Fade support as competence grows.
 - **Retrieve, space, interleave, explain.** Practice testing and distributed practice rated high utility; elaborative interrogation and self-explanation moderate; highlighting and rereading low (Dunlosky et al. 2013, *Psychol Sci Public Interest* 14:4 to 58). **Strong.** See **evidence.md**.
-- **Experts see deep structure.** Novices sort physics problems by surface features (inclined planes); experts sort by principle (energy conservation) (Chi, Feltovich & Glaser 1981, *Cogn Sci* 5:121 to 152). **Moderate to Strong.** In every field, train category recognition with mixed, contrasting cases.
+- **Experts see deep structure.** Novices sort physics problems by surface features (inclined planes); experts sort by principle (energy conservation) (Chi, Feltovich & Glaser 1981, *Cogn Sci* 5:121 to 152). **Moderate-Strong.** In every field, train category recognition with mixed, contrasting cases.
 - **Concept inventories** exist for many fields (FCI, Genetics Concept Assessment, others). Use one item as a diagnostic, never as a drill bank to memorize.
 
 ---
@@ -32,7 +32,7 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Expertise looks like:** causal models with feedback loops; predicting the direction of change of every variable after a perturbation; reasoning from gradients, flows and resistances; knowing normal values well enough to spot abnormal ones.
 
-**Core activities:** draw the system as a flow diagram with sensors, integrators and effectors; run "what if" perturbations (↓blood volume → baroreceptor → …); work through pressure to volume loops, O₂ to Hb curves and renal handling with real numbers; explain a graph's shape aloud. **Craft**, consistent with self-explanation evidence (**Moderate**).
+**Core activities:** draw the system as a flow diagram with sensors, integrators and effectors; run "what if" perturbations (↓blood volume → baroreceptor → …); work through pressure-volume loops, O₂-Hb curves and renal handling with real numbers; explain a graph's shape aloud. **Craft**, consistent with self-explanation evidence (**Moderate**).
 
 **Traps:** teleology ("the body wants…") replacing mechanism; memorizing arrows tables (↑↓↔) without the loop; confusing primary change with compensation; unit errors in flow, clearance and partial pressure; treating a common analogy (pump = heart) beyond where it breaks.
 
@@ -46,7 +46,7 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Expertise looks like:** reading structures (functional groups, charge at a given pH); reasoning about energetics, kinetics and regulation; connecting pathways to physiological state (fed vs. fasted); interpreting experimental data (Western blots, kinetics plots, knockouts).
 
-**Core activities:** draw structures from memory; trace a carbon or electron through a pathway; for each regulated step, state the signal, the mechanism and why it makes sense physiologically; derive Michaelis to Menten consequences rather than memorizing inhibitor tables; analyze real figures from papers.
+**Core activities:** draw structures from memory; trace a carbon or electron through a pathway; for each regulated step, state the signal, the mechanism and why it makes sense physiologically; derive Michaelis-Menten consequences rather than memorizing inhibitor tables; analyze real figures from papers.
 
 **Traps:** "ATP stores energy in its bonds"; memorizing pathways as word lists; enzyme names without regulation logic; mixing up Km and affinity direction; confusing correlation in a blot with mechanism; scale confusion between molecule, organelle and cell (students' DNA drawings reveal scale and abstraction difficulties; Uminski, Wright & Newman 2025, *J Microbiol Biol Educ*). **Moderate.**
 
@@ -74,7 +74,7 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Expertise looks like:** population-level, variational thinking (selection acts on variation already present); quantitative reasoning about populations and energy flow; tree-thinking (reading phylogenies by common ancestry, not tip order).
 
-**Core activities:** explain adaptations using variation → heritability → differential reproduction; read and redraw phylogenetic trees; work with real data (population growth, Hardy to Weinberg); case studies with competing hypotheses.
+**Core activities:** explain adaptations using variation → heritability → differential reproduction; read and redraw phylogenetic trees; work with real data (population growth, Hardy-Weinberg); case studies with competing hypotheses.
 
 **Traps:** need-driven or Lamarckian explanations ("giraffes stretched"), individuals evolving, "survival of the fittest" as strength, evolution as progress or ladder, reading trees left-to-right as rank (Gregory 2009, *Evo Edu Outreach* 2:156 to 175). **Moderate.** Outdated taxonomy in figures.
 
@@ -131,11 +131,11 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Expertise looks like:** principle-first problem solving (identify the governing principle, represent the situation, then do math); multiple representations (diagram, graph, equation); checking with units, limits and estimates.
 
-**Evidence:** the Force Concept Inventory (Hestenes, Wells & Swackhamer 1992, *Phys Teach* 30:141 to 158) showed that traditional instruction leaves Newtonian misconceptions largely intact. Across 62 courses and ~6,000 students, interactive-engagement courses averaged a normalized FCI gain of about 0.48 versus about 0.23 for traditional courses (Hake 1998, *Am J Phys* 66:64 to 74). **Strong.** Experts categorize by principle, novices by surface features (Chi et al. 1981). **Moderate to Strong.**
+**Evidence:** the Force Concept Inventory (Hestenes, Wells & Swackhamer 1992, *Phys Teach* 30:141 to 158) showed that traditional instruction leaves Newtonian misconceptions largely intact. Across 62 courses and ~6,000 students, interactive-engagement courses averaged a normalized FCI gain of about 0.48 versus about 0.23 for traditional courses (Hake 1998, *Am J Phys* 66:64 to 74). **Strong.** Experts categorize by principle, novices by surface features (Chi et al. 1981). **Moderate-Strong.**
 
 **Core activities:** follow a fixed problem-solving schema: sketch, define the system, choose the principle (Newton's laws, energy, momentum), draw a free-body diagram, solve symbolically, add numbers last, and check units and limiting cases. Conceptual questions with peer discussion. Simulations for prediction.
 
-**Traps (FCI-type):** motion implies force; heavier objects fall faster; force "used up"; action to reaction forces cancel on one object; velocity and acceleration confused; plugging into equations by matching variables.
+**Traps (FCI-type):** motion implies force; heavier objects fall faster; force "used up"; action-reaction forces cancel on one object; velocity and acceleration confused; plugging into equations by matching variables.
 
 **Practice and self-test:** mixed problem sets labeled only after solving ("which principle?"); conceptual multiple-choice with justification; derive before using; limiting-case checks.
 
@@ -178,8 +178,8 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 **Core activities:**
 - **Read the primary text slowly**, with a guiding question; summarize each paragraph's job in the argument.
 - **Reconstruct** the argument in standard form; check validity and identify the contested premise.
-- **Objection to reply cycles**: state the strongest objection; reply as the author would; evaluate.
-- **Argument mapping**: a single-course study reported critical-thinking test gains after semester-long argument-mapping practice (Twardy 2004, *Teach Philos* 27:95 to 116). **Weak to Moderate** (limited designs).
+- **Objection-reply cycles**: state the strongest objection; reply as the author would; evaluate.
+- **Argument mapping**: a single-course study reported critical-thinking test gains after semester-long argument-mapping practice (Twardy 2004, *Teach Philos* 27:95 to 116). **Weak-Moderate** (limited designs).
 - **Write** short, focused papers: thesis, reconstruction, objection, reply, assessment.
 
 **Traps:** summarizing instead of arguing; strawmanning; relying on secondary summaries or videos instead of the text; mistaking a counterexample for a refutation of an unrelated premise; jargon without definitions.
@@ -212,7 +212,7 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Traps:** treating textbooks as neutral; presentism; memorizing dates without causation; single-source conclusions.
 
-**Practice and self-test:** sourcing questions on unseen documents; cause to consequence chains from memory; short evidence-based arguments.
+**Practice and self-test:** sourcing questions on unseen documents; cause-consequence chains from memory; short evidence-based arguments.
 
 **Resources:** primary-source archives, Smithsonian Open Access, Open Yale Courses history lectures.
 
@@ -240,7 +240,7 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Expertise looks like:** an accurate mental model of program execution; decomposition; reading and debugging code; using tools (tests, debugger, docs).
 
-**Core activities:** trace code by hand (predict output before running); worked examples then modify then write; small projects with tests; debugging deliberately broken code; Parsons problems (reorder given lines) for novices. **Craft to Moderate.**
+**Core activities:** trace code by hand (predict output before running); worked examples then modify then write; small projects with tests; debugging deliberately broken code; Parsons problems (reorder given lines) for novices. **Craft-Moderate.**
 
 **Traps:** copying code without tracing; tutorial loops with no independent build; AI-generated code accepted without reading.
 
@@ -262,7 +262,7 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Practice and self-test:** reverse-outline your draft; state the thesis in one sentence; revise one paragraph to a specific goal.
 
-**Tutor:** respond to their draft with questions and one priority; never produce submittable text for graded work. **Lab:** reverse-outline tool; claim to evidence tagging.
+**Tutor:** respond to their draft with questions and one priority; never produce submittable text for graded work. **Lab:** reverse-outline tool; claim-evidence tagging.
 
 ## 17. Music and motor skills
 

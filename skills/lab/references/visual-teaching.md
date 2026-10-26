@@ -16,7 +16,7 @@ For a small self-contained example, adapt `templates/visual-stepper.html`: it in
 
 ## Why
 
-- **Words plus a relevant picture beat words alone for novices** (Mayer, *Multimedia Learning*, 3rd ed., 2021; principles summarized in `find-media` §1). **Moderate to Strong**, mostly short lab lessons; effects shrink with expertise.
+- **Words plus a relevant picture beat words alone for novices** (Mayer, *Multimedia Learning*, 3rd ed., 2021; principles summarized in `find-media` §1). **Moderate-Strong**, mostly short lab lessons; effects shrink with expertise.
 - **Multiple representations help only when the learner can translate between them.** Ainsworth's DeFT framework (2006, *Learning and Instruction* 16(3):183 to 198, doi:10.1016/j.learninstruc.2006.03.001) explains why adding representations sometimes helps and sometimes overloads: the design, the function each representation serves, and the translation task the learner must perform all matter. **Craft/theory**, abstract reviewed. The practical rule: link the views explicitly, and make the learner do the translating.
 - **3D models help organic chemistry students translate between 2D diagrams.** Feedback from concrete or virtual 3D models improved diagram-to-diagram translation over verbal feedback, the gain held at a 7-day delay, and the models did not become a crutch (Stull & Hegarty 2015, *Proc. Annual Meeting of the Cognitive Science Society* 37; abstract reviewed). **Moderate**, single study, conference proceedings. In anatomy, 3D visualization improved spatial and factual knowledge in a meta-analysis (Yammine & Violato 2015; see `subject-playbooks.md` §1).
 - **Prediction before observation.** Watching without predicting teaches little (Crouch et al. 2004; see `lab` §0). A visual that shows the answer before the learner commits is a leak, not a scaffold.
@@ -143,7 +143,7 @@ Each step keeps the controls and colors of the last, so the learner never has to
 
 Use 3D for stereochemistry, conformations, chair cyclohexanes, molecular geometry (VSEPR), crystal lattices, protein structure, anatomy, vectors and fields.
 
-- **Coordinates.** Build small molecules from ideal geometry (C to C 1.54 Å, C to H 1.09 Å, tetrahedral 109.5°, sp² 120°), or load a real conformer: PubChem 3D SDF for small molecules, RCSB PDB for macromolecules (license notes in `references/media-sources.md`).
+- **Coordinates.** Build small molecules from ideal geometry (C-C 1.54 Å, C-H 1.09 Å, tetrahedral 109.5°, sp² 120°), or load a real conformer: PubChem 3D SDF for small molecules, RCSB PDB for macromolecules (license notes in `references/media-sources.md`).
 - **Libraries.** For a few dozen atoms in a live turn, use no library: a canvas projection (`examples/chair-flip.html`). three.js (cdnjs, with OrbitControls for drag and pinch) for larger ball-and-stick models you build yourself; 3Dmol.js for files from PubChem or the PDB. Load only from CDNs the platform allows.
 - **Sync with the 2D views.** Drive the 3D geometry from the same state as the 2D drawing (a dihedral angle, a ring flip, an R/S choice). Animate the learner's change in 3D so they see the motion, not just the result.
 - **Show the hidden atoms.** Skeletal drawings hide hydrogens and carbons. The 3D model shows them all; that is much of its value.
@@ -178,7 +178,7 @@ A learner understands Newman projections for butane but can't tell "what goes on
 
 **The visual** (one linked widget): a molecule picker and a "sight down" bond picker; the line drawing with numbered carbons, the sighted bond in two colors and a dashed line-of-sight arrow; a ball-and-stick 3D model with Newman-view and side-view buttons; the Newman projection; controls for back carbon ±60°, spin drawing, flip view, back to zigzag; strain hidden behind "Show strain" until the learner predicts.
 
-**The question:** "Try 2,3-dimethylbutane down C2 to C3. Which staggered rotation is lowest in energy, and why? Predict before you reveal the strain."
+**The question:** "Try 2,3-dimethylbutane down C2-C3. Which staggered rotation is lowest in energy, and why? Predict before you reveal the strain."
 
 ## Chemistry: what to render
 
@@ -200,7 +200,7 @@ A learner understands Newman projections for butane but can't tell "what goes on
 
 | Subject | Render |
 | --- | --- |
-| Physiology, biochemistry | Curves from real equations (O₂ saturation, Michaelis to Menten) with parameter sliders; pathway steppers, one step at a time |
+| Physiology, biochemistry | Curves from real equations (O₂ saturation, Michaelis-Menten) with parameter sliders; pathway steppers, one step at a time |
 | Anatomy, histology | Layer toggles from superficial to deep; cross-section linked to a 3D view; masked-label quiz mode |
 | Genetics | Punnett and pedigree builders; meiosis stepper with chromosomes colored by origin |
 | Physics | Free-body diagram linked to the motion graph; vector and field views with draggable charges |

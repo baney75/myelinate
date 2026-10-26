@@ -21,7 +21,7 @@ Evidence tags: **Strong**, **Moderate**, **Weak**, **Craft** (as in **memory-hoo
 
 ## 1. When media helps (Mayer's principles)
 
-Mayer's cognitive theory of multimedia learning (Mayer, *Multimedia Learning*, 3rd ed., Cambridge, 2021) is the working model: limited visual and verbal channels, active integration. Principles most relevant here (Moderate to Strong, mostly short lab lessons; effects shrink for experts):
+Mayer's cognitive theory of multimedia learning (Mayer, *Multimedia Learning*, 3rd ed., Cambridge, 2021) is the working model: limited visual and verbal channels, active integration. Principles most relevant here (Moderate-Strong, mostly short lab lessons; effects shrink for experts):
 
 - **Multimedia:** words + relevant pictures beat words alone for novices.
 - **Coherence:** cut interesting-but-irrelevant material. Seductive details hurt learning: Sundararajan & Adesope (2020, *Educ Psychol Rev* 32:707 to 734), meta-analysis of 58 studies, >7,500 students; worse when the distractor sits next to a relevant diagram or stays on screen.
@@ -48,7 +48,7 @@ Pick the medium by what must be seen:
 Start from sources that state a license and have editorial review. Full table, URLs, licenses and caveats: [media-sources.md](references/media-sources.md). Summary:
 
 - **Openly licensed, reusable with attribution (check per item):** Wikimedia Commons (MediaSearch has a license filter; licenses vary per file and Wikimedia does not warrant them); Openverse (aggregator; states it does **not** verify licenses); Servier Medical Art (CC BY 4.0); NIH BioArt Source (per-item: public domain or CC BY); PhET simulations (historical collection CC BY 4.0 with a required attribution line; terms changed for sims published after 2026-03-29); Smithsonian Open Access (CC0); RCSB PDB (data CC0; Molecule of the Month and PDB-101 CC BY 4.0).
-- **Open but NonCommercial to ShareAlike:** OpenStax (now CC BY-NC-SA 4.0 across the library; some older editions were CC BY; check the book's license page; third-party images inside may differ); LibreTexts (license varies per page, some "not declared"); Radiopaedia (CC BY-NC-SA 3.0); Michigan Histology (CC BY-NC-SA 4.0; commercial AI training explicitly prohibited); ChemTube3D (CC BY-NC-SA 2.0 UK).
+- **Open but NonCommercial-ShareAlike:** OpenStax (now CC BY-NC-SA 4.0 across the library; some older editions were CC BY; check the book's license page; third-party images inside may differ); LibreTexts (license varies per page, some "not declared"); Radiopaedia (CC BY-NC-SA 3.0); Michigan Histology (CC BY-NC-SA 4.0; commercial AI training explicitly prohibited); ChemTube3D (CC BY-NC-SA 2.0 UK).
 - **Free to view, mixed terms:** NCBI Bookshelf (per-book copyright; embedded figures may be third-party "reprinted with permission"); HHMI BioInteractive (per-resource terms in each "Details" section); MolView, Desmos, GeoGebra (free tools; GeoGebra is non-commercial unless licensed).
 - **Proprietary, link, don't copy:** Kenhub (private use only; images licensable separately), TeachMeAnatomy (copies for your own educational needs only), Visible Body (subscription), BioRender (free plan: no publishing figures; standalone redistribution of its icons prohibited on all plans).
 

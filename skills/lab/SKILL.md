@@ -51,7 +51,7 @@ Open later sessions with 2 to 3 retrieval items from earlier labs (spaced, inter
 
 ## 3. Simulations and visuals that teach
 
-- **Model the real mechanism.** Use the actual equation (Hill, Henderson to Hasselbalch, Michaelis to Menten, Nernst/GHK, kinematics, logistic growth, Hardy to Weinberg). State parameters and sources in a "Model notes" disclosure; label approximations. Compute expected values in a script and check the sim reproduces them.
+- **Model the real mechanism.** Use the actual equation (Hill, Henderson-Hasselbalch, Michaelis-Menten, Nernst/GHK, kinematics, logistic growth, Hardy-Weinberg). State parameters and sources in a "Model notes" disclosure; label approximations. Compute expected values in a script and check the sim reproduces them.
 - **Constrain ranges to the productive region.** Every slider value should teach something; no physically meaningless extremes.
 - **Linked representations, up and down the ladder of abstraction** (Victor): one concrete instance (a tetramer with 0 to 4 O₂), the trajectory/curve, and the whole parameter sweep. Changing one updates all.
 - **Label on the diagram, not in a legend.** Color ties a control to its effect.

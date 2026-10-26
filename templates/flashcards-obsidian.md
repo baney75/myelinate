@@ -4,7 +4,7 @@ Rate-limiting enzyme of glycolysis::PFK-1
 
 Competitive inhibitor effect on Km and Vmax:::Km increases; Vmax unchanged
 
-Effect of decreased pH on the O2 to hemoglobin curve
+Effect of decreased pH on the O2-hemoglobin curve
 ?
 Shifts right (lower affinity), so more O2 is unloaded to tissue
 

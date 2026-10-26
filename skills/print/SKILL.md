@@ -64,7 +64,7 @@ Stay in chat or a `lab` when the learner needs fast feedback per item, a simulat
 
 ## 2b. Study guides that make them retrieve
 
-The best study guide is a set of questions, not a summary. Rereading and summarizing rated low utility; practice testing and spaced practice rated high (Dunlosky et al. 2013, *Psychol Sci Public Interest* 14:4 to 58). **Strong.** Retrieval practice beat elaborative concept mapping on a later test, including on concept-map tests (Karpicke & Blunt 2011, *Science* 331:772 to 775). **Moderate to Strong.** Students rated bolded key terms most helpful, yet that rating was negatively related to exam scores (Gurung 2004, *Teaching of Psychology*). **Moderate.**
+The best study guide is a set of questions, not a summary. Rereading and summarizing rated low utility; practice testing and spaced practice rated high (Dunlosky et al. 2013, *Psychol Sci Public Interest* 14:4 to 58). **Strong.** Retrieval practice beat elaborative concept mapping on a later test, including on concept-map tests (Karpicke & Blunt 2011, *Science* 331:772 to 775). **Moderate-Strong.** Students rated bolded key terms most helpful, yet that rating was negatively related to exam scores (Gurung 2004, *Teaching of Psychology*). **Moderate.**
 
 Build it this way:
 1. **Scope from the official study guide or objectives,** one section per objective, in the course's notation and order (`tutor` §1a). Pull in the learner's own notes where they help (`notes`), and the gaps the notes reveal.

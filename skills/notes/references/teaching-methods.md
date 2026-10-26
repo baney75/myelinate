@@ -7,19 +7,19 @@ Source review: 2026-10-06; tutoring-dialogue and sycophancy rows added 2026-10-1
 | Method | What to do | Evidence |
 | --- | --- | --- |
 | Backward design (Wiggins & McTighe, *Understanding by Design*, 1998/2005) | Start from the success test, decide what evidence would prove it, then choose activities | Craft (widely adopted design framework) |
-| Rosenshine, "Principles of Instruction," *American Educator* 2012 | Daily review; small steps; many questions; model; guided practice; check understanding; ~80% success in practice; scaffolds; independent practice; weekly/monthly review | Moderate to Strong (synthesis of cognitive science, master-teacher, and scaffolding research) |
+| Rosenshine, "Principles of Instruction," *American Educator* 2012 | Daily review; small steps; many questions; model; guided practice; check understanding; ~80% success in practice; scaffolds; independent practice; weekly/monthly review | Moderate-Strong (synthesis of cognitive science, master-teacher, and scaffolding research) |
 | Explicit instruction for novices (Kirschner, Sweller & Clark 2006; Alfieri et al. 2011) | Teach new material directly with worked examples; unassisted discovery loses (d ≈ −0.38); enhanced/guided discovery beats other instruction (d ≈ +0.30) | Strong |
 | Invent-then-tell for prepared learners (Schwartz & Bransford 1998; Schwartz et al. 2011; Sinha & Kapur 2021) | Contrasting cases or a challenging problem before the formal idea, best for conceptual understanding and transfer | Moderate |
 | Worked examples and fading (Sweller; Atkinson, Renkl & Merrill 2003); expertise reversal (Kalyuga et al. 2003) | Full worked example → completion problems → independent; drop guidance as skill grows | Strong |
-| Cognitive apprenticeship (Collins, Brown & Newman 1989) | Make expert thinking visible: model, coach, scaffold, articulate, reflect, explore | Craft to Moderate |
+| Cognitive apprenticeship (Collins, Brown & Newman 1989) | Make expert thinking visible: model, coach, scaffold, articulate, reflect, explore | Craft-Moderate |
 
 ## Checking and adjusting
 
 | Method | What to do | Evidence |
 | --- | --- | --- |
-| Formative assessment (Black & Wiliam 1998, "Inside the Black Box"; Wiliam 2011, *Embedded Formative Assessment*) | Collect evidence of thinking during teaching and change what you do next | Moderate to Strong (effect sizes debated) |
+| Formative assessment (Black & Wiliam 1998, "Inside the Black Box"; Wiliam 2011, *Embedded Formative Assessment*) | Collect evidence of thinking during teaching and change what you do next | Moderate-Strong (effect sizes debated) |
 | Hinge questions (Wiliam) | At a decision point, one quick item whose wrong options each reveal a specific misconception | Craft built on the above |
-| Peer Instruction / ConcepTests (Mazur 1997; Crouch & Mazur 2001) | Commit answer → discuss → re-answer; in 1:1, the learner argues against a plausible wrong view | Moderate to Strong in physics |
+| Peer Instruction / ConcepTests (Mazur 1997; Crouch & Mazur 2001) | Commit answer → discuss → re-answer; in 1:1, the learner argues against a plausible wrong view | Moderate-Strong in physics |
 | "Does that make sense?" is unreliable (Person, Graesser et al. 1994) | Check by production: apply, predict, explain, find the error | Moderate |
 | Feedback (Wisniewski, Zierer & Hattie 2020) | High-information feedback d ≈ 0.99; corrective (right/wrong + answer) 0.46; reinforcement/punishment (praise or reward without task information) 0.24 | Strong |
 
@@ -30,13 +30,13 @@ Source review: 2026-10-06; tutoring-dialogue and sycophancy rows added 2026-10-1
 | Retrieval practice (Roediger & Karpicke 2006; Dunlosky et al. 2013) | Recall without notes; close with the learner's recall, not a summary | Strong |
 | Spacing (Cepeda et al. 2006, 2008) | Optimal gap ≈ 20 to 40% of a 1-week horizon, ≈ 5 to 10% of a 1-year horizon | Strong |
 | Successive relearning (Rawson & Dunlosky 2011; Rawson, Dunlosky & Sciartelli 2013) | Initial criterion of 3 correct recalls, then relearn to 1 correct in each of 3+ spaced sessions | Strong |
-| Interleaving (Brunmair & Richter 2019) | Mix confusable categories once basics exist (g ≈ 0.42; larger for similar categories) | Moderate to Strong |
+| Interleaving (Brunmair & Richter 2019) | Mix confusable categories once basics exist (g ≈ 0.42; larger for similar categories) | Moderate-Strong |
 | Self-explanation (Bisra et al. 2018) | Open "why/how" prompts, g ≈ 0.55 | Strong |
 | Learning by teaching (Fiorella & Mayer 2013) | Explain to another (teach-back) | Moderate |
 | Pretesting / prequestions (St. Hilaire, Chan & Ahn 2024, *Psychonomic Bulletin & Review* meta-analysis) | Ask before teaching; even wrong guesses help later learning of the questioned material | Moderate |
 | Generation effect (Bertsch et al. 2007, 86 studies) and errorful generation with feedback (Kornell, Hays & Bjork 2009; Metcalfe 2017) | Get an attempt before telling; always follow an error with feedback | Strong (lab) |
 | Hypercorrection (Butterfield & Metcalfe 2001) | Ask confidence before the verdict; confident errors corrected with explanation stick | Moderate |
-| Productive failure (Sinha & Kapur 2021, 53 studies) | For prepared learners, a well-designed problem before instruction helps conceptual knowledge and transfer; not for young children or procedures | Moderate to Strong |
+| Productive failure (Sinha & Kapur 2021, 53 studies) | For prepared learners, a well-designed problem before instruction helps conceptual knowledge and transfer; not for young children or procedures | Moderate-Strong |
 | ICAP (Chi & Wylie 2014) | Interactive > constructive > active > passive engagement; reading an explanation is at best active | Moderate |
 | Metacognitive illusions (Kornell & Bjork 2008; Deslauriers et al. 2019; Rozenblit & Keil 2002; Dunlosky & Rawson 2012) | Effortful learning feels worse; "I get it" overstates understanding; overconfidence ends study early. Test, don't ask | Strong |
 | Wise feedback (Yeager et al. 2014) | High standards plus explicit assurance the learner can meet them | Moderate |
@@ -45,7 +45,7 @@ Source review: 2026-10-06; tutoring-dialogue and sycophancy rows added 2026-10-1
 
 | Finding | Implication |
 | --- | --- |
-| Tutoring averages ≈ 0.37 SD across 96 RCTs in the 2020 working paper and ≈ 0.29 SD across 89 PreK to 12 RCTs in the 2024 update (Nickow, Oreopoulos & Quan; use the 2024 figure); Bloom's "2 sigma" relied on narrow tests and bundled mastery learning (critique: von Hippel 2024, *Education Next*; VanLehn 2011) | Expect real but not magical gains; structure and dosage matter |
+| Tutoring averages ≈ 0.37 SD across 96 RCTs in the 2020 working paper and ≈ 0.29 SD across 89 PreK-12 RCTs in the 2024 update (Nickow, Oreopoulos & Quan; use the 2024 figure); Bloom's "2 sigma" relied on narrow tests and bundled mastery learning (critique: von Hippel 2024, *Education Next*; VanLehn 2011) | Expect real but not magical gains; structure and dosage matter |
 | Step-based tutoring ≈ human tutoring (VanLehn 2011: 0.76 vs 0.79) | Feedback at each step captures most of the benefit |
 | Prompting-only tutors did as well as explaining tutors (Chi et al. 2001) | The learner's construction drives learning |
 | Expert tutors are nurturant, indirect with errors, Socratic, progressive (Lepper's INSPIRE) | Questions over lectures; indirect error cues first |
