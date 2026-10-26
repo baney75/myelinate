@@ -1,6 +1,6 @@
 ---
 name: verify
-description: "Use before learning material ships (lab, study pack, answer key, deck, or a lesson on high-stakes or time-sensitive content) to check accuracy, currency and course alignment."
+description: "Use when someone asks to check a lesson, answer key, or learning material for accuracy, currency, and alignment. Not software code review or tests."
 ---
 
 # Verify
@@ -18,34 +18,34 @@ Always, before delivery:
 - Numeric models and simulations
 - Claims where the course and the field may disagree
 
-Light version (self-check, §3 steps 1–4) for ordinary chat explanations of stable material. Full adversarial review (§4) for the list above.
+Light version (self-check, §3 steps 1 to 4) for ordinary chat explanations of stable material. Full adversarial review (§4) for the list above.
 
 ## 2. Time awareness
 
 Know today's date and treat it as a variable:
 - Ask "could this have changed?" for each consequential claim. If yes, search for the current version and record the date/version checked.
 - Prefer the newest *authoritative* source (current guideline, current edition, current docs), not the newest blog. Recent ≠ reliable; old foundational work is fine for stable facts.
-- Flag claims in the learner's materials that are outdated (e.g., reclassified taxonomy, revised guidelines) — teach the course version for the exam *and* the current version, labeled.
+- Flag claims in the learner's materials that are outdated (e.g., reclassified taxonomy, revised guidelines). Teach the course version for the exam *and* the current version, labeled.
 - Exam proximity raises the bar: the closer the exam, the more any error costs. With little time left, verify the highest-weight items first.
 
 ## 3. The verification pass
 
-1. **Claim inventory** — list every consequential claim, number, definition, mechanism step, answer and distractor-key.
-2. **Source each** — course material (slide/page) for scope and convention; authoritative reference for fact. Read the actual source, not a snippet. Mark: supported / course-only / unsupported / contradicted.
-3. **Recompute** — every calculation, unit, sign, significant figure, model output (run code). Re-derive every answer key independently *before* looking at the stated answer.
-4. **Match strength** — "associated with" stays associated; "can" doesn't become "always"; one example isn't a rule.
-5. **Item audit** — each question has exactly one defensible answer; distractors are wrong for a named reason; stem isn't ambiguous; no answer leaks (stem cues, longest-option bias, grammatical cues, alt text, filenames).
-6. **Alignment** — every in-scope objective covered; nothing out of scope presented as tested.
-7. **Media** — labels correct, licenses recorded, masked labels fully masked.
+1. **Claim inventory**: list every consequential claim, number, definition, mechanism step, answer and distractor-key.
+2. **Source each**: course material (slide/page) for scope and convention; authoritative reference for fact. Read the actual source, not a snippet. Mark: supported / course-only / unsupported / contradicted.
+3. **Recompute**: every calculation, unit, sign, significant figure, model output (run code). Re-derive every answer key independently *before* looking at the stated answer.
+4. **Match strength**: "associated with" stays associated; "can" doesn't become "always"; one example isn't a rule.
+5. **Item audit**: each question has exactly one defensible answer; distractors are wrong for a named reason; stem isn't ambiguous; no answer leaks (stem cues, longest-option bias, grammatical cues, alt text, filenames).
+6. **Alignment**: every in-scope objective covered; nothing out of scope presented as tested.
+7. **Media**: labels correct, licenses recorded, masked labels fully masked.
 
 ## 4. Adversarial review (the important part)
 
-Use an independent reviewer — a fresh subagent with no stake in the draft (or a second model when available). Give it the material, the sources, the course scope and today's date, and instruct it to **find errors, not to approve**:
+Use an independent reviewer, a fresh subagent with no stake in the draft (or a second model when available). Give it the material, the sources, the course scope and today's date, and instruct it to **find errors, not to approve**:
 
 > You are an adversarial reviewer for teaching material for [audience/course], exam on [date]. Today is [date]. Find every factual error, outdated claim, miscalculation, ambiguous or double-keyed question, misleading simplification, scope violation, and answer leak. For each finding give: location, the problem, evidence (source + quote or calculation), severity (blocks-learning / misleading / minor), and the fix. Check time-sensitive claims against current authoritative sources. Do not praise. If you find nothing in a section, say what you checked.
 
 Then:
-- **Triage** each finding yourself against the source — reviewers can be wrong too. Confirmed → fix. Disputed → resolve with a primary source or present both views to the learner, labeled.
+- **Triage** each finding yourself against the source; reviewers can be wrong too. Confirmed → fix. Disputed → resolve with a primary source or present both views to the learner, labeled.
 - **Re-review** after substantive fixes (only changed parts).
 - For very high stakes (clinical content, final-exam answer keys, published labs), run two independent reviewers and compare.
 - Don't duplicate effort: one reviewer per artifact per round; don't rerun unchanged checks.

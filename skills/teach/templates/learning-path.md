@@ -1,6 +1,6 @@
 # Learning path: <topic>
 
-**Purpose:** <why: personal, work, project> · **Success test:** "You'll be able to ___ without help." · **Benchmark:** <university course objectives, discipline guidelines or exam outline matched> · **By:** <date or open>
+**Purpose:** <why: personal, work, project> · **Success test:** "You'll be able to ___ without help." · **Benchmark:** <age-appropriate course objectives, field guidelines or exam outline matched> · **By:** <date or open>
 
 **Project spine (if any):** <what they're building · milestones that double as assessments>
 
@@ -10,7 +10,7 @@
 |---|---|---|---|---|---|
 | 1 | | | tutor / lab / reading / video / problems | | |
 
-**Primary resources:** <one path: course text or open text; 1–3 verified videos with title · channel · URL · timestamps>
+**Primary resources:** <one path: course text or open text; 1 to 3 verified videos with title · channel · URL · timestamps>
 
 **Review:** spaced retrieval at <dates>; flashcards for <which facts>.
 

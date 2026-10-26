@@ -4,7 +4,7 @@ Shared by `tutor` (course learners) and `teach` (self-directed learners). Good t
 
 ## 1. Memory first
 
-Before asking anything, look for what you already know: platform memory, a saved learner profile (`templates/learner-profile.md`), notes the learner keeps, earlier turns. Use it silently and don't re-ask. Invite corrections when it matters ("Last time shorter chunks helped — still true?").
+Before asking anything, look for what you already know: platform memory, a saved learner profile (`templates/learner-profile.md`), notes the learner keeps, earlier turns. Use it silently and don't re-ask. Invite corrections when it matters ("Last time shorter chunks helped, still true?").
 
 Memory also decides the route. If it shows the learner is enrolled in a course and the question belongs to that subject, use `tutor`. If the goal is their own (personal, work, project, self-improvement), use `teach`.
 
@@ -20,7 +20,7 @@ Conversational, never a form. Three to five, spread over the first exchanges:
 
 If they share a condition: thank them briefly, ask what helps *them*, adapt from their answer, and don't repeat the label in teaching, feedback or materials unless they use it. Never infer, diagnose or suggest a condition. Change the route, never the standard. Details: `inclusive-teaching.md`.
 
-Then a short **pretest** (2–5 items on the target, one per turn and woven into teaching, never a quiz before the first explanation; to the learner, call it a quick check or warm-up, never a "diagnostic", and keep clinical words out of the intake). Self-ratings are unreliable, and even wrong guesses prime later learning.
+Then a short **pretest** (2 to 5 items on the target, one per turn and woven into teaching, never a quiz before the first explanation; to the learner, call it a quick check or warm-up, never a "diagnostic", and keep clinical words out of the intake). Self-ratings are unreliable, and even wrong guesses prime later learning.
 
 ## 3. Adapt to what makes it hard (no labels needed)
 
@@ -29,7 +29,7 @@ Then a short **pretest** (2–5 items on the target, one per turn and woven into
 | Getting started | One tiny first task, done in-session; a clear next action at every stop |
 | Long readings | Pre-questions before reading, chunked sections with a retrieval check each, audio when available |
 | Losing track of multi-step work | Visible step checklist, one step per turn, worked example beside the problem, fade later |
-| Forgetting between sessions | Open every session with 2–3 retrieval items from before; a saved resume point |
+| Forgetting between sessions | Open every session with 2 to 3 retrieval items from before; a saved resume point |
 | Freezing on timed tests | Untimed practice first, then gradually timed; `print` simulations in exam conditions |
 | Too much on screen | One question visible at a time; clean layouts; short turns |
 | Mind wandering in lectures or videos | Active viewing: predict before segments, pause and explain, retrieve after |

@@ -3,6 +3,12 @@ name: Check skill package
 on:
   push:
   pull_request:
+  workflow_dispatch:
+    inputs:
+      trigger_eval:
+        description: Rerun the model-based trigger eval (needs an OPENAI_API_KEY secret)
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -16,3 +22,29 @@ jobs:
           persist-credentials: false
       - name: Check entrypoint parity and local references
         run: python3 scripts/check.py
+      - name: Trigger guard (prompt labels, committed eval results, baseline floors)
+        run: python3 evals/triggers/check.py
+
+  trigger-eval:
+    if: github.event_name == 'workflow_dispatch' && inputs.trigger_eval
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Run the model eval and compare with the baseline floors
+        run: |
+          if [ -z "$OPENAI_API_KEY" ]; then
+            echo "::notice::No OPENAI_API_KEY secret; the model eval is a required local step (evals/triggers/README.md)."
+            exit 0
+          fi
+          npm install -g @openai/codex@0.163.0
+          export CODEX_HOME="$RUNNER_TEMP/codex"
+          mkdir -p "$CODEX_HOME"
+          printenv OPENAI_API_KEY | codex login --with-api-key
+          python3 evals/triggers/run.py --passes 3 --auth "$CODEX_HOME/auth.json" --out "$RUNNER_TEMP/latest.json"
+          python3 evals/triggers/run.py --passes 3 --auth "$CODEX_HOME/auth.json" --prompts evals/triggers/holdout.jsonl --out "$RUNNER_TEMP/holdout.json"
+          python3 evals/triggers/check.py --result "latest.json=$RUNNER_TEMP/latest.json" --result "holdout.json=$RUNNER_TEMP/holdout.json"

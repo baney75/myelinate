@@ -11,7 +11,7 @@ A learner builds knowledge by **doing the retrieval, the prediction and the expl
 ### 1. Practice that is used gets built: activity-dependent myelination (animal evidence)
 
 - Neuronal activity drives the birth of oligodendrocyte precursor cells and new myelin, and blocking that response blocked the behavioral gain: Gibson et al. 2014, *Science* 344:1252304 ([full text](https://pmc.ncbi.nlm.nih.gov/articles/PMC4096908/); mice, optogenetic stimulation, not learning itself).
-- New oligodendrocytes are needed to *learn* a new motor skill but not to perform an already learned one: McKenzie et al. 2014, *Science* 346:318–322 ([full text](https://pmc.ncbi.nlm.nih.gov/articles/PMC6324726/); mice, complex wheel). Early motor learning needs oligodendrocyte differentiation: Xiao et al. 2016, *Nat Neurosci* 19:1210 ([abstract](https://pubmed.ncbi.nlm.nih.gov/27455109/)).
+- New oligodendrocytes are needed to *learn* a new motor skill but not to perform an already learned one: McKenzie et al. 2014, *Science* 346:318 to 322 ([full text](https://pmc.ncbi.nlm.nih.gov/articles/PMC6324726/); mice, complex wheel). Early motor learning needs oligodendrocyte differentiation: Xiao et al. 2016, *Nat Neurosci* 19:1210 ([abstract](https://pubmed.ncbi.nlm.nih.gov/27455109/)).
 - Disrupting new oligodendrocytes impaired spatial **memory consolidation** in adult mice (Steadman et al. 2020, *Neuron*, [abstract](https://pubmed.ncbi.nlm.nih.gov/31753579/)). New myelin was not needed to form a fear memory but was needed to **keep** it weeks later (Pan et al. 2020, *Nat Neurosci*, [abstract](https://pubmed.ncbi.nlm.nih.gov/32042175/)).
 - Review of the mechanism: Fields 2015, *Nat Rev Neurosci* 16:756 ([abstract](https://www.nature.com/articles/nrn4023)).
 - Humans: six weeks of juggling changed a white-matter MRI signal (Scholz et al. 2009, [abstract](https://pubmed.ncbi.nlm.nih.gov/19820707/)). MRI measures such as fractional anisotropy are **not direct myelin measures** (Sampaio-Baptista & Johansen-Berg 2017, *Neuron*, [abstract](https://pubmed.ncbi.nlm.nih.gov/29268094/)).
@@ -45,13 +45,13 @@ A learner builds knowledge by **doing the retrieval, the prediction and the expl
 - The boundary: a difficulty is desirable only if the learner can respond to it successfully, with the pieces in hand or reachable with a hint. Novices facing high-interaction material need worked examples first (cognitive load theory; expertise reversal, Kalyuga 2007, *Educ Psychol Rev* 19:509).
 - Problem-solving *before* instruction beat instruction-first for conceptual knowledge and transfer across 53 studies, more so with well-designed productive failure, but not for young children (Sinha & Kapur 2021, *Rev Educ Res* 91:761, [doi](https://doi.org/10.3102/00346543211019105)).
 
-**What a tutor takes from it:** aim for work the learner gets right most of the time with effort, roughly 70–85% (Rosenshine's ~80% guide). Below that, add support. Above it, fade support or raise the difficulty. Struggle with no path forward is not desirable difficulty, so give a foothold.
+**What a tutor takes from it:** aim for work the learner gets right most of the time with effort, roughly 70 to 85% (Rosenshine's ~80% guide). Below that, add support. Above it, fade support or raise the difficulty. Struggle with no path forward is not desirable difficulty, so give a foothold.
 
 ### 5. Working memory is small
 
 - About four chunks when rehearsal is controlled (Cowan 2001, *Behav Brain Sci*, [abstract](https://pubmed.ncbi.nlm.nih.gov/11515286/)); the number varies with task and expertise.
 
-**What a tutor takes from it:** one question per turn, short turns, and the worked example beside the problem rather than above a long scroll. In voice, spoken words disappear (transient-information effect), so keep turns to 1–3 sentences.
+**What a tutor takes from it:** one question per turn, short turns, and the worked example beside the problem rather than above a long scroll. In voice, spoken words disappear (transient-information effect), so keep turns to 1 to 3 sentences.
 
 ### 6. Attention drifts unless retrieval interrupts it
 
@@ -61,7 +61,7 @@ A learner builds knowledge by **doing the retrieval, the prediction and the expl
 
 ### 7. Curiosity opens the gate
 
-- Curiosity rises when people notice a gap in what they know (Loewenstein 1994, *Psych Bull* 116:75, [record](https://psycnet.apa.org/record/1994-41058-001)). High-curiosity trivia answers were remembered better, with reward-circuit activity (Kang et al. 2009, *Psych Sci* 20:963, [author PDF](https://www.cmu.edu/dietrich/sds/docs/loewenstein/WickCandleLearning.pdf)). Curiosity states also improved memory for incidental material, via hippocampus–dopamine circuits (Gruber, Gelman & Ranganath 2014, *Neuron* 84:486, [record](https://pubmed.ncbi.nlm.nih.gov/25284006/)).
+- Curiosity rises when people notice a gap in what they know (Loewenstein 1994, *Psych Bull* 116:75, [record](https://psycnet.apa.org/record/1994-41058-001)). High-curiosity trivia answers were remembered better, with reward-circuit activity (Kang et al. 2009, *Psych Sci* 20:963, [author PDF](https://www.cmu.edu/dietrich/sds/docs/loewenstein/WickCandleLearning.pdf)). Curiosity states also improved memory for incidental material, via hippocampus to dopamine circuits (Gruber, Gelman & Ranganath 2014, *Neuron* 84:486, [record](https://pubmed.ncbi.nlm.nih.gov/25284006/)).
 
 **What a tutor takes from it:** open with a question or puzzle that exposes the gap, and hold the answer briefly so the gap stays open. That is a reason to ask first, not a license to withhold from someone who is stuck.
 
@@ -94,7 +94,7 @@ A learner builds knowledge by **doing the retrieval, the prediction and the expl
 - High-school students with an answer-giving GPT-4 scored 48% higher during practice and 17% lower on the unassisted exam. A hint-only version avoided most of the harm (Bastani et al. 2025, *PNAS*).
 - Language models drift toward agreeing with the user, flip correct answers under "are you sure?", and praise flawed work (Sharma et al. 2023, arXiv:2310.13548). A tutor that agrees with a wrong answer removes the prediction error the learner needed.
 
-Every mechanism above has the same weak point: the learning happens in the learner's own act. An AI tutor that answers first, completes the step, or agrees too readily makes the session feel productive while removing the part that builds the pathway. See `skills/tutor/SKILL.md` §3–§3c for the operating rules.
+Every mechanism above has the same weak point: the learning happens in the learner's own act. An AI tutor that answers first, completes the step, or agrees too readily makes the session feel productive while removing the part that builds the pathway. See `skills/tutor/SKILL.md` §3 to §3c for the operating rules.
 
 ## Claims this file does not support
 

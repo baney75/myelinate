@@ -3,13 +3,13 @@
 <p align="center">
   <a href="https://github.com/baney75/myelinate/actions/workflows/check.yml"><img src="https://github.com/baney75/myelinate/actions/workflows/check.yml/badge.svg" alt="Package check workflow status"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-a54320" alt="License: MIT"></a>
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-2.4.1-16313b" alt="Version 2.4.1"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-2.5.0-16313b" alt="Version 2.5.0"></a>
   <a href="#claude-code"><img src="https://img.shields.io/badge/Claude%20Code-plugin-a54320" alt="Claude Code plugin"></a>
 </p>
 
 **An open-source agent skill suite that turns “teach me this” into explanation, practice, feedback, and a reason to come back.**
 
-Ask about a concept. Bring your course materials if you have them. Myelinate routes the request to the right skill, teaches in manageable steps, and checks what you can do with it. It is honest, not agreeable: it won’t confirm a wrong answer or cave when you push back on a correct correction, and it changes its mind on evidence. It is a set of Markdown skills for a capable AI assistant, not a separate model or a hosted tutoring service.
+Ask about a concept. Bring your course materials if you have them. Myelinate routes the request to the right skill, teaches in manageable steps, and checks what you can do with it. It is honest, not agreeable: it won’t confirm a wrong answer or cave when you push back on a correct correction, and it changes its mind on evidence. It is a set of Markdown skills for a capable AI assistant, not a separate model or a hosted tutoring service. Its examples and depth can fit children, high-school students, university learners, professionals, and people studying on their own.
 
 [Website](https://baney75.github.io/myelinate/) · [Read the router skill](myelinate.md) · [Try the sample lesson](https://baney75.github.io/myelinate/examples/lesson.html) · [See the evidence](references/evidence.md)
 
@@ -43,22 +43,22 @@ The Claude apps, Codex and other assistants: see [Install](#install).
 | Skill | What it does |
 | --- | --- |
 | [tutor](skills/tutor/SKILL.md) | For a class you're enrolled in: gathers your syllabus, study guide, notes and textbook (including uploads), then teaches live in chat or voice in your course's scope and notation, one step at a time, with rendered diagrams and interactive 3D models. Loads on its own when your assistant's memory shows the question belongs to a class. |
-| [teach](skills/teach/SKILL.md) | For learning that isn't for a class (a personal goal, a work skill, a project you'll sell or open-source): designs the curriculum and lesson plans at university standard, anchors them in your project, and teaches each lesson live. |
+| [teach](skills/teach/SKILL.md) | For learning that isn't for a class (a personal goal, a work skill, a project you'll sell or open-source): designs the curriculum and lesson plans at the learner's level, anchors them in your project, and teaches each lesson live. |
 | [assignment](skills/assignment/SKILL.md) | Help on homework, lab reports, essays and coding assignments that teaches you to do them instead of doing them for you. Tool steps (drawing a structure, formatting) can be done; the graded thinking stays yours. |
 | [project](skills/project/SKILL.md) | Learn while you build something of your own, in the mix you choose: build and learn, teach me to do it, or just tell me how. Stays out of the way of ordinary coding and work. |
 | [code](skills/code/SKILL.md) | Learn code you have to own: an inherited repository, a pull request to review, a library, an error you want to understand. Maps it in one picture, traces a real behavior with a prediction first, runs the code for the verdict, and leaves you the one change that carries the idea. Stays off when you only want the code changed. |
 | [notes](skills/notes/SKILL.md) | Reads your own notes (Google Drive, OneDrive, Notion, Obsidian or photos of paper) to see how you're grasping it, flags misconceptions and slide-copying, and turns your notes into practice. |
-| [assess](skills/assess/SKILL.md) | Tests written to the objectives, graded against a key and rubric, honest scores, optional bonus work, and a gradebook. |
-| [course-project](skills/course-project/SKILL.md) | Turns a big goal ("teach me software engineering") into a full course researched against accredited university syllabi, with a lesson plan, assignments, tests and teacher instructions to run as a Claude Project. |
-| [lab](skills/lab/SKILL.md) | Builds interactive learning labs and simulations as web pages. |
-| [print](skills/print/SKILL.md) | Printable PDFs: study guides built for active recall (questions first, answers at the back), practice tests with separate answer keys, labeled and blank diagrams, worksheets. |
-| [flashcards](skills/flashcards/SKILL.md) | Makes cards ready for Quizlet, Anki or Obsidian. |
+| [assess](skills/assess/SKILL.md) | Formal scored tests and grading against a key and rubric, with honest scores and a gradebook. Quick drills stay in tutor. |
+| [course-project](skills/course-project/SKILL.md) | Builds a full course package to run later: level-matched syllabus, lessons, assignments, tests and teacher instructions. Works in a project space or plain chat. |
+| [lab](skills/lab/SKILL.md) | Builds interactive learning labs and simulations as self-contained web pages; includes a predict-then-reveal visual stepper. |
+| [print](skills/print/SKILL.md) | Paper output, not generic PDF conversion: study guides built for active recall (questions first, answers at the back), practice tests with separate answer keys, labeled and blank diagrams, worksheets. |
+| [flashcards](skills/flashcards/SKILL.md) | Makes recall cards ready for Quizlet, Anki or Obsidian; quick live drills stay with the tutor. |
 | [memory-hooks](skills/memory-hooks/SKILL.md) | Writes research-backed mnemonics for material that will not stick. |
-| [study-plan](skills/study-plan/SKILL.md) | Works back from the exam date: spaced relearning, practice and sleep, with opt-in calendar reminders through a calendar you have connected. |
-| [find-media](skills/find-media/SKILL.md) | Finds diagrams, photos and videos (including YouTube) and notes their licenses. |
-| [verify](skills/verify/SKILL.md) | Adversarial review of accuracy and currency before high-stakes material ships. |
+| [study-plan](skills/study-plan/SKILL.md) | Plans study blocks, review and sleep around an exam or study deadline. Creates reminders only with a real, authorized calendar tool. |
+| [find-media](skills/find-media/SKILL.md) | Finds learning diagrams, photos, models and videos with licenses noted, not stock art for a website. |
+| [verify](skills/verify/SKILL.md) | Checks learning material and answer keys for accuracy and currency before use; software code review stays elsewhere. |
 
-When a concept has shape (a molecule in 3D, a conformation, a mechanism, a curve), Myelinate renders it and gives you the controls instead of describing it in a paragraph, linked to the notation your course uses. On the first session, it asks a few questions about how you learn (pace, chunk size, what's hard) and saves that profile to your assistant's memory or a file you keep, then reads it at the start of later sessions. Sharing a learning condition is optional and never required.
+When a concept has shape (a molecule in 3D, a conformation, a mechanism, a curve), Myelinate renders it and gives you the controls instead of describing it in a paragraph, linked to the notation your course uses. A concept map, mechanism stepper or faded worked example can make you fill the missing link or predict the next step before reveal. On the first session, it asks a few questions about how you learn (pace, chunk size, what's hard) and saves that profile to your assistant's memory or a file you keep, then reads it at the start of later sessions. Sharing a learning condition is optional and never required.
 
 ## Start with one good question
 
@@ -165,3 +165,7 @@ MIT licensed. Research and linked third-party material retain their own rights.
 <!-- sponsors:start -->
 No sponsors yet. [Sponsor on GitHub](https://github.com/sponsors/baney75) and your name appears here automatically.
 <!-- sponsors:end -->
+
+## Credits
+
+Learning visual patterns were adapted from Nico Bailon's visual-explainer. See [NOTICE.md](NOTICE.md) for attribution and license notice.

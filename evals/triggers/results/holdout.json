@@ -1,0 +1,297 @@
+{
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "passes": 3,
+ "harness": "codex exec, isolated HOME, skills in ~/.agents/skills",
+ "prompt_set": "holdout.jsonl",
+ "descriptions_sha256": "039e8659532d0de5e231f544269615c9312bce0e9636a0f9e4374b123a31ba98",
+ "skills": [
+  "assess",
+  "assignment",
+  "code",
+  "course-project",
+  "find-media",
+  "flashcards",
+  "lab",
+  "memory-hooks",
+  "myelinate",
+  "notes",
+  "print",
+  "project",
+  "study-plan",
+  "teach",
+  "tutor",
+  "verify"
+ ],
+ "positives": 12,
+ "negatives": 6,
+ "hit_rate": 1.0,
+ "false_fire_rate": 0.1111,
+ "majority_hit_rate": 1.0,
+ "majority_false_fire_rate": 0.1667,
+ "per_pass": [
+  {
+   "hit": 12,
+   "false_fire": 1
+  },
+  {
+   "hit": 12,
+   "false_fire": 1
+  },
+  {
+   "hit": 12,
+   "false_fire": 0
+  }
+ ],
+ "unstable": [
+  "h17"
+ ],
+ "errors": 0,
+ "rows": [
+  {
+   "id": "h01",
+   "kind": "positive",
+   "accept": [
+    "tutor",
+    "myelinate"
+   ],
+   "choices": [
+    "tutor",
+    "tutor",
+    "tutor"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "h02",
+   "kind": "positive",
+   "accept": [
+    "myelinate",
+    "tutor",
+    "teach"
+   ],
+   "choices": [
+    "tutor",
+    "tutor",
+    "tutor"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "h03",
+   "kind": "positive",
+   "accept": [
+    "assignment"
+   ],
+   "choices": [
+    "assignment",
+    "assignment",
+    "assignment"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "h04",
+   "kind": "positive",
+   "accept": [
+    "teach",
+    "myelinate"
+   ],
+   "choices": [
+    "teach",
+    "teach",
+    "teach"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "h05",
+   "kind": "positive",
+   "accept": [
+    "flashcards"
+   ],
+   "choices": [
+    "flashcards",
+    "flashcards",
+    "flashcards"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "h06",
+   "kind": "positive",
+   "accept": [
+    "study-plan"
+   ],
+   "choices": [
+    "study-plan",
+    "study-plan",
+    "study-plan"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "h07",
+   "kind": "positive",
+   "accept": [
+    "memory-hooks"
+   ],
+   "choices": [
+    "memory-hooks",
+    "memory-hooks",
+    "memory-hooks"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "h08",
+   "kind": "positive",
+   "accept": [
+    "code"
+   ],
+   "choices": [
+    "code",
+    "code",
+    "code"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "h09",
+   "kind": "positive",
+   "accept": [
+    "lab"
+   ],
+   "choices": [
+    "lab",
+    "lab",
+    "lab"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "h10",
+   "kind": "positive",
+   "accept": [
+    "print"
+   ],
+   "choices": [
+    "print",
+    "print",
+    "print"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "h11",
+   "kind": "positive",
+   "accept": [
+    "assess",
+    "tutor"
+   ],
+   "choices": [
+    "assess",
+    "assess",
+    "assess"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "h12",
+   "kind": "positive",
+   "accept": [
+    "myelinate",
+    "tutor",
+    "teach",
+    "print"
+   ],
+   "choices": [
+    "print",
+    "print",
+    "print"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "h13",
+   "kind": "negative",
+   "accept": [
+    "none"
+   ],
+   "choices": [
+    "none",
+    "none",
+    "none"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "h14",
+   "kind": "negative",
+   "accept": [
+    "none"
+   ],
+   "choices": [
+    "none",
+    "none",
+    "none"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "h15",
+   "kind": "negative",
+   "accept": [
+    "none"
+   ],
+   "choices": [
+    "none",
+    "none",
+    "none"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "h16",
+   "kind": "negative",
+   "accept": [
+    "none",
+    "debugging"
+   ],
+   "choices": [
+    "debugging",
+    "debugging",
+    "debugging"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "h17",
+   "kind": "negative",
+   "accept": [
+    "none",
+    "frontend-design"
+   ],
+   "choices": [
+    "find-media",
+    "find-media",
+    "none"
+   ],
+   "ok": 1
+  },
+  {
+   "id": "h18",
+   "kind": "negative",
+   "accept": [
+    "none",
+    "writing-editor"
+   ],
+   "choices": [
+    "none",
+    "none",
+    "none"
+   ],
+   "ok": 3
+  }
+ ]
+}

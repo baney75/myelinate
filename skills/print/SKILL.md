@@ -1,6 +1,6 @@
 ---
 name: print
-description: "Use when the user wants printable study material: a study guide, paper practice test with key, worksheet, formula sheet, or blank diagram to label."
+description: "Use when someone asks for a printable study guide, paper practice test, worksheet, formula sheet, or blank diagram. Not generic PDF conversion or screen-only quizzes."
 ---
 
 # Print
@@ -17,7 +17,7 @@ Evidence tags: **Strong** (replicated, meta-analytic or classroom-relevant), **M
 
 1. **Every answer is re-derived before it ships.** Work the test yourself, independently, before writing the key; compute every number with code; run `verify` on the key. A wrong key teaches the error with authority.
 2. **The key never shares a page with the questions.** Page break before it, every key page marked ANSWER KEY. Nothing on the test pages gives an answer away: not label text, alt text, `aria-label`, `<title>`, ids, file names, or a later item's stem.
-3. **Match the real exam.** Format, length, timing, point weights and allowed materials follow the exam the learner faces. Practice that differs from the test transfers less (transfer-appropriate processing; Morris, Bransford & Franks 1977). **Moderate**
+3. **Match the intended use.** For exam practice, match its format, length, timing, point weights and allowed materials. For a child, self-learner or work trainee with no exam, match their objective and level instead of inventing exam conditions. Practice that differs from a real test transfers less (transfer-appropriate processing; Morris, Bransford & Franks 1977). **Moderate**
 4. **Unaided work is the score.** Anything done with notes, a word bank or a hint is recorded separately, on paper and when you grade it (Bastani et al., PNAS 2025: performance with help overstated performance without it). **Moderate** (one large RCT)
 5. **Look at every page before delivering.** Render the PDF to images and inspect each one. A test with a clipped graph or a key bleeding onto the last question page is broken.
 
@@ -36,7 +36,7 @@ Stay in chat or a `lab` when the learner needs fast feedback per item, a simulat
 ### Blueprint first
 1. Get the **study guide** (or syllabus objectives) and the **exam format**: item types, count, minutes, point weights, allowed materials. If they are missing, ask once; label the test "format inferred" until confirmed (`tutor` §1a).
 2. List objectives O1…On. **Every objective is sampled**; points are **proportional to its weight** in the guide, not to how easy it is to write items for.
-3. Fill a blueprint table — objective → items → points → share — and put it in the key. Check sums with code.
+3. Fill a blueprint table, objective → items → points → share, and put it in the key. Check sums with code.
 
 ### Item writing (NBME Item-Writing Guide, 6th ed.; Haladyna, Downing & Rodriguez 2002) **Craft, consensus guidelines**
 - **Single best answer.** One option is defensibly best; the others are wrong for a named reason.
@@ -44,7 +44,7 @@ Stay in chat or a `lab` when the learner needs fast feedback per item, a simulat
 - No "all of the above", "none of the above", "both A and C", or true/false in MCQ clothing.
 - **No cues.** Grammar agrees with every option; no longest-is-right; no word repeated from stem to key only; no absolutes ("always", "never") marking the wrong options.
 - **Homogeneous options**: same kind of thing, similar length and structure (all mechanisms, or all directions of change).
-- **Distractors come from named misconceptions** — concept inventories, the learner's own past errors, common exam traps — and the key names each one. Filler distractors make easy items, not diagnostic ones.
+- **Distractors come from named misconceptions**: concept inventories, the learner's own past errors, common exam traps, and the key names each one. Filler distractors make easy items, not diagnostic ones.
 - Vignettes when the exam uses them: patient or experiment first, question last.
 - Balance the key's letters; no runs or patterns. Order options logically (numeric ascending, or short to long).
 
@@ -57,14 +57,14 @@ Stay in chat or a `lab` when the learner needs fast feedback per item, a simulat
 
 ### Pages, in order
 1. **Cover and instructions**: name, date, start and end time, time limit, total points by section, allowed materials, the rule for marking items done with notes, and "the key starts on a page marked ANSWER KEY; remove it first."
-2. **Sections** with item and section point values. Answer space sized to the expected answer: about one ruled line per 10–12 words; work boxes sized to the steps; blanks with units for numeric answers.
-3. **Answer key** after a page break: blueprint; sources list; per item — answer, why it is right, why each distractor tempts (the misconception by name), objective, source (study-guide line, slide or page). Open items get a **model answer and point rubric**; drawings get a model figure and a rubric of features.
+2. **Sections** with item and section point values. Answer space sized to the expected answer: about one ruled line per 10 to 12 words; work boxes sized to the steps; blanks with units for numeric answers.
+3. **Answer key** after a page break: blueprint; sources list; per item: answer, why it is right, why each distractor tempts (the misconception by name), objective, source (study-guide line, slide or page). Open items get a **model answer and point rubric**; drawings get a model figure and a rubric of features.
 4. **Scoring sheet**: item · objective · points · unaided / with notes / missed · points earned · error type. Totals for all points and for **unaided only**; time used.
-5. **Error-analysis page**: every lost point gets one cause — **K**nowledge (didn't know), **M**isread (stem, option, units, NOT/EXCEPT), **R**easoning (pieces known, chained wrong, or a tempting distractor), **T**ime — then points lost by objective, a next action, and a retest list for 2–3 days later. Bring it to `study-plan`, which re-ranks by these results. Reflection wrappers after exams have modest support (Lovett 2013). **Weak**, cheap enough to keep.
+5. **Error-analysis page**: every lost point gets one cause: **K**nowledge (didn't know), **M**isread (stem, option, units, NOT/EXCEPT), **R**easoning (pieces known, chained wrong, or a tempting distractor), or **T**ime. Then include points lost by objective, a next action, and a retest list for 2 to 3 days later. Bring it to `study-plan`, which re-ranks by these results. Reflection wrappers after exams have modest support (Lovett 2013). **Weak**, cheap enough to keep.
 
 ## 2b. Study guides that make them retrieve
 
-The best study guide is a set of questions, not a summary. Rereading and summarizing rated low utility; practice testing and spaced practice rated high (Dunlosky et al. 2013, *Psychol Sci Public Interest* 14:4–58). **Strong.** Retrieval practice beat elaborative concept mapping on a later test, including on concept-map tests (Karpicke & Blunt 2011, *Science* 331:772–775). **Moderate–Strong.** Students rated bolded key terms most helpful, yet that rating was negatively related to exam scores (Gurung 2004, *Teaching of Psychology*). **Moderate.**
+The best study guide is a set of questions, not a summary. Rereading and summarizing rated low utility; practice testing and spaced practice rated high (Dunlosky et al. 2013, *Psychol Sci Public Interest* 14:4 to 58). **Strong.** Retrieval practice beat elaborative concept mapping on a later test, including on concept-map tests (Karpicke & Blunt 2011, *Science* 331:772 to 775). **Moderate to Strong.** Students rated bolded key terms most helpful, yet that rating was negatively related to exam scores (Gurung 2004, *Teaching of Psychology*). **Moderate.**
 
 Build it this way:
 1. **Scope from the official study guide or objectives,** one section per objective, in the course's notation and order (`tutor` §1a). Pull in the learner's own notes where they help (`notes`), and the gaps the notes reveal.
@@ -110,7 +110,7 @@ Make one only if the exam allows one; then mirror the allowed size and rules (on
 
 ## 7. Grading completed paper
 
-The learner photographs each page — flat, in good light, whole page in frame — and uploads the photos.
+The learner photographs each page, flat, in good light, whole page in frame, and uploads the photos.
 - **Read before grading.** Transcribe what you can read; say exactly what you can't ("item 9, line 3 is illegible") and ask, rather than guess in their favor or against them.
 - **Grade against the key and rubric**, point by point, quoting what earned or missed each point. Rubric points, not impressions; no keyword matching.
 - **Record assistance honestly**: circled or word-bank items are "with notes," whatever the answer. Report the unaided total separately.

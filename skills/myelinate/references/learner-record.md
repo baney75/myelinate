@@ -34,7 +34,7 @@ Dates are ISO `YYYY-MM-DD` in the learner's time zone. `state` is one of: Not ch
 
 ## Scheduling the next review
 
-Start from the default ladder, 1 → 3 → 7 → 14 → 30 days, compressed to the exam date (`study-plan` has the horizon rule: the best gap is roughly 20–40% of a week-long horizon and 5–10% of a year-long one; for an exam in 7 days, review about days 1, 3 and 6).
+Start from the default ladder, 1 → 3 → 7 → 14 → 30 days, compressed to the exam date (`study-plan` has the horizon rule: the best gap is roughly 20 to 40% of a week-long horizon and 5 to 10% of a year-long one; for an exam in 7 days, review about days 1, 3 and 6).
 
 | Outcome on a review | Next interval |
 | --- | --- |
@@ -46,6 +46,6 @@ These are product defaults, not a research-optimal schedule; adjust to the learn
 
 ## Using it
 
-- **Session start:** if due reviews are listed, fold 2–3 retrieval items on them into the session (after the learner's own question, if they arrived with one).
+- **Session start:** if due reviews are listed, fold 2 to 3 retrieval items on them into the session (after the learner's own question, if they arrived with one).
 - **Session end:** update the entries you worked on: outcome, state, `last_reviewed`, `interval_days`, `next_review`. Tell the learner in one line what you saved and when the next review is.
 - **On request:** "what's due?" or `/myelinate:review` lists due topics and starts with the first.

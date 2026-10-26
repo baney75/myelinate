@@ -1,6 +1,6 @@
 # Myelinate
 
-> An open-source (MIT) skill suite that makes Claude (or any capable assistant) a teacher and tutor: course tutoring from your syllabus and uploads in chat or voice, assignment coaching that teaches instead of doing the work, learning while building, tests and grading, full courses run as Claude Projects, university-standard teaching for personal, work and project goals, rendered diagrams and interactive 3D models, interactive learning labs, printable practice tests, flashcards, memory hooks, study plans, diagrams and videos, and adversarial accuracy review. It remembers how you learn and stays honest instead of agreeable.
+> An open-source (MIT) skill suite that helps any assistant teach, including when this file is pasted in chat: course tutoring from your syllabus and uploads in chat or voice, assignment coaching that teaches instead of doing the work, learning while building, tests and grading, full course packages for projects or plain chat, level-matched teaching for personal, work and project goals, rendered diagrams and interactive 3D models, interactive learning labs, printable practice tests, flashcards, memory hooks, study plans, diagrams and videos, and adversarial accuracy review. It remembers how you learn and stays honest instead of agreeable.
 
 If a person shared this link with you, read SKILL.md and follow it to teach them. It is self-sufficient; load sub-skills by path as it directs.
 
@@ -8,27 +8,31 @@ If a person shared this link with you, read SKILL.md and follow it to teach them
 - [SKILL.md (router and core rules)](https://raw.githubusercontent.com/baney75/myelinate/main/SKILL.md)
 
 ## Sub-skills
-- [tutor — for an enrolled course: materials and uploads, course map, live teaching in chat or voice](https://raw.githubusercontent.com/baney75/myelinate/main/skills/tutor/SKILL.md)
-- [teach — for personal, work and project goals: agent-designed curriculum at university standard](https://raw.githubusercontent.com/baney75/myelinate/main/skills/teach/SKILL.md)
-- [assignment — graded work coached, not done for them](https://raw.githubusercontent.com/baney75/myelinate/main/skills/assignment/SKILL.md)
-- [project — learning while building, in the mix the learner chooses](https://raw.githubusercontent.com/baney75/myelinate/main/skills/project/SKILL.md)
-- [code — learning code the learner has to own: a repo, a PR, a library, an error](https://raw.githubusercontent.com/baney75/myelinate/main/skills/code/SKILL.md)
-- [notes — reads the learner's notes to see how they're grasping it](https://raw.githubusercontent.com/baney75/myelinate/main/skills/notes/SKILL.md)
-- [assess — tests, grading, gradebook, bonus work](https://raw.githubusercontent.com/baney75/myelinate/main/skills/assess/SKILL.md)
-- [course-project — a researched university-level course run as a Claude Project](https://raw.githubusercontent.com/baney75/myelinate/main/skills/course-project/SKILL.md)
-- [lab — interactive learning labs and simulations](https://raw.githubusercontent.com/baney75/myelinate/main/skills/lab/SKILL.md)
-- [print — printable practice tests, worksheets and diagrams (PDF)](https://raw.githubusercontent.com/baney75/myelinate/main/skills/print/SKILL.md)
-- [flashcards — Quizlet, Anki, Obsidian, in-chat drills](https://raw.githubusercontent.com/baney75/myelinate/main/skills/flashcards/SKILL.md)
-- [memory-hooks — research-backed mnemonics](https://raw.githubusercontent.com/baney75/myelinate/main/skills/memory-hooks/SKILL.md)
-- [study-plan — exam clock, spaced relearning, sleep](https://raw.githubusercontent.com/baney75/myelinate/main/skills/study-plan/SKILL.md)
-- [find-media — diagrams, photos, videos, licensing](https://raw.githubusercontent.com/baney75/myelinate/main/skills/find-media/SKILL.md)
-- [verify — adversarial accuracy and currency review](https://raw.githubusercontent.com/baney75/myelinate/main/skills/verify/SKILL.md)
+- [tutor: for an enrolled course: materials and uploads, course map, live teaching in chat or voice](https://raw.githubusercontent.com/baney75/myelinate/main/skills/tutor/SKILL.md)
+- [teach: for personal, work and project goals: lessons matched to the learner’s level](https://raw.githubusercontent.com/baney75/myelinate/main/skills/teach/SKILL.md)
+- [assignment: graded work coached, not done for them](https://raw.githubusercontent.com/baney75/myelinate/main/skills/assignment/SKILL.md)
+- [project: learning while building, in the mix the learner chooses](https://raw.githubusercontent.com/baney75/myelinate/main/skills/project/SKILL.md)
+- [code: learning code the learner has to own: a repo, a PR, a library, an error](https://raw.githubusercontent.com/baney75/myelinate/main/skills/code/SKILL.md)
+- [notes: reads the learner's notes to see how they're grasping it](https://raw.githubusercontent.com/baney75/myelinate/main/skills/notes/SKILL.md)
+- [assess: tests, grading, gradebook, bonus work](https://raw.githubusercontent.com/baney75/myelinate/main/skills/assess/SKILL.md)
+- [course-project: a researched, level-matched whole course package for projects or plain chat](https://raw.githubusercontent.com/baney75/myelinate/main/skills/course-project/SKILL.md)
+- [lab: interactive learning labs and simulations](https://raw.githubusercontent.com/baney75/myelinate/main/skills/lab/SKILL.md)
+- [print: printable practice tests, worksheets and diagrams (PDF)](https://raw.githubusercontent.com/baney75/myelinate/main/skills/print/SKILL.md)
+- [flashcards: Quizlet, Anki and Obsidian decks](https://raw.githubusercontent.com/baney75/myelinate/main/skills/flashcards/SKILL.md)
+- [memory-hooks: research-backed mnemonics](https://raw.githubusercontent.com/baney75/myelinate/main/skills/memory-hooks/SKILL.md)
+- [study-plan: exam clock, spaced relearning, sleep](https://raw.githubusercontent.com/baney75/myelinate/main/skills/study-plan/SKILL.md)
+- [find-media: diagrams, photos, videos, licensing](https://raw.githubusercontent.com/baney75/myelinate/main/skills/find-media/SKILL.md)
+- [verify: adversarial accuracy and currency review](https://raw.githubusercontent.com/baney75/myelinate/main/skills/verify/SKILL.md)
 
 ## References
-- [Personalization — learning how each person learns, over time](https://raw.githubusercontent.com/baney75/myelinate/main/references/personalization.md)
-- [First session — learner intake shared by tutor and teach](https://raw.githubusercontent.com/baney75/myelinate/main/references/first-session.md)
-- [Show it — rendered visuals, linked representations, 3D models](https://raw.githubusercontent.com/baney75/myelinate/main/references/visual-teaching.md)
-- [How the mind learns — mechanisms behind the rules](https://raw.githubusercontent.com/baney75/myelinate/main/references/how-the-mind-learns.md)
+- [Personalization: learning how each person learns, over time](https://raw.githubusercontent.com/baney75/myelinate/main/references/personalization.md)
+- [First session: learner intake shared by tutor and teach](https://raw.githubusercontent.com/baney75/myelinate/main/references/first-session.md)
+- [Show it: rendered visuals, linked representations, 3D models](https://raw.githubusercontent.com/baney75/myelinate/main/references/visual-teaching.md)
+- [How the mind learns: mechanisms behind the rules](https://raw.githubusercontent.com/baney75/myelinate/main/references/how-the-mind-learns.md)
 - [Teaching and tutoring methods](https://raw.githubusercontent.com/baney75/myelinate/main/references/teaching-methods.md)
 - [Subject playbooks](https://raw.githubusercontent.com/baney75/myelinate/main/references/subject-playbooks.md)
 - [Learner profile template](https://raw.githubusercontent.com/baney75/myelinate/main/templates/learner-profile.md)
+
+- [Skill ownership map](https://raw.githubusercontent.com/baney75/myelinate/main/references/skill-map.md)
+- [Visual stepper template](https://raw.githubusercontent.com/baney75/myelinate/main/templates/visual-stepper.html)
+- [Credits and notice](https://raw.githubusercontent.com/baney75/myelinate/main/NOTICE.md)

@@ -1,7 +1,7 @@
 {
   "name": "myelinate",
-  "version": "2.4.1",
-  "description": "Claude as teacher and tutor, in chat and in code: class tutoring that triggers on your course topics, assignment coaching that teaches instead of doing the work, learning a codebase you need to own, university-standard courses, tests and grading, rendered visuals, labs, flashcards and study plans. Honest, not agreeable.",
+  "version": "2.5.0",
+  "description": "A learning skill suite for any assistant: class tutoring, self-directed lessons, assignment coaching, full course packages, scored tests, visual explanations, labs, flashcards and study plans.",
   "author": {
     "name": "Donovan Baney",
     "url": "https://dbaney.com"
@@ -13,7 +13,7 @@
   "interface": {
     "displayName": "Myelinate",
     "shortDescription": "A tutor that makes you able to do it without it",
-    "longDescription": "Claude as teacher and tutor, in chat and in code: class tutoring that triggers on your course topics, assignment coaching that teaches instead of doing the work, learning a codebase you need to own, university-standard courses, tests and grading, rendered visuals, labs, flashcards and study plans. Honest, not agreeable.",
+    "longDescription": "A learning skill suite for any assistant: class tutoring, self-directed lessons, assignment coaching, full course packages, scored tests, visual explanations, labs, flashcards and study plans.",
     "developerName": "Donovan Baney",
     "category": "Education",
     "capabilities": [],

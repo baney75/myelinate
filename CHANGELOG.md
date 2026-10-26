@@ -4,6 +4,13 @@ All notable changes to Myelinate are recorded here. The format follows [Keep a C
 
 What was actually tested for each version, and its limits, is in [evals/verification.md](evals/verification.md). The behavioral checks are in [evals/scenarios.md](evals/scenarios.md).
 
+## [2.5.0] - 2026-10-25
+
+- Added learner-built concept maps, predict-before-reveal mechanism diagrams and faded worked-step visuals, with an original self-contained HTML stepper and journey test. Credits are in `NOTICE.md`.
+- Tightened trigger descriptions and a one-owner routing map across the router and 15 sub-skills. Kept all skill names and commands stable.
+- Made teaching levels and host capabilities explicit, with project-space and plain-chat fallbacks. Clarified the optional dbaney.com integration.
+- Removed long dash characters from authored skill text and updated the packaged copies.
+
 ## [2.4.1] - 2026-10-14
 
 ### Fixed

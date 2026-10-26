@@ -1,6 +1,6 @@
 # Study plan: <course> <exam>
 
-**Exam clock:** <Day Date Time> — <N> days, ~<H> real study hours available.
+**Exam clock:** <Day Date Time>, <N> days, ~<H> real study hours available.
 
 ## Ranked targets
 
@@ -9,7 +9,7 @@
 
 ## Blocks
 
-| Day | Block (25–50 min) | Target | Activity | Check |
+| Day | Block (25 to 50 min) | Target | Activity | Check |
 |---|---|---|---|---|
 
 **Next block (start now):** …

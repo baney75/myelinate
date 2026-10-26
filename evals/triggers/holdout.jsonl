@@ -1,0 +1,18 @@
+{"id": "h01", "prompt": "can you help me understand photosynthesis? test tomorrow", "accept": ["tutor", "myelinate"], "kind": "positive"}
+{"id": "h02", "prompt": "I keep confusing mitosis and meiosis. Explain the difference and then check if I get it.", "accept": ["myelinate", "tutor", "teach"], "kind": "positive"}
+{"id": "h03", "prompt": "Here's question 4 from my stats homework: find the 95% confidence interval for a sample mean of 52 with s = 8 and n = 36.", "accept": ["assignment"], "kind": "positive"}
+{"id": "h04", "prompt": "I'm 45 and want to learn to read Koine Greek so I can read the New Testament in the original. Can you teach me?", "accept": ["teach", "myelinate"], "kind": "positive"}
+{"id": "h05", "prompt": "Make flashcards for the bones of the hand.", "accept": ["flashcards"], "kind": "positive"}
+{"id": "h06", "prompt": "My MCAT is in three months, help me plan out what to study when.", "accept": ["study-plan"], "kind": "positive"}
+{"id": "h07", "prompt": "Give me a memory trick for the order of operations.", "accept": ["memory-hooks"], "kind": "positive"}
+{"id": "h08", "prompt": "Help me get my head around this open source library's codebase so I can start contributing to it.", "accept": ["code"], "kind": "positive"}
+{"id": "h09", "prompt": "Make an interactive lesson where I can rotate a 3D model of a water molecule and see the bond angles.", "accept": ["lab"], "kind": "positive"}
+{"id": "h10", "prompt": "Print me a worksheet of 20 two-digit multiplication problems with an answer key for my daughter.", "accept": ["print"], "kind": "positive"}
+{"id": "h11", "prompt": "Test me on chapter 5 of my accounting textbook and tell me my score honestly.", "accept": ["assess", "tutor"], "kind": "positive"}
+{"id": "h12", "prompt": "Map out how all the parts of the Krebs cycle connect, as a diagram I can fill in from memory.", "accept": ["myelinate", "tutor", "teach", "print"], "kind": "positive"}
+{"id": "h13", "prompt": "Explain what this regex does: ^\\d{3}-\\d{4}$ (I just need it for a form validator, no lesson).", "accept": ["none"], "kind": "negative"}
+{"id": "h14", "prompt": "Generate a 10-question customer satisfaction survey for our restaurant.", "accept": ["none"], "kind": "negative"}
+{"id": "h15", "prompt": "Turn this meeting transcript into action items.", "accept": ["none"], "kind": "negative"}
+{"id": "h16", "prompt": "Debug why my Docker container exits immediately.", "accept": ["none", "debugging"], "kind": "negative"}
+{"id": "h17", "prompt": "Find a stock photo of a sunset for our website banner.", "accept": ["none", "frontend-design"], "kind": "negative"}
+{"id": "h18", "prompt": "Write the README for my CLI tool.", "accept": ["none", "writing-editor"], "kind": "negative"}

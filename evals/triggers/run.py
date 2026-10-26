@@ -14,7 +14,15 @@ Needs the Codex CLI, signed in. The isolated HOME links to your Codex auth file
 and plugins do not leak into the listing. Default model and effort are fixed so
 runs are comparable; the CLI does not expose temperature, so run several passes.
 """
-import argparse, concurrent.futures as cf, hashlib, json, os, re, shutil, subprocess, sys, tempfile
+import argparse
+import concurrent.futures as cf
+import hashlib
+import json
+import os
+import re
+import shutil
+import subprocess
+import tempfile
 from collections import Counter
 from pathlib import Path
 
@@ -32,7 +40,7 @@ ap.add_argument('--only', default='', help='comma-separated prompt ids')
 ap.add_argument('--prompts', default=str(HERE / 'prompts.jsonl'), help='prompt set (JSONL)')
 args = ap.parse_args()
 
-FM = re.compile(r'^---\nname: ([a-z0-9-]+)\ndescription: ([^\n]+)\n', re.S)
+FM = re.compile(r'^---\nname: ([a-z0-9-]+)\ndescription: ([^\n]+)\n', re.DOTALL)
 
 
 def suite(root):
@@ -89,12 +97,13 @@ def main():
             cmd = [args.codex, 'exec', '-m', args.model, '-c', f'model_reasoning_effort={args.effort}',
                    '-s', 'read-only', '--skip-git-repo-check', '--ephemeral', '--ignore-rules', '--color', 'never',
                    '--output-schema', str(schema), '-C', str(work), '-o', str(out), '-']
-            for attempt in range(3):
-                r = subprocess.run(cmd, input=ASK.format(prompt=text), env=env, capture_output=True, text=True, timeout=300)
+            for _attempt in range(3):
+                subprocess.run(cmd, input=ASK.format(prompt=text), env=env, capture_output=True, text=True,
+                               timeout=300, check=False)
                 try:
                     return pid, pas, json.loads(out.read_text())['skill'].strip()
-                except Exception:
-                    continue
+                except (OSError, ValueError, KeyError, AttributeError) as exc:
+                    print(f'retry {pid} pass {pas}: {exc}')
             return pid, pas, 'ERROR'
 
         jobs = [(p['id'], n, p['prompt']) for n in range(args.passes) for p in prompts]

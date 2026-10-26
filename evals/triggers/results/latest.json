@@ -1,0 +1,745 @@
+{
+ "model": "gpt-5.6-luna",
+ "effort": "low",
+ "passes": 3,
+ "harness": "codex exec, isolated HOME, skills in ~/.agents/skills",
+ "prompt_set": "prompts.jsonl",
+ "descriptions_sha256": "039e8659532d0de5e231f544269615c9312bce0e9636a0f9e4374b123a31ba98",
+ "skills": [
+  "assess",
+  "assignment",
+  "code",
+  "course-project",
+  "find-media",
+  "flashcards",
+  "lab",
+  "memory-hooks",
+  "myelinate",
+  "notes",
+  "print",
+  "project",
+  "study-plan",
+  "teach",
+  "tutor",
+  "verify"
+ ],
+ "positives": 37,
+ "negatives": 14,
+ "hit_rate": 0.991,
+ "false_fire_rate": 0.0,
+ "majority_hit_rate": 1.0,
+ "majority_false_fire_rate": 0.0,
+ "per_pass": [
+  {
+   "hit": 36,
+   "false_fire": 0
+  },
+  {
+   "hit": 37,
+   "false_fire": 0
+  },
+  {
+   "hit": 37,
+   "false_fire": 0
+  }
+ ],
+ "unstable": [
+  "p01"
+ ],
+ "errors": 0,
+ "rows": [
+  {
+   "id": "p01",
+   "kind": "positive",
+   "accept": [
+    "myelinate",
+    "tutor"
+   ],
+   "choices": [
+    "none",
+    "tutor",
+    "tutor"
+   ],
+   "ok": 2
+  },
+  {
+   "id": "p02",
+   "kind": "positive",
+   "accept": [
+    "myelinate",
+    "teach",
+    "tutor"
+   ],
+   "choices": [
+    "teach",
+    "teach",
+    "teach"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p03",
+   "kind": "positive",
+   "accept": [
+    "myelinate",
+    "teach"
+   ],
+   "choices": [
+    "teach",
+    "teach",
+    "teach"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p04",
+   "kind": "positive",
+   "accept": [
+    "tutor",
+    "myelinate"
+   ],
+   "choices": [
+    "tutor",
+    "tutor",
+    "tutor"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p05",
+   "kind": "positive",
+   "accept": [
+    "tutor",
+    "myelinate"
+   ],
+   "choices": [
+    "tutor",
+    "tutor",
+    "tutor"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p06",
+   "kind": "positive",
+   "accept": [
+    "tutor",
+    "myelinate",
+    "assess"
+   ],
+   "choices": [
+    "tutor",
+    "tutor",
+    "tutor"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p07",
+   "kind": "positive",
+   "accept": [
+    "assignment"
+   ],
+   "choices": [
+    "assignment",
+    "assignment",
+    "assignment"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p08",
+   "kind": "positive",
+   "accept": [
+    "assignment"
+   ],
+   "choices": [
+    "assignment",
+    "assignment",
+    "assignment"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p09",
+   "kind": "positive",
+   "accept": [
+    "assignment"
+   ],
+   "choices": [
+    "assignment",
+    "assignment",
+    "assignment"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p10",
+   "kind": "positive",
+   "accept": [
+    "teach"
+   ],
+   "choices": [
+    "teach",
+    "teach",
+    "teach"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p11",
+   "kind": "positive",
+   "accept": [
+    "teach",
+    "myelinate"
+   ],
+   "choices": [
+    "teach",
+    "teach",
+    "teach"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p12",
+   "kind": "positive",
+   "accept": [
+    "course-project"
+   ],
+   "choices": [
+    "course-project",
+    "course-project",
+    "course-project"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p13",
+   "kind": "positive",
+   "accept": [
+    "course-project",
+    "teach"
+   ],
+   "choices": [
+    "course-project",
+    "course-project",
+    "course-project"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p14",
+   "kind": "positive",
+   "accept": [
+    "project"
+   ],
+   "choices": [
+    "project",
+    "project",
+    "project"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p15",
+   "kind": "positive",
+   "accept": [
+    "project"
+   ],
+   "choices": [
+    "project",
+    "project",
+    "project"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p16",
+   "kind": "positive",
+   "accept": [
+    "code"
+   ],
+   "choices": [
+    "code",
+    "code",
+    "code"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p17",
+   "kind": "positive",
+   "accept": [
+    "code"
+   ],
+   "choices": [
+    "code",
+    "code",
+    "code"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p18",
+   "kind": "positive",
+   "accept": [
+    "notes"
+   ],
+   "choices": [
+    "notes",
+    "notes",
+    "notes"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p19",
+   "kind": "positive",
+   "accept": [
+    "notes"
+   ],
+   "choices": [
+    "notes",
+    "notes",
+    "notes"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p20",
+   "kind": "positive",
+   "accept": [
+    "assess"
+   ],
+   "choices": [
+    "assess",
+    "assess",
+    "assess"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p21",
+   "kind": "positive",
+   "accept": [
+    "assess"
+   ],
+   "choices": [
+    "assess",
+    "assess",
+    "assess"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p22",
+   "kind": "positive",
+   "accept": [
+    "lab"
+   ],
+   "choices": [
+    "lab",
+    "lab",
+    "lab"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p23",
+   "kind": "positive",
+   "accept": [
+    "lab"
+   ],
+   "choices": [
+    "lab",
+    "lab",
+    "lab"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p24",
+   "kind": "positive",
+   "accept": [
+    "print"
+   ],
+   "choices": [
+    "print",
+    "print",
+    "print"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p25",
+   "kind": "positive",
+   "accept": [
+    "print"
+   ],
+   "choices": [
+    "print",
+    "print",
+    "print"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p26",
+   "kind": "positive",
+   "accept": [
+    "flashcards"
+   ],
+   "choices": [
+    "flashcards",
+    "flashcards",
+    "flashcards"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p27",
+   "kind": "positive",
+   "accept": [
+    "flashcards"
+   ],
+   "choices": [
+    "flashcards",
+    "flashcards",
+    "flashcards"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p28",
+   "kind": "positive",
+   "accept": [
+    "memory-hooks"
+   ],
+   "choices": [
+    "memory-hooks",
+    "memory-hooks",
+    "memory-hooks"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p29",
+   "kind": "positive",
+   "accept": [
+    "memory-hooks"
+   ],
+   "choices": [
+    "memory-hooks",
+    "memory-hooks",
+    "memory-hooks"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p30",
+   "kind": "positive",
+   "accept": [
+    "study-plan"
+   ],
+   "choices": [
+    "study-plan",
+    "study-plan",
+    "study-plan"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p31",
+   "kind": "positive",
+   "accept": [
+    "study-plan"
+   ],
+   "choices": [
+    "study-plan",
+    "study-plan",
+    "study-plan"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p32",
+   "kind": "positive",
+   "accept": [
+    "find-media"
+   ],
+   "choices": [
+    "find-media",
+    "find-media",
+    "find-media"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p33",
+   "kind": "positive",
+   "accept": [
+    "find-media"
+   ],
+   "choices": [
+    "find-media",
+    "find-media",
+    "find-media"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p34",
+   "kind": "positive",
+   "accept": [
+    "verify"
+   ],
+   "choices": [
+    "verify",
+    "verify",
+    "verify"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p35",
+   "kind": "positive",
+   "accept": [
+    "myelinate",
+    "tutor",
+    "teach"
+   ],
+   "choices": [
+    "myelinate",
+    "myelinate",
+    "myelinate"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p36",
+   "kind": "positive",
+   "accept": [
+    "myelinate",
+    "tutor",
+    "teach"
+   ],
+   "choices": [
+    "teach",
+    "teach",
+    "teach"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p37",
+   "kind": "positive",
+   "accept": [
+    "myelinate",
+    "tutor",
+    "teach"
+   ],
+   "choices": [
+    "tutor",
+    "tutor",
+    "tutor"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "n01",
+   "kind": "negative",
+   "accept": [
+    "none",
+    "debugging"
+   ],
+   "choices": [
+    "debugging",
+    "debugging",
+    "debugging"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "n02",
+   "kind": "negative",
+   "accept": [
+    "none",
+    "pdf",
+    "docx"
+   ],
+   "choices": [
+    "docx",
+    "docx",
+    "docx"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "n03",
+   "kind": "negative",
+   "accept": [
+    "none",
+    "code-review"
+   ],
+   "choices": [
+    "code-review",
+    "code-review",
+    "code-review"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "n04",
+   "kind": "negative",
+   "accept": [
+    "none",
+    "frontend-design"
+   ],
+   "choices": [
+    "frontend-design",
+    "frontend-design",
+    "frontend-design"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "n05",
+   "kind": "negative",
+   "accept": [
+    "none",
+    "debugging"
+   ],
+   "choices": [
+    "debugging",
+    "debugging",
+    "debugging"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "n06",
+   "kind": "negative",
+   "accept": [
+    "none",
+    "calendar"
+   ],
+   "choices": [
+    "calendar",
+    "calendar",
+    "calendar"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "n07",
+   "kind": "negative",
+   "accept": [
+    "none"
+   ],
+   "choices": [
+    "none",
+    "none",
+    "none"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "n08",
+   "kind": "negative",
+   "accept": [
+    "none",
+    "frontend-design",
+    "docx"
+   ],
+   "choices": [
+    "none",
+    "none",
+    "none"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "n09",
+   "kind": "negative",
+   "accept": [
+    "none",
+    "writing-editor"
+   ],
+   "choices": [
+    "writing-editor",
+    "writing-editor",
+    "writing-editor"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "n10",
+   "kind": "negative",
+   "accept": [
+    "none",
+    "frontend-design"
+   ],
+   "choices": [
+    "frontend-design",
+    "frontend-design",
+    "frontend-design"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "n11",
+   "kind": "negative",
+   "accept": [
+    "none"
+   ],
+   "choices": [
+    "none",
+    "none",
+    "none"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "n12",
+   "kind": "negative",
+   "accept": [
+    "none",
+    "docx"
+   ],
+   "choices": [
+    "docx",
+    "docx",
+    "docx"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "n13",
+   "kind": "negative",
+   "accept": [
+    "none",
+    "debugging"
+   ],
+   "choices": [
+    "none",
+    "none",
+    "none"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "n14",
+   "kind": "negative",
+   "accept": [
+    "none",
+    "calendar"
+   ],
+   "choices": [
+    "calendar",
+    "calendar",
+    "calendar"
+   ],
+   "ok": 3
+  }
+ ]
+}
