@@ -71,7 +71,7 @@ CASES = {
     'duplicate row': lambda r: r['rows'].append(copy.deepcopy(r['rows'][0])),
     'unknown row': lambda r: r['rows'].append({**copy.deepcopy(r['rows'][0]), 'id': 'zz99'}),
     'changed labels': lambda r: r['rows'][0].update(accept=['print']),
-    'summary disagrees with rows': lambda r: (miss_positives(r, 5), r.update(hit_rate=1.0)),
+    'summary disagrees with rows': lambda r: (miss_positives(r, 1), r.update(hit_rate=1.0)),
     'stale prompts or protocol': lambda r: r.update(inputs_sha256='0' * 64),
     'stale descriptions': lambda r: r.update(descriptions_sha256='0' * 64),
     'different model': lambda r: r.update(model='another-model'),
@@ -79,6 +79,28 @@ CASES = {
     'wrong prompt set': lambda r: r.update(prompt_set='holdout.jsonl'),
     'below hit floor': lambda r: miss_positives(r, 3),
     'model errors': lambda r: (r['rows'][0].update(choices=['ERROR'] * PROTOCOL['passes']), rescore(r)),
+}
+
+
+EXPECT = {
+    'empty rows': 'missing rows',
+    'zero passes': 'passes is 0',
+    'partial run flag': 'partial run',
+    'two-prompt report': 'missing rows',
+    'missing rows key': 'malformed result',
+    'short choices': 'non-empty choices',
+    'empty choice': 'non-empty choices',
+    'duplicate row': 'duplicate row',
+    'unknown row': 'unknown prompts',
+    'changed labels': 'labels that differ',
+    'summary disagrees with rows': 'does not match',
+    'stale prompts or protocol': 'different prompts',
+    'stale descriptions': 'different skill descriptions',
+    'different model': 'model is',
+    'different effort': 'effort is',
+    'wrong prompt set': 'prompt set',
+    'below hit floor': 'below the baseline',
+    'model errors': 'model calls failed',
 }
 
 
@@ -92,6 +114,8 @@ def main():
             code, out = run(tmp, mutate(fn), perfect('holdout.jsonl'))
             if code == 0:
                 failures.append(f'{name}: should fail but passed')
+            elif EXPECT[name] not in out:
+                failures.append(f'{name}: failed for another reason:\n{out}')
         code, _ = run(tmp, '{not json', perfect('holdout.jsonl'))
         if code == 0:
             failures.append('malformed JSON: should fail but passed')
@@ -99,8 +123,8 @@ def main():
         shutil.copytree(ROOT / 'skills', copy_root / 'skills')
         target = copy_root / 'skills' / 'tutor' / 'SKILL.md'
         target.write_text(target.read_text().replace('description: "', 'description: "Changed. ', 1))
-        code, _ = run(tmp, perfect('prompts.jsonl'), perfect('holdout.jsonl'), root=copy_root)
-        if code == 0:
+        code, out = run(tmp, perfect('prompts.jsonl'), perfect('holdout.jsonl'), root=copy_root)
+        if code == 0 or 'different skill descriptions' not in out:
             failures.append('edited description: should fail but passed')
     if failures:
         print('\n'.join(failures), file=sys.stderr)
