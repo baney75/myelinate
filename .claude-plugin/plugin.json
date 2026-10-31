@@ -9,6 +9,9 @@
   "homepage": "https://baney75.github.io/myelinate/",
   "repository": "https://github.com/baney75/myelinate",
   "license": "MIT",
+  "icon": "./assets/icon.png",
+  "documentationUrl": "https://github.com/baney75/myelinate#readme",
+  "supportUrl": "https://github.com/baney75/myelinate/issues",
   "keywords": [
     "education",
     "tutoring",

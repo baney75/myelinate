@@ -1,7 +1,7 @@
 {
   "name": "myelinate",
-  "version": "2.5.0",
-  "description": "A learning skill suite for any assistant: class tutoring, self-directed lessons, assignment coaching, full course packages, scored tests, visual explanations, labs, flashcards and study plans.",
+  "version": "2.4.1",
+  "description": "Claude as teacher and tutor, in chat and in code: class tutoring that triggers on your course topics, assignment coaching that teaches instead of doing the work, learning a codebase you need to own, university-standard courses, tests and grading, rendered visuals, labs, flashcards and study plans. Honest, not agreeable.",
   "author": {
     "name": "Donovan Baney",
     "url": "https://dbaney.com"
@@ -12,16 +12,22 @@
   "skills": "./skills",
   "interface": {
     "displayName": "Myelinate",
-    "shortDescription": "A tutor that makes you able to do it without it",
-    "longDescription": "A learning skill suite for any assistant: class tutoring, self-directed lessons, assignment coaching, full course packages, scored tests, visual explanations, labs, flashcards and study plans.",
+    "shortDescription": "A tutor that teaches, not does",
+    "longDescription": "Claude as teacher and tutor, in chat and in code: class tutoring that triggers on your course topics, assignment coaching that teaches instead of doing the work, learning a codebase you need to own, university-standard courses, tests and grading, rendered visuals, labs, flashcards and study plans. Honest, not agreeable.",
     "developerName": "Donovan Baney",
-    "category": "Education",
-    "capabilities": [],
+    "category": "Education & Research",
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
     "defaultPrompt": [
       "Teach me the idea behind this, one step at a time",
       "Help me understand this codebase well enough to change it myself",
       "Quiz me for my exam on Friday"
     ],
-    "websiteURL": "https://baney75.github.io/myelinate/"
+    "websiteURL": "https://baney75.github.io/myelinate/",
+    "brandColor": "#16313B",
+    "composerIcon": "./assets/logo-mark.svg",
+    "logo": "./assets/icon.png"
   }
 }
