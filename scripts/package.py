@@ -21,11 +21,11 @@ SHARED = ('references', 'templates', 'examples', 'scripts', 'assets')
 EXTERNAL = {'scripts/learning-lab.mjs', 'scripts/icons.mjs'}
 ZIP = ROOT / 'dist' / 'myelinate-plugin.zip'
 # Files and folders that make up the installed plugin.
-PLUGIN_FILES = ['.claude-plugin/plugin.json', '.codex-plugin/plugin.json', 'LICENSE', 'README.md']
+PLUGIN_FILES = ['.claude-plugin/plugin.json', '.codex-plugin/plugin.json', 'LICENSE', 'README.md', 'assets/icon.png']
 PLUGIN_DIRS = ['skills', 'output-styles', 'commands', 'agents', 'hooks']
 # OpenAI's plugin directory takes skills, with the manifest at the top of the zip; it takes no hooks yet.
 CODEX_ZIP = ROOT / 'dist' / 'myelinate-codex.zip'
-CODEX_FILES = ['.codex-plugin/plugin.json', 'LICENSE', 'README.md', 'assets/icon.png', 'assets/logo-mark.svg']
+CODEX_FILES = ['.codex-plugin/plugin.json', 'LICENSE', 'README.md']
 
 SHARED_RE = re.compile(r"(?<![/\w.<>…-])((?:%s)/[\w.-]+\.[a-z0-9]+)" % '|'.join(SHARED))
 SIBLING_RE = re.compile(r"(?<![/\w.<>…-])\.\./([a-z-]+)/SKILL\.md")
@@ -122,8 +122,12 @@ def plugin_files():
 
 
 def codex_files():
-    return CODEX_FILES + [str(p.relative_to(ROOT)) for p in sorted((ROOT / 'skills').rglob('*'))
-                          if p.is_file() and p.name != '.DS_Store']
+    import json
+    ui = json.loads((ROOT / '.codex-plugin/plugin.json').read_text()).get('interface', {})
+    icons = sorted({ui[k].removeprefix('./') for k in ('composerIcon', 'logo') if ui.get(k)})
+    files = [f for f in CODEX_FILES + icons if (ROOT / f).is_file()]
+    return files + [str(p.relative_to(ROOT)) for p in sorted((ROOT / 'skills').rglob('*'))
+                    if p.is_file() and p.name != '.DS_Store']
 
 
 def build():
