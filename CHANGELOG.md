@@ -4,6 +4,12 @@ All notable changes to Myelinate are recorded here. The format follows [Keep a C
 
 What was actually tested for each version, and its limits, is in [evals/verification.md](evals/verification.md). The behavioral checks are in [evals/scenarios.md](evals/scenarios.md).
 
+## [Unreleased]
+
+### Added
+- **Ready for the Claude and OpenAI plugin directories.** A 512 px icon (`assets/icon.png`, the mark on a paper tile), the Claude manifest's `icon`, `documentationUrl` and `supportUrl`, and the Codex manifest's `logo`, `composerIcon`, `brandColor` and capabilities. The Codex short description fits OpenAI's 30-character limit, and its category is the directory's `Education & Research`.
+- `python3 scripts/package.py build` also writes `dist/myelinate-codex.zip` (the manifest at the top, skills only, no hooks) for OpenAI's plugin directory, and `check.py` fails on a Codex listing field past its limit or an icon that isn't in the plugin.
+
 ## [2.4.1] - 2026-10-14
 
 ### Fixed

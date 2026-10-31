@@ -7,7 +7,7 @@ folder. So every skill folder carries a copy of each shared file it names
 folder of its own at skills/myelinate. The sources stay at the repository
 root; the copies are generated here and checked for drift.
 
-    python3 scripts/package.py build    # regenerate copies and dist/myelinate-plugin.zip
+    python3 scripts/package.py build    # regenerate copies, dist/myelinate-plugin.zip and dist/myelinate-codex.zip
     python3 scripts/package.py verify   # fail on drift or any referenced path missing from the zip
 """
 import re
@@ -21,8 +21,11 @@ SHARED = ('references', 'templates', 'examples', 'scripts', 'assets')
 EXTERNAL = {'scripts/learning-lab.mjs', 'scripts/icons.mjs'}
 ZIP = ROOT / 'dist' / 'myelinate-plugin.zip'
 # Files and folders that make up the installed plugin.
-PLUGIN_FILES = ['.claude-plugin/plugin.json', '.codex-plugin/plugin.json', 'LICENSE', 'README.md']
+PLUGIN_FILES = ['.claude-plugin/plugin.json', '.codex-plugin/plugin.json', 'LICENSE', 'README.md', 'assets/icon.png']
 PLUGIN_DIRS = ['skills', 'output-styles', 'commands', 'agents', 'hooks']
+# OpenAI's plugin directory takes skills, with the manifest at the top of the zip; it takes no hooks yet.
+CODEX_ZIP = ROOT / 'dist' / 'myelinate-codex.zip'
+CODEX_FILES = ['.codex-plugin/plugin.json', 'LICENSE', 'README.md']
 
 SHARED_RE = re.compile(r"(?<![/\w.<>…-])((?:%s)/[\w.-]+\.[a-z0-9]+)" % '|'.join(SHARED))
 SIBLING_RE = re.compile(r"(?<![/\w.<>…-])\.\./([a-z-]+)/SKILL\.md")
@@ -101,11 +104,11 @@ def owned_paths():
     return {str(p.relative_to(ROOT)) for p in paths if p.name != '.DS_Store'}
 
 
-def build_zip(files):
-    ZIP.parent.mkdir(exist_ok=True)
-    with zipfile.ZipFile(ZIP, 'w', zipfile.ZIP_DEFLATED) as z:
+def build_zip(files, path=ZIP, prefix='myelinate/'):
+    path.parent.mkdir(exist_ok=True)
+    with zipfile.ZipFile(path, 'w', zipfile.ZIP_DEFLATED) as z:
         for rel in sorted(files):
-            info = zipfile.ZipInfo(f'myelinate/{rel}', date_time=(2026, 1, 1, 0, 0, 0))
+            info = zipfile.ZipInfo(f'{prefix}{rel}', date_time=(2026, 1, 1, 0, 0, 0))
             info.compress_type = zipfile.ZIP_DEFLATED
             z.writestr(info, (ROOT / rel).read_bytes())
 
@@ -116,6 +119,15 @@ def plugin_files():
         files += [str(p.relative_to(ROOT)) for p in sorted((ROOT / d).rglob('*'))
                   if p.is_file() and p.name != '.DS_Store']
     return files
+
+
+def codex_files():
+    import json
+    ui = json.loads((ROOT / '.codex-plugin/plugin.json').read_text()).get('interface', {})
+    icons = sorted({ui[k].removeprefix('./') for k in ('composerIcon', 'logo') if ui.get(k)})
+    files = [f for f in CODEX_FILES + icons if (ROOT / f).is_file()]
+    return files + [str(p.relative_to(ROOT)) for p in sorted((ROOT / 'skills').rglob('*'))
+                    if p.is_file() and p.name != '.DS_Store']
 
 
 def build():
@@ -129,7 +141,8 @@ def build():
         if d.is_dir() and not any(d.iterdir()):
             d.rmdir()
     build_zip(plugin_files())
-    print(f'built {len(all_generated())} generated files and {ZIP.relative_to(ROOT)}')
+    build_zip(codex_files(), CODEX_ZIP, '')
+    print(f'built {len(all_generated())} generated files, {ZIP.relative_to(ROOT)} and {CODEX_ZIP.relative_to(ROOT)}')
 
 
 def verify():
@@ -149,6 +162,15 @@ def verify():
     for rel in plugin_files():
         if rel not in names or zipped[rel] != (ROOT / rel).read_bytes():
             errors.append(f'{ZIP.relative_to(ROOT)}: {rel} missing or stale; run python3 scripts/package.py build')
+    if not CODEX_ZIP.is_file():
+        build_zip(codex_files(), CODEX_ZIP, '')
+    with zipfile.ZipFile(CODEX_ZIP) as z:
+        codex = {n: z.read(n) for n in z.namelist()}
+    for rel in codex_files():
+        if codex.get(rel) != (ROOT / rel).read_bytes():
+            errors.append(f'{CODEX_ZIP.relative_to(ROOT)}: {rel} missing or stale; run python3 scripts/package.py build')
+    for rel in sorted(set(codex) - set(codex_files())):
+        errors.append(f'{CODEX_ZIP.relative_to(ROOT)}: {rel} is not part of the plugin; run python3 scripts/package.py build')
     # Every path a skill or its copied files name must exist in the zip.
     counts = {}
     skills = sorted({PurePosixPath(n).parts[1] for n in names if n.startswith('skills/') and n.endswith('/SKILL.md')})
