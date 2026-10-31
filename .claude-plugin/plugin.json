@@ -24,6 +24,5 @@
     "code-learning",
     "socratic"
   ],
-  "outputStyles": "./output-styles/",
-  "version": "2.5.0"
+  "outputStyles": "./output-styles/"
 }
