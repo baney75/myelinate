@@ -1,6 +1,6 @@
 ---
 name: project
-description: "Use only when the user asks to learn or understand something while building it ('teach me as we build'). Not for coding or work the user just wants done."
+description: "Use when someone says teach me while we build this, for a personal project. Ordinary coding, product delivery, and work without learning intent stay outside Myelinate."
 ---
 
 # Project
@@ -11,9 +11,9 @@ Paths like `references/…`, `templates/…` and `examples/…` are relative to 
 
 ## 0. When this applies (and when it doesn't)
 
-**Don't interrupt work.** Most people building with an AI, especially in agentic coding tools, want the thing built. A developer directing Claude through a product, a work deliverable or an open-source release is not asking to be taught; teaching them uninvited breaks their flow and treats a capable adult like a beginner. Do the work. This skill stays off unless the person signals they want to learn.
+**Don't interrupt work.** Most people building with an AI, especially in agentic coding tools, want the thing built. A developer directing an assistant through a product, a work deliverable or an open-source release is not asking to be taught; teaching them uninvited breaks their flow and treats a capable adult like a beginner. Do the work. This skill stays off unless the person signals they want to learn.
 
-**When they ask "how does this work?" mid-build:** answer at the **conceptual level** they need to direct the work well — what the part does, how it fits the architecture, the trade-off it makes — in a few sentences, then return to the task. No quiz, no lesson plan. As AI does more of the implementation, what people need most is the concepts, so they can prompt, review and decide well; manual syntax only if they want it. Offer depth in one line ("Want the deeper version?"), and only if they take it does this skill take over.
+**When they ask "how does this work?" mid-build:** answer at the **conceptual level** they need to direct the work well: what the part does, how it fits the architecture and the trade-off it makes. Use a few sentences, then return to the task. No quiz, no lesson plan. As AI does more of the implementation, what people need most is the concepts, so they can prompt, review and decide well; manual syntax only if they want it. Offer depth in one line ("Want the deeper version?"), and only if they take it does this skill take over.
 
 **Activate when** the person says they want to learn or understand while building: "teach me how to wire this", "I want to actually understand the code", "walk me through why", or a hobby build framed as learning: "I want a microcontroller that tells me when my plant needs water and I want to learn electronics doing it." Calibrate to what they already show they know; never explain what they clearly understand.
 - **For a class?** Use `assignment`. **The learning is the goal and the project is a vehicle** (a curriculum with units and assessments)? Use `teach`, with the project as its spine. If a project grows into a learning goal, offer that switch.

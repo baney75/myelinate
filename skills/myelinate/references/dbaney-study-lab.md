@@ -1,6 +1,6 @@
 # Integration: dbaney.com study labs
 
-Myelinate's author runs course study labs at dbaney.com ("Study with Me"). This note tells an agent with access to that site's repository how to add or improve a lab there. Other sites can copy the pattern.
+Optional integration example for dbaney.com study labs. Read this only when the user is working on that site and has given access to its repository. Other sites need their own integration.
 
 ## Engine
 
@@ -14,7 +14,7 @@ Myelinate's author runs course study labs at dbaney.com ("Study with Me"). This 
 
 ## Make the format teach
 
-Follow `../lab/SKILL.md` §8. In short: lesson body = mental model + one worked example (not a slide transcript); recall prompts ask for generation; distractors from named misconceptions; explanations refer to options by content; interleaved practice tests with transfer items; short-answer rubrics for mechanisms; use the uncertainty flag. Simulations need engine work (the organic lab's Newman projection shows the pattern) — propose a spec, build only when asked.
+Follow `../lab/SKILL.md` §8. In short: lesson body = mental model + one worked example (not a slide transcript); recall prompts ask for generation; distractors from named misconceptions; explanations refer to options by content; interleaved practice tests with transfer items; short-answer rubrics for mechanisms; use the uncertainty flag. Simulations need engine work (the organic lab's Newman projection shows the pattern). Propose a spec and build only when asked.
 
 ## Ship
 

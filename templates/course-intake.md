@@ -1,4 +1,4 @@
-# Course intake: <course code — title>
+# Course intake: <course code, title>
 
 - **Why:** <exam / course grade / MCAT / clinical / curiosity>
 - **Success test:** "I can ___ without help."

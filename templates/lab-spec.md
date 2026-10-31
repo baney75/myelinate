@@ -1,9 +1,9 @@
 # Lab spec: <title>
 
 - **Learner purpose:** <course + exam / MCAT / self-study goal>
-- **Scope source:** <study guide v/date | syllabus | inferred — say so>
-- **Platform:** standalone page | dbaney.com `/study/<course>/<folder>/` | printable pack
-- **Session length:** <10–25 min per section>
+- **Scope source:** <study guide v/date | syllabus | inferred, say so>
+- **Format:** standalone page | printable pack | optional dbaney.com `/study/<course>/<folder>/` integration only when working on that site
+- **Session length:** <10 to 25 min per section>
 - **Exam format to match:** <MCQ / short answer / drawing / practical / essay>
 
 ## Targets → evidence map

@@ -21,7 +21,7 @@ SHARED = ('references', 'templates', 'examples', 'scripts', 'assets')
 EXTERNAL = {'scripts/learning-lab.mjs', 'scripts/icons.mjs'}
 ZIP = ROOT / 'dist' / 'myelinate-plugin.zip'
 # Files and folders that make up the installed plugin.
-PLUGIN_FILES = ['.claude-plugin/plugin.json', '.codex-plugin/plugin.json', 'LICENSE', 'README.md', 'assets/icon.png']
+PLUGIN_FILES = ['.claude-plugin/plugin.json', '.codex-plugin/plugin.json', 'LICENSE', 'NOTICE.md', 'README.md', 'assets/icon.png']
 PLUGIN_DIRS = ['skills', 'output-styles', 'commands', 'agents', 'hooks']
 # OpenAI's plugin directory takes skills, with the manifest at the top of the zip; it takes no hooks yet.
 CODEX_ZIP = ROOT / 'dist' / 'myelinate-codex.zip'

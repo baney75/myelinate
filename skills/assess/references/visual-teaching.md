@@ -2,12 +2,22 @@
 
 Use this whenever a concept has shape: a structure in 3D, a spatial arrangement, a process that unfolds, a quantity that changes with another, a notation the learner must translate. In those cases a rendered picture the learner can operate teaches what a paragraph of description cannot. `tutor` and `teach` both use it in live sessions; `lab` builds the full standalone version; `find-media` supplies vetted figures and videos; `print` makes the paper version.
 
-Source review: **2026-10-11**. Evidence tags as in `subject-playbooks.md`.
+Source review: **2026-10-11**. Evidence tags as in `subject-playbooks.md`. The figure patterns below adapt ideas from Nico Bailon's [visual-explainer](https://github.com/nicobailon/visual-explainer); the root NOTICE.md carries the credit and license notice. Myelinate's wording and code are original.
+
+## Three learning patterns
+
+Use a quiet ground and one accent for the part the learner must inspect now. Each figure makes one claim, stated in a one-sentence caption. If a sentence merely names a visible part, put it beside that part as a label. Draw the path through parts instead of a term in a box. Every arrow gets a relationship verb. Give the same state a shape, position or pattern cue as well as color. Sketch a grid in ASCII before assigning coordinates; keep labels readable at 360 px. If the view needs more than about 12 nodes, begin with a 5 to 8 node overview and split the detail. For comparisons, repeat the same small diagram at the same scale, or toggle before and after in the same coordinates. Number callouts and end their leaders exactly on what they name. These are craft rules, not evidence that a learner learned; ask for an independent use afterward.
+
+1. **Concept maps for retrieval.** Put concepts in nodes and a relationship verb on every link ("causes," "is a kind of," "inhibits"). Have the learner build the map or fill hidden nodes and link labels from memory. Ask them to justify a link, especially one that exposes a possible misconception. Do not hand over a finished map as a substitute for retrieval. An argument in history, a food web, and a software dependency graph can all use the same pattern.
+2. **Mechanism and pathway diagrams.** For a circuit, reaction, historical cause, algorithm or biological pathway, show one step at a time. Start on the first step. Before each next step appears, ask the learner to predict what changes and commit an answer. Reveal one new part with one claim in its caption; every arrow says what one part does to the next. No autoplay. Name what the drawing leaves out or treats as fixed. Reduced-motion mode shows each revealed state without animation. A visual must not contain the answer to its current question in a caption, label, alt text or hidden preview.
+3. **Step visuals for worked problems.** Show a worked example as frames: one operation and one claim per frame. Then fade later frames to blanks for the learner to complete. Compare each learner step with a worked key before giving a verdict; a plausible explanation is not automatically correct. Use a parallel example for graded work. After a reveal, ask for transfer to a new case so copying the frame is not counted as independent success.
+
+For a small self-contained example, adapt `templates/visual-stepper.html`: it includes a prediction gate and a fill-in concept map. Replace its subject content and key, and check that no future answer appears before commitment.
 
 ## Why
 
-- **Words plus a relevant picture beat words alone for novices** (Mayer, *Multimedia Learning*, 3rd ed., 2021; principles summarized in `find-media` §1). **Moderate–Strong**, mostly short lab lessons; effects shrink with expertise.
-- **Multiple representations help only when the learner can translate between them.** Ainsworth's DeFT framework (2006, *Learning and Instruction* 16(3):183–198, doi:10.1016/j.learninstruc.2006.03.001) explains why adding representations sometimes helps and sometimes overloads: the design, the function each representation serves, and the translation task the learner must perform all matter. **Craft/theory**, abstract reviewed. The practical rule: link the views explicitly, and make the learner do the translating.
+- **Words plus a relevant picture beat words alone for novices** (Mayer, *Multimedia Learning*, 3rd ed., 2021; principles summarized in `find-media` §1). **Moderate-Strong**, mostly short lab lessons; effects shrink with expertise.
+- **Multiple representations help only when the learner can translate between them.** Ainsworth's DeFT framework (2006, *Learning and Instruction* 16(3):183 to 198, doi:10.1016/j.learninstruc.2006.03.001) explains why adding representations sometimes helps and sometimes overloads: the design, the function each representation serves, and the translation task the learner must perform all matter. **Craft/theory**, abstract reviewed. The practical rule: link the views explicitly, and make the learner do the translating.
 - **3D models help organic chemistry students translate between 2D diagrams.** Feedback from concrete or virtual 3D models improved diagram-to-diagram translation over verbal feedback, the gain held at a 7-day delay, and the models did not become a crutch (Stull & Hegarty 2015, *Proc. Annual Meeting of the Cognitive Science Society* 37; abstract reviewed). **Moderate**, single study, conference proceedings. In anatomy, 3D visualization improved spatial and factual knowledge in a meta-analysis (Yammine & Violato 2015; see `subject-playbooks.md` §1).
 - **Prediction before observation.** Watching without predicting teaches little (Crouch et al. 2004; see `lab` §0). A visual that shows the answer before the learner commits is a leak, not a scaffold.
 
@@ -21,10 +31,10 @@ Not everything needs a picture. Definitions, quick confirmations, pure procedure
 
 Two kinds of concept need two kinds of picture.
 
-- **Structure, process, mechanism, curve.** The lesson is in the relations: which part connects to which, what changes when a variable moves. An inline schematic carries it well: `show_widget` or an inline SVG with flat fills and hairline strokes, built in a minute, operable in the turn.
+- **Structure, process, mechanism, curve.** The lesson is in the relations: which part connects to which, what changes when a variable moves. An inline schematic carries it well if the assistant can render one (for example with `show_widget`). Otherwise provide a self-contained HTML file, inline SVG, Mermaid or an ASCII sketch, operable where the medium allows.
 - **The image itself is the content.** The lesson hinges on what something looks like: an eye, a face, a hand, an anatomical structure, a painting, a literary or philosophical image. A flat schematic of these turns into icons, and an icon carries none of what the lesson needs. Use a crafted artifact page (shading, real proportions, a figure built and checked), a licensed real image, or a generated image you have inspected. Take the time it needs and say so.
 
-**Worked example: the eye in *Alcibiades I* (132c–133c).** Socrates asks how an eye could see itself. It looks into another eye, and in the pupil, the eye's best part, it sees its own image: the *korē*, the "little doll" (the same word means girl and pupil). So a soul knows itself by looking into another soul, at its best part, where wisdom is. The tiny human figure in the pupil *is* the lesson. A schematic of three rows (eye → pupil, soul → wisdom) restates the answer as boxes. An inline widget with an iris larger than the lids, a figure whose dot-eye sits where an ear would be, and an avatar glyph for the korē teaches nothing and looks broken. The right medium is a crafted page: an almond eye with the iris clipped to the lids, a dark pupil holding a small figure that reads as a person at a glance, and a viewer whose gaze line ends in that pupil. The reference build is `examples/alcibiades-eye.html` (screenshot beside it).
+**Worked example: the eye in *Alcibiades I* (132c to 133c).** Socrates asks how an eye could see itself. It looks into another eye, and in the pupil, the eye's best part, it sees its own image: the *korē*, the "little doll" (the same word means girl and pupil). So a soul knows itself by looking into another soul, at its best part, where wisdom is. The tiny human figure in the pupil *is* the lesson. A schematic of three rows (eye → pupil, soul → wisdom) restates the answer as boxes. An inline widget with an iris larger than the lids, a figure whose dot-eye sits where an ear would be, and an avatar glyph for the korē teaches nothing and looks broken. The right medium is a crafted page: an almond eye with the iris clipped to the lids, a dark pupil holding a small figure that reads as a person at a glance, and a viewer whose gaze line ends in that pupil. The reference build is `examples/alcibiades-eye.html` (screenshot beside it).
 
 ## Geometry, recognizability, and honesty in the frame
 
@@ -49,15 +59,15 @@ For quizzing, mask labels on a real image (`find-media` §4) rather than drawing
 
 ## Pick the strongest format the platform supports
 
-1. **Inline interactive widget** (an inline HTML/SVG tool, an artifact, a canvas) — first choice for anything the learner should manipulate.
-2. **Inline static diagram** (SVG, rendered image) — for one relationship that doesn't need controls.
-3. **A built page** (`lab`) — when they'll return to it, or it needs many steps and scoring.
-4. **Mermaid, ASCII or a code block that draws the figure** — when nothing renders.
-5. **A vetted link with what to look at** (`find-media` §6b) — when you can't draw it accurately.
+1. **Inline interactive widget** (an inline HTML/SVG tool, an artifact, a canvas): choose it first for anything the learner should manipulate.
+2. **Inline static diagram** (SVG, rendered image): use it for one relationship that doesn't need controls.
+3. **A built page** (`lab`): use it when they'll return to it or it needs many steps and scoring.
+4. **Mermaid, ASCII or a code block that draws the figure**: use these when nothing else renders.
+5. **A vetted link with what to look at** (`find-media` §6b): use it when you can't draw the figure accurately.
 
 In voice, describe the picture in words, then offer to send it in text.
 
-**On claude.ai and other chat apps, use the inline widget tool.** If a tool such as `show_widget` (or a visualizer with a `read_me`) is available, call `read_me` once, silently, for the module that fits (usually diagram or interactive). Then call `show_widget` with the visual alone. Your explanation and your question go in your own reply around it, never inside the tool call. If no such tool exists, an artifact is next; failing that, draw it in markdown or a code block.
+**Use the strongest available rendering capability.** If the assistant can show an inline widget (for example `show_widget` on claude.ai), read that tool's instructions if needed and show the visual alone. Keep the teaching and question in the reply. If the host offers an artifact or HTML file, use that next; otherwise draw the structure in Markdown, Mermaid or ASCII. A pasted instruction file still works without any tool.
 
 ## Build a live-turn widget
 
@@ -114,7 +124,7 @@ Both kinds of crafted figure follow these rules, adapted for learning:
 5. **A framed card:** figure number and a short title on top, the interaction hint and a live readout (computed from the model) at the bottom, the legend and a true caption underneath. Words stay out of the drawing.
 6. **Calm, learner-driven motion:** time-based easing, responds to pointer and keyboard, an idle loop only when nobody's touching it, stops when offscreen, and goes still under reduced motion.
 7. **Verify like a critic.** Render at desktop and phone width (390 px), in light and dark, at rest and at several moments of motion, and look at every image. Zoom in about 4× on every joint: every line ends on something, nothing passes through anything, nothing pops between frames.
-8. **Size it honestly.** A crafted figure of this kind takes far longer than a live-turn diagram (the Anatomy skill sizes its smallest figures at 30–90 minutes). In a live session, use a quick linked diagram; build the crafted figure for a `lab`, a course or a study pack, and say how long it will take first.
+8. **Size it honestly.** A crafted figure of this kind takes far longer than a live-turn diagram (the Anatomy skill sizes its smallest figures at 30 to 90 minutes). In a live session, use a quick linked diagram; build the crafted figure for a `lab`, a course or a study pack, and say how long it will take first.
 9. **Effects only where lines can't draw it.** Use a shader for light, water, flame, heat, glow or caustics, driven by the physical model, and keep the figure readable without it (some devices can't run WebGL).
 
 If the **Anatomy** skill is installed (`npx skills add wheresryan22/anatomy`), use it to build these figures; its kit, shader layer, audits and capture scripts do the craft and verification above. Despite the name, it draws machines and apparatus, not human anatomy: for bodies, bones and tissues, use real images (above).
@@ -133,7 +143,7 @@ Each step keeps the controls and colors of the last, so the learner never has to
 
 Use 3D for stereochemistry, conformations, chair cyclohexanes, molecular geometry (VSEPR), crystal lattices, protein structure, anatomy, vectors and fields.
 
-- **Coordinates.** Build small molecules from ideal geometry (C–C 1.54 Å, C–H 1.09 Å, tetrahedral 109.5°, sp² 120°), or load a real conformer: PubChem 3D SDF for small molecules, RCSB PDB for macromolecules (license notes in `references/media-sources.md`).
+- **Coordinates.** Build small molecules from ideal geometry (C-C 1.54 Å, C-H 1.09 Å, tetrahedral 109.5°, sp² 120°), or load a real conformer: PubChem 3D SDF for small molecules, RCSB PDB for macromolecules (license notes in `references/media-sources.md`).
 - **Libraries.** For a few dozen atoms in a live turn, use no library: a canvas projection (`examples/chair-flip.html`). three.js (cdnjs, with OrbitControls for drag and pinch) for larger ball-and-stick models you build yourself; 3Dmol.js for files from PubChem or the PDB. Load only from CDNs the platform allows.
 - **Sync with the 2D views.** Drive the 3D geometry from the same state as the 2D drawing (a dihedral angle, a ring flip, an R/S choice). Animate the learner's change in 3D so they see the motion, not just the result.
 - **Show the hidden atoms.** Skeletal drawings hide hydrogens and carbons. The 3D model shows them all; that is much of its value.
@@ -168,7 +178,7 @@ A learner understands Newman projections for butane but can't tell "what goes on
 
 **The visual** (one linked widget): a molecule picker and a "sight down" bond picker; the line drawing with numbered carbons, the sighted bond in two colors and a dashed line-of-sight arrow; a ball-and-stick 3D model with Newman-view and side-view buttons; the Newman projection; controls for back carbon ±60°, spin drawing, flip view, back to zigzag; strain hidden behind "Show strain" until the learner predicts.
 
-**The question:** "Try 2,3-dimethylbutane down C2–C3. Which staggered rotation is lowest in energy, and why? Predict before you reveal the strain."
+**The question:** "Try 2,3-dimethylbutane down C2-C3. Which staggered rotation is lowest in energy, and why? Predict before you reveal the strain."
 
 ## Chemistry: what to render
 
@@ -190,7 +200,7 @@ A learner understands Newman projections for butane but can't tell "what goes on
 
 | Subject | Render |
 | --- | --- |
-| Physiology, biochemistry | Curves from real equations (O₂ saturation, Michaelis–Menten) with parameter sliders; pathway steppers, one step at a time |
+| Physiology, biochemistry | Curves from real equations (O₂ saturation, Michaelis-Menten) with parameter sliders; pathway steppers, one step at a time |
 | Anatomy, histology | Layer toggles from superficial to deep; cross-section linked to a 3D view; masked-label quiz mode |
 | Genetics | Punnett and pedigree builders; meiosis stepper with chromosomes colored by origin |
 | Physics | Free-body diagram linked to the motion graph; vector and field views with draggable charges |

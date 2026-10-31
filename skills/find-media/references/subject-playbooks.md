@@ -6,10 +6,10 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 ## Cross-cutting rules (apply to every subject)
 
-- **Active beats passive.** Freeman et al. (2014, *PNAS* 111:8410–8415), meta-analysis of 225 STEM studies: active learning raised exam scores by about 0.47 SD, and students in traditional lecture were about 1.5 times more likely to fail. **Strong.**
-- **Guide novices; fade guidance.** Minimal-guidance discovery underperforms explicit instruction with worked examples for novices (Kirschner, Sweller & Clark 2006, *Educ Psychol* 41:75–86). **Moderate–Strong.** Fade support as competence grows.
-- **Retrieve, space, interleave, explain.** Practice testing and distributed practice rated high utility; elaborative interrogation and self-explanation moderate; highlighting and rereading low (Dunlosky et al. 2013, *Psychol Sci Public Interest* 14:4–58). **Strong.** See **evidence.md**.
-- **Experts see deep structure.** Novices sort physics problems by surface features (inclined planes); experts sort by principle (energy conservation) (Chi, Feltovich & Glaser 1981, *Cogn Sci* 5:121–152). **Moderate–Strong.** In every field, train category recognition with mixed, contrasting cases.
+- **Active beats passive.** Freeman et al. (2014, *PNAS* 111:8410 to 8415), meta-analysis of 225 STEM studies: active learning raised exam scores by about 0.47 SD, and students in traditional lecture were about 1.5 times more likely to fail. **Strong.**
+- **Guide novices; fade guidance.** Minimal-guidance discovery underperforms explicit instruction with worked examples for novices (Kirschner, Sweller & Clark 2006, *Educ Psychol* 41:75 to 86). **Moderate-Strong.** Fade support as competence grows.
+- **Retrieve, space, interleave, explain.** Practice testing and distributed practice rated high utility; elaborative interrogation and self-explanation moderate; highlighting and rereading low (Dunlosky et al. 2013, *Psychol Sci Public Interest* 14:4 to 58). **Strong.** See **evidence.md**.
+- **Experts see deep structure.** Novices sort physics problems by surface features (inclined planes); experts sort by principle (energy conservation) (Chi, Feltovich & Glaser 1981, *Cogn Sci* 5:121 to 152). **Moderate-Strong.** In every field, train category recognition with mixed, contrasting cases.
 - **Concept inventories** exist for many fields (FCI, Genetics Concept Assessment, others). Use one item as a diagnostic, never as a drill bank to memorize.
 
 ---
@@ -18,11 +18,11 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Expertise looks like:** a 3D mental model of structures and their relations (layers, compartments, neurovascular supply), fluent naming in current terminology, the ability to predict function and lesion effects from structure, and recognizing tissues and structures in unfamiliar views (cross-sections, imaging, different stains).
 
-**Core activities:** learn regions in layers (bones → muscles → nerves/vessels); draw from memory; label blank diagrams; rotate between views (gross, cross-section, radiograph); palpate on yourself; use 3D models. In histology, scan at low power first, identify the organ by architecture, then the tissue by cells, then confirm with special features. 3D visualization tools improved spatial knowledge (d = 0.50) and factual knowledge (d = 0.30) over comparison methods in a meta-analysis of 36 studies (Yammine & Violato 2015, *Anat Sci Educ* 8:525–538). **Moderate.**
+**Core activities:** learn regions in layers (bones → muscles → nerves/vessels); draw from memory; label blank diagrams; rotate between views (gross, cross-section, radiograph); palpate on yourself; use 3D models. In histology, scan at low power first, identify the organ by architecture, then the tissue by cells, then confirm with special features. 3D visualization tools improved spatial knowledge (d = 0.50) and factual knowledge (d = 0.30) over comparison methods in a meta-analysis of 36 studies (Yammine & Violato 2015, *Anat Sci Educ* 8:525 to 538). **Moderate.**
 
 **Traps:** memorizing a single textbook view; mnemonic piles without spatial models; confusing similar tissues (thyroid vs. lactating breast; ureter vs. vas deferens); identifying a slide by stain color alone; learning names without lesion consequences.
 
-**Practice and self-test:** image occlusion cards (one label per card, no leaks); "unknown" slides at mixed magnifications; spot-tests with rotated or cross-sectional views; "cut here — what do you hit?"; lesion prediction ("radial nerve at the spiral groove: what is lost?").
+**Practice and self-test:** image occlusion cards (one label per card, no leaks); "unknown" slides at mixed magnifications; spot-tests with rotated or cross-sectional views; "cut here, what do you hit?"; lesion prediction ("radial nerve at the spiral groove: what is lost?").
 
 **Resources:** virtual microscopy (Michigan Histology), Radiopaedia normal anatomy, OpenStax A&P figures, 3D apps; atlas images linked not copied (see **find-media**).
 
@@ -32,7 +32,7 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Expertise looks like:** causal models with feedback loops; predicting the direction of change of every variable after a perturbation; reasoning from gradients, flows and resistances; knowing normal values well enough to spot abnormal ones.
 
-**Core activities:** draw the system as a flow diagram with sensors, integrators and effectors; run "what if" perturbations (↓blood volume → baroreceptor → …); work through pressure–volume loops, O₂–Hb curves and renal handling with real numbers; explain a graph's shape aloud. **Craft**, consistent with self-explanation evidence (**Moderate**).
+**Core activities:** draw the system as a flow diagram with sensors, integrators and effectors; run "what if" perturbations (↓blood volume → baroreceptor → …); work through pressure-volume loops, O₂-Hb curves and renal handling with real numbers; explain a graph's shape aloud. **Craft**, consistent with self-explanation evidence (**Moderate**).
 
 **Traps:** teleology ("the body wants…") replacing mechanism; memorizing arrows tables (↑↓↔) without the loop; confusing primary change with compensation; unit errors in flow, clearance and partial pressure; treating a common analogy (pump = heart) beyond where it breaks.
 
@@ -46,11 +46,11 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Expertise looks like:** reading structures (functional groups, charge at a given pH); reasoning about energetics, kinetics and regulation; connecting pathways to physiological state (fed vs. fasted); interpreting experimental data (Western blots, kinetics plots, knockouts).
 
-**Core activities:** draw structures from memory; trace a carbon or electron through a pathway; for each regulated step, state the signal, the mechanism and why it makes sense physiologically; derive Michaelis–Menten consequences rather than memorizing inhibitor tables; analyze real figures from papers.
+**Core activities:** draw structures from memory; trace a carbon or electron through a pathway; for each regulated step, state the signal, the mechanism and why it makes sense physiologically; derive Michaelis-Menten consequences rather than memorizing inhibitor tables; analyze real figures from papers.
 
-**Traps:** "ATP stores energy in its bonds"; memorizing pathways as word lists; enzyme names without regulation logic; mixing up Km and affinity direction; confusing correlation in a blot with mechanism; scale confusion between molecule, organelle and cell (students' DNA drawings reveal scale and abstraction difficulties — Uminski, Wright & Newman 2025, *J Microbiol Biol Educ*). **Moderate.**
+**Traps:** "ATP stores energy in its bonds"; memorizing pathways as word lists; enzyme names without regulation logic; mixing up Km and affinity direction; confusing correlation in a blot with mechanism; scale confusion between molecule, organelle and cell (students' DNA drawings reveal scale and abstraction difficulties; Uminski, Wright & Newman 2025, *J Microbiol Biol Educ*). **Moderate.**
 
-**Practice and self-test:** blank pathway maps filled from memory; "fed or fasted — which enzyme is active and why?"; data-interpretation problems; contrast cards (competitive vs. noncompetitive vs. uncompetitive).
+**Practice and self-test:** blank pathway maps filled from memory; "fed or fasted, which enzyme is active and why?"; data-interpretation problems; contrast cards (competitive vs. noncompetitive vs. uncompetitive).
 
 **Resources:** RCSB PDB and Molecule of the Month for structures, HHMI BioInteractive animations and data activities, course text; mnemonics only for names and codes (see **memory-hooks**).
 
@@ -62,7 +62,7 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Core activities:** draw chromosomes through meiosis with alleles labeled; solve crosses by reasoning before Punnett squares; pedigree analysis with explicit hypothesis elimination; probability rules practiced on varied problems.
 
-**Traps:** confusing chromosomes, chromatids and alleles; believing dominant means common or "stronger"; independent assortment applied to linked genes; misusing probability (adding where you should multiply). The Genetics Concept Assessment (Smith, Wood & Knight 2008, *CBE—Life Sci Educ* 7:422–430) targets these core ideas. **Moderate.**
+**Traps:** confusing chromosomes, chromatids and alleles; believing dominant means common or "stronger"; independent assortment applied to linked genes; misusing probability (adding where you should multiply). The Genetics Concept Assessment (Smith, Wood & Knight 2008, *CBE Life Sci Educ* 7:422 to 430) targets these core ideas. **Moderate.**
 
 **Practice and self-test:** pedigrees with "which modes can be excluded and why?"; meiosis drawing from memory; a GCA-style concept item at the start and end of a unit.
 
@@ -74,9 +74,9 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Expertise looks like:** population-level, variational thinking (selection acts on variation already present); quantitative reasoning about populations and energy flow; tree-thinking (reading phylogenies by common ancestry, not tip order).
 
-**Core activities:** explain adaptations using variation → heritability → differential reproduction; read and redraw phylogenetic trees; work with real data (population growth, Hardy–Weinberg); case studies with competing hypotheses.
+**Core activities:** explain adaptations using variation → heritability → differential reproduction; read and redraw phylogenetic trees; work with real data (population growth, Hardy-Weinberg); case studies with competing hypotheses.
 
-**Traps:** need-driven or Lamarckian explanations ("giraffes stretched"), individuals evolving, "survival of the fittest" as strength, evolution as progress or ladder, reading trees left-to-right as rank (Gregory 2009, *Evo Edu Outreach* 2:156–175). **Moderate.** Outdated taxonomy in figures.
+**Traps:** need-driven or Lamarckian explanations ("giraffes stretched"), individuals evolving, "survival of the fittest" as strength, evolution as progress or ladder, reading trees left-to-right as rank (Gregory 2009, *Evo Edu Outreach* 2:156 to 175). **Moderate.** Outdated taxonomy in figures.
 
 **Practice and self-test:** "What would have to be true for selection to explain this?"; tree-reading items (which pair is most closely related?); misconception-targeted questions with written justification.
 
@@ -86,7 +86,7 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 ## 6. General chemistry
 
-**Expertise looks like:** moving among Johnstone's three levels — macroscopic (what you see), submicroscopic (particles) and symbolic (equations) — and choosing the right one (Johnstone 1991, *J Comput Assist Learn* 7:75–83). **Moderate.** Also: units and proportional reasoning as reflexes; estimating before calculating.
+**Expertise looks like:** moving among Johnstone's three levels (macroscopic: what you see; submicroscopic: particles; symbolic: equations) and choosing the right one (Johnstone 1991, *J Comput Assist Learn* 7:75 to 83). **Moderate.** Also: units and proportional reasoning as reflexes; estimating before calculating.
 
 **Core activities:** particle drawings for every new concept (dissolving, equilibrium, gas laws); dimensional analysis; worked examples then faded problems; predict-observe-explain with demos or simulations.
 
@@ -100,20 +100,20 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 ## 7. Organic chemistry
 
-**Expertise looks like:** using curved arrows as a **reasoning tool** to predict products of unfamiliar reactions — from nucleophile/electrophile identification, charge, sterics, stability and solvent — and planning syntheses. Spectroscopy as structure-solving logic.
+**Expertise looks like:** using curved arrows as a **reasoning tool** to predict products of unfamiliar reactions from nucleophile/electrophile identification, charge, sterics, stability and solvent; planning syntheses; and solving structures from spectra.
 
 **Evidence on how students actually learn it:**
-- Many students used curved arrows only after deciding on a product ("decorating") or stopped using mechanistic notation over the year (Grove, Cooper & Rush 2012, *J Chem Educ* 89:844–849). **Moderate.**
-- Students fall on a continuum from rote memorization to meaningful learning; rote learners struggle with new reactions (Grove & Bretz 2012, *Chem Educ Res Pract* 13:201–208). **Moderate.**
+- Many students used curved arrows only after deciding on a product ("decorating") or stopped using mechanistic notation over the year (Grove, Cooper & Rush 2012, *J Chem Educ* 89:844 to 849). **Moderate.**
+- Students fall on a continuum from rote memorization to meaningful learning; rote learners struggle with new reactions (Grove & Bretz 2012, *Chem Educ Res Pract* 13:201 to 208). **Moderate.**
 - Even graduate students often used mechanisms to get to a product they had already guessed (Bhattacharyya & Bodner 2005, *J Chem Educ* 82:1402). **Moderate**, qualitative.
-- On exams with **unfamiliar** reactions, students were better at drawing arrows given products than products given arrows; errors included implicit atoms, intramolecular reactions and "moving electrons to a different atom" (Flynn & Featherstone 2017, *Chem Educ Res Pract* 18:64–77). **Moderate.**
+- On exams with **unfamiliar** reactions, students were better at drawing arrows given products than products given arrows; errors included implicit atoms, intramolecular reactions and "moving electrons to a different atom" (Flynn & Featherstone 2017, *Chem Educ Res Pract* 18:64 to 77). **Moderate.**
 
 **Core activities:**
 1. **Fluency with the electron-pushing formalism first**: arrows from electrons (lone pair or bond) to an atom or bond; formal charges on every intermediate; explicit hydrogens when they move.
 2. **Mechanism families, not reaction lists**: nucleophilic substitution, elimination, addition, acyl substitution, enolate chemistry. Classify each new reaction into a family and explain the arrows.
-3. **Reagent cards — after understanding.** A reagent → transformation card is fine for retrieval once the learner can draw the mechanism; reagent cards alone produce the rote-learner profile above.
+3. **Reagent cards, after understanding.** A reagent → transformation card is fine for retrieval once the learner can draw the mechanism; reagent cards alone produce the rote-learner profile above.
 4. **Model kits and linked 3D views** for stereochemistry, conformations, chair flips, SN2 inversion and E2 anti-periplanar geometry. Draw and build. Feedback from concrete or virtual 3D models improved students' translation between 2D diagrams, held at a one-week delay, and did not create dependence on the model (Stull & Hegarty 2015, *Proc. Cogn Sci Soc* 37; abstract reviewed). **Moderate.** In live teaching, link the line drawing (numbered carbons), the Newman or chair projection and a 3D model, with the same color for the same atom in every view (`visual-teaching.md`).
-   - **Newman projections:** sight down one bond; inventory the three groups on each carbon (four bonds minus the sighted one); collapse everything beyond each carbon into one label (CH₃, CH₂CH₃, CH(CH₃)₂); count hidden hydrogens in the line drawing; start from the zigzag, which is all-anti; orientation is a choice, only the angles matter. Score conformations with the course's interaction table (intro default: OpenStax *Organic Chemistry* Table 3.5 — H/H eclipsed 4.0 kJ/mol, H/CH₃ eclipsed 6.0, CH₃/CH₃ eclipsed 11.0, CH₃/CH₃ gauche 3.8).
+   - **Newman projections:** sight down one bond; inventory the three groups on each carbon (four bonds minus the sighted one); collapse everything beyond each carbon into one label (CH₃, CH₂CH₃, CH(CH₃)₂); count hidden hydrogens in the line drawing; start from the zigzag, which is all-anti; orientation is a choice, only the angles matter. Score conformations with the course's interaction table (intro default: OpenStax *Organic Chemistry* Table 3.5, H/H eclipsed 4.0 kJ/mol, H/CH₃ eclipsed 6.0, CH₃/CH₃ eclipsed 11.0, CH₃/CH₃ gauche 3.8).
    - **Chairs:** draw the chair with parallel bond pairs; mark axial and equatorial; ring-flip swaps them; larger groups prefer equatorial (1,3-diaxial strain). Confirm every chair in 3D before scoring it.
    - **Stereochemistry:** assign priorities, orient the lowest away, read the direction; swapping any two groups inverts R/S. Rotate a 3D model to check a wedge-dash drawing.
 5. **Spectroscopy** as inference: degrees of unsaturation → IR functional groups → ¹H NMR (shift, integration, splitting) → ¹³C → assemble and check.
@@ -131,11 +131,11 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Expertise looks like:** principle-first problem solving (identify the governing principle, represent the situation, then do math); multiple representations (diagram, graph, equation); checking with units, limits and estimates.
 
-**Evidence:** the Force Concept Inventory (Hestenes, Wells & Swackhamer 1992, *Phys Teach* 30:141–158) showed that traditional instruction leaves Newtonian misconceptions largely intact. Across 62 courses and ~6,000 students, interactive-engagement courses averaged a normalized FCI gain of about 0.48 versus about 0.23 for traditional courses (Hake 1998, *Am J Phys* 66:64–74). **Strong.** Experts categorize by principle, novices by surface features (Chi et al. 1981). **Moderate–Strong.**
+**Evidence:** the Force Concept Inventory (Hestenes, Wells & Swackhamer 1992, *Phys Teach* 30:141 to 158) showed that traditional instruction leaves Newtonian misconceptions largely intact. Across 62 courses and ~6,000 students, interactive-engagement courses averaged a normalized FCI gain of about 0.48 versus about 0.23 for traditional courses (Hake 1998, *Am J Phys* 66:64 to 74). **Strong.** Experts categorize by principle, novices by surface features (Chi et al. 1981). **Moderate-Strong.**
 
-**Core activities:** a fixed problem-solving schema — sketch, define system, choose principle (Newton's laws, energy, momentum), free-body diagram, symbolic solution, numbers last, check units and limiting cases. Conceptual questions with peer discussion. Simulations for prediction.
+**Core activities:** follow a fixed problem-solving schema: sketch, define the system, choose the principle (Newton's laws, energy, momentum), draw a free-body diagram, solve symbolically, add numbers last, and check units and limiting cases. Conceptual questions with peer discussion. Simulations for prediction.
 
-**Traps (FCI-type):** motion implies force; heavier objects fall faster; force "used up"; action–reaction forces cancel on one object; velocity and acceleration confused; plugging into equations by matching variables.
+**Traps (FCI-type):** motion implies force; heavier objects fall faster; force "used up"; action-reaction forces cancel on one object; velocity and acceleration confused; plugging into equations by matching variables.
 
 **Practice and self-test:** mixed problem sets labeled only after solving ("which principle?"); conceptual multiple-choice with justification; derive before using; limiting-case checks.
 
@@ -147,7 +147,7 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Expertise looks like:** conceptual understanding (derivative as rate and local linearity; integral as accumulation), procedural fluency, strategic choice of method, and reading/writing proofs or justifications at the course's level.
 
-**Core activities:** worked examples with self-explanation, then faded steps; deliberate mixing of problem types so the learner must choose a method — interleaving improved delayed test scores in a 7th-grade math study (Rohrer, Dedrick & Burgess 2014; see **evidence.md**); graphical exploration (Desmos/GeoGebra); error analysis of wrong solutions.
+**Core activities:** worked examples with self-explanation, then faded steps; deliberate mixing of problem types so the learner must choose a method. Interleaving improved delayed test scores in a 7th-grade math study (Rohrer, Dedrick & Burgess 2014; see **evidence.md**); graphical exploration (Desmos/GeoGebra); error analysis of wrong solutions.
 
 **Traps:** symbol pushing without meaning; algebra and trig gaps masquerading as calculus trouble; blocked homework that never requires choosing a method; skipping units in applied problems.
 
@@ -159,7 +159,7 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 ## 10. Statistics
 
-**Expertise looks like:** statistical thinking — variability, distributions, sampling, the role of design in causal claims — and judging which method fits a question; interpreting results in context.
+**Expertise looks like:** statistical thinking, variability, distributions, sampling, the role of design in causal claims, and judging which method fits a question; interpreting results in context.
 
 **Core activities:** work with real data; simulation-based inference (resample and shuffle to see sampling distributions) before formulas; critique study designs; interpret output in plain language. The ASA's GAISE College Report (2016) recommends teaching statistical thinking, using real data and technology, and fostering active learning. **Craft** (expert consensus guideline).
 
@@ -178,8 +178,8 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 **Core activities:**
 - **Read the primary text slowly**, with a guiding question; summarize each paragraph's job in the argument.
 - **Reconstruct** the argument in standard form; check validity and identify the contested premise.
-- **Objection–reply cycles**: state the strongest objection; reply as the author would; evaluate.
-- **Argument mapping**: a single-course study reported critical-thinking test gains after semester-long argument-mapping practice (Twardy 2004, *Teach Philos* 27:95–116). **Weak–Moderate** (limited designs).
+- **Objection-reply cycles**: state the strongest objection; reply as the author would; evaluate.
+- **Argument mapping**: a single-course study reported critical-thinking test gains after semester-long argument-mapping practice (Twardy 2004, *Teach Philos* 27:95 to 116). **Weak-Moderate** (limited designs).
 - **Write** short, focused papers: thesis, reconstruction, objection, reply, assessment.
 
 **Traps:** summarizing instead of arguing; strawmanning; relying on secondary summaries or videos instead of the text; mistaking a counterexample for a refutation of an unrelated premise; jargon without definitions.
@@ -198,21 +198,21 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Traps:** proof-texting; reading one translation as the original; anachronism; treating one tradition's reading as "the" Christian or Jewish view; caricaturing traditions; confusing historical-critical claims with confessional claims (or dismissing either).
 
-**Practice and self-test:** passage outlines from memory; "how would a Catholic, Orthodox, Reformed and historical-critical reader each handle this verse?"; key-term studies (Hebrew/Greek word, range of meaning); timeline and canon-order recall (canons differ — see **memory-hooks** example 11).
+**Practice and self-test:** passage outlines from memory; "how would a Catholic, Orthodox, Reformed and historical-critical reader each handle this verse?"; key-term studies (Hebrew/Greek word, range of meaning); timeline and canon-order recall (canons differ, see **memory-hooks** example 11).
 
-**Resources:** primary texts and critical editions, multiple translations, BibleProject (overview), tradition-specific teachers identified as such (Word on Fire — Catholic; Ligonier — Reformed), Open Yale Courses (e.g., religious studies lectures).
+**Resources:** primary texts and critical editions, multiple translations, BibleProject (overview), tradition-specific teachers identified as such (Word on Fire, Catholic; Ligonier, Reformed), Open Yale Courses (e.g., religious studies lectures).
 
 **Tutor and lab:** represent traditions fairly and name them; when the learner states their own convictions, teach accurately within and about them without sermonizing or debating unprompted. Lab: parallel-translation viewer, word study cards, position-comparison tables.
 
 ## 13. History
 
-**Expertise looks like:** historical thinking — sourcing (who wrote this, when, why), contextualization, corroboration across sources, and close reading. Historians used these heuristics where able high-school students did not (Wineburg 1991, *J Educ Psychol* 83:73–87). **Moderate.**
+**Expertise looks like:** historical thinking, sourcing (who wrote this, when, why), contextualization, corroboration across sources, and close reading. Historians used these heuristics where able high-school students did not (Wineburg 1991, *J Educ Psychol* 83:73 to 87). **Moderate.**
 
 **Core activities:** document-based analysis; building arguments from evidence; timelines tied to causes; comparing historians' interpretations.
 
 **Traps:** treating textbooks as neutral; presentism; memorizing dates without causation; single-source conclusions.
 
-**Practice and self-test:** sourcing questions on unseen documents; cause–consequence chains from memory; short evidence-based arguments.
+**Practice and self-test:** sourcing questions on unseen documents; cause-consequence chains from memory; short evidence-based arguments.
 
 **Resources:** primary-source archives, Smithsonian Open Access, Open Yale Courses history lectures.
 
@@ -223,12 +223,12 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 **Expertise looks like:** comprehension and production at speed in real contexts; large vocabulary; automatized grammar.
 
 **Core activities:**
-- **Comprehensible input**: lots of listening and reading just above current level. Krashen's input hypothesis (*Principles and Practice in Second Language Acquisition*, 1982) made input central. **Moderate**; critiques note it is hard to test as stated and that output and interaction also matter — Swain's output hypothesis (1985) argued that producing language pushes learners to notice gaps.
+- **Comprehensible input**: lots of listening and reading just above current level. Krashen's input hypothesis (*Principles and Practice in Second Language Acquisition*, 1982) made input central. **Moderate**; critiques note it is hard to test as stated and that output and interaction also matter. Swain's output hypothesis (1985) argued that producing language pushes learners to notice gaps.
 - **Spaced retrieval of high-frequency vocabulary** (Nation 2001, *Learning Vocabulary in Another Language*). **Strong** for retention; pair with use in context.
 - **Speaking and writing with feedback**: conversation, shadowing, corrected writing.
 - **Explicit grammar** in small doses tied to input.
 
-**Traps:** apps that teach recognition only; grammar study without input; never speaking; mnemonic overuse (keyword hooks forget fast without spacing — see **memory-hooks**).
+**Traps:** apps that teach recognition only; grammar study without input; never speaking; mnemonic overuse (keyword hooks forget fast without spacing, see **memory-hooks**).
 
 **Practice and self-test:** recall in the target→native and native→target directions; listening comprehension checks; timed speaking; dictation.
 
@@ -240,7 +240,7 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Expertise looks like:** an accurate mental model of program execution; decomposition; reading and debugging code; using tools (tests, debugger, docs).
 
-**Core activities:** trace code by hand (predict output before running); worked examples then modify then write; small projects with tests; debugging deliberately broken code; Parsons problems (reorder given lines) for novices. **Craft–Moderate.**
+**Core activities:** trace code by hand (predict output before running); worked examples then modify then write; small projects with tests; debugging deliberately broken code; Parsons problems (reorder given lines) for novices. **Craft-Moderate.**
 
 **Traps:** copying code without tracing; tutorial loops with no independent build; AI-generated code accepted without reading.
 
@@ -254,7 +254,7 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Expertise looks like:** a clear claim, organized support, audience awareness, and revision.
 
-**Evidence:** explicit strategy instruction (planning, revising, editing), summarization, collaborative writing, specific goals and sentence combining all improved adolescent writing quality (Graham & Perin 2007, *J Educ Psychol* 99:445–476). **Strong** for that population; **Moderate** for adults by extension.
+**Evidence:** explicit strategy instruction (planning, revising, editing), summarization, collaborative writing, specific goals and sentence combining all improved adolescent writing quality (Graham & Perin 2007, *J Educ Psychol* 99:445 to 476). **Strong** for that population; **Moderate** for adults by extension.
 
 **Core activities:** study models; plan with an outline; draft; revise for argument before sentences; get specific feedback; rewrite.
 
@@ -262,13 +262,13 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 **Practice and self-test:** reverse-outline your draft; state the thesis in one sentence; revise one paragraph to a specific goal.
 
-**Tutor:** respond to their draft with questions and one priority; never produce submittable text for graded work. **Lab:** reverse-outline tool; claim–evidence tagging.
+**Tutor:** respond to their draft with questions and one priority; never produce submittable text for graded work. **Lab:** reverse-outline tool; claim-evidence tagging.
 
 ## 17. Music and motor skills
 
 **Expertise looks like:** accurate, automatic execution under performance conditions, with expressive control.
 
-**Evidence:** Ericsson, Krampe & Tesch-Römer (1993, *Psychol Rev* 100:363–406) argued deliberate practice — effortful, goal-directed, feedback-rich — explains most expert differences. A meta-analysis found deliberate practice explained about 26% of performance variance in games, 21% in music, 18% in sports, 4% in education and under 1% in professions (Macnamara, Hambrick & Oswald 2014, *Psychol Sci* 25:1608–1618). A replication of the 1993 violin study found a substantial but considerably smaller effect and did not reproduce the skill-level ordering (Macnamara & Maitra 2019, *R Soc Open Sci* 6:190327). **Strong** that practice matters; **contested** how much it explains.
+**Evidence:** Ericsson, Krampe & Tesch-Römer (1993, *Psychol Rev* 100:363 to 406) argued that deliberate practice (effortful, goal-directed and feedback-rich) explains most expert differences. A meta-analysis found deliberate practice explained about 26% of performance variance in games, 21% in music, 18% in sports, 4% in education and under 1% in professions (Macnamara, Hambrick & Oswald 2014, *Psychol Sci* 25:1608 to 1618). A replication of the 1993 violin study found a substantial but considerably smaller effect and did not reproduce the skill-level ordering (Macnamara & Maitra 2019, *R Soc Open Sci* 6:190327). **Strong** that practice matters; **contested** how much it explains.
 
 **Core activities:** isolate hard passages; slow practice with accuracy; specific goals per session; immediate feedback (teacher, recording); gradually add speed and performance conditions; distributed sessions.
 
@@ -280,7 +280,7 @@ Source review: **2026-10-06**; organic chemistry visual additions **2026-10-11**
 
 ## 18. Clinical reasoning and MCAT/USMLE-style exams
 
-**Expertise looks like:** organized knowledge in **illness scripts** (predisposing conditions, pathophysiology, signs and symptoms, course), fast pattern recognition plus deliberate analytic checking, and a problem representation that summarizes a case in abstract terms ("acute, unilateral, pleuritic chest pain in a postoperative patient") (Bowen 2006, *N Engl J Med* 355:2217–2225; Schmidt & Rikers 2007, *Med Educ* 41:1133–1139). Teach both analytic and non-analytic reasoning (Eva 2005, *Med Educ* 39:98–106). **Moderate.**
+**Expertise looks like:** organized knowledge in **illness scripts** (predisposing conditions, pathophysiology, signs and symptoms, course), fast pattern recognition plus deliberate analytic checking, and a problem representation that summarizes a case in abstract terms ("acute, unilateral, pleuritic chest pain in a postoperative patient") (Bowen 2006, *N Engl J Med* 355:2217 to 2225; Schmidt & Rikers 2007, *Med Educ* 41:1133 to 1139). Teach both analytic and non-analytic reasoning (Eva 2005, *Med Educ* 39:98 to 106). **Moderate.**
 
 **Core activities:** build illness scripts for each condition and **compare-and-contrast** scripts for look-alikes; write a one-line problem representation for every case; generate a differential, then discriminate by key features; do question-bank items in timed, mixed blocks; review every question (right and wrong) for the reasoning, not just the fact.
 

@@ -1,27 +1,27 @@
 ---
 name: assignment
-description: "Use for graded or submittable class work (problem sets, lab reports, essays, coding assignments), even if the user only pastes the question. Coaches; never writes the answer."
+description: "Use when someone pastes homework or a problem-set question, has a lab report, essay, or coding assignment, or wants draft review before submission; coach, never write answers."
 ---
 
 # Assignment
 
-Someone brought you work they will hand in. The easy move is to do it: the answers are right there, and they're often tired and short on time. Doing it costs them the very thing the assignment exists to build. Your job is the midwife's job (Socrates' image in Plato's *Theaetetus*, 149a–151d): bring their own thinking out, test it, and help it come out sound. When they submit, the work and the skill behind it are theirs.
+Someone brought you work they will hand in. The easy move is to do it: the answers are right there, and they're often tired and short on time. Doing it costs them the very thing the assignment exists to build. Your job is the midwife's job (Socrates' image in Plato's *Theaetetus*, 149a to 151d): bring their own thinking out, test it, and help it come out sound. When they submit, the work and the skill behind it are theirs.
 
 Paths like `references/…`, `templates/…` and `examples/…` are relative to this skill's folder, which carries its own copy of every file it names. Other Myelinate skills are siblings (`../tutor/SKILL.md`) and are installed as their own skills too. If a file is missing from your copy, fetch it from `https://raw.githubusercontent.com/baney75/myelinate/main/` plus its path in the repository (`references/…`, `skills/<name>/SKILL.md`); if you can't fetch, work from this file and the router's core rules.
 
 ## Why this matters
 
-- **Doing it for them prevents the skill from forming.** Clinical educators name three risks when learners offload reasoning to AI: *deskilling* (losing a skill they had), *never-skilling* (never building it), and *mis-skilling* (absorbing the AI's errors) (Abdulnour, Gin & Boscardin, *N Engl J Med* 2025;393:786–797, doi:10.1056/NEJMra2503232). The framework comes from medicine, but the logic plausibly extends to any course.
+- **Doing it for them prevents the skill from forming.** Clinical educators name three risks when learners offload reasoning to AI: *deskilling* (losing a skill they had), *never-skilling* (never building it), and *mis-skilling* (absorbing the AI's errors) (Abdulnour, Gin & Boscardin, *N Engl J Med* 2025;393:786 to 797, doi:10.1056/NEJMra2503232). The framework comes from medicine, but the logic plausibly extends to any course.
 - **Answer-giving help raises the practice score and lowers the exam score.** High-schoolers with an answer-giving chatbot did 48% better on practice but 17% worse on the exam, once it was gone, than students who never had it; a hint-giving version avoided most of the harm (Bastani et al., *PNAS* 2025).
 - **A better product is not more learning.** ChatGPT-assisted writers produced better essays but gained no more knowledge or transfer than controls (Fan et al., *BJET* 2025). Help that substitutes for the learner's work lowered understanding; help that complements it, after they try, helped (Lehmann, Cornelius & Sting, arXiv:2409.09047).
 
 ## 0. When this applies
 
-- Memory or the conversation shows the work is for a course they're enrolled in: an assignment sheet, a rubric, a due date, "my professor wants", "for my lab report", a pasted homework question.
-- Work **Claude assigned** in a `teach` course or a course project: the same rules hold; Claude doesn't hand over answers to its own assignments.
+- Memory or the conversation shows the work is for a course they're enrolled in: an assignment sheet, a rubric, a due date, "my professor wants", "for my lab report", a pasted homework or problem-set question. A pasted question belongs here even without an explicit grading cue.
+- Work **the assistant assigned** in a `teach` course or a course project: the same rules hold; the assistant does not hand over answers to its own assignments.
 - Not graded? A practice set or self-quiz goes to `tutor`. A personal build goes to `project`.
 - **Live exams and quizzes:** don't help while it's in progress. Offer to study the material afterward.
-- **Opt-outs:** if memory or the learner says to switch off Myelinate's coaching (for everything, or this subject), don't auto-activate it. That turns off the coaching style; Claude still won't produce submittable graded work.
+- **Opt-outs:** if memory or the learner says to switch off Myelinate's coaching (for everything, or this subject), don't auto-activate it. That turns off the coaching style; the assistant still won't produce submittable graded work.
 
 ## 1. Find out what's being asked, by whom, under what rules
 
@@ -69,7 +69,7 @@ Say what you *can* do, warmly and in one line, then do it. No lectures about che
 | **Coding assignment** | Explain the concept; debug the error they show you by locating it; teach with a parallel function. Don't write the function they were asked to write. |
 | **Discussion post or reflection** | Help them find what they actually think: questions, not drafts. |
 | **Presentation** | Their storyline and claims; you rehearse them with questions and timing. |
-| **Claude-assigned work** (`teach`, `course-project`) | Same rules. Grade it with `assess` once they submit. |
+| **Assistant-assigned work** (`teach`, `course-project`) | Same rules. Grade it with `assess` once they submit. |
 
 ## 5. Under pressure
 

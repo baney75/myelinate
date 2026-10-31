@@ -26,4 +26,4 @@ States: Not checked · Needs support · Independent this session · Retrieved af
 |---|---|---|
 | | | |
 
-Grades here are the teacher's honest assessment against a university-level standard. They are not academic credit.
+Grades here are the teacher's honest assessment against a stated level and objectives. They are not academic credit.

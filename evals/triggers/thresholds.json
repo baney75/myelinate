@@ -1,0 +1,24 @@
+{
+ "note": "Floors are main's scores at aef6284 before the trigger rewrite (gpt-5.6-luna, effort low, 3 passes). Raise them when a change beats them; never lower them without a written reason in the pull request.",
+ "protocol": {
+  "model": "gpt-5.6-luna",
+  "effort": "low",
+  "passes": 3
+ },
+ "required_results": [
+  "latest.json",
+  "holdout.json"
+ ],
+ "results": {
+  "latest.json": {
+   "prompts": "prompts.jsonl",
+   "min_hit_rate": 0.964,
+   "max_false_fire_rate": 0.024
+  },
+  "holdout.json": {
+   "prompts": "holdout.jsonl",
+   "min_hit_rate": 1.0,
+   "max_false_fire_rate": 0.167
+  }
+ }
+}

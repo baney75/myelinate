@@ -1,6 +1,6 @@
 ---
 name: notes
-description: "Use when the user shares or points to study notes (Drive, OneDrive, Notion, Obsidian, photos of paper), asks whether they're good, or wants to study from them."
+description: "Use when someone shares study notes or says study from my notes, check my notes, or turn my notebook into practice. Not for a general explanation without notes."
 ---
 
 # Notes
@@ -28,7 +28,7 @@ Read like a teacher grading thinking, not handwriting.
 | --- | --- | --- |
 | **Misconceptions** written as fact | A wrong model they'll study into permanence | Flag the line, ask them to predict a case where it breaks, then fix it (`tutor` §3a) |
 | **Gaps:** objectives on the study guide with no notes | Missed lecture, or didn't see it mattered | List them; teach or assign the source |
-| **Verbatim copying:** notes that match the slides or text word for word, long unbroken transcripts | Possibly transcription without processing. In one replication, typed notes overlapped more with the lecture, and more overlap went with lower quiz scores, though the link wasn't shown to be causal (Urry et al. 2021, *Psychol Sci* 32:326–339) | Not a verdict. Ask them to explain one copied section in their own words; if they can't, that's the gap |
+| **Verbatim copying:** notes that match the slides or text word for word, long unbroken transcripts | Possibly transcription without processing. In one replication, typed notes overlapped more with the lecture, and more overlap went with lower quiz scores, though the link wasn't shown to be causal (Urry et al. 2021, *Psychol Sci* 32:326 to 339) | Not a verdict. Ask them to explain one copied section in their own words; if they can't, that's the gap |
 | **Connections:** arrows, "because", "compare with", their own examples, questions in the margins | Generative processing, usually a good sign | Name it specifically; build on it |
 | **Structure:** headings, hierarchy, diagrams they drew | How they organize the field | Compare with an expert map (`references/subject-playbooks.md`); show what's missing |
 | **Errors in their diagrams** | Spatial or structural misunderstanding | Render the correct version beside theirs and ask what differs (`references/visual-teaching.md`) |

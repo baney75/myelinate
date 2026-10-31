@@ -1,0 +1,9 @@
+[
+  {"name": "pdf", "description": "Use when reading, creating, merging, splitting, filling or converting PDF files."},
+  {"name": "docx", "description": "Use when creating or editing Word documents, slide decks or other office files."},
+  {"name": "frontend-design", "description": "Use when building or styling web pages, UI components or front-end apps."},
+  {"name": "code-review", "description": "Use when asked to review a pull request or diff for bugs, security issues or style before merge."},
+  {"name": "debugging", "description": "Use when code crashes, tests fail or a bug needs fixing; also for writing or repairing tests."},
+  {"name": "calendar", "description": "Use when creating, moving or listing calendar events and reminders."},
+  {"name": "writing-editor", "description": "Use when editing, proofreading or tightening prose such as emails, cover letters and reports."}
+]
