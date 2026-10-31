@@ -107,6 +107,20 @@ for manifest in ('.claude-plugin/plugin.json', '.claude-plugin/marketplace.json'
                 errors.append('.claude-plugin/marketplace.json: plugin description differs from plugin.json (claude.ai shows the marketplace one)')
             if manifest.startswith('.codex-plugin') and version and data.get('version') != version.group(1):
                 errors.append(f'{manifest}: version differs from myelinate.md')
+            if manifest.startswith('.codex-plugin'):
+                # OpenAI's plugin directory refuses a listing past these limits or without its icons.
+                ui = data.get('interface', {})
+                for field, limit in (('displayName', 30), ('shortDescription', 30), ('longDescription', 4000),
+                                     ('developerName', 80)):
+                    if not ui.get(field) or len(ui[field]) > limit:
+                        errors.append(f'{manifest}: interface.{field} must be 1 to {limit} characters')
+                for field in ('composerIcon', 'logo'):
+                    if not ui.get(field) or not (ROOT / ui[field]).is_file():
+                        errors.append(f'{manifest}: interface.{field} must name a file in the plugin')
+                if not isinstance(ui.get('capabilities'), list) or not ui.get('category'):
+                    errors.append(f'{manifest}: interface needs category and a capabilities list')
+            if manifest == '.claude-plugin/plugin.json' and not (ROOT / data.get('icon', '')).is_file():
+                errors.append(f'{manifest}: icon must name a file in the plugin')
 
 class Links(HTMLParser):
     def __init__(self):
