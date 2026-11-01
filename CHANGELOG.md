@@ -6,6 +6,22 @@ What was actually tested for each version, and its limits, is in [evals/verifica
 
 ## [Unreleased]
 
+## [2.7.0] - 2026-11-01
+
+### Changed
+- **One screen, one idea.** A teaching reply fits on about one phone screen: the inline visual or practice widget leads when the idea has shape, then about 250 words of prose (about 400 for a "just lay it out" overview), bold only where a term is defined, no stacked bold headings, extras or recap. "Teach me all I need to know for these" gets the map of the few ideas and the first one taught well. Router §4, `tutor` Explain mode. In a blind A/B (Sonnet replies, Opus judge), the new text won 11 of 12 pairs and cut prelab replies from about 825 to about 310 words; results in `evals/verification.md`.
+- **Course work counts as graded.** Prelab questions, lab-report calculations, worksheets and problem sets are graded unless the learner says otherwise. "Teach me all I need to solve these" is taught on parallel cases and the questions go back to the learner one at a time, never posted back "answered with the reasoning". Router rule 13, `assignment` §5; the `assignment` description names prelabs.
+- **A question set becomes practice they do.** Questions a learner brings to get ready for become an inline practice widget: a card per question, their answer box, hints on parallel cases, and a button that sends their answers back for a verdict where the host allows it. Router rule 14.
+- Router rule 9: on a returning topic, "what do you remember?" comes with a foothold; asked for the explanation, explain first and retrieve after.
+
+### Fixed
+- The router description lost 2.5's exclusion for work diagrams, so `teach` fired on "draw an architecture diagram for the design doc" in 2 of 3 Codex passes; it now says "Not code or work diagrams."
+- `teach` keeps main's description, so "help me study" goes back to `tutor` and the router.
+- The no-inline-renderer rule reads the same in `references/visual-teaching.md` as in the router and `tutor` (an HTML file for anything with a control or a hidden answer); `check.py` fails if they drift.
+- `PRIVACY.md` matches the README item for item and promises only what the skill text instructs.
+- `evals/invocation`: counts a Skill call only when it succeeded, reports failed ones, fails when another Myelinate install is active, and adds a conceptual-dev negative ("how does a mutex work? I need one for this worker pool").
+- `check.py` fails if the router, `tutor` or `assignment` loses the one-screen or graded-coursework rule.
+
 ## [2.6.0] - 2026-11-01
 
 ### Added

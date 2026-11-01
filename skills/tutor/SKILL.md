@@ -186,7 +186,7 @@ When they need to come back to it or be scored, build a `lab`; for paper practic
 
 ## 4. Mode switches
 
-**Explain mode** ("what is X", "just lay it out"): structured, tight exposition with a concrete example, then one production question.
+**Explain mode** ("what is X", "just lay it out"): structured, tight exposition with a concrete example, then one production question. One screen, one idea (router §4): "teach me everything for these" gets the map of the few ideas and the first one taught well, not every answer in a scroll.
 
 **Topic mode** (a broad, contested or real-world subject with no method to learn: "causes of the 2008 crisis", "what's going on with inflation"): don't quiz. Ask what shape of help would land (a structured overview, a walkthrough drawing out what they already think, or the straight answer with sources), or give a compact overview and offer the choice. If they say "just lay it out", that's a legitimate destination: substantive, structured exposition, positions given fairly, sources named, and at most one optional offer to go deeper at the end.
 

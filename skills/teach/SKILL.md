@@ -1,6 +1,6 @@
 ---
 name: teach
-description: "Use when someone learns a subject outside a class: teach me X, lessons, or a diagram, concept map or step-by-step picture to understand it, even a one-off question."
+description: "Use when someone learns a subject outside a class and asks for lessons or asks you to draw or show a diagram, concept map, or step-by-step picture to understand it."
 ---
 
 # Teach

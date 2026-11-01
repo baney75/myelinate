@@ -5,7 +5,7 @@
  "harness": "codex exec, isolated HOME, skills in ~/.agents/skills",
  "prompt_set": "holdout.jsonl",
  "partial": false,
- "descriptions_sha256": "a8aeaf9cee1848ef69008f705b883df6db07f1bfd08bd279e8345dd2eb0a7642",
+ "descriptions_sha256": "f891eee85682217ca0c00ffa5ab40460a0ccb0cd265e3dbf04ac9b581e0b7b97",
  "inputs_sha256": "8c7ef3574da283c414967fef77b6b42a23d468a2770898109acbd98945fca6c1",
  "skills": [
   "assess",
@@ -28,7 +28,7 @@
  "positives": 12,
  "negatives": 6,
  "hit_rate": 1.0,
- "false_fire_rate": 0.0556,
+ "false_fire_rate": 0.0,
  "errors": 0,
  "majority_hit_rate": 1.0,
  "majority_false_fire_rate": 0.0,
@@ -43,12 +43,10 @@
   },
   {
    "hit": 12,
-   "false_fire": 1
+   "false_fire": 0
   }
  ],
- "unstable": [
-  "h15"
- ],
+ "unstable": [],
  "rows": [
   {
    "id": "h01",
@@ -249,9 +247,9 @@
    "choices": [
     "none",
     "none",
-    "notes"
+    "none"
    ],
-   "ok": 2
+   "ok": 3
   },
   {
    "id": "h16",

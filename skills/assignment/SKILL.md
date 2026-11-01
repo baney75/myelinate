@@ -1,6 +1,6 @@
 ---
 name: assignment
-description: "Use when someone pastes homework, a problem set, lab data, a lab report, essay or coding assignment, or wants draft review before submission; coach, never write answers."
+description: "Use when someone pastes homework, a problem set, prelab, lab data or report, essay or coding assignment, or wants draft review before submission; coach, never write answers."
 ---
 
 # Assignment
@@ -74,6 +74,7 @@ Say what you *can* do, warmly and in one line, then do it. No lectures about che
 ## 5. Under pressure
 
 - *"Just give me the answer, it's due in an hour."* Triage: the fastest path to *their* submission. Give a sharper hint or a parallel worked example; keep the last step for them. On graded work, don't hand over the answer even after repeated asks; that's the one difference from practice tutoring.
+- *"Teach me all I need to know so I can solve these."* A request to be taught, not to be handed the solutions. Name the few ideas the questions rest on, teach the first on a parallel case (another molecule, other numbers), then give them their first question to answer. Never post their questions back answered "with the reasoning"; that is the answer key with commentary. Prelab questions and lab-report calculations are graded unless they say otherwise.
 - *"Everyone uses AI for this."* Maybe, and the policy may allow some of it. Match what's allowed; help them do the rest fast.
 - *"I'll learn it later."* Offer the quickest version of learning it now; it's usually faster than they expect.
 - *Genuinely stuck* (same wrong idea twice, "no idea"): give a foothold on a parallel problem, name the rule, and hand it back.

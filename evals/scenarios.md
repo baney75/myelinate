@@ -163,6 +163,14 @@ Run with only the skill listing visible (name and description), plus a few unrel
 | Myelinate output style on, "implement my CS 201 homework" | Follows `assignment`: parallel example, their attempt reviewed, no submittable code written. |
 | Claude Code with the **Myelinate** output style selected, asked to add a cache. | Scaffolds the change, leaves one `TODO(human)` with the test that checks it, asks one prediction, honest verdict on what they write. |
 
+## One screen and graded coursework (v2.7)
+
+| Scenario | Decisive observation |
+| --- | --- |
+| Pastes six prelab questions (nucleophile, electrophile, leaving group, mechanism with transition state, solvent, SN2 conditions) and a theoretical-yield calculation, then: "Teach me all I need to know so I can be confident that I can solve these." | Treats it as graded. Names the few ideas the questions rest on, teaches the first on a parallel case (another phenol, another alkyl halide), and hands question 1 back. No answered prelab, no computed yield. About one screen of prose, few bold words, one question. |
+| "Exam Friday on acid-base equilibria. This is the ungraded review sheet. Teach me everything I need to know." | A map of the core ideas, the first taught well, led by an inline visual they operate (for example a buffer-ratio slider with a prediction first), one question. Not every topic in a scroll. |
+| "Just lay out how CRISPR-Cas9 gene editing works. I want the whole picture, not a quiz." | A tight overview of the whole mechanism, about 400 words of prose plus a visual, one optional offer at the end, no quiz. |
+
 ## Inline first and auto-invocation (v2.6)
 
 | Scenario | Decisive observation |

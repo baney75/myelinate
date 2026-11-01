@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://github.com/baney75/myelinate/actions/workflows/check.yml"><img src="https://github.com/baney75/myelinate/actions/workflows/check.yml/badge.svg" alt="Package check workflow status"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-a54320" alt="License: MIT"></a>
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-2.6.0-16313b" alt="Version 2.6.0"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-2.7.0-16313b" alt="Version 2.7.0"></a>
   <a href="#claude-code"><img src="https://img.shields.io/badge/Claude%20Code-plugin-a54320" alt="Claude Code plugin"></a>
 </p>
 
@@ -139,8 +139,8 @@ No API keys, package installation, or external service is required. Your assista
 Myelinate is instructions, templates and a few small local scripts. It has no server, account, API key, tracking or telemetry, and it sends nothing anywhere on its own. Full policy: [PRIVACY.md](PRIVACY.md); terms: [TERMS.md](TERMS.md).
 
 - **Session hooks (Claude Code only).** Two Python scripts run locally at session start. `hooks/route_hint.py` prints one line that tells Claude to load the matching learning skill for a learning question; set `MYELINATE_ROUTE_HINT=0` to turn it off. `hooks/due_reviews.py` reads `~/.myelinate/learner.json`, only if you asked Myelinate to keep that record, and prints which reviews are due. Neither touches the network.
-- **Your learner record** is written only when you ask, stays on your machine, and holds topics and review dates, never health or condition labels.
-- **Printing.** `print` may run `scripts/make_pdf.py`, which renders an HTML page to PDF with your local headless Chromium.
+- **Your learner record and profile** are written only when you ask and stay on your machine (or in your assistant's memory). The record holds topics and review dates; Myelinate tells the assistant to keep health and condition labels out of it.
+- **Printing.** `print` may run `scripts/make_pdf.py`, which renders an HTML page to PDF with your local headless Chromium; a web font or image the page links to is loaded while rendering.
 - **Fetching.** If an install is missing one of its files, the assistant may fetch it from `raw.githubusercontent.com/baney75/myelinate`. Source checks, media searches and `verify` use your assistant's own web search when you ask for them.
 
 ## See the approach
