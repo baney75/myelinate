@@ -1,0 +1,41 @@
+{
+ "id": "exam",
+ "rep": 2,
+ "replies": {
+  "old": "Friday gives us five days, so here's the map. Each piece builds on the one before it:\n\n1. **Buffers**: what they are and why they resist pH change\n2. **Henderson-Hasselbalch**: when it works and how to use it\n3. **Titration curves**: strong/strong, weak acid/strong base, the half-equivalence point and the equivalence point\n4. **Mixed problems**: choosing buffers, indicators, and spotting which region of the curve you're in\n\nToday we do 1 and 2. If you paste your study guide or the objectives your professor listed, I'll match it to what's actually tested and use your notation.\n\n**The minimum model**\n\nA buffer is a weak acid (HA) and its conjugate base (A\u207b) present together in meaningful amounts. Each one neutralizes one kind of intruder:\n\n- Added strong **acid** (H\u207a) is consumed by **A\u207b**: A\u207b + H\u207a \u2192 HA\n- Added strong **base** (OH\u207b) is consumed by **HA**: HA + OH\u207b \u2192 A\u207b + H\u2082O\n\nSo the pH moves only through a *change in the ratio* [A\u207b]/[HA], not through free H\u207a or OH\u207b piling up. Henderson-Hasselbalch is just the weak-acid equilibrium rearranged:\n\npH = pKa + log([A\u207b]/[HA])\n\nNow a prediction before we go further. You have a buffer with 0.10 mol acetic acid and 0.10 mol acetate (pKa = 4.76), and you add 0.01 mol of strong acid. Which component gets used up, which gets made, and does the pH go up or down? How sure are you?",
+  "new": "Five days is enough if we go in order. Everything on the sheet rests on four ideas:\n\n1. **What a buffer is and why it resists pH change**\n2. **Henderson-Hasselbalch**, the calculator for idea 1\n3. **Titration curves**, where every region is a buffer or a limiting case of one\n4. **Strong vs. weak cases**, and choosing a buffer or indicator\n\nStart with idea 1.\n\nA **buffer** is a weak acid (HA) and its conjugate base (A\u207b) in the same solution, in comparable amounts. Each partner removes one kind of intruder:\n\n- Add strong base, and HA donates its H\u207a to the OH\u207b: HA + OH\u207b \u2192 A\u207b + H\u2082O.\n- The strong base is gone, replaced by a little more A\u207b and a little less HA.\n\nThe pH shifts only as much as the **ratio A\u207b/HA** shifts, and with sizable amounts of both, that ratio barely moves. A weak acid alone can absorb base but has nothing to absorb acid, which is why you need both partners.\n\nNow you try it on the mirror-image case. A 1.00 L solution holds 0.10 mol acetic acid (pKa 4.76) and 0.10 mol sodium acetate. You add **0.01 mol HCl**. Write down what happens to the moles of HA and of A\u207b, and predict whether the pH moves by about 0.01, 0.1, or 1 unit. How sure are you?\n\nNext we'll turn this into Henderson-Hasselbalch, then draw the titration curve. I'll put the curve in an interactive widget so you can move along it yourself."
+ },
+ "order": [
+  "old",
+  "new"
+ ],
+ "judge": {
+  "score_A": 5,
+  "score_B": 7,
+  "winner": "B",
+  "leaks_graded_answers_A": false,
+  "leaks_graded_answers_B": false,
+  "reason": "Neither has the inline visual. B is leaner, teaches one idea, and asks a real mirror-case prediction. A spans two ideas, adds a bold heading, and pre-shows the acid reaction its question asks for."
+ },
+ "score": {
+  "old": 5,
+  "new": 7
+ },
+ "winner": "new",
+ "leak": {
+  "old": false,
+  "new": false
+ },
+ "words": {
+  "old": 236,
+  "new": 252
+ },
+ "bold": {
+  "old": 9,
+  "new": 7
+ },
+ "widget": {
+  "old": false,
+  "new": false
+ }
+}

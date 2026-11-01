@@ -1,0 +1,41 @@
+{
+ "id": "prelab",
+ "rep": 0,
+ "replies": {
+  "old": "I'll teach you the ideas and work parallel examples, and you write your own answers. I'll check them and tell you where to look again. If your instructor's AI policy limits this, tell me and I'll adjust.\n\n## The big picture\n\nThis reaction has two stages, and your six questions touch both:\n\n1. **Acid-base:** NaOH takes a proton from the acidic OH of the phenol-type starting material. This is fast and happens first.\n2. **SN2:** the species you just made attacks the carbon bearing the leaving group, in one concerted step.\n\nKeep that order in mind for Q1 and Q4.\n\n## Q1-3: Roles in an SN2 (a toolkit)\n\n- **Nucleophile:** an electron-rich species that donates a pair to make a new bond. Nucleophilicity rises with negative charge (RO\u207b \u226b ROH), with polarizability, and with less steric bulk. Ask which species in the flask actually has the lone pair and the charge, *after* step 1.\n- **Electrophile:** the carbon is electron-poor because it's bonded to something that pulls electron density away through a polar bond. Find the sp\u00b3 carbon attached to the leaving group, and note how crowded it is (primary, secondary or tertiary).\n- **Leaving group:** it leaves with the bonding pair, so a good one is a **stable, weakly basic anion**. Three tests:\n  - The conjugate acid is strong (low pKa).\n  - The negative charge is delocalized by resonance.\n  - It is large or polarizable.\n\nParallel: iodide is a good leaving group because HI (pKa \u2248 -10) is a very strong acid and I\u207b is large and polarizable. Mesylate (CH\u2083SO\u2082O\u207b) is good because the charge spreads across three oxygens by resonance. Apply those three tests to the tosylate anion, and draw its resonance forms to support your answer.\n\n## Q4: Mechanism and transition state\n\nParallel, HO\u207b + CH\u2083CH\u2082Br:\n\n```\nHO\u207b + CH\u2083CH\u2082\u2013Br  \u2192  [ HO\u00b7\u00b7\u00b7CH\u2082(CH\u2083)\u00b7\u00b7\u00b7Br ]\u2021 \u03b4\u207b on both ends  \u2192  CH\u2083CH\u2082\u2013OH + Br\u207b\n```\n\nRules for drawing it:\n- **Curved arrows** start at the lone pair (or the bond) and point to where the electrons go. One arrow goes from the nucleophile's lone pair to carbon, and one from the C-LG bond to the leaving group.\n- **Backside attack:** Nu and LG are 180\u00b0 apart.\n- **The TS** is in brackets with a \u2021. The forming and breaking bonds are dashed, there is a partial negative charge (\u03b4\u207b) on both Nu and LG, and the carbon is roughly trigonal bipyramidal with its other three groups in a plane. The TS is not an intermediate: there is only one step and no full-charge species in the middle.\n- Draw **both** steps, the deprotonation and the SN2, and show the byproducts.\n\n## Q5-6: Solvent and ideal SN2 conditions\n\nPreferred SN2 conditions:\n- an unhindered carbon (methyl > primary \u226b secondary, tertiary fails)\n- a strong, preferably anionic nucleophile\n- a good leaving group\n- a **polar aprotic solvent** (DMSO, DMF, acetone), because it solvates the cation but leaves the anion \"bare\" and reactive\n- moderate temperature, to avoid E2 competition\n\nA **polar protic** solvent (water, alcohols) hydrogen-bonds to the anion, caging it and lowering its nucleophilicity.\n\nFor Q5-6, check your lab against each item on the list. Then ask yourself why a lab would pick ethanol anyway. Think about what must dissolve (NaOH, the organic starting materials), boiling point for reflux, cost, and safety.\n\n## Week 2: Limiting reagent and theoretical yield\n\nThe method:\n1. Write the balanced equation and read off the mole ratios.\n2. Convert each reagent to **moles**: mass \u00f7 molar mass. For a liquid, mass = volume \u00d7 density first. Compare moles, never grams.\n3. Divide each by its coefficient. The smallest value is the limiting reagent.\n4. Theoretical yield = moles of limiting reagent \u00d7 (product mol per reagent mol) \u00d7 product molar mass.\n\nParallel: 1.00 g phenol (94.11 g/mol), 0.50 g NaOH (40.00), 1.0 mL ethyl iodide (d = 1.95 g/mL, 155.97 g/mol) \u2192 phenetole (122.17 g/mol), all 1:1:1.\n- Phenol: 1.00 / 94.11 = 0.01063 mol\n- NaOH: 0.50 / 40.00 = 0.0125 mol\n- EtI: (1.0 \u00d7 1.95) / 155.97 = 0.0125 mol\n- Phenol is smallest, so it is limiting. Theoretical yield = 0.01063 \u00d7 122.17 \u2248 **1.30 g**.\n\nFor your numbers, work out the molar masses yourself from the formulas (butyl tosylate is C\u2081\u2081H\u2081\u2086O\u2083S). Confirm the 1:1:1 ratio from your own balanced equation, and keep sensible significant figures.\n\n## Your turn\n\nStart with Q1: name the nucleophile in your reaction and give your reason in your own words. Remember the order of the two stages. I'll tell you whether it's right, not yet, or partly right.",
+  "new": "Your six questions rest on three ideas, and I'll teach them in order:\n\n1. **Who plays which role** (Q1 to 3): nucleophile, electrophile, leaving group, and why each is good at its job.\n2. **The SN2 picture** (Q4 to 6): mechanism, transition state, ideal conditions, and solvent.\n3. **Mole bookkeeping** (week 2): limiting reagent and theoretical yield.\n\nLet's start with idea 1, on a parallel reaction: **p-cresol + ethyl iodide, with KOH, giving 4-ethoxytoluene**.\n\n**What the nucleophile is.** The nucleophile here isn't p-cresol itself. The base removes the phenol O-H proton, which leaves **p-cresolate**, an O\u207b with a full negative charge. Two things make that a good nucleophile:\n\n- **Charge.** A negative oxygen with an available lone pair is far more eager to attack than a neutral O-H, whose lone pairs are partly tied up and which has no charge pushing it toward a nucleus.\n- **Moderate stability.** The negative charge is spread into the ring by resonance. That makes it stable enough to form easily with a base like hydroxide, but still reactive enough to attack.\n\n**The electrophile.** Ethyl iodide's carbon bonded to iodine is **\u03b4+**, because iodine pulls electron density away from it. It is also unhindered (primary), so a nucleophile can reach it from the back side.\n\n**The leaving group.** Iodide leaves with its bonding electrons and is stable on its own: it is large, its charge is spread over a big volume, and it is the conjugate base of a strong acid (HI). A good leaving group is a weak base.\n\nSo the pattern for any \"why is it good\" answer is: **name the species, then give a structural reason, then connect it to stability or reactivity.**\n\nNow your turn, on your own reaction, not mine:\n\n**What does NaOH do to 2-naphthol, and why is the species that forms a better nucleophile than 2-naphthol itself?** Give me your best attempt, even if it's rough, and I'll tell you where it holds and where to look again."
+ },
+ "order": [
+  "old",
+  "new"
+ ],
+ "judge": {
+  "score_A": 5,
+  "score_B": 7,
+  "winner": "B",
+  "leaks_graded_answers_A": false,
+  "leaks_graded_answers_B": false,
+  "reason": "Both lack a visual. A covers every idea but is a heading-heavy wall. B is focused, scannable, uses a clean parallel case and ends with one question. B's parallel nearly gives away Q1."
+ },
+ "score": {
+  "old": 5,
+  "new": 7
+ },
+ "winner": "new",
+ "leak": {
+  "old": false,
+  "new": false
+ },
+ "words": {
+  "old": 749,
+  "new": 330
+ },
+ "bold": {
+  "old": 14,
+  "new": 13
+ },
+ "widget": {
+  "old": false,
+  "new": false
+ }
+}

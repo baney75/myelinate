@@ -5,7 +5,7 @@
  "harness": "codex exec, isolated HOME, skills in ~/.agents/skills",
  "prompt_set": "prompts.jsonl",
  "partial": false,
- "descriptions_sha256": "a8aeaf9cee1848ef69008f705b883df6db07f1bfd08bd279e8345dd2eb0a7642",
+ "descriptions_sha256": "d4ab3ab5ad2b5bbd8e325fd7affa628128fd488ab98eacd30ef1f145925bc209",
  "inputs_sha256": "29aacd4ab34b460109edd8dbab4f2fb694b5f817f23e249af1e2159f4d162f3d",
  "skills": [
   "assess",
@@ -27,18 +27,18 @@
  ],
  "positives": 37,
  "negatives": 14,
- "hit_rate": 0.982,
- "false_fire_rate": 0.0,
+ "hit_rate": 1.0,
+ "false_fire_rate": 0.0238,
  "errors": 0,
- "majority_hit_rate": 0.973,
+ "majority_hit_rate": 1.0,
  "majority_false_fire_rate": 0.0,
  "per_pass": [
   {
-   "hit": 36,
-   "false_fire": 0
+   "hit": 37,
+   "false_fire": 1
   },
   {
-   "hit": 36,
+   "hit": 37,
    "false_fire": 0
   },
   {
@@ -47,8 +47,9 @@
   }
  ],
  "unstable": [
-  "p01",
-  "p37"
+  "p03",
+  "n04",
+  "n12"
  ],
  "rows": [
   {
@@ -59,11 +60,11 @@
     "tutor"
    ],
    "choices": [
-    "teach",
-    "teach",
+    "myelinate",
+    "myelinate",
     "myelinate"
    ],
-   "ok": 1
+   "ok": 3
   },
   {
    "id": "p02",
@@ -74,9 +75,9 @@
     "tutor"
    ],
    "choices": [
-    "teach",
-    "teach",
-    "teach"
+    "myelinate",
+    "myelinate",
+    "myelinate"
    ],
    "ok": 3
   },
@@ -89,7 +90,7 @@
    ],
    "choices": [
     "teach",
-    "teach",
+    "myelinate",
     "teach"
    ],
    "ok": 3
@@ -542,7 +543,7 @@
     "teach"
    ],
    "choices": [
-    "teach",
+    "tutor",
     "tutor",
     "tutor"
    ],
@@ -599,11 +600,11 @@
     "frontend-design"
    ],
    "choices": [
-    "frontend-design",
+    "code",
     "frontend-design",
     "frontend-design"
    ],
-   "ok": 3
+   "ok": 2
   },
   {
    "id": "n05",
@@ -711,8 +712,8 @@
    ],
    "choices": [
     "none",
-    "none",
-    "none"
+    "docx",
+    "docx"
    ],
    "ok": 3
   },

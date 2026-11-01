@@ -1,0 +1,45 @@
+{
+ "id": "prelab",
+ "rep": 0,
+ "replies": {
+  "old": "Your questions rest on four ideas. I'll teach the first on a parallel case and then hand you a question. The rest follow one at a time.\n\n**The map**\n1. What makes a species a good nucleophile (questions 1 and 2)\n2. What makes a good leaving group (question 3)\n3. SN2: the mechanism, and the conditions that favor it (questions 4 to 6)\n4. Mole ratios and the limiting reagent (the week 2 report)\n\n**Idea 1: charge and available electrons**\n\nTake a parallel case: methanol (CH\u2083OH) and methyl bromide are mixed, and nothing much happens. Add NaH or NaOH to the methanol first, and it reacts quickly. The difference is the step in between:\n\nCH\u2083OH + base \u2192 CH\u2083O\u207b (methoxide)\n\nMethanol's oxygen has lone pairs, but they're held tightly by a neutral, electronegative atom. Methoxide's lone pairs carry a full negative charge. They're higher in energy and much more eager to attack a partial positive carbon. In general, a nucleophile donates a lone pair to form a new bond, and more electron density, and less of it tied up elsewhere, makes it a stronger donor.\n\nA base can only do this if it's strong enough. Compare the pKa of the acid you're deprotonating with the pKa of the base's conjugate acid (water, about 15.7). The equilibrium favors the weaker acid. Methanol (about 15.5) is deprotonated only partly by hydroxide, and phenols (about 10) are deprotonated almost completely.\n\nSo when you look at your flask, the species that attacks is probably not the one you drew first.\n\n**Your turn:** Of the species in your flask (2-naphthol, NaOH, ethanol, butyl tosylate), which one actually attacks the electrophile? Using the pKa comparison above, say what NaOH does to 2-naphthol first and why that step happens. Put your best attempt in your own words, and I'll tell you where it stands.",
+  "new": "Prelab questions and report calculations are graded work, so I won't hand you answers. I'll teach each idea on a parallel case, then you write your own and I'll tell you where to look again.\n\n**The map.** Everything rests on four ideas:\n1. **Roles** (Q1 to 3): what makes something a nucleophile, an electrophile, or a leaving group.\n2. **The SN2 mechanism** (Q4, Q6): arrows, backside attack, and what the transition state looks like.\n3. **Conditions** (Q5, Q6): why the solvent and the type of carbon matter.\n4. **Stoichiometry** (report): moles, the balanced ratio, limiting reagent, theoretical yield.\n\nWe'll take them in order, starting with idea 1.\n\n**Nucleophile, on a parallel case.** Take ethanol (CH\u2083CH\u2082OH) versus ethoxide (CH\u2083CH\u2082O\u207b) reacting with bromomethane. A nucleophile uses a lone pair to form a new bond to an electron-poor atom. Both oxygens have lone pairs, but they are not equally willing to share them:\n- In ethanol, oxygen is neutral and holds its electrons fairly tightly.\n- In ethoxide, oxygen carries a full negative charge. Its lone pairs are higher in energy and more available, so it attacks much faster.\n\nFor the same attacking atom, the more basic species is generally the better nucleophile, because both qualities come from a lone pair that is eager to bond. Sterics and polarizability can modify this, but it is the main rule for your lab.\n\n**Your turn.** Look at what's in your flask: 2-naphthol (an alcohol-like O\u2013H on an aromatic ring) and NaOH. Before any bond to carbon forms, which species do you think acts as the nucleophile: 2-naphthol itself, or something NaOH turns it into? Tell me what you predict and why, using the ethanol/ethoxide idea."
+ },
+ "order": [
+  "new",
+  "old"
+ ],
+ "judge": {
+  "score_A": 6,
+  "score_B": 5,
+  "winner": "A",
+  "leaks_graded_answers_A": false,
+  "leaks_graded_answers_B": false,
+  "reason": "Neither has a widget. A maps questions accurately and hands back Q1 cleanly. B teaches pKa well, but stating phenols deprotonate fully nearly gives Q1 away, it mislabels Q2, and its closing asks several things."
+ },
+ "score": {
+  "new": 6,
+  "old": 5
+ },
+ "winner": "new",
+ "leak": {
+  "new": false,
+  "old": false
+ },
+ "words": {
+  "old": 308,
+  "new": 280
+ },
+ "bold": {
+  "old": 3,
+  "new": 7
+ },
+ "widget": {
+  "old": false,
+  "new": false
+ },
+ "answer_boxes": {
+  "old": 0,
+  "new": 0
+ }
+}

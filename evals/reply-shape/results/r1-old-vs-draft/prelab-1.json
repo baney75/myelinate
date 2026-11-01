@@ -1,0 +1,41 @@
+{
+ "id": "prelab",
+ "rep": 1,
+ "replies": {
+  "old": "I'll teach you the ideas and work a parallel example, and you write the answers to your own questions. When you have drafts, send them and I'll tell you right, not yet, or partly right, and where to look. (If your instructor has an AI policy for prelabs, tell me and I'll stay inside it.)\n\n## The big picture\n\nThis is two steps, and most of your questions hang on seeing that:\n\n1. **Acid-base:** NaOH removes the acidic proton from the naphthol's OH.\n2. **SN2:** the species that forms attacks carbon and kicks out a leaving group.\n\nEvery question below asks about one of those two steps.\n\n## Q1: The nucleophile\n\nA nucleophile donates an electron pair to an electron-poor atom. To judge strength, compare it with its neutral parent:\n- **Charge:** an anion has a higher-energy lone pair to give than the neutral molecule.\n- **Which atom, and how crowded:** a lone pair on a small, unhindered atom reaches the target more easily.\n- **Solvent:** a nucleophile can be slowed down by solvation (see Q5).\n\nCompare acetic acid (neutral) with acetate (its conjugate base) and ask which is the better nucleophile and why. Do the same for 2-naphthol versus what NaOH turns it into. Bonus point: that species has resonance forms that put negative charge on the ring carbons, so it is *ambident*, meaning it can react at more than one site. Mention why O-alkylation wins here.\n\n## Q2: The electrophile\n\nThe electrophilic carbon is the one bonded to the group that will leave. That group is more electronegative, so it pulls electron density off the carbon and leaves it \u03b4+. Draw butyl tosylate and find the carbon bonded to the atom that carries the leaving group. Then note whether it's methyl, primary, secondary or tertiary, because that matters for Q6.\n\n## Q3: The leaving group\n\nA good leaving group is a **weak base**, meaning a stable anion once it departs. Two ways to argue it:\n- The **pKa of its conjugate acid**. The lower the pKa, the more stable the anion. For scale, ethanol is about 16, and HBr is about \u22129.\n- **Resonance.** Count how many atoms share the negative charge after departure.\n\nUse this to explain why OH\u207b is a terrible leaving group but a tosylate is excellent. Draw the resonance forms of the departed anion and look up the pKa of p-toluenesulfonic acid.\n\n## Q4: The mechanism and transition state\n\nDraw two steps, with curved arrows starting at lone pairs or bonds and ending at atoms or bonds. For the SN2 step, a transition state has these features:\n- Square brackets with a double dagger (\u2021) outside.\n- The nucleophile and the leaving group both partially bonded to the carbon, drawn as dashed lines.\n- A partial negative charge (\u03b4\u2212) on each of those two groups. The overall charge is the same as in the reactants.\n- The nucleophile attacks from the **back** side, 180\u00b0 from the leaving group. The carbon is roughly planar with its three other substituents.\n\nThink about what that backside geometry implies about crowding at the carbon.\n\n## Q5 and Q6: Solvent and SN2 conditions\n\nSN2 is favored by:\n- an unhindered carbon (methyl > primary > secondary, with tertiary not working)\n- a strong nucleophile\n- a good leaving group\n- a **polar aprotic** solvent (DMSO, DMF, acetone), because it leaves the anion \"naked\"\n- moderate temperature, which limits elimination\n\nEthanol is **polar protic**. Ask yourself:\n- What does hydrogen-bonding do to an anion's reactivity?\n- What must the solvent dissolve here (an ionic base, an organic solid, an organic liquid)?\n- What does reflux give you?\n\nThen go through the list above, check each condition against your lab, and give an honest \"met / partly / not met\" for each.\n\n## Week 2: Limiting reagent and theoretical yield\n\nMethod:\n1. Convert each reagent to **moles** (grams \u00f7 molar mass; for a liquid, mL \u00d7 density first).\n2. Divide by its coefficient in the balanced equation. Here you should work out what the NaOH : naphthol : tosylate ratio is.\n3. The **smallest** result is the limiting reagent. Comparing grams or mL is the usual mistake.\n4. Theoretical yield = moles of limiting reagent \u00d7 (product : limiting ratio) \u00d7 product molar mass.\n\n**Parallel example:** 2.00 g sodium acetate (82.03 g/mol) + 1.5 mL 1-bromobutane (d = 1.27 g/mL, 137.02 g/mol) \u2192 butyl acetate (116.16 g/mol) + NaBr, 1:1.\n- NaOAc: 2.00 \u00f7 82.03 = 0.0244 mol\n- 1-bromobutane: 1.5 \u00d7 1.27 = 1.905 g, then \u00f7 137.02 = 0.0139 mol\n- Smaller is the bromide, so it's limiting (even though 2.00 g is a bigger number than 1.9 g).\n- Theoretical yield: 0.0139 \u00d7 116.16 \u2248 1.61 g.\n\nNotice that the reagent with the larger *mass* was not the one in excess in a meaningful way until I converted to moles. Report sensible significant figures.\n\n## Your turn\n\nStart with Q1. In your own words, write what NaOH does to 2-naphthol in step 1, name the species that forms, and explain why it's a better nucleophile than 2-naphthol itself.",
+  "new": "Your questions rest on four ideas, and I'll teach them one at a time, each on a different example so the answers stay yours to write:\n\n1. **Who gives and who takes electrons**, and why the leaving group leaves (Q1 to 3)\n2. **The mechanism and transition state** (Q4)\n3. **Solvent and SN2 conditions** (Q5, 6)\n4. **Stoichiometry**: moles, limiting reagent, theoretical yield (Week 2)\n\nHere is the first one.\n\n**Parallel case: p-cresol + NaOH, then benzyl bromide.**\n\n- **The base comes first.** NaOH removes the acidic O-H proton, leaving an anion (phenoxide). Neutral O-H has only lone pairs on a neutral oxygen. The anion has a full negative charge, so its electrons are higher in energy and much more eager to attack. *Nucleophile quality comes from available, unstabilized electrons, which charge supplies.*\n- **The electrophile is a carbon, not a molecule.** In benzyl bromide, bromine is more electronegative than carbon and pulls on the C-Br bond. That makes the carbon \u03b4+, and it is also lightly crowded, so a nucleophile can reach it.\n- **A good leaving group is a stable species once it has taken the bonding electrons.** Bromide is the conjugate base of HBr, a very strong acid (pKa about -9). The weaker the conjugate base, the better it carries away the charge. Hydroxide, by comparison, is the conjugate base of water (pKa about 15.7), so it is a poor leaving group.\n\nTwo things to check yourself on: \"good nucleophile\" and \"good leaving group\" are almost opposite properties, so notice why one wants high-energy electrons and the other wants stable ones. Also, compare tosylate's structure with bromide's and think about *where* its negative charge can go.\n\n**Your turn.** In your reaction, what does NaOH do to 2-naphthol, and which species is the actual nucleophile? Write it in your own words, and tell me how sure you are."
+ },
+ "order": [
+  "new",
+  "old"
+ ],
+ "judge": {
+  "score_A": 7,
+  "score_B": 4,
+  "winner": "A",
+  "leaks_graded_answers_A": false,
+  "leaks_graded_answers_B": true,
+  "reason": "A is concise, teaches through a parallel case, and ends on one question. B is a heading-heavy wall that tells them NaOH's role, ethanol's protic nature and TS features, and has a confused excess-mass line. Neither includes a visual."
+ },
+ "score": {
+  "new": 7,
+  "old": 4
+ },
+ "winner": "new",
+ "leak": {
+  "new": false,
+  "old": true
+ },
+ "words": {
+  "old": 850,
+  "new": 310
+ },
+ "bold": {
+  "old": 14,
+  "new": 9
+ },
+ "widget": {
+  "old": false,
+  "new": false
+ }
+}

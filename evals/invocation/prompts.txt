@@ -11,3 +11,4 @@ N-trace|Explain this stack trace: Traceback (most recent call last): File "app.p
 N-func|How does this function work? def chunk(xs, n): return [xs[i:i+n] for i in range(0, len(xs), n)]
 N-regex|Explain what this regex does: ^\d{3}-\d{4}$ (I just need it for a form validator, no lesson).
 N-arch|Draw an architecture diagram for a web app with an API server, a job queue and two workers.
+N-mutex|How does a mutex work? I need to pick one for the worker pool in this repo.

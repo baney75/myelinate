@@ -1,0 +1,41 @@
+{
+ "id": "prelab",
+ "rep": 2,
+ "replies": {
+  "old": "These questions rest on three ideas, so I'll teach those and you'll write the answers. Prelab questions and report calculations are graded work, so I won't solve them for you. I'll teach each idea on a different example, then check what you write.\n\n**The map**\n1. **What makes a species a good nucleophile or leaving group** (Q1, Q3). It's about charge, and about how stable a species is once it has left or donated.\n2. **How SN2 works and what it needs** (Q2, Q4, Q5, Q6). The key points are where the nucleophile attacks, what the transition state looks like, and what the solvent has to do.\n3. **Limiting reagent and theoretical yield** (Week 2). This is moles, then ratios.\n\n**Idea 1, on a parallel case**\n\nTake ethanol (EtOH) and ethoxide (EtO\u207b) reacting with methyl iodide. Both have an oxygen with lone pairs, but ethoxide reacts far faster. Two things explain it:\n- **Charge.** The oxygen in EtO\u207b carries a full negative charge, so it's much more electron-rich and eager to donate a pair. Neutral EtOH is a weak donor.\n- **Where it comes from.** Ethanol is a very weak acid (pKa about 16), so a strong base like NaH removes its proton to make ethoxide. A base can turn a poor nucleophile into a good one.\n\nLeaving groups use the same logic in reverse. A group leaves well when it is stable with the electrons it takes along, which usually means it's the conjugate base of a strong acid. Compare I\u207b (from HI, pKa about \u221210) with HO\u207b (from water, pKa about 15.7). Only one of those is stable enough to leave.\n\n**Your turn**\n\nLook at your reagents: 2-naphthol, NaOH, ethanol. 2-Naphthol has an O\u2013H, like ethanol's. What do you think NaOH does to it, and why does that make the oxygen a better nucleophile? Give me your best attempt, and say how sure you are.\n\nOnce that's solid, we'll do the leaving group, then SN2 and the solvent, then limiting reagent practice on a parallel set of numbers.",
+  "new": "This is graded work, so I'll teach you the ideas on a parallel reaction and you'll do your own questions. Your six questions plus the Week 2 calculation rest on four ideas:\n\n1. **Roles in an SN2 reaction** (Q1 to 3)\n2. **Drawing the mechanism and transition state** (Q4)\n3. **Conditions: solvent and SN2 preferences** (Q5, Q6)\n4. **Moles, limiting reagent and theoretical yield** (Week 2)\n\nLet's take the first one.\n\n**Parallel case:** ethanethiol (CH\u2083CH\u2082SH) is treated with NaOH, then 1-bromopropane. The product is CH\u2083CH\u2082S-CH\u2082CH\u2082CH\u2083.\n\nEach role has a test you can apply to any SN2 reaction:\n\n- **Nucleophile:** the species that donates an electron pair to form the new bond. Ask what is electron-rich and can reach the electrophile. Nucleophiles get stronger with negative charge (HO\u207b beats H\u2082O), with a higher-energy, less-stabilized lone pair, and with polarizability. Sulfur's big, soft electron cloud is why thiolates are excellent.\n- **Electrophile:** the carbon that ends up bonded to the nucleophile. It is electron-poor because it is bonded to an electronegative atom that pulls density away. It also needs to be sterically accessible, since the nucleophile attacks from the back side.\n- **Leaving group:** the group that departs with the bonding pair. Good ones are *weak bases*, meaning stable on their own. A quick test is the pKa of the conjugate acid. HBr has a pKa of about -9, so Br\u207b leaves easily. Water has a pKa of about 15.7, so HO\u207b is a terrible leaving group. Charge delocalization (resonance) also stabilizes the departing group.\n\nHere, NaOH removes the S-H proton, and that is what turns a mediocre nucleophile into a strong one.\n\n**Your turn:** In your reaction, 2-naphthol is mixed with NaOH before the tosylate does anything. What do you think NaOH does to 2-naphthol, and why would that change how well it works as a nucleophile? Give me your best attempt, including what you'd write for the nucleophile in Q1."
+ },
+ "order": [
+  "old",
+  "new"
+ ],
+ "judge": {
+  "score_A": 6,
+  "score_B": 7,
+  "winner": "B",
+  "leaks_graded_answers_A": false,
+  "leaks_graded_answers_B": false,
+  "reason": "Neither has a widget; both return Q1 with one question. B's thiolate case also covers electrophile, leaving-group and resonance tests but is denser. A is more scannable, though ethanol nearly mirrors the real case."
+ },
+ "score": {
+  "old": 6,
+  "new": 7
+ },
+ "winner": "new",
+ "leak": {
+  "old": false,
+  "new": false
+ },
+ "words": {
+  "old": 340,
+  "new": 320
+ },
+ "bold": {
+  "old": 8,
+  "new": 9
+ },
+ "widget": {
+  "old": false,
+  "new": false
+ }
+}

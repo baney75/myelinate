@@ -1,0 +1,41 @@
+{
+ "id": "exam",
+ "rep": 0,
+ "replies": {
+  "old": "Everything on this sheet hangs on one idea: a weak acid and its conjugate base resisting a change in pH. Here is the map for the week, so you know where we're headed:\n\n1. **Buffers:** what they are, why they resist change, and what the buffer ratio does.\n2. **Henderson-Hasselbalch:** where it comes from, when it works, and when it doesn't.\n3. **Titration curves:** the shape, the buffer region, the half-equivalence point, the equivalence point, and strong vs. weak.\n\nWith Friday as the exam, we'll go in that order, and each session starts with recall of the last one. If you paste the review sheet or your notes, I'll aim at exactly what your professor lists and use your notation.\n\nLet's start with a guess, before I give you any equation:\n\nA solution contains **equal moles of acetic acid (pKa 4.76) and acetate**. What do you think its pH is, and how sure are you?\n\nA wrong guess is fine. It's how the idea sticks.",
+  "new": "Five days is enough for this if we're efficient. Acid-base equilibria rest on three ideas, each building on the last:\n\n1. **What a buffer is and why it resists change** (we start here)\n2. **Henderson-Hasselbalch**: where it comes from and when it works\n3. **Titration curves**: the four regions, the half-equivalence point, and the equivalence point\n\nIf you paste the review sheet or your professor's objectives, I'll match their scope and notation.\n\n**Idea 1: the buffer**\n\nA buffer is a weak acid (HA) and its conjugate base (A\u207b) present together in meaningful amounts. Each one neutralizes one kind of intruder:\n\n- Added strong **acid** (H\u207a) is consumed by the base: A\u207b + H\u207a \u2192 HA\n- Added strong **base** (OH\u207b) is consumed by the acid: HA + OH\u207b \u2192 A\u207b + H\u2082O\n\nBoth reactions go essentially to completion, so the strong acid or base gets converted into the weak one. That's why pH barely moves. The pH changes only a little, because it depends on the *ratio* [A\u207b]/[HA], and a small shift in that ratio is a small shift in pH.\n\nStoichiometry comes first: do the reaction as a mole-subtraction problem, then worry about pH.\n\n**Your turn.** A 1.0 L buffer contains 0.10 mol HA and 0.10 mol A\u207b. You add 0.02 mol of HCl. Which species does the HCl react with, and what are the new mole amounts of HA and A\u207b? Tell me how sure you are, too."
+ },
+ "order": [
+  "old",
+  "new"
+ ],
+ "judge": {
+  "score_A": 5,
+  "score_B": 7,
+  "winner": "B",
+  "leaks_graded_answers_A": false,
+  "leaks_graded_answers_B": false,
+  "reason": "Neither has an inline visual. A is lean with a good prediction prompt but teaches nothing. B maps the ideas, teaches buffers concisely, and ends with one actionable stoichiometry question; slightly more bolding."
+ },
+ "score": {
+  "old": 5,
+  "new": 7
+ },
+ "winner": "new",
+ "leak": {
+  "old": false,
+  "new": false
+ },
+ "words": {
+  "old": 165,
+  "new": 240
+ },
+ "bold": {
+  "old": 4,
+  "new": 7
+ },
+ "widget": {
+  "old": false,
+  "new": false
+ }
+}

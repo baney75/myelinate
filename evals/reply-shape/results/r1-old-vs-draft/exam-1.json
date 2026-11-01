@@ -1,0 +1,41 @@
+{
+ "id": "exam",
+ "rep": 1,
+ "replies": {
+  "old": "Here's the map for the next five days. Almost everything on the exam is one idea in different clothes: **the ratio of weak acid to conjugate base sets the pH.**\n\n1. **Weak acids and Ka/pKa**: what partial dissociation means, and setting up an ICE table.\n2. **Buffers and Henderson-Hasselbalch**: why a buffer resists change, and how to design one.\n3. **Titration curves**: the five regions (start, buffer region, half-equivalence, equivalence, past equivalence), for strong and weak acids, and why the equivalence point isn't always pH 7.\n4. **Extras that tend to show up**: indicator choice, polyprotic acids, and the common-ion effect.\n\nEvery region of a titration curve is either an ICE table, a Henderson-Hasselbalch calculation, or a leftover-strong-reagent calculation. Knowing which one applies is most of the skill. If you have the review sheet or your professor's notation, paste it and I'll match scope to what's actually tested.\n\nBefore I explain anything, a quick pretest. A wrong guess still helps, and it shows me where to start.\n\nA solution contains equal concentrations of a weak acid HA (pKa = 4.76) and its conjugate base A\u207b. **What's the pH, and how sure are you?**",
+  "new": "Acid-base equilibria for an exam comes down to three ideas, and each builds on the one before:\n\n1. **Buffers and Henderson-Hasselbalch**: what a buffer is and why the equation works.\n2. **Buffer calculations**: adding strong acid or base, buffer range and capacity.\n3. **Titration curves**: reading each region, especially the half-equivalence point, and choosing an indicator.\n\nLet's do the first one well. If you have a review sheet or your professor's notation, paste it in and I'll match it.\n\n**What a buffer is.** A buffer holds a weak acid (HA) and its conjugate base (A\u207b) together, both in meaningful amounts.\n\n- Add OH\u207b, and HA uses it up: HA + OH\u207b \u2192 A\u207b + H\u2082O.\n- Add H\u207a, and A\u207b uses it up: A\u207b + H\u207a \u2192 HA.\n\nEither way, one component gets swapped for the other, so the pH barely moves. A strong acid alone has no conjugate base to soak up added H\u207a, so it can't buffer.\n\n**Where the equation comes from.** Start with the equilibrium expression:\n\nKa = [H\u207a][A\u207b] / [HA]\n\nSolve for [H\u207a], take \u2212log of both sides, and you get:\n\n**pH = pKa + log([A\u207b]/[HA])**\n\nThe pH is set by the *ratio* of base to acid, not by their absolute amounts. This is why diluting a buffer barely changes its pH, but also why a more concentrated buffer resists change better.\n\nYou can use the equation with moles in place of concentrations, since both species share one volume and the volume cancels. This shortcut matters a lot in buffer problems.\n\n**Your turn.** You mix 0.10 mol acetic acid (pKa 4.76) with 0.10 mol sodium acetate in a liter of water. Before computing anything, what pH do you predict, and why? Tell me how sure you are."
+ },
+ "order": [
+  "old",
+  "new"
+ ],
+ "judge": {
+  "score_A": 5,
+  "score_B": 7,
+  "winner": "B",
+  "leaks_graded_answers_A": false,
+  "leaks_graded_answers_B": false,
+  "reason": "Neither includes an inline visual. A gives a lean map and a pretest but teaches nothing. B maps the ideas, teaches buffers/H-H clearly, and ends with one prediction question, though it uses several bold run-in headings."
+ },
+ "score": {
+  "old": 5,
+  "new": 7
+ },
+ "winner": "new",
+ "leak": {
+  "old": false,
+  "new": false
+ },
+ "words": {
+  "old": 193,
+  "new": 291
+ },
+ "bold": {
+  "old": 6,
+  "new": 7
+ },
+ "widget": {
+  "old": false,
+  "new": false
+ }
+}
