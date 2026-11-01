@@ -136,7 +136,7 @@ No API keys, package installation, or external service is required. Your assista
 
 ## What it runs, reads and sends
 
-Myelinate is instructions, templates and a few small local scripts. It has no server, account, API key, tracking or telemetry, and it sends nothing anywhere on its own.
+Myelinate is instructions, templates and a few small local scripts. It has no server, account, API key, tracking or telemetry, and it sends nothing anywhere on its own. Full policy: [PRIVACY.md](PRIVACY.md); terms: [TERMS.md](TERMS.md).
 
 - **Session hooks (Claude Code only).** Two Python scripts run locally at session start. `hooks/route_hint.py` prints one line that tells Claude to load the matching learning skill for a learning question; set `MYELINATE_ROUTE_HINT=0` to turn it off. `hooks/due_reviews.py` reads `~/.myelinate/learner.json`, only if you asked Myelinate to keep that record, and prints which reviews are due. Neither touches the network.
 - **Your learner record** is written only when you ask, stays on your machine, and holds topics and review dates, never health or condition labels.

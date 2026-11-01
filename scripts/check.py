@@ -175,12 +175,13 @@ with tempfile.TemporaryDirectory() as home:
     if subprocess.run(hook, env=env, capture_output=True, text=True).returncode != 0:
         errors.append('hooks/due_reviews.py: a broken record must not fail the session')
 # Auto-invocation: Claude answers quick learning questions without loading a skill unless the session names the
-# moment (0 of 5 learner prompts loaded one on 2026-11-01 without the hint). The routing hint must stay registered.
+# moment (Sonnet loaded one on 0 of 12 learning prompts on 2026-11-01 without the hint). The routing hint must stay registered.
 hint_cmds = [h['command'] for e in json.loads((ROOT / 'hooks' / 'hooks.json').read_text())['hooks'].get('SessionStart', [])
              for h in e.get('hooks', [])]
 if not any('route_hint.py' in cmd for cmd in hint_cmds):
     errors.append('hooks/hooks.json: SessionStart no longer runs hooks/route_hint.py')
-hint = subprocess.run([sys.executable, str(ROOT / 'hooks' / 'route_hint.py')], capture_output=True, text=True).stdout
+hint = subprocess.run([sys.executable, str(ROOT / 'hooks' / 'route_hint.py')], env={**os.environ, 'MYELINATE_ROUTE_HINT': '1'},
+                      capture_output=True, text=True).stdout
 if 'Skill tool' not in hint or 'myelinate:tutor' not in hint:
     errors.append(f'hooks/route_hint.py: hint lost its routing instruction: {hint!r}')
 if subprocess.run([sys.executable, str(ROOT / 'hooks' / 'route_hint.py')], env={**os.environ, 'MYELINATE_ROUTE_HINT': '0'},

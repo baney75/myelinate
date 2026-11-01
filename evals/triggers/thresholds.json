@@ -18,7 +18,7 @@
   "holdout.json": {
    "prompts": "holdout.jsonl",
    "min_hit_rate": 1.0,
-   "max_false_fire_rate": 0.112
+   "max_false_fire_rate": 0.056
   }
  }
 }

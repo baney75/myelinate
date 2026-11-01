@@ -63,10 +63,10 @@ Rank surfaces in this order and take the first one the host offers. The learner 
 
 1. **Inline interactive widget**, shown in the conversation by the host's inline render tool (for example `show_widget` on claude.ai, or an inline HTML render tool in a desktop or IDE host): the default for anything the learner should manipulate or predict from.
 2. **Inline static figure** (inline SVG, a rendered image in the reply): one relationship that needs no controls.
-3. **Drawn in the reply** (Markdown table, Mermaid, ASCII, a code block that draws the figure) when nothing renders inline.
+3. **No inline renderer:** a visual that needs a control or a hidden answer goes in a self-contained HTML file; a static figure is drawn in the reply (Markdown table, Mermaid, ASCII, a code block that draws the figure).
 4. **A vetted link with what to look at** (`find-media` §6b) when you can't draw the figure accurately.
 
-Separate surfaces are for when they fit the request, not the default: a side artifact panel, a self-contained HTML file, a hosted page (`lab`) or a printable (`print`). Use one when the learner asks for it, when they'll keep, share, print or come back to it, when it needs many steps and scoring, or when the host has no inline renderer. If they ask for a file or a page, make that; inline-first never overrides a request.
+Separate surfaces are for when they fit the request, not the default: a side artifact panel, a self-contained HTML file, a hosted page (`lab`) or a printable (`print`). Use one when the learner asks for it, when they'll keep, share, print or come back to it, or when the host has no inline renderer. An inline widget can hold a multi-step lab with scoring; length alone isn't a reason to leave the conversation. If they ask for a file or a page, make that; inline-first never overrides a request.
 
 Read the inline tool's instructions if needed, show the visual alone, and keep the teaching and your one question in the reply text, never inside the figure. A pasted instruction file still works without any tool. In voice, describe the picture in words, then offer to show it in text.
 

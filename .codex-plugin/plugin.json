@@ -1,7 +1,7 @@
 {
   "name": "myelinate",
   "version": "2.6.0",
-  "description": "Claude as teacher and tutor, in chat and in code: class tutoring that triggers on your course topics, assignment coaching that teaches instead of doing the work, learning a codebase you need to own, university-standard courses, tests and grading, rendered visuals, labs, flashcards and study plans. Honest, not agreeable.",
+  "description": "An AI teacher and tutor, in chat and in code: class tutoring that triggers on your course topics, assignment coaching that teaches instead of doing the work, learning a codebase you need to own, university-standard courses, tests and grading, inline visuals, labs, flashcards and study plans. Honest, not agreeable.",
   "author": {
     "name": "Donovan Baney",
     "url": "https://dbaney.com"
@@ -13,7 +13,7 @@
   "interface": {
     "displayName": "Myelinate",
     "shortDescription": "A tutor that teaches, not does",
-    "longDescription": "Claude as teacher and tutor, in chat and in code: class tutoring that triggers on your course topics, assignment coaching that teaches instead of doing the work, learning a codebase you need to own, university-standard courses, tests and grading, rendered visuals, labs, flashcards and study plans. Honest, not agreeable.",
+    "longDescription": "An AI teacher and tutor, in chat and in code: class tutoring that triggers on your course topics, assignment coaching that teaches instead of doing the work, learning a codebase you need to own, university-standard courses, tests and grading, inline visuals, labs, flashcards and study plans. Honest, not agreeable.",
     "developerName": "Donovan Baney",
     "category": "Education & Research",
     "capabilities": [
@@ -28,6 +28,9 @@
     "websiteURL": "https://baney75.github.io/myelinate/",
     "brandColor": "#16313B",
     "composerIcon": "./assets/logo-mark.svg",
-    "logo": "./assets/icon.png"
+    "logo": "./assets/icon.png",
+    "supportURL": "https://github.com/baney75/myelinate/issues",
+    "privacyPolicyURL": "https://github.com/baney75/myelinate/blob/main/PRIVACY.md",
+    "termsOfServiceURL": "https://github.com/baney75/myelinate/blob/main/TERMS.md"
   }
 }
