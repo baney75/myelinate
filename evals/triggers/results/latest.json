@@ -5,7 +5,7 @@
  "harness": "codex exec, isolated HOME, skills in ~/.agents/skills",
  "prompt_set": "prompts.jsonl",
  "partial": false,
- "descriptions_sha256": "f891eee85682217ca0c00ffa5ab40460a0ccb0cd265e3dbf04ac9b581e0b7b97",
+ "descriptions_sha256": "d4ab3ab5ad2b5bbd8e325fd7affa628128fd488ab98eacd30ef1f145925bc209",
  "inputs_sha256": "29aacd4ab34b460109edd8dbab4f2fb694b5f817f23e249af1e2159f4d162f3d",
  "skills": [
   "assess",
@@ -27,7 +27,7 @@
  ],
  "positives": 37,
  "negatives": 14,
- "hit_rate": 0.991,
+ "hit_rate": 1.0,
  "false_fire_rate": 0.0238,
  "errors": 0,
  "majority_hit_rate": 1.0,
@@ -35,11 +35,11 @@
  "per_pass": [
   {
    "hit": 37,
-   "false_fire": 0
+   "false_fire": 1
   },
   {
-   "hit": 36,
-   "false_fire": 1
+   "hit": 37,
+   "false_fire": 0
   },
   {
    "hit": 37,
@@ -47,10 +47,8 @@
   }
  ],
  "unstable": [
-  "p02",
   "p03",
-  "p10",
-  "n08",
+  "n04",
   "n12"
  ],
  "rows": [
@@ -79,7 +77,7 @@
    "choices": [
     "myelinate",
     "myelinate",
-    "teach"
+    "myelinate"
    ],
    "ok": 3
   },
@@ -91,7 +89,7 @@
     "teach"
    ],
    "choices": [
-    "myelinate",
+    "teach",
     "myelinate",
     "teach"
    ],
@@ -187,10 +185,10 @@
    ],
    "choices": [
     "teach",
-    "myelinate",
+    "teach",
     "teach"
    ],
-   "ok": 2
+   "ok": 3
   },
   {
    "id": "p11",
@@ -602,11 +600,11 @@
     "frontend-design"
    ],
    "choices": [
-    "frontend-design",
+    "code",
     "frontend-design",
     "frontend-design"
    ],
-   "ok": 3
+   "ok": 2
   },
   {
    "id": "n05",
@@ -659,10 +657,10 @@
    ],
    "choices": [
     "none",
-    "teach",
+    "none",
     "none"
    ],
-   "ok": 2
+   "ok": 3
   },
   {
    "id": "n09",
@@ -715,7 +713,7 @@
    "choices": [
     "none",
     "docx",
-    "none"
+    "docx"
    ],
    "ok": 3
   },

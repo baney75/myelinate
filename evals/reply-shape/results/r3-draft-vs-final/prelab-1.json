@@ -1,0 +1,45 @@
+{
+ "id": "prelab",
+ "rep": 1,
+ "replies": {
+  "old": "Here's the plan. These six questions and the yield calculation rest on four ideas:\n\n1. **What makes a good nucleophile or leaving group** (Q1, Q3)\n2. **Where the attack happens and how the SN2 mechanism looks** (Q2, Q4)\n3. **Solvent and SN2 conditions** (Q5, Q6)\n4. **Limiting reagent and theoretical yield** (the report)\n\nSince this is graded, I'll teach each idea on a different example, then you answer your questions and I'll tell you where to look again. Let's start with idea 1.\n\n**Parallel case: ethanol and sodium ethoxide attacking bromoethane.**\n\nA nucleophile donates an electron pair to an electrophile. Compare two candidates:\n\n- **EtOH** is neutral. Its oxygen has lone pairs, but they're held fairly tightly, so it's a weak nucleophile.\n- **EtO\u207b** carries a full negative charge. Its electrons are higher in energy and much more eager to bond, so it's a strong nucleophile.\n\nA useful rule: for the same attacking atom, the better base is usually the better nucleophile. Ethanol has a pKa around 16, so a strong base has to remove its proton first. That deprotonation creates the real nucleophile.\n\nLeaving groups run the opposite way. A good leaving group is a **weak base**, meaning it is stable once it carries the electron pair away. You can judge this from the pKa of its conjugate acid. Br\u207b is a good leaving group because HBr is a very strong acid (pKa about \u22129), so Br\u207b is very stable. HO\u207b is poor because water is a weak acid (pKa about 15.7).\n\n**Your turn, using this on Q1.** In the flask, what does NaOH do to 2-naphthol, what species does that produce, and why does the pKa gap between 2-naphthol and water make this work? You'll need to look up or estimate the pKa of 2-naphthol; it's close to phenol's. Write your answer in your own words, and I'll tell you if it's right, not yet, or partly right.",
+  "new": "I'll teach you the ideas and check what you write. The answers have to come from you, and if your instructor has an AI policy, stick to it.\n\nYour six questions and the report rest on three ideas:\n\n1. **Who plays which role.** Questions 1 to 3 ask which species donates electrons, which accepts them, and what leaves, and why each is good at its job.\n2. **The SN2 mechanism and its ideal conditions.** This covers questions 4 to 6.\n3. **Stoichiometry.** Moles, the balanced ratio, and which reagent runs out first.\n\nLet's start with idea 1, the nucleophile.\n\nA nucleophile donates an electron pair to an electrophilic atom. Two things make one strong. A negative charge makes it a better donor than the neutral version of the same atom, and a lone pair that isn't tied up elsewhere stays available.\n\nHere's a parallel case. Take *p*-cresol (4-methylphenol) with NaOH, then methyl iodide, which gives 4-methylanisole. Neutral *p*-cresol has oxygen lone pairs, but they're held fairly tightly and it's a weak nucleophile. NaOH is a strong enough base to remove the acidic O-H proton, which leaves an anionic oxygen (a phenoxide). That oxygen carries a full negative charge and is a much stronger donor. The charge is also delocalized into the ring by resonance, which makes the anion stable enough to form easily while still reactive.\n\nYour reaction has the same structure with different parts. The substrate is a naphthalene ring with an OH, the base is the same, and the reagent is a tosylate instead of an iodide.\n\n**Your turn:** In your reaction, what does NaOH do to 2-naphthol, and why is the species that results a better nucleophile than 2-naphthol itself? Answer in your own words, using the ideas of charge and available electrons.\n\nOnce you've answered, we'll move to the electrophile and the leaving group."
+ },
+ "order": [
+  "new",
+  "old"
+ ],
+ "judge": {
+  "score_A": 5,
+  "score_B": 7,
+  "winner": "B",
+  "leaks_graded_answers_A": false,
+  "leaks_graded_answers_B": false,
+  "reason": "Both hand back Q1 with one prompt and lack a visual. A's p-cresol case nearly mirrors Q1, making transfer trivial. B's ethoxide case is properly parallel and adds pKa and leaving-group reasoning, though bolder."
+ },
+ "score": {
+  "new": 5,
+  "old": 7
+ },
+ "winner": "old",
+ "leak": {
+  "new": false,
+  "old": false
+ },
+ "words": {
+  "old": 320,
+  "new": 308
+ },
+ "bold": {
+  "old": 9,
+  "new": 4
+ },
+ "widget": {
+  "old": false,
+  "new": false
+ },
+ "answer_boxes": {
+  "old": 0,
+  "new": 0
+ }
+}

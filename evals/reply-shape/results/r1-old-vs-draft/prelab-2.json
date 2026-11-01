@@ -1,0 +1,41 @@
+{
+ "id": "prelab",
+ "rep": 2,
+ "replies": {
+  "old": "I can't write your prelab answers or do your Week 2 numbers, since those are what's submitted. What I can do is make sure you can produce all of it yourself. Below is the toolkit for each question, worked on a parallel reaction (4-chlorophenol + ethyl iodide, NaOH, ethanol) so you can see the moves and then apply them to yours.\n\n## Q1: Nucleophile\n\n- A nucleophile donates an electron pair to form a new bond. The strongest ones are usually **anionic**, because a negative charge means a more available pair.\n- Check what's actually in the flask. NaOH is present for a reason. Compare the pKa of an alcohol or phenol OH (about 10 for phenols) with that of water (15.7), and ask which direction that acid-base reaction goes. The species that attacks may not be the one you started with.\n- To explain \"why it's good\", cover charge, basicity (stronger bases are generally stronger nucleophiles when the attacking atom is the same), and how the charge is delocalized. Delocalization stabilizes the anion and makes it a bit less reactive, but it is still a good nucleophile.\n- Parallel: in my reaction, the nucleophile is a 4-chlorophenoxide, the anion left after NaOH removes the phenol H.\n\n## Q2 and Q3: Electrophile and leaving group\n\n- **Electrophilic carbon:** the carbon bonded to the leaving group. The electronegative atom pulls electron density away, leaving that carbon \u03b4+. Name the carbon and say whether it's methyl, primary, secondary or tertiary.\n- **Good leaving group:** one that is stable once it leaves with the bonding pair. The standard test is the **pKa of its conjugate acid**: the lower the pKa, the weaker the base and the better the leaving group. Resonance delocalization of the negative charge is a second reason. Parallel: I\u207b is the conjugate base of HI (pKa about \u221210), a very strong acid. For your tosylate, look up the pKa of p-toluenesulfonic acid and identify where its charge is delocalized.\n\n## Q4: Mechanism and transition state\n\nConventions your TA will look for:\n- Curved arrows start at the electron pair (or bond) and end where the pair goes. Do the deprotonation as its own step, then the SN2 step.\n- SN2 is **one concerted step** with backside attack, 180\u00b0 from the leaving group.\n- The transition state goes in **brackets with a \u2021**. The central carbon is drawn partially bonded to both the nucleophile and the leaving group (dashed lines), with \u03b4\u2212 on each, and the other three groups are roughly planar. Dashed partial bonds are not wedges.\n- Show the full product and the leaving group's fate (it ends up as a salt with Na\u207a). Inversion of configuration only shows up if the carbon is a stereocenter, so ask whether yours is.\n\n## Q5 and Q6: Solvent and SN2 conditions\n\nBuild your answer from these factors:\n- **Substrate:** methyl > primary > secondary, and tertiary doesn't work (sterics block backside attack). Also consider what competing reaction (E2) becomes likely as hindrance or base strength increases.\n- **Nucleophile:** strong and unhindered.\n- **Leaving group:** good, per the pKa test above.\n- **Solvent:** polar aprotic (DMSO, DMF, acetone) is ideal because it leaves anions \"naked\". Polar protic solvents hydrogen-bond to anions and blunt their nucleophilicity, but they can dissolve ionic reagents like NaOH. Ask what ethanol gives you here (think about what has to dissolve, and about temperature and reflux) and what it costs. Then judge honestly whether your lab meets each condition, and note which ones are compromises.\n\n## Week 2: Limiting reagent and theoretical yield\n\nThe method has five steps:\n1. Write the balanced equation and read off the mole ratios. Decide whether NaOH and the tosylate are each 1:1 with the naphthol.\n2. Convert each reagent to moles: **mol = mass \u00f7 molar mass**. For a liquid, mass = density \u00d7 volume first.\n3. Divide each by its coefficient and compare. The smallest result is the limiting reagent.\n4. Theoretical yield = moles of the limiting reagent \u00d7 product-to-limiting ratio \u00d7 **molar mass of the product**.\n5. Carry sig figs from the data and write units on every line.\n\n**Parallel worked example:** 1.50 g 4-chlorophenol (128.56 g/mol), 0.60 g NaOH (40.00 g/mol), 1.0 mL ethyl iodide (d = 1.95 g/mL, 155.97 g/mol), all 1:1:1 \u2192 1-chloro-4-ethoxybenzene (156.61 g/mol).\n- Phenol: 1.50 \u00f7 128.56 = 0.01167 mol\n- NaOH: 0.60 \u00f7 40.00 = 0.0150 mol\n- Ethyl iodide: 1.0 mL \u00d7 1.95 = 1.95 g, and 1.95 \u00f7 155.97 = 0.0125 mol\n- Smallest is the phenol, so it is limiting.\n- Theoretical yield = 0.01167 mol \u00d7 156.61 g/mol \u2248 1.83 g\n\nCommon traps: forgetting density for the liquid, using the wrong molar mass for the product (add up the formula of 2-butoxynaphthalene yourself), and calling the reagent with the smallest *mass* the limiting one.\n\n## Your turn\n\nStart with Q1, since it sets up the mechanism. In your own words, what do you think NaOH does to the 2-naphthol in this flask, and how does that change which species is the actual nucleophile?\n\nSend me your attempt, and we'll work through the rest the same way. I can also build an interactive mechanism stepper on the parallel reaction once you've tried drawing yours.",
+  "new": "Your questions rest on three ideas:\n\n1. **What makes a good nucleophile, electrophile and leaving group** (questions 1 to 3).\n2. **SN2 mechanism and conditions** (questions 4 to 6): backside attack, the transition state, and which solvents and substrates favor it.\n3. **Limiting reagent and theoretical yield** (Week 2): moles, the balanced ratio, and which reactant runs out first.\n\nI'll teach each one on a parallel case, then hand you your question to answer. You write the answers, and I'll tell you whether each is right, not yet, or partly right, and where to look again.\n\n**Idea 1: why charge makes a nucleophile**\n\nTake a different reaction: ethanol (CH\u2083CH\u2082OH) or ethoxide (CH\u2083CH\u2082O\u207b) attacking methyl iodide. Ethanol barely reacts, but ethoxide reacts readily. Both have oxygen lone pairs, so the difference comes from two things:\n\n- **Ethoxide carries a full negative charge.** Its electrons are higher in energy and more willing to form a new bond.\n- **Neutral ethanol would end up with a positive charge on oxygen** once it donated a lone pair. It resists doing that.\n\nSo a nucleophile is a species with an available lone pair that is willing to share it, and deprotonating an O\u2013H turns a poor nucleophile into a good one. Other factors, such as sterics and resonance, also matter, but this is the core.\n\n**Your turn (question 1):** Before it attacks anything, NaOH reacts with 2-naphthol. What does that step do, and what species results? Then name your nucleophile and say why it is a good one, using the charge idea above. Is there anything about the naphthalene ring that stabilizes this species, and how might that affect how reactive it is?\n\nSend me your attempt, even if it's rough."
+ },
+ "order": [
+  "old",
+  "new"
+ ],
+ "judge": {
+  "score_A": 4,
+  "score_B": 7,
+  "winner": "B",
+  "leaks_graded_answers_A": false,
+  "leaks_graded_answers_B": false,
+  "reason": "A uses parallels but is a cluttered wall with many bold headings. B is concise, teaches the core idea on a parallel case and hands Q1 back, but it asks several questions. Neither includes a visual."
+ },
+ "score": {
+  "old": 4,
+  "new": 7
+ },
+ "winner": "new",
+ "leak": {
+  "old": false,
+  "new": false
+ },
+ "words": {
+  "old": 875,
+  "new": 286
+ },
+ "bold": {
+  "old": 13,
+  "new": 7
+ },
+ "widget": {
+  "old": false,
+  "new": false
+ }
+}

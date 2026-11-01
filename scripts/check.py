@@ -194,12 +194,16 @@ for rel in ('myelinate.md', 'skills/tutor/SKILL.md', 'references/visual-teaching
 # With no inline renderer, anything with a control or a hidden answer goes in an HTML file; one rule everywhere.
 for rel in ('myelinate.md', 'skills/tutor/SKILL.md', 'references/visual-teaching.md'):
     text = (ROOT / rel).read_text()
-    if 'self-contained HTML file' not in text or 'draw inline SVG, Mermaid or an ASCII sketch in the reply' in text:
+    if 'a visual that needs a control or a hidden answer goes in a self-contained HTML file' not in text \
+            or 'draw inline SVG, Mermaid or an ASCII sketch in the reply' in text:
         errors.append(f'{rel}: no-inline-renderer rule disagrees with the others')
 # A teaching reply is one screen, and "teach me all I need to solve these" on course work gets taught, not answered.
-for rel, needles in (('myelinate.md', ('One screen, one idea', 'prelab questions', 'A question set becomes practice')),
+for rel, needles in (('myelinate.md', ('One screen, one idea', 'prelab questions', 'A question set becomes practice',
+                                       'holds no answer, key, reveal or self-check')),
                      ('skills/tutor/SKILL.md', ('One screen, one idea',)),
-                     ('skills/assignment/SKILL.md', ('Teach me all I need to know so I can solve these', 'prelab'))):
+                     ('skills/assignment/SKILL.md', ('Teach me all I need to know so I can solve these',
+                                                     'Prelab questions and lab-report calculations are graded',
+                                                     'holds no answer, key, reveal or self-check'))):
     text = (ROOT / rel).read_text()
     errors += [f'{rel}: lost {n!r}' for n in needles if n not in text]
 package_errors, package_counts = package.verify()

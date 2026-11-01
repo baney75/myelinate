@@ -1,0 +1,41 @@
+{
+ "id": "quick",
+ "rep": 0,
+ "replies": {
+  "old": "Good question, and it has a clean answer. Before I explain, take a guess so we can build on your thinking.\n\nIn SN2 the nucleophile attacks a carbon that already has a leaving group attached, and the leaving group departs with the bonding electrons as the new bond forms. Suppose the nucleophile came in from the front, on the same side as the leaving group. What do you think goes wrong there?\n\nIf you're not sure, consider what the nucleophile is bringing to the carbon (electronically) and what the leaving group is carrying as it leaves. A rough guess is fine.",
+  "new": "Predict first, then I'll build on your guess.\n\nIn SN2, everything happens in one step: the nucleophile's lone pair comes in while the C-Br bond breaks and Br leaves with its electrons. So at the moment of attack, the carbon has a nucleophile arriving and a leaving group departing.\n\nBr is large, electron-rich, and carries a partial negative charge in the C-Br bond. The nucleophile is also electron-rich.\n\n**Would you send the nucleophile at the same side of the carbon as Br or the opposite side, and what's your reason?** A rough guess is fine, and tell me how sure you are."
+ },
+ "order": [
+  "old",
+  "new"
+ ],
+ "judge": {
+  "score_A": 4,
+  "score_B": 3,
+  "winner": "A",
+  "leaks_graded_answers_A": false,
+  "leaks_graded_answers_B": false,
+  "reason": "Both withhold the direct sigma* answer the quick question calls for. A is shorter and asks one question. B is longer, makes two asks, and its 'large, electron-rich Br' hint points toward sterics/repulsion instead of orbitals."
+ },
+ "score": {
+  "old": 4,
+  "new": 3
+ },
+ "winner": "old",
+ "leak": {
+  "old": false,
+  "new": false
+ },
+ "words": {
+  "old": 101,
+  "new": 102
+ },
+ "bold": {
+  "old": 0,
+  "new": 1
+ },
+ "widget": {
+  "old": false,
+  "new": false
+ }
+}

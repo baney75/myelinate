@@ -1,0 +1,41 @@
+{
+ "id": "prelab",
+ "rep": 0,
+ "replies": {
+  "old": "Your six questions and the Week 2 calculation rest on three ideas. I'll teach them in this order, one at a time, and you'll answer your own questions as we go:\n\n1. **What makes a good nucleophile and a good leaving group** (questions 1 to 3)\n2. **The SN2 mechanism and its ideal conditions** (questions 4 to 6)\n3. **Mole-ratio stoichiometry** (the Week 2 limiting reagent and theoretical yield)\n\n**Idea 1, on a parallel case.** Take 4-methylphenol (p-cresol) with ethyl iodide and KOH in acetone, giving 4-ethoxytoluene.\n\nThe phenol O-H is neutral, so its oxygen holds lone pairs but no charge. That makes it a weak nucleophile, and it would attack ethyl iodide very slowly. KOH removes the O-H proton, and the oxygen becomes an anion. A negative charge means more electron density, and the oxygen is willing to donate it. The phenoxide is also stabilized by resonance into the ring, so it's reactive enough to attack but not so unstable that it's unmanageable. The general rule is that a charged, electron-rich atom with an available lone pair beats its neutral conjugate acid.\n\nFor leaving groups, the test is the reverse: **the better the leaving group, the more stable it is as an anion once it leaves with the bonding electrons.** A convenient proxy is that good leaving groups are conjugate bases of strong acids. HI has a pKa of about -10, so I\u207b is a very weak base and leaves easily. HO\u207b (conjugate acid water, pKa about 15.7) is a strong base and leaves badly. Charge delocalization (resonance) also stabilizes the anion.\n\n**Your turn.** Apply this to your own reaction: what does the NaOH do to 2-naphthol, and what is the actual nucleophile that results? Give it in your own words, with your reasoning for why it's a better nucleophile than 2-naphthol itself.",
+  "new": "These are graded, so I won't answer them for you. I'll teach each idea on a parallel reaction, and you write the answers for yours. Everything rests on four ideas:\n\n1. **Who attacks and what gets attacked** (Q1, Q2)\n2. **What leaves, and why it leaves easily** (Q3)\n3. **SN2 mechanism, conditions and solvent** (Q4 to Q6)\n4. **Stoichiometry** (the limiting reagent and theoretical yield for Week 2)\n\nLet's start with idea 1.\n\n**Parallel reaction:** p-cresol (4-methylphenol) + NaOH, then ethyl bromide, giving ethyl p-tolyl ether.\n\nIn an SN2 reaction, the nucleophile uses an electron pair to attack a carbon that is electron-poor. A nucleophile gets stronger as its electron pair becomes more available and less tightly held. Compare the two oxygen species in the flask:\n\n- **Neutral ArO-H:** the oxygen's lone pairs are partly tied up. Oxygen also holds a partial positive charge, because it's bonded to H, and the lone pair is delocalized into the ring.\n- **ArO\u207b:** the oxygen carries a full negative charge with no H attached, so its electron pair is much more available.\n\nThat's why the base is in the flask. NaOH doesn't do the substitution. It converts the weak nucleophile into a strong one first, and it can do this because phenols are far more acidic than ordinary alcohols (about pKa 10 versus 16 to 18).\n\nFor the electrophile, ask where the partial positive charge sits. The carbon attached to the leaving group is the one that is electron-poor, because the electronegative group pulls electron density toward itself.\n\n**Your turn:** In your reaction, what species does NaOH make from 2-naphthol? Write it, and say in one sentence why that species is a better nucleophile than 2-naphthol itself. I'll tell you if it's right, not yet, or partly right."
+ },
+ "order": [
+  "new",
+  "old"
+ ],
+ "judge": {
+  "score_A": 5,
+  "score_B": 6,
+  "winner": "B",
+  "leaks_graded_answers_A": false,
+  "leaks_graded_answers_B": false,
+  "reason": "Neither has a visual. Both teach on p-cresol and hand Q1 back. A wrongly says the O-H oxygen is partially positive and uses more bold. B is accurate and adds leaving-group theory."
+ },
+ "score": {
+  "new": 5,
+  "old": 6
+ },
+ "winner": "old",
+ "leak": {
+  "new": false,
+  "old": false
+ },
+ "words": {
+  "old": 304,
+  "new": 295
+ },
+ "bold": {
+  "old": 6,
+  "new": 8
+ },
+ "widget": {
+  "old": false,
+  "new": false
+ }
+}

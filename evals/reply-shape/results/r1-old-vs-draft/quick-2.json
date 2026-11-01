@@ -1,0 +1,41 @@
+{
+ "id": "quick",
+ "rep": 2,
+ "replies": {
+  "old": "Quick pretest before I explain. In SN2 the nucleophile brings a pair of electrons to carbon, while Br leaves carrying the C-Br bonding pair. Slide the nucleophile around the carbon and watch where the electron pairs sit.\n\n```show_widget\n<div style=\"font-family:system-ui,sans-serif;max-width:420px\">\n<svg id=\"s\" viewBox=\"0 0 400 250\" width=\"100%\" role=\"img\" aria-label=\"Nucleophile approaching a carbon bonded to bromine; slider changes approach angle\">\n  <line x1=\"180\" y1=\"130\" x2=\"235\" y2=\"130\" stroke=\"currentColor\" stroke-width=\"3\"/>\n  <line x1=\"180\" y1=\"130\" x2=\"148\" y2=\"95\" stroke=\"currentColor\" stroke-width=\"2\"/>\n  <line x1=\"180\" y1=\"130\" x2=\"148\" y2=\"165\" stroke=\"currentColor\" stroke-width=\"2\"/>\n  <circle cx=\"148\" cy=\"95\" r=\"9\" fill=\"none\" stroke=\"currentColor\"/><text x=\"148\" y=\"99\" text-anchor=\"middle\" font-size=\"11\" fill=\"currentColor\">R</text>\n  <circle cx=\"148\" cy=\"165\" r=\"9\" fill=\"none\" stroke=\"currentColor\"/><text x=\"148\" y=\"169\" text-anchor=\"middle\" font-size=\"11\" fill=\"currentColor\">R</text>\n  <circle cx=\"180\" cy=\"130\" r=\"14\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"/><text x=\"180\" y=\"135\" text-anchor=\"middle\" font-size=\"13\" fill=\"currentColor\">C</text>\n  <circle cx=\"207\" cy=\"130\" r=\"2.5\" fill=\"#D85A30\"/><circle cx=\"213\" cy=\"130\" r=\"2.5\" fill=\"#D85A30\"/>\n  <circle cx=\"245\" cy=\"130\" r=\"14\" fill=\"#D85A30\" fill-opacity=\".25\" stroke=\"#D85A30\" stroke-width=\"2\"/><text x=\"245\" y=\"135\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\">Br</text>\n  <line id=\"path\" x1=\"0\" y1=\"0\" x2=\"180\" y2=\"130\" stroke=\"#378ADD\" stroke-dasharray=\"4 4\"/>\n  <circle id=\"nu\" r=\"14\" fill=\"#378ADD\" fill-opacity=\".25\" stroke=\"#378ADD\" stroke-width=\"2\"/>\n  <text id=\"nut\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\">Nu</text>\n  <circle id=\"lp1\" r=\"2.5\" fill=\"#378ADD\"/><circle id=\"lp2\" r=\"2.5\" fill=\"#378ADD\"/>\n  <text x=\"200\" y=\"240\" text-anchor=\"middle\" font-size=\"12\" fill=\"currentColor\" id=\"lab\"></text>\n</svg>\n<input id=\"a\" type=\"range\" min=\"0\" max=\"180\" value=\"90\" step=\"1\" style=\"width:100%\" aria-label=\"Approach angle\">\n<div style=\"display:flex;justify-content:space-between;font-size:12px;opacity:.8\"><span>left of C (opposite Br)</span><span>right (Br side)</span></div>\n<div style=\"font-size:12px;opacity:.7;margin-top:6px\">Simplified 2D picture: dots are the electron pairs in play (blue: Nu lone pair, orange: C-Br bond). Ignores orbital shapes.</div>\n</div>\n<script>\nconst a=document.getElementById('a');\nfunction upd(){\n  const t=a.value*Math.PI/180, R=105, cx=180, cy=130;\n  const x=cx-R*Math.cos(t), y=cy-R*Math.sin(t);\n  const set=(id,o)=>{const e=document.getElementById(id);for(const k in o)e.setAttribute(k,o[k]);};\n  set('nu',{cx:x,cy:y});set('nut',{x:x,y:y+4});\n  set('path',{x1:x,y1:y});\n  const ux=(cx-x)/R, uy=(cy-y)/R;\n  const px=-uy, py=ux;\n  set('lp1',{cx:x+ux*20+px*4,cy:y+uy*20+py*4});\n  set('lp2',{cx:x+ux*20-px*4,cy:y+uy*20-py*4});\n  document.getElementById('lab').textContent='Nu approaches at '+(180-a.value)+'\\u00b0 from the C\\u2013Br axis';\n}\na.addEventListener('input',upd);upd();\n</script>\n```\n\nThe label shows the angle between the incoming nucleophile and the C-Br bond (180\u00b0 means directly opposite Br).\n\nWhich approach would you choose so that Nu can bond to carbon while Br leaves in one smooth step, and what do you think goes wrong at the other end of the slider?",
+  "new": "This is a good one to reason out, because you already have most of the pieces.\n\nSN2 happens in a single concerted step. The nucleophile's lone pair is forming a new bond to carbon *while* the C-LG bond is breaking, and the leaving group leaves carrying the electron pair from that old bond.\n\nUsing only that, and the fact that the nucleophile is electron-rich, what do you think goes wrong if it approached from the **same side** as the leaving group? Take a guess, even a rough one, and say how sure you are.\n\nOnce you've committed, I'll add the orbital picture that explains why the backside is also the *only* place the nucleophile can actually bond."
+ },
+ "order": [
+  "new",
+  "old"
+ ],
+ "judge": {
+  "score_A": 4,
+  "score_B": 3,
+  "winner": "A",
+  "leaks_graded_answers_A": false,
+  "leaks_graded_answers_B": false,
+  "reason": "Neither gives the sigma* answer the quick question needs. A is short and scannable but withholds it. B adds a cluttered widget that skips orbitals and asks a two-part question."
+ },
+ "score": {
+  "new": 4,
+  "old": 3
+ },
+ "winner": "new",
+ "leak": {
+  "new": false,
+  "old": false
+ },
+ "words": {
+  "old": 88,
+  "new": 117
+ },
+ "bold": {
+  "old": 0,
+  "new": 1
+ },
+ "widget": {
+  "old": true,
+  "new": false
+ }
+}

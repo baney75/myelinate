@@ -1,0 +1,45 @@
+{
+ "id": "prelab",
+ "rep": 2,
+ "replies": {
+  "old": "Your six questions and the week 2 calculation rest on three ideas. I'll teach the first now and we'll do the others in turn.\n\n1. **What makes a good nucleophile and a good leaving group** (Q1 to 3). This is about charge and electron availability, and about how stable the departing group is.\n2. **How SN2 works and what it prefers** (Q4 to 6). This covers backside attack, the transition state, substrate, solvent and base.\n3. **Limiting reagent and theoretical yield** (week 2). This is a moles-and-ratios method that I'll model on different numbers.\n\n## Idea 1: Nucleophile strength\n\nA nucleophile donates an electron pair to an electrophilic atom. Two things make it better at that:\n\n- **Charge.** An anion has more electron density to give than the neutral molecule it comes from. Ethanol, CH\u2083CH\u2082\u2013OH, has lone pairs on O, but they're held by a neutral atom. Remove the H\u207a and you get ethoxide, CH\u2083CH\u2082\u2013O\u207b, which is far more eager to attack.\n- **Availability.** The lone pair needs to be free to attack, not tied up or buried in bulk.\n\nYou get the anion by deprotonating with a base. The base has to be strong enough to take the proton, which you can check by comparing pKa values: the conjugate acid of the base must be a weaker acid than the alcohol.\n\n**Parallel case.** Cyclohexanol is stirred with NaH, then CH\u2083I is added. The cyclohexanol is deprotonated first, and then a substitution happens.\n\nWhich species attacks the CH\u2083I, the neutral cyclohexanol or the species left after the NaH step? Say why in terms of charge and electron density. Then name which role NaH plays, so I can see how you'd carry this over to your own flask.",
+  "new": "This is graded prelab and report work, so I'll teach you the ideas on parallel cases and you'll answer your own questions. I won't solve them for you. Your six questions and the Week 2 calculation rest on four ideas:\n\n1. **What makes a good nucleophile and a good leaving group** (Q1, Q3)\n2. **The SN2 mechanism: where the attack happens and what the transition state looks like** (Q2, Q4)\n3. **SN2 conditions: solvent and substrate** (Q5, Q6)\n4. **Limiting reagent and theoretical yield** (Week 2)\n\nWe'll take them one at a time. Here is the first.\n\n**Idea 1: charge and stability drive both roles.**\n\nA nucleophile donates an electron pair to an electrophile. A species with a full negative charge donates much more eagerly than its neutral conjugate acid. That's why many substitutions begin with a deprotonation step.\n\nA leaving group takes the electron pair with it. The more stable it is as a free anion, the more easily it leaves. A handy test is the pKa of its conjugate acid: a **weaker base**, meaning a stronger conjugate acid, is a better leaving group. Compare:\n\n- Br\u207b (conjugate acid HBr, pKa \u2248 \u22129) leaves readily.\n- HO\u207b (conjugate acid H\u2082O, pKa \u2248 15.7) is a poor leaving group, because it is a strong base and holds its electrons tightly.\n\nCharge stabilized by resonance or a large, polarizable atom lowers basicity further.\n\n**Parallel case.** Phenol, NaOH and benzyl bromide give benzyl phenyl ether.\n\n**Your turn:** What does NaOH do to the phenol, and why does the resulting species attack benzyl bromide so much faster than phenol itself would? Answer in your own words and I'll tell you whether it's right, not yet, or partly right.\n\nOnce that's solid, you'll apply it to 2-naphthol and the tosylate. Then we'll move on to the mechanism."
+ },
+ "order": [
+  "old",
+  "new"
+ ],
+ "judge": {
+  "score_A": 6,
+  "score_B": 7,
+  "winner": "B",
+  "leaks_graded_answers_A": false,
+  "leaks_graded_answers_B": false,
+  "reason": "Neither has a visual. B teaches nucleophile and leaving group with pKa cases and hands Q1 back, though phenol/NaOH is near-identical. A's cyclohexanol case is distinct but ends with several asks."
+ },
+ "score": {
+  "old": 6,
+  "new": 7
+ },
+ "winner": "new",
+ "leak": {
+  "old": false,
+  "new": false
+ },
+ "words": {
+  "old": 287,
+  "new": 303
+ },
+ "bold": {
+  "old": 6,
+  "new": 8
+ },
+ "widget": {
+  "old": false,
+  "new": false
+ },
+ "answer_boxes": {
+  "old": 0,
+  "new": 0
+ }
+}

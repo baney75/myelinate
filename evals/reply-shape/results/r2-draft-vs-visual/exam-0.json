@@ -1,0 +1,41 @@
+{
+ "id": "exam",
+ "rep": 0,
+ "replies": {
+  "old": "Acid-base equilibria rest on four ideas, and each builds on the one before:\n\n1. **What a buffer is and why it resists change** (starting here)\n2. **Henderson-Hasselbalch** and when it's valid\n3. **Adding strong acid or base to a buffer:** stoichiometry first, then HH\n4. **Titration curves:** the initial point, the buffer region, half-equivalence, equivalence, and past equivalence\n\n**Idea 1: a buffer is a weak acid and its conjugate base, both present in quantity.**\n\nStart from the equilibrium for a weak acid, HA \u21cc H\u207a + A\u207b:\n\nKa = [H\u207a][A\u207b] / [HA]\n\nSolve for the thing you care about:\n\n[H\u207a] = Ka \u00d7 [HA] / [A\u207b]\n\n[H\u207a] depends on the *ratio* of HA to A\u207b, not on how much of each you have. Now add a little strong base. OH\u207b reacts with HA and turns it into A\u207b. Add a little strong acid, and H\u207a reacts with A\u207b and turns it into HA. Either way, one species shrinks and the other grows, but if both were large to begin with, the ratio barely moves. Since [H\u207a] tracks the ratio, the pH barely moves either.\n\nThis also tells you what a buffer can't be. A weak acid alone has almost no A\u207b to absorb added H\u207a. A strong acid with its conjugate base doesn't work either, because that base is too weak to pick up H\u207a.\n\n**Your turn.** Using the equation [H\u207a] = Ka \u00d7 [HA] / [A\u207b], suppose a solution contains equal concentrations of HA and A\u207b. What does [H\u207a] equal, and so what is the pH in terms of pKa?",
+  "new": "You asked for everything, so here's the map. Your exam rests on three ideas, and each builds on the one before:\n\n1. **A buffer and Henderson-Hasselbalch**: why a weak acid plus its conjugate base resists pH change, and how to calculate its pH.\n2. **How buffers respond to added acid or base**: the stoichiometry step, then H-H.\n3. **Titration curves**: the four regions, the half-equivalence point, and the equivalence point.\n\nWe'll do the first now.\n\nA buffer is a weak acid (HA) and its conjugate base (A\u207b) in the same solution. Added H\u207a is consumed by A\u207b, and added OH\u207b is consumed by HA. Neither one removes the buffer's ability to do the other. Start from Ka = [H\u207a][A\u207b]/[HA], take \u2212log of both sides, and you get:\n\n**pH = pKa + log([A\u207b]/[HA])**\n\nYou don't need to guess this equation. It's a definition rearranged. What you do need to use is the ratio.\n\nWorked parallel example: formic acid has pKa 3.75. With 0.20 M formate and 0.10 M formic acid, the ratio is 2, log 2 = 0.30, so pH = 3.75 + 0.30 = 4.05.\n\nPlay with the acetate buffer below (pKa 4.76). The pH stays hidden until you ask for it, so make a guess first.\n\n```show_widget\n<div style=\"font-family:system-ui,sans-serif;padding:12px;max-width:440px\">\n  <div style=\"font-size:14px;margin-bottom:8px\">Acetic acid / acetate, pKa = 4.76</div>\n  <label style=\"font-size:13px\">Ratio [A\u207b]/[HA]: <b id=\"r\">1</b></label>\n  <input id=\"s\" type=\"range\" min=\"-2\" max=\"2\" step=\"0.05\" value=\"0\" style=\"width:100%\">\n  <div style=\"display:flex;height:34px;margin:10px 0;border-radius:6px;overflow:hidden;border:1px solid #888\">\n    <div id=\"ha\" style=\"background:#d9822b;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;overflow:hidden\">HA</div>\n    <div id=\"a\" style=\"background:#2b7bd9;color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;overflow:hidden\">A\u207b</div>\n  </div>\n  <button id=\"b\" style=\"padding:6px 12px;font-size:13px;cursor:pointer\">Show pH</button>\n  <span id=\"o\" style=\"margin-left:10px;font-size:15px;font-weight:600\"></span>\n</div>\n<script>\nvar s=document.getElementById('s'),r=document.getElementById('r'),ha=document.getElementById('ha'),a=document.getElementById('a'),o=document.getElementById('o'),b=document.getElementById('b');\nfunction upd(){var q=Math.pow(10,+s.value);r.textContent=q<1?q.toFixed(3):q.toFixed(2);\nvar fa=q/(1+q);ha.style.width=(100*(1-fa))+'%';a.style.width=(100*fa)+'%';o.textContent='';}\ns.oninput=upd;\nb.onclick=function(){o.textContent='pH = '+(4.76+(+s.value)).toFixed(2);};\nupd();\n</script>\n```\n\nPredict before you touch the slider: an acetate buffer has 0.10 M acetic acid and 1.00 M acetate. **What pH do you expect, and how sure are you?**"
+ },
+ "order": [
+  "old",
+  "new"
+ ],
+ "judge": {
+  "score_A": 6,
+  "score_B": 9,
+  "winner": "B",
+  "leaks_graded_answers_A": false,
+  "leaks_graded_answers_B": false,
+  "reason": "Both map the core ideas, teach the first well and end on one question. A has no inline visual. B's predict-then-reveal ratio slider is something the learner actually operates, and B stays scannable."
+ },
+ "score": {
+  "old": 6,
+  "new": 9
+ },
+ "winner": "new",
+ "leak": {
+  "old": false,
+  "new": false
+ },
+ "words": {
+  "old": 261,
+  "new": 235
+ },
+ "bold": {
+  "old": 6,
+  "new": 5
+ },
+ "widget": {
+  "old": false,
+  "new": true
+ }
+}

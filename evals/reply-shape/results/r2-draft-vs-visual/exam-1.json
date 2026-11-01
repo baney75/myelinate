@@ -1,0 +1,41 @@
+{
+ "id": "exam",
+ "rep": 1,
+ "replies": {
+  "old": "You have until Friday, so here's the map. The whole exam rests on four ideas:\n\n1. **Buffers and Henderson-Hasselbalch** (starting here)\n2. **Titration curves**: the five regions and where each pH comes from\n3. **Choosing and making a buffer**, including what happens when you add acid or base\n4. **Mixed problems**, with the setup choice made under time pressure\n\n**Idea 1: what a buffer is.**\n\nA buffer holds a weak acid (HA) and its conjugate base (A\u207b) together. Add H\u207a, and A\u207b soaks it up. Add OH\u207b, and HA gives up H\u207a to neutralize it. Either way the *ratio* A\u207b/HA shifts only a little, and pH depends on that ratio:\n\n**pH = pKa + log([A\u207b]/[HA])**\n\nThree facts follow from the equation:\n- Equal A\u207b and HA means log(1) = 0, so pH = pKa.\n- Ten times more A\u207b than HA puts pH one unit above pKa. Ten times less puts it one unit below.\n- The ratio is what counts, so you can use moles instead of concentrations, because the volume cancels.\n\n**Worked parallel example.** Formic acid has pKa 3.75. A solution has 0.10 M formate and 1.0 M formic acid. The ratio A\u207b/HA is 0.10, and log(0.10) = \u22121, so pH = 3.75 \u2212 1 = **2.75**. The pH sits below the pKa because acid dominates.\n\n**Your turn.** Acetic acid has pKa 4.76. A buffer has 0.20 M acetate and 0.10 M acetic acid. Before you calculate, say whether the pH will land above or below 4.76, and then give the number.",
+  "new": "Friday is enough time if we split this into three ideas, since everything on the sheet rests on them:\n\n1. **The ratio idea.** The pH of a weak acid/conjugate base pair depends on the ratio of base to acid, which is what Henderson-Hasselbalch encodes.\n2. **Buffers.** Why that ratio resists pH change, how to design one, and what happens when you add strong acid or base.\n3. **Titration curves.** Every region of the curve (start, buffer region, equivalence, past it) is idea 1 applied at a different ratio.\n\nLet's do idea 1 properly.\n\nA weak acid HA sits in equilibrium with its conjugate base A\u207b. Rearranging the Ka expression and taking logs gives:\n\n**pH = pKa + log([A\u207b]/[HA])**\n\nThe pKa sets the anchor point, and the log of the ratio says how far you sit from it. Titrating acetic acid (pKa 4.76) with NaOH turns HA into A\u207b one-for-one, so the slider below sets how much of the acid has been converted. It deliberately shows no pH.\n\n```show_widget\n<div style=\"font-family:system-ui,sans-serif;padding:12px;max-width:520px\">\n  <div style=\"font-size:14px;margin-bottom:8px\">Acetic acid + NaOH (pKa = 4.76). Slide the fraction of acid converted:</div>\n  <input id=\"s\" type=\"range\" min=\"1\" max=\"99\" value=\"20\" style=\"width:100%\">\n  <div style=\"display:flex;height:34px;margin:10px 0;border-radius:6px;overflow:hidden;font-size:13px;color:#fff\">\n    <div id=\"ha\" style=\"background:#c0562f;display:flex;align-items:center;justify-content:center;white-space:nowrap\">HA</div>\n    <div id=\"a\" style=\"background:#2f6fc0;display:flex;align-items:center;justify-content:center;white-space:nowrap\">A\u207b</div>\n  </div>\n  <div id=\"r\" style=\"font-size:14px;margin-bottom:12px\"></div>\n  <div style=\"font-size:14px;margin-bottom:6px\">Your prediction: when the bars are exactly equal, what is the pH, and why?</div>\n  <input id=\"g\" type=\"text\" placeholder=\"pH = ... because ...\" style=\"width:100%;box-sizing:border-box;padding:6px;margin-bottom:8px\">\n  <button id=\"b\" style=\"padding:6px 14px;cursor:pointer\">Send to my tutor</button>\n</div>\n<script>\nconst s=document.getElementById('s'),ha=document.getElementById('ha'),a=document.getElementById('a'),r=document.getElementById('r');\nfunction u(){const f=+s.value;ha.style.width=(100-f)+'%';a.style.width=f+'%';\nha.textContent=f<85?'HA '+(100-f)+'%':'';a.textContent=f>15?'A\u207b '+f+'%':'';\nr.textContent='[A\u207b]/[HA] = '+(f/(100-f)).toFixed(2);}\ns.oninput=u;u();\ndocument.getElementById('b').onclick=()=>{const v=document.getElementById('g').value.trim();if(v)sendPrompt('My prediction for the pH when the bars are equal: '+v);};\n</script>\n```\n\nMove the slider to a few spots and watch the ratio. Then commit to a prediction in the box: **what is the pH when the bars are equal, and what in the equation tells you?** Add your confidence if you like. I'll check it against the key, and then we'll use it to build up buffers."
+ },
+ "order": [
+  "new",
+  "old"
+ ],
+ "judge": {
+  "score_A": 9,
+  "score_B": 6,
+  "winner": "A",
+  "leaks_graded_answers_A": false,
+  "leaks_graded_answers_B": false,
+  "reason": "A offers a lean three-idea map, teaches the ratio idea, and adds an interactive slider with one prediction question. B is clear but has no visual, adds a bolded worked example, and pre-states the equal-ratio fact."
+ },
+ "score": {
+  "new": 9,
+  "old": 6
+ },
+ "winner": "new",
+ "leak": {
+  "new": false,
+  "old": false
+ },
+ "words": {
+  "old": 254,
+  "new": 223
+ },
+ "bold": {
+  "old": 9,
+  "new": 5
+ },
+ "widget": {
+  "old": false,
+  "new": true
+ }
+}

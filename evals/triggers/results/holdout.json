@@ -5,7 +5,7 @@
  "harness": "codex exec, isolated HOME, skills in ~/.agents/skills",
  "prompt_set": "holdout.jsonl",
  "partial": false,
- "descriptions_sha256": "f891eee85682217ca0c00ffa5ab40460a0ccb0cd265e3dbf04ac9b581e0b7b97",
+ "descriptions_sha256": "d4ab3ab5ad2b5bbd8e325fd7affa628128fd488ab98eacd30ef1f145925bc209",
  "inputs_sha256": "8c7ef3574da283c414967fef77b6b42a23d468a2770898109acbd98945fca6c1",
  "skills": [
   "assess",

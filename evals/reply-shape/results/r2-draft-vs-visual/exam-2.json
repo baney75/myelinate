@@ -1,0 +1,41 @@
+{
+ "id": "exam",
+ "rep": 2,
+ "replies": {
+  "old": "Here's the map. Almost every question on this exam rests on three ideas:\n\n1. **A buffer is a weak acid plus its conjugate base, and pH depends on their ratio.** This is Henderson-Hasselbalch.\n2. **Adding strong acid or base to a buffer.** Do the stoichiometry first, then apply H-H. This is the most common exam setup.\n3. **Titration curves.** The buffer region, the half-equivalence point, the equivalence point, and what comes after it all follow from ideas 1 and 2.\n\nLet's take idea 1 first.\n\nA buffer resists pH change because it holds both a species that can neutralize added base (HA) and one that can neutralize added acid (A\u207b). Rearranging the Ka expression gives:\n\n**pH = pKa + log([A\u207b]/[HA])**\n\nThe pH depends on the *ratio*, and the pKa sets where it's centered. If the two are equal, the log term is 0 and pH = pKa. A ratio of 10:1 shifts pH by +1, and 1:10 shifts it by \u22121. That is why a buffer works best within about \u00b11 pH unit of its pKa.\n\nWorked parallel: an HF/F\u207b buffer (pKa 3.17) has 0.10 M of each. The ratio is 1, log 1 = 0, so pH = 3.17. If F\u207b were 0.50 M and HF 0.10 M, the ratio would be 5, log 5 \u2248 0.70, so pH \u2248 3.87.\n\nYour turn. An acetic acid/acetate buffer (pKa = 4.76) contains 0.20 M acetate and 0.020 M acetic acid. What's the pH, and how sure are you?\n\nIf you paste the review sheet's questions, I'll aim the rest of the session at them.",
+  "new": "Five days is enough if we build this in order. Everything on your sheet rests on four ideas:\n\n1. **Buffers and Henderson-Hasselbalch**: why the ratio of base to acid sets the pH\n2. **Buffer calculations**: adding strong acid or base, choosing a buffer, capacity\n3. **Titration curves**: each region, the half-equivalence point, the equivalence point\n4. **Indicators and polyprotic systems**\n\nWe'll start with the first. If you paste the actual sheet, I'll line the rest up to it.\n\nA buffer is a weak acid (HA) and its conjugate base (A\u207b) present together. Start from the equilibrium expression, Ka = [H\u207a][A\u207b]/[HA], then take \u2212log of both sides:\n\n**pH = pKa + log([A\u207b]/[HA])**\n\nTwo consequences matter for the exam:\n- Only the **ratio** appears, so pH tracks the ratio of base to acid, not their absolute amounts.\n- When the ratio is 1, the log term is 0 and pH = pKa. A buffer works well roughly within a ratio of 0.1 to 10, which is pKa \u00b1 1.\n\nBelow is 1.00 L of acetic acid/acetate buffer (pKa 4.76). The pH is hidden until you ask for it.\n\n```show_widget\n<div style=\"font-family:system-ui,sans-serif;padding:8px;max-width:520px;color:inherit\">\n  <div style=\"font-size:14px;margin-bottom:10px\"><b>1.00 L acetic acid / acetate buffer</b> (pKa 4.76)</div>\n  <div style=\"font-size:13px;margin-bottom:4px\">HA (acetic acid): <span id=\"haL\">100</span> mmol</div>\n  <div style=\"background:rgba(128,128,128,.2);border-radius:4px;height:20px;margin-bottom:10px\"><div id=\"haB\" style=\"height:100%;border-radius:4px;background:#d85a30;width:50%;transition:width .3s\"></div></div>\n  <div style=\"font-size:13px;margin-bottom:4px\">A\u207b (acetate): <span id=\"aL\">100</span> mmol</div>\n  <div style=\"background:rgba(128,128,128,.2);border-radius:4px;height:20px;margin-bottom:14px\"><div id=\"aB\" style=\"height:100%;border-radius:4px;background:#378add;width:50%;transition:width .3s\"></div></div>\n  <div style=\"display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px\">\n    <button onclick=\"addAcid()\" style=\"padding:6px 10px;cursor:pointer\">Add 10 mmol HCl</button>\n    <button onclick=\"addBase()\" style=\"padding:6px 10px;cursor:pointer\">Add 10 mmol NaOH</button>\n    <button onclick=\"resetAll()\" style=\"padding:6px 10px;cursor:pointer\">Reset</button>\n  </div>\n  <div style=\"display:flex;align-items:center;gap:10px;font-size:14px\">\n    <button onclick=\"togglePH()\" style=\"padding:6px 10px;cursor:pointer\">Show / hide pH</button>\n    <span>pH: <b id=\"ph\">?</b></span>\n  </div>\n  <div id=\"msg\" style=\"font-size:12px;margin-top:8px;min-height:16px\"></div>\n</div>\n<script>\nvar ha=100,a=100,show=false,pKa=4.76;\nfunction render(){\n  document.getElementById('haL').textContent=ha;\n  document.getElementById('aL').textContent=a;\n  document.getElementById('haB').style.width=(ha/200*100)+'%';\n  document.getElementById('aB').style.width=(a/200*100)+'%';\n  var msg=document.getElementById('msg');\n  if(ha<=0||a<=0){msg.textContent='One component is used up: this is no longer a buffer.';document.getElementById('ph').textContent=show?'(not a buffer)':'?';return;}\n  msg.textContent='';\n  var p=pKa+Math.log10(a/ha);\n  document.getElementById('ph').textContent=show?p.toFixed(2):'?';\n}\nfunction addAcid(){if(a>=10){a-=10;ha+=10;}else{a=0;}render();}\nfunction addBase(){if(ha>=10){ha-=10;a+=10;}else{ha=0;}render();}\nfunction resetAll(){ha=100;a=100;render();}\nfunction togglePH(){show=!show;render();}\nrender();\n</script>\n```\n\n**Before you click anything:** if you add 0.010 mol of HCl to this buffer, which bar shrinks and which grows, and roughly how far do you think the pH moves? Then use the buttons to check your prediction."
+ },
+ "order": [
+  "old",
+  "new"
+ ],
+ "judge": {
+  "score_A": 7,
+  "score_B": 9,
+  "winner": "B",
+  "leaks_graded_answers_A": false,
+  "leaks_graded_answers_B": false,
+  "reason": "Both map the core ideas, teach H-H first, and end on one question. B adds a working buffer widget with a prediction-before-click task. A is lean and clear but has no inline visual."
+ },
+ "score": {
+  "old": 7,
+  "new": 9
+ },
+ "winner": "new",
+ "leak": {
+  "old": false,
+  "new": false
+ },
+ "words": {
+  "old": 264,
+  "new": 224
+ },
+ "bold": {
+  "old": 4,
+  "new": 7
+ },
+ "widget": {
+  "old": false,
+  "new": true
+ }
+}

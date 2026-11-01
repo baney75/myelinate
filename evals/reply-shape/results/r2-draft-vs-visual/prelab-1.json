@@ -1,0 +1,41 @@
+{
+ "id": "prelab",
+ "rep": 1,
+ "replies": {
+  "old": "Your six questions and the report rest on three ideas:\n\n1. **Charge and stability:** what makes a good nucleophile and a good leaving group (Q1, Q3)\n2. **The SN2 event:** where the attack happens, what the transition state looks like, and which solvent and substrate favor it (Q2, Q4, Q5, Q6)\n3. **Mole bookkeeping:** grams to moles, the reaction ratio, and which reagent runs out first (the Week 2 report)\n\nI'll teach the first one now and work through the others with you one at a time.\n\n**Idea 1: a good nucleophile has available electron density, and a neutral molecule often has less than its deprotonated form.**\n\nParallel case: 1-propanol and methyl bromide. Propanol alone barely reacts. Its oxygen has lone pairs, but they are neutral and held fairly tightly. Add a strong base (NaH) and the O-H is removed, giving propoxide, an oxygen with a full negative charge. That charge makes the lone pairs far more eager to form a bond, so propoxide attacks CH\u2083Br readily.\n\nThe test for whether a base can do this is the pKa of the conjugate acid. The base must be strong enough to pull the proton off, meaning its conjugate acid is the weaker acid. Propanol has pKa \u2248 16, and H\u2082 (from NaH) is \u2248 35, so the deprotonation goes essentially to completion.\n\nThe same logic runs backward for leaving groups. A group leaves well when it is stable on its own with the electrons, which usually means it is the conjugate base of a strong acid. Bromide, from HBr (pKa \u2248 -9), is stable. Hydroxide, from water (pKa \u2248 15.7), is not.\n\nNow try your Q1 in your own words. Which species in your flask is the nucleophile, and how does it become the nucleophile? Use the pKa reasoning from above. A guess is fine.",
+  "new": "Your six questions rest on three ideas, and I'll teach them one at a time on parallel cases so the answers stay yours to write:\n\n1. **Roles in an SN2 step**: nucleophile, electrophilic carbon, leaving group (Q1 to 4)\n2. **What SN2 favors**: substrate, solvent, leaving group (Q5 and 6)\n3. **Limiting reagent and theoretical yield**: moles, then the reaction ratio (Week 2)\n\n**Idea 1, on a parallel reaction: 4-chlorophenol + ethyl bromide, with NaOH.**\n\nEvery SN2 step is a trade of electrons. A species with a lone pair and a need to share it (the nucleophile) attacks a carbon that is electron-poor (the electrophile). That carbon is poor because it is sp\u00b3 and bonded to an electronegative group that pulls density away. As the new bond forms, that group leaves with the bonding pair.\n\nHere is how to judge each role:\n\n- **Nucleophile:** compare the neutral and charged forms. Neutral phenol has an O-H with lone pairs, but it is a weak nucleophile. Remove the proton and the oxygen carries a full negative charge, with a higher-energy lone pair that is far more eager to attack. So ask what the base is for.\n- **Electrophilic carbon:** find the sp\u00b3 carbon attached to the group that leaves. Don't pick the first carbon you see; the ring carbons are not the target.\n- **Leaving group:** a good one is a *weak base*, meaning it is stable once it carries the negative charge. The test is to look at its conjugate acid. The stronger that acid, the better the leaving group. Then ask why that stability comes from resonance or electronegativity.\n\nThe transition state in your mechanism is a single step with a partial bond forming and a partial bond breaking at the same carbon, drawn in brackets with \u03b4\u207b and a \u2021.\n\n**Your turn, on my parallel case:** in 4-chlorophenol + NaOH, what does the NaOH do first, and why does that make the oxygen a better nucleophile?\n\nAnswer in your own words. Once that's solid, you'll do the same for 2-naphthol and the tosylate, and then we'll take on SN2 conditions."
+ },
+ "order": [
+  "old",
+  "new"
+ ],
+ "judge": {
+  "score_A": 7,
+  "score_B": 5,
+  "winner": "A",
+  "leaks_graded_answers_A": false,
+  "leaks_graded_answers_B": false,
+  "reason": "A is lean, uses a true parallel case with pKa reasoning, and hands Q1 back. B is more cluttered, nearly scaffolds Q2/Q4 directly, and ends on its parallel case rather than Q1. Neither has a visual."
+ },
+ "score": {
+  "old": 7,
+  "new": 5
+ },
+ "winner": "old",
+ "leak": {
+  "old": false,
+  "new": false
+ },
+ "words": {
+  "old": 304,
+  "new": 351
+ },
+ "bold": {
+  "old": 4,
+  "new": 8
+ },
+ "widget": {
+  "old": false,
+  "new": false
+ }
+}

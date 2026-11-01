@@ -11,17 +11,19 @@
 # so results reflect your real setup, not an isolated one (isolating would mean copying
 # credentials). Installed copies (myelinate@synced, myelinate@baney75) are disabled, and a
 # session that still shows another myelinate plugin counts as an error; score.py counts only namespaced myelinate:<name> calls and lists any call to a
-# standalone skill named myelinate separately.
+# standalone skill named myelinate separately. Sessions can't edit files or run commands
+# (--disallowedTools), so a real repository in MYELINATE_EVAL_CWD is left untouched.
 here=$(cd "$(dirname "$0")" && pwd)
 plugin=$(cd "${1:-$here/../..}" && pwd); model=${2:-sonnet}; passes=${3:-1}
 out=$(mktemp -d); scratch=$(mktemp -d); work=${MYELINATE_EVAL_CWD:-$scratch}
 for pass in $(seq "$passes"); do
   while IFS='|' read -r id prompt; do
     [ -z "$id" ] && continue
-    ( cd "$work" && timeout 300 claude -p "$prompt" --model "$model" --max-turns 3 \
+    ( cd "$work" && timeout 300 claude -p --model "$model" --max-turns 3 \
         --output-format stream-json --verbose --plugin-dir "$plugin" \
+        --disallowedTools Edit Write NotebookEdit Bash \
         --settings '{"enabledPlugins":{"myelinate@synced":false,"myelinate@baney75":false}}' \
-        < /dev/null > "$out/$id.$pass.jsonl" 2> "$out/$id.$pass.err" ) &
+        -- "$prompt" < /dev/null > "$out/$id.$pass.jsonl" 2> "$out/$id.$pass.err" ) &
   done < "$here/prompts.txt"
   wait
 done
