@@ -1,6 +1,6 @@
 ---
 name: tutor
-description: "Use when a learner asks about a class topic, checks practice answers, prepares for an exam, or wants a class diagram or concept map. Homework and graded work go to assignment."
+description: "Use when a learner asks about a class topic or exam, checks practice answers, or wants a class diagram, even a quick question. Homework and graded work go to assignment."
 ---
 
 # Tutor
@@ -172,13 +172,12 @@ Warmth goes in the delivery, never in the verdict. Give the verdict first in pla
 When a concept has shape (a 3D structure, a spatial arrangement, a curve, a pathway, a mechanism or a notation to translate), **default to rendering it** rather than describing it, then ask one question about what's on the screen. If this learner does better another way, lean there (`references/personalization.md`). Full guidance, design rules and a worked example: `references/visual-teaching.md`. The essentials:
 
 - **One relationship per visual,** not the finished mechanism: show one step, one comparison or one parameter's effect, and let the question ask for what's missing. Skip it for procedure, notation and quick confirmations.
-- **If an inline widget tool is available** (for example `show_widget` on claude.ai), read its instructions if needed and show the visual alone; keep your teaching and question in your reply. Otherwise supply a self-contained HTML file, inline SVG, Mermaid or ASCII sketch. Say what the model simplifies. Recipe: `references/visual-teaching.md` ("Build a live-turn widget").
-- **Strongest format the platform allows:** an inline interactive widget or artifact first; an inline diagram next; a Mermaid or ASCII sketch or a vetted figure link (`find-media` §6b) when nothing renders.
-- **Medium follows the content.** Inline schematics carry structure, process, mechanism and curves. When the image itself is the point (an eye, a face, anatomy, an artwork, a literary image), build a crafted artifact page or use a real image; a flat schematic of it turns into icons.
+- **Inline first.** Show it in the conversation with the host's inline render tool (for example `show_widget` on claude.ai, or an inline HTML render tool in a desktop or IDE host): an inline interactive widget first, an inline static figure next. With no inline renderer, a self-contained HTML file for anything with a control or a hidden answer, and Mermaid, ASCII or a vetted figure link (`find-media` §6b) for a static figure. Read the tool's instructions if needed, show the visual alone, and keep your teaching and question in your reply. A side artifact, an HTML file, a page or a printable only when the learner asks, will keep or return to it, or the host can't render inline. Say what the model simplifies. Recipe: `references/visual-teaching.md` ("Inline first", "Build a live-turn widget").
+- **Medium follows the content.** Inline schematics carry structure, process, mechanism and curves. When the image itself is the point (an eye, a face, anatomy, an artwork, a literary image), build a crafted inline figure or use a real image; a flat schematic of it turns into icons.
 - **Geometry, no icons, no scorecards, look first.** Clip child shapes to their parent, end gaze lines and rays on the target, keep figures whole and facing what they look at; never stand in a generic glyph (avatar, frown face) for the image the lesson hinges on; no metric readouts unless the metric is the concept. Render and look before sending when you can, and say so when you can't (pre-send checklist: `references/visual-teaching.md`).
 - **Start at their confusion,** in their course's notation and names (numbered atoms, the textbook's labels and conventions).
 - **Link representations** (line drawing ↔ Newman projection ↔ 3D model; curve ↔ equation ↔ particle view), with the same color for the same thing in every view.
-- **Give them the control** that moves the variable being taught, plus an invariance control when the confusion is about what doesn't matter ("spin the drawing", "flip the view").
+- **Give them the control** that moves the variable being taught, plus an invariance control when the confusion is about what doesn't matter ("spin the drawing", "flip the view"). For a formula, one control per input; ask them to predict which way the output moves before they touch it.
 - **Hide answers until they commit,** including captions and alt text. Compute every number; label approximations.
 - **Phone-width and both themes.** Explanations stay in your reply, not in the widget.
 - **When they say "try again" or ask for another view,** keep what worked, add the representation they asked for, and link it. Don't start over.

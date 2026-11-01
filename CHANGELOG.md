@@ -6,9 +6,21 @@ What was actually tested for each version, and its limits, is in [evals/verifica
 
 ## [Unreleased]
 
+## [2.6.0] - 2026-11-01
+
 ### Added
 - **Ready for the Claude and OpenAI plugin directories.** A 512 px icon (`assets/icon.png`, the mark on a paper tile), the Claude manifest's `icon`, `documentationUrl` and `supportUrl`, and the Codex manifest's `logo`, `composerIcon`, `brandColor` and capabilities. The Codex short description fits OpenAI's 30-character limit, and its category is the directory's `Education & Research`.
+- `PRIVACY.md` and `TERMS.md`, linked from the Codex manifest (`privacyPolicyURL`, `termsOfServiceURL`, `supportURL`), and a README section on what the plugin runs, reads and sends. The Codex listing copy no longer says "Claude".
+- `evals/invocation/run.sh`: real headless Claude Code sessions that count Skill tool calls, beside the pick-from-a-list trigger eval.
 - `python3 scripts/package.py build` also writes `dist/myelinate-codex.zip` (the manifest at the top, skills only, no hooks) for OpenAI's plugin directory, and `check.py` fails on a Codex listing field past its limit or an icon that isn't in the plugin.
+
+### Changed
+- **Inline first.** Visuals and labs show in the conversation itself, through the host's inline render tool (`show_widget` on claude.ai, or an inline HTML render tool in a desktop or IDE host), ahead of a side artifact, an HTML file, a page or a link. Those still come when the learner asks for one, will keep, share, print or return to it, or the host can't render inline. Image-heavy concepts get a crafted inline figure instead of a separate page. Router rule 14, `tutor` §3d, `lab` and `references/visual-teaching.md`; `check.py` fails if any of them loses the rule.
+- **Every chart plots its data.** An inline chart with axes and bands but no curve or points reads as broken; the pre-send checklist now catches it.
+- Retrieve first when a learner returns to a topic, inline choice inputs for intake and preferences (never for checks of learning), and one control per input for formula visuals with a prediction before the first move.
+
+### Fixed
+- **Skills didn't load on learning questions in Claude Code.** On 2026-11-01, Sonnet loaded a Myelinate skill on 0 of 12 learning prompts (6 prompts, 2 passes: a lab report question, "explain Le Chatelier's principle", an exam on R/S, a bare topic, "what is a monad", how a transistor works): the model answered directly. A SessionStart hint (`hooks/route_hint.py`) names the moment, and the router, `tutor`, `teach` and `assignment` descriptions now name quick questions and lab data. Results are in `evals/verification.md`; `check.py` fails if the hint is unregistered or loses its instruction.
 
 ## [2.5.0] - 2026-10-25
 

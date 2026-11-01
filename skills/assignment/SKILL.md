@@ -1,6 +1,6 @@
 ---
 name: assignment
-description: "Use when someone pastes homework or a problem-set question, has a lab report, essay, or coding assignment, or wants draft review before submission; coach, never write answers."
+description: "Use when someone pastes homework, a problem set, lab data, a lab report, essay or coding assignment, or wants draft review before submission; coach, never write answers."
 ---
 
 # Assignment

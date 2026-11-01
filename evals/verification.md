@@ -119,3 +119,22 @@ A fresh agent responded to the synthetic prompt "Help me study how local governm
 The Playwright visual and lab journeys were attempted in this environment, but Chromium did not launch. No browser journey, viewport measurement, dark-mode render, or physical accessibility test passed here. `claude plugin validate .` was attempted but did not run. The package checker validated manifest JSON and description consistency; it does not replace the Claude plugin validator. The operator runs the Playwright journeys and Claude plugin validator outside this environment and records their results in the PR. The v2.5.0 tag and external fetch URLs have not been confirmed here because network access was off. The operator's trigger evaluation under `evals/triggers/` was not run or edited here.
 
 Round 2 local checks, **2026-10-25**: `python3 scripts/check.py --sync` and `python3 scripts/check.py` passed with 68 required files, 75 local links and all 411 referenced package paths. `git diff --check`, `python3 -m py_compile tests/visual_journey.py`, and `ruff check tests/visual_journey.py --select EXE001,I001,B023` passed. All 16 final descriptions are plain double-quoted strings, start with "Use when" or "Use for", and are at most 175 characters. No em dash or en dash remains in authored skill text. The operator's model-based trigger evaluation reported 96.4% on main and 93.7% after round 1; the revised descriptions have not been rerun in that evaluation here.
+
+## v2.6.0: inline first and auto-invocation
+
+Checked **2026-11-01** on Linux, Claude Code headless (`claude -p`), with `evals/invocation/run.sh`: each arm loaded by `--plugin-dir`, the synced claude.ai copy disabled, and only namespaced `myelinate:<name>` Skill calls counted (`evals/invocation/score.py`). Main is fd3750f; "2.6.0" is this release. Prompts: `evals/invocation/prompts.txt`, 6 learning and 7 work, including the coding look-alikes "explain this stack trace", "how does this function work", a regex with "no lesson" and an architecture diagram. Sessions ran with the author's own Claude Code settings, hooks and skills, because isolating them would mean copying credentials.
+
+| Model | Arm | Learning prompts that loaded a skill | Work prompts that loaded one |
+| --- | --- | --- | --- |
+| Sonnet, 2 passes | main | 0 of 12 | 0 of 14 |
+| Sonnet, 2 passes | 2.6.0 | 12 of 12 | 0 of 14 |
+| Opus, 1 pass | main | 3 of 6 | 0 of 7 |
+| Opus, 1 pass | 2.6.0 | 6 of 6 | 0 of 7 |
+
+A first round (before review) also ran the new descriptions without the hint: Sonnet loaded a skill on 5 of 12, so most of the gain is the hint, which claude.ai can't run. Under 2.6.0 the lab report question went to `assignment`, the exam to `tutor`, "what is a monad" to `teach` or the router, and the rest to the router. Sessions stopped by `--max-turns 3` count, because the skill decision comes on the first turn.
+
+Codex trigger eval (`evals/triggers`, gpt-5.6-luna, low, 3 passes) on the final descriptions: 98.2% hit and 0.0% false fire on `prompts.jsonl` (main's committed result: 99.1% and 0.0%; the one miss is p01 "help me study" going to `teach` once), and 100% hit and 5.6% false fire on the holdout (main: 100% and 16.7% floor). Two review-driven fixes came from this eval: the router's "explain X" wording fired on h13 ("explain what this regex does ... no lesson"), and `find-media` fired on h17 (a stock sunset photo for a website banner) 3 of 3 in one run; both descriptions were narrowed and neither fires now. Floors raised to these results.
+
+Inline first: a fresh Sonnet session, told its host offers `show_widget`, a side artifact and a file, picked `show_widget` for "show me what the curve should look like" under both main and the first 2.6.0 draft. Under the draft it loaded `assignment` first. For "a lab I can keep and share", main picked a file and the draft loaded `lab` and began building the HTML file. One run each; this shows the rule is read, not that it beats the old wording. `python3 scripts/check.py` passes and fails on main's `hooks/hooks.json` (hint unregistered) and on main's `tutor` (inline-first rule missing). `claude plugin validate .` passes with the existing root `CLAUDE.md` warning.
+
+Limits: small samples, one host, the author's own user settings and skills loaded. Not tested live on claude.ai, where hooks don't run and only the descriptions help. No learning outcome was measured.

@@ -162,3 +162,13 @@ Run with only the skill listing visible (name and description), plus a few unrel
 | "Explain this stack trace" or "what does this repo do?" mid-task | No Myelinate skill loads; a direct answer. |
 | Myelinate output style on, "implement my CS 201 homework" | Follows `assignment`: parallel example, their attempt reviewed, no submittable code written. |
 | Claude Code with the **Myelinate** output style selected, asked to add a cache. | Scaffolds the change, leaves one `TODO(human)` with the test that checks it, asks one prediction, honest verdict on what they write. |
+
+## Inline first and auto-invocation (v2.6)
+
+| Scenario | Decisive observation |
+| --- | --- |
+| On claude.ai (inline visuals on): "In my orgo lab, fractional distillation of Unknown B plateaued at 77, 102 and 126 °C. Show me what the curve should look like." | The curve appears inline in the conversation (`show_widget`), not as a side artifact, file or link. The chart plots data (a curve or points), not only bands and reference lines. The question asks for a prediction before the answer is shown. |
+| Same host: "Make me a lab on distillation curves I can keep and share with my lab partner." | Builds the lab; because they'll keep and share it, offers or delivers the self-contained HTML file. Inline-first never overrides a request for a file. |
+| A host with no inline renderer: "Draw the titration curve for a weak acid." | A static figure, so it draws in the reply (Mermaid, ASCII or a Markdown table of points) and says it's a sketch; doesn't refuse or send the learner to an external page. Asked to let them move the pKa, it builds a self-contained HTML file instead. |
+| Intake on a host with inline choice inputs: first session, "help me study for bio." | Asks what helps (pace, chunk size) with tappable options; the first learning check is free recall, not multiple choice. |
+| Claude Code, plugin installed, "explain le chatelier's principle" | Calls the Skill tool for a Myelinate skill before answering (`evals/invocation/run.sh`). "Write a bash script that renames .jpeg files" loads none. |

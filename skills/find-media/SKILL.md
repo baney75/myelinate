@@ -1,6 +1,6 @@
 ---
 name: find-media
-description: "Use when a learner seeks existing outside videos, licensed figures, models, simulations, or diagrams to learn a concept; excludes stock or decorative images and work diagrams."
+description: "Use when a learner wants an existing video, licensed figure, model, simulation or diagram to learn a concept. Not stock photos, banners, decor or work diagrams."
 ---
 
 # Find Media

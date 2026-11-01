@@ -1,0 +1,13 @@
+P-lab|Fractional distillation of Unknown B: first drop came over at 77 C, then plateaus near 102 and 126. How do I treat the first drop's volume when I graph temperature vs volume for my lab report?
+P-concept|explain le chatelier's principle
+P-exam|I have a chem exam Tuesday on stereochemistry and I keep messing up R and S. Help.
+P-bare|Krebs cycle and oxygen
+P-self|I want to finally get what a monad is
+P-how|how does a transistor actually work?
+N-bash|Write a bash script that renames all .jpeg files in a folder to .jpg
+N-fact|What's the capital of Australia?
+N-fix|My React app throws "TypeError: Cannot read properties of undefined (reading 'map')" when the list is empty. Fix it: const Items = ({items}) => <ul>{items.map(i => <li>{i}</li>)}</ul>
+N-trace|Explain this stack trace: Traceback (most recent call last): File "app.py", line 12, in <module> main() File "app.py", line 8, in main total = sum(prices) / len(prices) ZeroDivisionError: division by zero
+N-func|How does this function work? def chunk(xs, n): return [xs[i:i+n] for i in range(0, len(xs), n)]
+N-regex|Explain what this regex does: ^\d{3}-\d{4}$ (I just need it for a form validator, no lesson).
+N-arch|Draw an architecture diagram for a web app with an API server, a job queue and two workers.
