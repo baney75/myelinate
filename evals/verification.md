@@ -119,3 +119,21 @@ A fresh agent responded to the synthetic prompt "Help me study how local governm
 The Playwright visual and lab journeys were attempted in this environment, but Chromium did not launch. No browser journey, viewport measurement, dark-mode render, or physical accessibility test passed here. `claude plugin validate .` was attempted but did not run. The package checker validated manifest JSON and description consistency; it does not replace the Claude plugin validator. The operator runs the Playwright journeys and Claude plugin validator outside this environment and records their results in the PR. The v2.5.0 tag and external fetch URLs have not been confirmed here because network access was off. The operator's trigger evaluation under `evals/triggers/` was not run or edited here.
 
 Round 2 local checks, **2026-10-25**: `python3 scripts/check.py --sync` and `python3 scripts/check.py` passed with 68 required files, 75 local links and all 411 referenced package paths. `git diff --check`, `python3 -m py_compile tests/visual_journey.py`, and `ruff check tests/visual_journey.py --select EXE001,I001,B023` passed. All 16 final descriptions are plain double-quoted strings, start with "Use when" or "Use for", and are at most 175 characters. No em dash or en dash remains in authored skill text. The operator's model-based trigger evaluation reported 96.4% on main and 93.7% after round 1; the revised descriptions have not been rerun in that evaluation here.
+
+## v2.6.0: inline first and auto-invocation
+
+Checked **2026-11-01** on Linux, Claude Code headless (`claude -p`), with each arm loaded by `--plugin-dir` and the synced claude.ai copy disabled. The arms: A, main at fd3750f; B, the new descriptions; C, the new descriptions plus the SessionStart routing hint. A run counts when the session called the Skill tool for a Myelinate skill. Prompts: `evals/invocation/prompts.txt` (6 learning, 3 work). Harness: `evals/invocation/run.sh`.
+
+| Model | Arm | Learning prompts that loaded a skill | Work prompts that loaded one |
+| --- | --- | --- | --- |
+| Sonnet, 2 passes | A | 0 of 12 | 0 of 6 |
+| Sonnet, 2 passes | B | 5 of 12 | 0 of 6 |
+| Sonnet, 2 passes | C | 12 of 12 | 0 of 6 |
+| Opus, 1 pass | A | 4 of 6 (2 went to a separate standalone `myelinate` skill on this host) | 0 of 3 |
+| Opus, 1 pass | C | 6 of 6 | 0 of 3 |
+
+Under C, the lab report question went to `assignment`, the exam to `tutor`, "what is a monad" to `teach` or the router, and the rest to the router. Codex trigger eval on the new descriptions (gpt-5.6-luna, low, 3 passes): 98.2% hit and 0.0% false fire on `prompts.jsonl` (was 96.4% and 2.4%), and 100% and 11.1% on the holdout (floor 16.7%). Floors raised to match.
+
+Inline first: a fresh Sonnet session, told its host offers `show_widget`, a side artifact and a file, picked `show_widget` for "show me what the curve should look like" under both A and C. Under C it loaded `assignment` first. For "a lab I can keep and share", A picked a file and C loaded `lab` and began building the HTML file. One run each; this shows the rule is read, not that it beats the old wording. `python3 scripts/check.py` passes and fails on main's `hooks/hooks.json` (hint unregistered) and on main's `tutor` (inline-first rule missing). `claude plugin validate .` passes with the existing root `CLAUDE.md` warning.
+
+Limits: small samples, one host, the author's own user settings and skills loaded. Not tested live on claude.ai, where hooks don't run and only the descriptions help (arm B). No learning outcome was measured.

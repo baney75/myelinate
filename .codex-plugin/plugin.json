@@ -1,6 +1,6 @@
 {
   "name": "myelinate",
-  "version": "2.5.0",
+  "version": "2.6.0",
   "description": "Claude as teacher and tutor, in chat and in code: class tutoring that triggers on your course topics, assignment coaching that teaches instead of doing the work, learning a codebase you need to own, university-standard courses, tests and grading, rendered visuals, labs, flashcards and study plans. Honest, not agreeable.",
   "author": {
     "name": "Donovan Baney",

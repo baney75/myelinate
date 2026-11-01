@@ -32,7 +32,7 @@ required = ['myelinate.md', 'SKILL.md', 'agents/openai.yaml', 'references/eviden
             'templates/course-project-prompt.md', 'templates/gradebook.md', '.claude-plugin/plugin.json',
             '.claude-plugin/marketplace.json', '.codex-plugin/plugin.json', '.agents/plugins/marketplace.json',
             'output-styles/myelinate.md', 'commands/quiz.md', 'commands/review.md', 'agents/key-worker.md',
-            'hooks/hooks.json', 'hooks/due_reviews.py', 'references/learner-record.md', 'skills/myelinate/SKILL.md', 'llms.txt', 'scripts/make_pdf.py',
+            'hooks/hooks.json', 'hooks/due_reviews.py', 'hooks/route_hint.py', 'references/learner-record.md', 'skills/myelinate/SKILL.md', 'llms.txt', 'scripts/make_pdf.py',
             'scripts/package.py', 'examples/practice-test-oxygen.pdf']
 SUBSKILLS = ['teach', 'tutor', 'assignment', 'project', 'code', 'assess', 'course-project', 'notes', 'lab', 'print',
              'flashcards', 'memory-hooks', 'study-plan', 'find-media', 'verify']
@@ -174,6 +174,22 @@ with tempfile.TemporaryDirectory() as home:
     Path(home, 'learner.json').write_text('{not json')
     if subprocess.run(hook, env=env, capture_output=True, text=True).returncode != 0:
         errors.append('hooks/due_reviews.py: a broken record must not fail the session')
+# Auto-invocation: Claude answers quick learning questions without loading a skill unless the session names the
+# moment (0 of 5 learner prompts loaded one on 2026-11-01 without the hint). The routing hint must stay registered.
+hint_cmds = [h['command'] for e in json.loads((ROOT / 'hooks' / 'hooks.json').read_text())['hooks'].get('SessionStart', [])
+             for h in e.get('hooks', [])]
+if not any('route_hint.py' in cmd for cmd in hint_cmds):
+    errors.append('hooks/hooks.json: SessionStart no longer runs hooks/route_hint.py')
+hint = subprocess.run([sys.executable, str(ROOT / 'hooks' / 'route_hint.py')], capture_output=True, text=True).stdout
+if 'Skill tool' not in hint or 'myelinate:tutor' not in hint:
+    errors.append(f'hooks/route_hint.py: hint lost its routing instruction: {hint!r}')
+if subprocess.run([sys.executable, str(ROOT / 'hooks' / 'route_hint.py')], env={**os.environ, 'MYELINATE_ROUTE_HINT': '0'},
+                  capture_output=True, text=True).stdout.strip():
+    errors.append('hooks/route_hint.py: MYELINATE_ROUTE_HINT=0 must silence it')
+# Inline first: visuals go in the conversation unless the learner asks for a file or page.
+for rel in ('myelinate.md', 'skills/tutor/SKILL.md', 'references/visual-teaching.md', 'skills/lab/SKILL.md'):
+    if 'nline first' not in (ROOT / rel).read_text():
+        errors.append(f'{rel}: lost the inline-first rule')
 package_errors, package_counts = package.verify()
 errors += package_errors
 if errors:

@@ -5,7 +5,7 @@
  "harness": "codex exec, isolated HOME, skills in ~/.agents/skills",
  "prompt_set": "holdout.jsonl",
  "partial": false,
- "descriptions_sha256": "039e8659532d0de5e231f544269615c9312bce0e9636a0f9e4374b123a31ba98",
+ "descriptions_sha256": "4d926a94095650d110bb0af6594b94749601a485763fa9ce2753ea973eb663a3",
  "inputs_sha256": "8c7ef3574da283c414967fef77b6b42a23d468a2770898109acbd98945fca6c1",
  "skills": [
   "assess",
@@ -31,22 +31,23 @@
  "false_fire_rate": 0.1111,
  "errors": 0,
  "majority_hit_rate": 1.0,
- "majority_false_fire_rate": 0.1667,
+ "majority_false_fire_rate": 0.0,
  "per_pass": [
+  {
+   "hit": 12,
+   "false_fire": 2
+  },
   {
    "hit": 12,
    "false_fire": 0
   },
   {
    "hit": 12,
-   "false_fire": 1
-  },
-  {
-   "hit": 12,
-   "false_fire": 1
+   "false_fire": 0
   }
  ],
  "unstable": [
+  "h13",
   "h17"
  ],
  "rows": [
@@ -221,11 +222,11 @@
     "none"
    ],
    "choices": [
-    "none",
+    "myelinate",
     "none",
     "none"
    ],
-   "ok": 3
+   "ok": 2
   },
   {
    "id": "h14",
@@ -275,11 +276,11 @@
     "frontend-design"
    ],
    "choices": [
-    "none",
     "find-media",
-    "find-media"
+    "none",
+    "none"
    ],
-   "ok": 1
+   "ok": 2
   },
   {
    "id": "h18",

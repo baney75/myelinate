@@ -24,7 +24,7 @@ The reference implementation is `examples/oxygen-lab.html` (template: `templates
 Get or infer (course learners: `tutor` §1a course context; self-directed learners: `teach`'s curriculum):
 - **Why:** a class, personal curiosity, work training or an exam. For a course, get the **study guide, syllabus, slides/notes, textbook (title/edition/chapters), exam format and date.** Missing materials don't block a provisional lab; they block calling it "aligned."
 - **Targets:** 3 to 7 observable objectives, each tagged confirmed-in-scope or inferred. Examples: predict an O₂ curve shift, trace a local government's budget decision, or revise a sentence after changing its audience.
-- **Target format:** a standalone HTML file, an inline artifact if supported, or a printable pack. Use the dbaney.com integration in §8 only when the user is working on that site.
+- **Target format:** inline first: show the lab in the conversation with the host's inline render tool when it has one. A standalone HTML file when the learner asks for a file, wants to keep, share or reuse it, or the host can't render inline; a printable pack when they ask for paper. Use the dbaney.com integration in §8 only when the user is working on that site.
 - **Time budget per session**: a lab section should fit 10 to 25 minutes.
 
 Then write a one-page **lab spec** (`templates/lab-spec.md`): targets → source page/slide → activity → check item(s) → misconceptions addressed → media needed. Every target gets an explanation and at least one unassisted check. Count from the guide, not from the question bank.
@@ -97,7 +97,7 @@ Run all of these; report which passed, with numbers. Never claim "verified" with
 
 ## 7. Delivery
 
-- Standalone → deliver the self-contained HTML file, or show it as an inline artifact when available; one sentence on what it teaches and how long it takes. Offer a printable companion (`print`).
+- Inline → show the lab in the conversation; offer the self-contained HTML file in one line for keeping. Standalone (asked for, or no inline renderer) → deliver the self-contained HTML file; one sentence on what it teaches and how long it takes. Offer a printable companion (`print`).
 - Work on dbaney.com → see §8. Other sites use their own integration.
 - Always state: scope source (confirmed vs inferred), what's verified, what's approximate, what's not covered.
 

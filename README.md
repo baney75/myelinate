@@ -3,7 +3,7 @@
 <p align="center">
   <a href="https://github.com/baney75/myelinate/actions/workflows/check.yml"><img src="https://github.com/baney75/myelinate/actions/workflows/check.yml/badge.svg" alt="Package check workflow status"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-a54320" alt="License: MIT"></a>
-  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-2.5.0-16313b" alt="Version 2.5.0"></a>
+  <a href="CHANGELOG.md"><img src="https://img.shields.io/badge/version-2.6.0-16313b" alt="Version 2.6.0"></a>
   <a href="#claude-code"><img src="https://img.shields.io/badge/Claude%20Code-plugin-a54320" alt="Claude Code plugin"></a>
 </p>
 
@@ -50,7 +50,7 @@ The Claude apps, Codex and other assistants: see [Install](#install).
 | [notes](skills/notes/SKILL.md) | Reads your own notes (Google Drive, OneDrive, Notion, Obsidian or photos of paper) to see how you're grasping it, flags misconceptions and slide-copying, and turns your notes into practice. |
 | [assess](skills/assess/SKILL.md) | Formal scored tests and grading against a key and rubric, with honest scores and a gradebook. Quick drills stay in tutor. |
 | [course-project](skills/course-project/SKILL.md) | Builds a full course package to run later: level-matched syllabus, lessons, assignments, tests and teacher instructions. Works in a project space or plain chat. |
-| [lab](skills/lab/SKILL.md) | Builds interactive learning labs and simulations as self-contained web pages; includes a predict-then-reveal visual stepper. |
+| [lab](skills/lab/SKILL.md) | Builds interactive learning labs and simulations, shown inline in the chat where the host can, or as a self-contained web page you keep; includes a predict-then-reveal visual stepper. |
 | [print](skills/print/SKILL.md) | Paper output, not generic PDF conversion: study guides built for active recall (questions first, answers at the back), practice tests with separate answer keys, labeled and blank diagrams, worksheets. |
 | [flashcards](skills/flashcards/SKILL.md) | Makes recall cards ready for Quizlet, Anki or Obsidian; quick live drills stay with the tutor. |
 | [memory-hooks](skills/memory-hooks/SKILL.md) | Writes research-backed mnemonics for material that will not stick. |
@@ -58,7 +58,7 @@ The Claude apps, Codex and other assistants: see [Install](#install).
 | [find-media](skills/find-media/SKILL.md) | Finds learning diagrams, photos, models and videos with licenses noted, not stock art for a website. |
 | [verify](skills/verify/SKILL.md) | Checks learning material and answer keys for accuracy and currency before use; software code review stays elsewhere. |
 
-When a concept has shape (a molecule in 3D, a conformation, a mechanism, a curve), Myelinate renders it and gives you the controls instead of describing it in a paragraph, linked to the notation your course uses. A concept map, mechanism stepper or faded worked example can make you fill the missing link or predict the next step before reveal. On the first session, it asks a few questions about how you learn (pace, chunk size, what's hard) and saves that profile to your assistant's memory or a file you keep, then reads it at the start of later sessions. Sharing a learning condition is optional and never required.
+When a concept has shape (a molecule in 3D, a conformation, a mechanism, a curve), Myelinate renders it and gives you the controls instead of describing it in a paragraph, linked to the notation your course uses. Visuals appear inline, right in the conversation, wherever the assistant can draw there (claude.ai's inline visuals, for example); you get a file, a separate page or a printable when you ask for one. A concept map, mechanism stepper or faded worked example can make you fill the missing link or predict the next step before reveal. On the first session, it asks a few questions about how you learn (pace, chunk size, what's hard) and saves that profile to your assistant's memory or a file you keep, then reads it at the start of later sessions. Sharing a learning condition is optional and never required.
 
 ## Start with one good question
 
@@ -104,6 +104,7 @@ Myelinate is one plugin for Claude Code, the Claude apps (claude.ai, desktop) an
 
 Each skill then loads by itself when it fits; force one with `/myelinate:myelinate` (the router), `/myelinate:tutor`, `/myelinate:code`, and so on. Claude Code also gets:
 
+- **Loads when you're learning.** A one-line session hint tells Claude to load the matching Myelinate skill for a learning question, even a quick one, and not for work you want done. Set `MYELINATE_ROUTE_HINT=0` to turn it off.
 - `/myelinate:quiz <topic>` and `/myelinate:review` (what's due today, retrieval first).
 - **Spaced review across sessions.** If you ask Myelinate to keep your progress, it saves a private record at `~/.myelinate/learner.json`, and each new session starts knowing which reviews are due. Without a record, nothing changes.
 - **An answer-key agent** (`key-worker`) that solves a problem without seeing your answer, so the verdict can't drift toward what you said.
@@ -132,6 +133,15 @@ Paste the link (Quick start), or provide [SKILL.md](SKILL.md) as instructions. T
 **Stopping it.** Tell Claude, or save to its memory, where you don't want Myelinate ("don't tutor me on my coding projects", "just answer my Spanish questions"). It respects that scope; a slash command still works when you want it. Ordinary coding, building and work requests don't trigger it in the first place.
 
 No API keys, package installation, or external service is required. Your assistant's ordinary access, tools, and usage limits still apply.
+
+## What it runs, reads and sends
+
+Myelinate is instructions, templates and a few small local scripts. It has no server, account, API key, tracking or telemetry, and it sends nothing anywhere on its own.
+
+- **Session hooks (Claude Code only).** Two Python scripts run locally at session start. `hooks/route_hint.py` prints one line that tells Claude to load the matching learning skill for a learning question; set `MYELINATE_ROUTE_HINT=0` to turn it off. `hooks/due_reviews.py` reads `~/.myelinate/learner.json`, only if you asked Myelinate to keep that record, and prints which reviews are due. Neither touches the network.
+- **Your learner record** is written only when you ask, stays on your machine, and holds topics and review dates, never health or condition labels.
+- **Printing.** `print` may run `scripts/make_pdf.py`, which renders an HTML page to PDF with your local headless Chromium.
+- **Fetching.** If an install is missing one of its files, the assistant may fetch it from `raw.githubusercontent.com/baney75/myelinate`. Source checks, media searches and `verify` use your assistant's own web search when you ask for them.
 
 ## See the approach
 

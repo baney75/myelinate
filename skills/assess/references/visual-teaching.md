@@ -31,10 +31,10 @@ Not everything needs a picture. Definitions, quick confirmations, pure procedure
 
 Two kinds of concept need two kinds of picture.
 
-- **Structure, process, mechanism, curve.** The lesson is in the relations: which part connects to which, what changes when a variable moves. An inline schematic carries it well if the assistant can render one (for example with `show_widget`). Otherwise provide a self-contained HTML file, inline SVG, Mermaid or an ASCII sketch, operable where the medium allows.
-- **The image itself is the content.** The lesson hinges on what something looks like: an eye, a face, a hand, an anatomical structure, a painting, a literary or philosophical image. A flat schematic of these turns into icons, and an icon carries none of what the lesson needs. Use a crafted artifact page (shading, real proportions, a figure built and checked), a licensed real image, or a generated image you have inspected. Take the time it needs and say so.
+- **Structure, process, mechanism, curve.** The lesson is in the relations: which part connects to which, what changes when a variable moves. An inline schematic carries it, shown in the conversation with the host's inline render tool (for example `show_widget`). With no inline renderer, draw inline SVG, Mermaid or an ASCII sketch in the reply, operable where the medium allows.
+- **The image itself is the content.** The lesson hinges on what something looks like: an eye, a face, a hand, an anatomical structure, a painting, a literary or philosophical image. A flat schematic of these turns into icons, and an icon carries none of what the lesson needs. Use a crafted inline figure (shading, real proportions, a figure built and checked), a licensed real image, or a generated image you have inspected. Inline still comes first; a separate page is for when they ask or the host can't render inline. Take the time it needs and say so.
 
-**Worked example: the eye in *Alcibiades I* (132c to 133c).** Socrates asks how an eye could see itself. It looks into another eye, and in the pupil, the eye's best part, it sees its own image: the *korē*, the "little doll" (the same word means girl and pupil). So a soul knows itself by looking into another soul, at its best part, where wisdom is. The tiny human figure in the pupil *is* the lesson. A schematic of three rows (eye → pupil, soul → wisdom) restates the answer as boxes. An inline widget with an iris larger than the lids, a figure whose dot-eye sits where an ear would be, and an avatar glyph for the korē teaches nothing and looks broken. The right medium is a crafted page: an almond eye with the iris clipped to the lids, a dark pupil holding a small figure that reads as a person at a glance, and a viewer whose gaze line ends in that pupil. The reference build is `examples/alcibiades-eye.html` (screenshot beside it).
+**Worked example: the eye in *Alcibiades I* (132c to 133c).** Socrates asks how an eye could see itself. It looks into another eye, and in the pupil, the eye's best part, it sees its own image: the *korē*, the "little doll" (the same word means girl and pupil). So a soul knows itself by looking into another soul, at its best part, where wisdom is. The tiny human figure in the pupil *is* the lesson. A schematic of three rows (eye → pupil, soul → wisdom) restates the answer as boxes. An inline widget with an iris larger than the lids, a figure whose dot-eye sits where an ear would be, and an avatar glyph for the korē teaches nothing and looks broken. The right medium is a crafted figure, shown inline: an almond eye with the iris clipped to the lids, a dark pupil holding a small figure that reads as a person at a glance, and a viewer whose gaze line ends in that pupil. The reference build is `examples/alcibiades-eye.html` (screenshot beside it).
 
 ## Geometry, recognizability, and honesty in the frame
 
@@ -57,17 +57,20 @@ For those, in this order:
 
 For quizzing, mask labels on a real image (`find-media` §4) rather than drawing a new one.
 
-## Pick the strongest format the platform supports
+## Inline first: where the visual goes
 
-1. **Inline interactive widget** (an inline HTML/SVG tool, an artifact, a canvas): choose it first for anything the learner should manipulate.
-2. **Inline static diagram** (SVG, rendered image): use it for one relationship that doesn't need controls.
-3. **A built page** (`lab`): use it when they'll return to it or it needs many steps and scoring.
-4. **Mermaid, ASCII or a code block that draws the figure**: use these when nothing else renders.
-5. **A vetted link with what to look at** (`find-media` §6b): use it when you can't draw the figure accurately.
+Rank surfaces in this order and take the first one the host offers. The learner sees the figure where they are already reading, between your sentence and your question, and doesn't have to open, download or switch to anything.
 
-In voice, describe the picture in words, then offer to send it in text.
+1. **Inline interactive widget**, shown in the conversation by the host's inline render tool (for example `show_widget` on claude.ai, or an inline HTML render tool in a desktop or IDE host): the default for anything the learner should manipulate or predict from.
+2. **Inline static figure** (inline SVG, a rendered image in the reply): one relationship that needs no controls.
+3. **Drawn in the reply** (Markdown table, Mermaid, ASCII, a code block that draws the figure) when nothing renders inline.
+4. **A vetted link with what to look at** (`find-media` §6b) when you can't draw the figure accurately.
 
-**Use the strongest available rendering capability.** If the assistant can show an inline widget (for example `show_widget` on claude.ai), read that tool's instructions if needed and show the visual alone. Keep the teaching and question in the reply. If the host offers an artifact or HTML file, use that next; otherwise draw the structure in Markdown, Mermaid or ASCII. A pasted instruction file still works without any tool.
+Separate surfaces are for when they fit the request, not the default: a side artifact panel, a self-contained HTML file, a hosted page (`lab`) or a printable (`print`). Use one when the learner asks for it, when they'll keep, share, print or come back to it, when it needs many steps and scoring, or when the host has no inline renderer. If they ask for a file or a page, make that; inline-first never overrides a request.
+
+Read the inline tool's instructions if needed, show the visual alone, and keep the teaching and your one question in the reply text, never inside the figure. A pasted instruction file still works without any tool. In voice, describe the picture in words, then offer to show it in text.
+
+**Every chart plots its data.** An inline chart with axes, bands or reference lines but no curve or points reads as broken, and a learner can't tell an empty frame from a hidden answer. If the data is the answer, say so in the reply and ask for the prediction before plotting it; otherwise plot it. Check the rendered result for the data mark.
 
 ## Build a live-turn widget
 
