@@ -12,6 +12,10 @@ A fresh read-only reviewer produced actual simulated tutor replies to three case
 
 The reviewer found no material contradiction in the inspected core and references. This is one forward-test, not a benchmark across assistants. A verifiable effective model identifier was not exposed, so no model-specific efficacy claim is made. The other scenarios in [scenarios.md](scenarios.md) are available regression cases, not all executed tests.
 
+## v2.8.2: lost-backslash rule
+
+- `tests/flashcards_journey.py`: 325 checks pass in headless Chromium. A swallowed `\rho` later in a field still skips the card after an earlier display-math warning (fails on the first 2.8.2 draft); `\neg` in math and `\neq`, `\nabla` outside math are warnings; regex cards give no `rawTeX`. New cases from #23: `e^{rt}` and `u = v - at` on their own display lines load with a warning, a lost `\textbf` inside math is skipped, `3 \times 4` and `A \rightarrow B` with swallowed backslashes outside math are warnings, and a code card with `\n`, `C:\Users` and `\d+` gives no `rawTeX`. Against the 2.8.1 engine the suite fails (display line starting with `e` skipped).
+
 ## v2.8.1: flashcard deck follow-ups
 
 - `tests/flashcards_journey.py`: 317 checks pass in headless Chromium. Reverting each fix made its test fail: lapse on Again, calendar-day and 4 a.m. rollover scheduling, escaped dollar, CRLF and tab handling, display math on its own lines, Unicode bold for `\mathbf`, the visible gap after `\ln` (measured 5.97 px), and the lost `\rho`.
