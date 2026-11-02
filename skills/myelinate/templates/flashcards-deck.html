@@ -551,8 +551,9 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
       const cardWarnings = [];
       for (const [name, text] of [['front', c.front], ['back', c.back || ''], ['hint', typeof c.hint === 'string' ? c.hint : '']]) {
         const lost = lostBackslash(text);
-        if (lost.skip) return skip('"' + name + '" has ' + lost.skip + '; a TeX backslash was probably not doubled in the JSON.');
-        lost.warn.forEach(note => cardWarnings.push({ field: name, note }));
+        // A guess never drops a card (Donovan, 2026-11-02): only \f and \b below are certain enough to skip.
+        if (lost.skip) cardWarnings.push({ field: name, note: lost.skip + '; a TeX backslash was probably not doubled in the JSON' });
+        (lost.warn || []).forEach(note => cardWarnings.push({ field: name, note }));
       }
       const back = c.back == null ? '' : norm(c.back);
       c = Object.assign({}, c, { front: norm(c.front) });

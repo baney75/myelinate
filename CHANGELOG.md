@@ -11,9 +11,9 @@ What was actually tested for each version, and its limits, is in [evals/verifica
 ### Fixed
 Round-2 review findings on the flashcard deck (#23):
 - Display math whose line starts with a variable `e` or `u` (`\[⏎e^{rt}⏎\]`, `\[⏎u = v - at⏎\]`) loads again; 2.8.1 skipped it as a lost `\ne` or `\nu`. It is reported in `deckAudit()` under `possibleLostBackslash` instead.
-- Only unambiguous cases skip a card. A tab-indented display line pasted from a `.tex` file and a shell card with two `$` variables load again (an earlier 2.8.2 draft on main skipped them); text between `$` signs only warns, since it can be code. A lost `\neg` in display math warns.
+- A tab-indented display line pasted from a `.tex` file and a shell card with two `$` variables load again (an earlier 2.8.2 draft on main skipped them); text between `$` signs only warns, since it can be code. A lost `\neg` in display math warns.
 - `rawTeX` also reports an unknown command with braces (`\overline{x}` outside math) and ignores code templates (`report_{year}`, `{a}_{b}`).
-- The rule for a backslash JSON swallowed, which `flashcards` states exactly: only inside `\( \)` or `\[ \]` does a card get skipped, for a tab mid-line before a letter, a tab or carriage return before a `\t` or `\r` command name, or a line break before a command name (in display math only a long one such as `\nabla`). Everything else that looks like one, including anything between `$` signs or outside math, loads with a `deckAudit()` warning.
+- **A guess never drops a card.** Only `\f` or `\b`, which JSON makes only from a swallowed backslash, skips a card. A tab, carriage return or line break that looks like one (`\theta`, `\rho`, `\nabla`) loads with a `deckAudit()` warning under `possibleLostBackslash`. Earlier 2.8.2 drafts skipped some of these and wrongly skipped correct cards.
 - A skip anywhere in a field wins over a warning elsewhere in it. A line break before an unknown command in math (`\neg`) or before a command name outside math (`so a \neq b`) is a warning.
 - `deckAudit()` lists `rawTeX` only for TeX command names, scripts after a letter or digit, and an opening delimiter followed by math, so a code card's `\n`, `C:\Users`, `\d+`, `[^{}]` or `\(` isn't reported.
 - `flashcards` says exactly which control characters the deck refuses and what each `deckAudit()` field means.

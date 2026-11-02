@@ -14,7 +14,7 @@ The reviewer found no material contradiction in the inspected core and reference
 
 ## v2.8.2: lost-backslash rule
 
-- `tests/flashcards_journey.py`: 332 checks pass in headless Chromium. Display math with classic-Mac line breaks loads (skipped by the first #26 draft); lost `\nu` and `\textbf` outside math warn; `PV = nRT` on its own display line doesn't; `CO_{2}` outside math is `rawTeX`, `'{}_{}'.format` isn't. Tab-indented display math and a shell card with `${1}` and `${2}` load, an indented lost `\theta` is still skipped, a lost `\neg` in display math warns, f-string templates give no `rawTeX` and `\overline{x}` outside math does; the suite fails against the engine merged in #24. A swallowed `\rho` later in a field still skips the card after an earlier display-math warning (fails on the first 2.8.2 draft); `\neg` in math and `\neq`, `\nabla` outside math are warnings; regex cards give no `rawTeX`. New cases from #23: `e^{rt}` and `u = v - at` on their own display lines load with a warning, a lost `\textbf` inside math is skipped, `3 \times 4` and `A \rightarrow B` with swallowed backslashes outside math are warnings, and a code card with `\n`, `C:\Users` and `\d+` gives no `rawTeX`. Against the 2.8.1 engine the suite fails (display line starting with `e` skipped).
+- `tests/flashcards_journey.py`: 331 checks pass in headless Chromium. Warn-only (Donovan, 2026-11-02): every suspected lost backslash loads with a `possibleLostBackslash` entry, and only `\f` or `\b` skips a card. Display math with classic-Mac line breaks, tab-indented `.tex` lines and shell cards with `${1}` load quietly; `PV = nRT` on its own display line gives no warning; `CO_{2}` outside math is `rawTeX`, `'{}_{}'.format` isn't.
 
 ## v2.8.1: flashcard deck follow-ups
 
