@@ -501,26 +501,34 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
     const norm = t => t.replace(/\r\n?/g, '\n');
     const hash = str => { let h = 0x811c9dc5; for (let j = 0; j < str.length; j++) { h ^= str.charCodeAt(j); h = Math.imul(h, 0x01000193); } return (h >>> 0).toString(36); };
     // JSON turns an undoubled \n, \t or \r into a line break, tab or carriage return and eats the backslash.
-    // Checked on the raw text, before norm(), so a lone CR is still visible. Returns ['skip' | 'warn', message] or null.
-    // $...$ as PANDOC reads it, but allowing the line break that a lost \\n leaves inside it.
+    // Checked on the raw text, before norm(), so a lone CR is still visible. Returns { skip: message } or { warn: [messages] }.
+    // Only unambiguous cases skip a card; anything that could be ordinary text or code only warns.
+    // $...$ as PANDOC reads it, but allowing the line break that a lost \n leaves inside it.
     const DOLLAR_ANY = /(?<![\\$])\$(?![\s$])([^$]+?)(?<![\s\\])\$(?!\d)/g;
     const MATH = /\\\(([\s\S]+?)\\\)|\\\[([\s\S]+?)\\\]/g;
+    const STEM_AT = { '\t': new RegExp('^' + lostStem('t', '').source), '\r': new RegExp('^' + lostStem('r', '').source) };
+    // A tab or lone CR before a letter: a lost \theta or \textbf mid-line, but indentation when only whitespace precedes it on its line.
+    const lostTabCR = s => [...s.matchAll(/(\t|\r(?!\n))(?=[A-Za-z])/g)].some(m => {
+      const brk = Math.max(s.lastIndexOf('\n', m.index - 1), s.lastIndexOf('\r', m.index - 1));
+      const leading = brk >= 0 && /^[ \t]*$/.test(s.slice(brk + 1, m.index));
+      return !leading || STEM_AT[m[1]].test(s.slice(m.index + 1));
+    });
     const lostBackslash = raw => {
-      const spans = [...raw.matchAll(MATH)].map(m => [m[1] != null ? 'inline' : 'display', m[1] != null ? m[1] : m[2]])
-        .concat([...raw.matchAll(DOLLAR_ANY)].map(m => ['inline', m[1]]));
-      // A skip anywhere in the field wins over any warning, so check every span for one first.
+      const spans = [...raw.matchAll(MATH)].map(m => [m[1] != null ? 'inline' : 'display', m[1] != null ? m[1] : m[2]]);
+      // A skip anywhere in the field wins over any warning, so check every delimited span for one first.
       for (const [kind, s] of spans) {
-        // Inside math a tab or lone CR before a letter is never intended: \textbf, \theta, \rho, \rightarrow.
-        if (/(\t|\r(?!\n))[A-Za-z]/.test(s)) return { skip: 'a tab or carriage return before a letter inside math (write \\\\theta, \\\\textbf, \\\\rho)' };
+        if (lostTabCR(s)) return { skip: 'a tab or carriage return before a letter inside math (write \\\\theta, \\\\textbf, \\\\rho)' };
         if (LOST_N_LONG.test(s) || (kind === 'inline' && LOST_N_SHORT.test(s))) return { skip: 'a line break before a command name inside ' + kind + ' math (write \\\\nabla, \\\\neq, \\\\nu)' };
       }
       const warn = [];
       for (const [kind, s] of spans) {
-        // A display line may start with a variable e or u, so a lost \ne or \nu there is only a warning.
-        if (kind === 'display' && LOST_N_SHORT.test(s)) warn.push('a line inside display math starts with "' + s.match(LOST_N_SHORT)[0].trim() + '"; check it is not a lost \\\\ne or \\\\nu');
-        // A line break before a letter in inline math may be a command the engine doesn't know (\neg, \nmid).
+        // A display line may start with a variable (e^{rt}, u = v - at), so a lost \ne, \nu or unknown \neg there only warns.
+        if (kind === 'display' && (LOST_N_SHORT.test(s) || /\n[A-Za-z]{2,}/.test(s))) warn.push('a line inside display math starts with letters that could be a lost \\\\n command (\\\\ne, \\\\nu, \\\\neg)');
         else if (kind === 'inline' && /\n[A-Za-z]/.test(s)) warn.push('a line break before a letter inside inline math; check it is not a lost backslash (\\\\neg, \\\\nmid)');
       }
+      // $...$ can be shell or code ($1, ${x}), so anything found there only warns.
+      for (const m of raw.replace(MATH, ' ').matchAll(DOLLAR_ANY))
+        if (lostTabCR(m[1]) || /\n[A-Za-z]/.test(m[1])) { warn.push('a tab, carriage return or line break before a letter between $ signs; if it is math, check for a lost backslash'); break; }
       // Outside math "Term:<tab>an organism" or a line starting "eq" is ordinary text that can look like a lost command, so these only warn.
       const outside = raw.replace(MATH, ' ').replace(DOLLAR_ANY, ' ');
       if (LOST_T.test(outside) || LOST_R_LONE.test(outside) || LOST_N_LONG.test(outside)) warn.push('a tab, carriage return or line break before what could be a command name outside math; check it is not a lost \\\\times, \\\\rightarrow or \\\\neq, and put math in \\\\( \\\\)');
@@ -799,8 +807,9 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
       const text = rest.textContent;
       // Only names the engine knows or common TeX, so a code card's \\n or C:\\Users isn't reported.
       const named = [...text.matchAll(/\\([A-Za-z]+)/g)].some(m => COMMAND_NAMES.includes(m[1]) || COMMON_TEX.includes(m[1]));
-      // \( or \[ counts only when math-like content follows; ^{ and _{ only after a letter, digit or }, so regex cards stay clean.
-      if (named || /\\[([][^)\]]{0,40}?(?:\^|_|=|\\[A-Za-z])|[A-Za-z0-9}][\^_]\{/.test(text)) rawTeX.push({ card: c.id, field: f, rawTeX: text.trim() });
+      // \name{ is TeX; \( or \[ counts only when math-like content follows; ^{ and _{ only after a lone letter, digit or },
+      // so regex cards ([^{}]) and code templates (report_{year}, {a}_{b}) stay clean.
+      if (named || /\\[A-Za-z]{2,}\{|\\[([][^)\]]{0,40}?(?:\^|_|=|\\[A-Za-z])|(?<![A-Za-z0-9_])[A-Za-z0-9}][\^_]\{/.test(text)) rawTeX.push({ card: c.id, field: f, rawTeX: text.trim() });
     }));
     return { cards: cards.length, skipped: deck.skipped.slice(), mathErrors, rawTeX, possibleLostBackslash: deck.warnings.slice() };
   };

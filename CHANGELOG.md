@@ -11,6 +11,8 @@ What was actually tested for each version, and its limits, is in [evals/verifica
 ### Fixed
 Round-2 review findings on the flashcard deck (#23):
 - Display math whose line starts with a variable `e` or `u` (`\[⏎e^{rt}⏎\]`, `\[⏎u = v - at⏎\]`) loads again; 2.8.1 skipped it as a lost `\ne` or `\nu`. It is reported in `deckAudit()` under `possibleLostBackslash` instead.
+- Only unambiguous cases skip a card. A tab-indented display line pasted from a `.tex` file and a shell card with two `$` variables load again (an earlier 2.8.2 draft on main skipped them); text between `$` signs only warns, since it can be code. A lost `\neg` in display math warns.
+- `rawTeX` also reports an unknown command with braces (`\overline{x}` outside math) and ignores code templates (`report_{year}`, `{a}_{b}`).
 - One rule for a backslash JSON swallowed: inside math, a tab or carriage return before any letter (`\textbf`, `\theta`, `\rho`) or a line break before a command name skips the card; outside math, a tab or carriage return before a command name (`3 \times 4`) is a `deckAudit()` warning, since "Term:⇥an organism" is ordinary text.
 - A skip anywhere in a field wins over a warning elsewhere in it. A line break before an unknown command in math (`\neg`) or before a command name outside math (`so a \neq b`) is a warning.
 - `deckAudit()` lists `rawTeX` only for TeX command names, scripts after a letter or digit, and an opening delimiter followed by math, so a code card's `\n`, `C:\Users`, `\d+`, `[^{}]` or `\(` isn't reported.

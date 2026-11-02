@@ -594,13 +594,32 @@ with sync_playwright() as playwright:
     check(raw == ['nodelim'], f'regex cards are not raw TeX; a missing closing delimiter still is ({raw})')
     ctx.close()
 
+    # 4g (#25) indentation, shell $ variables, unknown display commands, code templates, unknown TeX outside math
+    ind = make_deck([{'id': 'indent', 'front': 'Q', 'back': '\\[\n\tx^2 + y^2 = r^2\n\\]'},
+                     {'id': 'indth', 'front': 'Q', 'back': '\\[\n\theta = 2\n\\]'},
+                     {'id': 'shell', 'front': 'What does this do?', 'back': 'f() {\n\tx=${1}\n\ty=${2}\n}'},
+                     {'id': 'dneg', 'front': 'Q', 'back': '\\[p \neg q\\]'},
+                     {'id': 'fstr', 'front': "What does f'report_{year}.csv' produce?", 'back': "f'{a}_{b}' joins them"},
+                     {'id': 'over', 'front': 'Q', 'back': 'the mean \\overline{x}'}])
+    ctx, pg, errs = one(ind)
+    pg.goto(variant(ind))
+    sk = pg.locator('#deck-skipped').inner_text()
+    a = pg.evaluate('deckAudit()')
+    check('Card 1' not in sk and 'Card 3' not in sk and 'Card 2 skipped' in sk and sk.count('skipped') == 1, f'a tab-indented display line and a shell card with two $ variables load; an indented lost \\theta is skipped ({sk[:80]!r})')
+    warned = sorted(set(x['card'] for x in a['possibleLostBackslash']))
+    check('dneg' in warned and 'indent' not in warned, f'a lost \\neg in display math warns; an indented variable does not ({warned})')
+    raw = sorted(x['card'] for x in a['rawTeX'])
+    check(raw == ['over'], f'f-string templates are not raw TeX; \\overline{{x}} outside math is ({raw})')
+    ctx.close()
+
     # 4b display math on its own lines loads; a lost stem is caught from the engine's own tables
     own = r'{"title":"T","cards":[{"front":"Q1","back":"\\[\nE = mc^2\n\\]"},{"front":"Q2","back":"\\[\nx^2\n\\]"},{"front":"Q3","back":"\\(a\n+ b\\)"},{"front":"Q4","back":"\\[a \neq b\\]"},{"front":"Q5","back":"\\[\nabla f\\]"},{"front":"Q6","back":"\\(a \neq b\\)"},{"front":"Q7","back":"\\(\notin S\\)"},{"front":"Q8","back":"$x\nu y$"}]}'
     ctx, pg, errs = one(own)
     pg.goto(variant(own))
     sk = pg.locator('#deck-skipped').inner_text()
-    check(pg.locator('#browse-list li').count() == 3 and not any(f'Card {k} ' in sk for k in (1, 2, 3)), f'display math on its own lines and a plain line break in inline math load ({sk[:80]!r})')
-    check(all(f'Card {k} skipped' in sk for k in (4, 5, 6, 7, 8)), f'lost-stem newlines (\\ne, \\nabla, \\neq, \\notin, \\nu) are skipped ({sk[:80]!r})')
+    check(pg.locator('#browse-list li').count() == 4 and not any(f'Card {k} ' in sk for k in (1, 2, 3, 8)), f'display math on its own lines, a plain line break in inline math, and $...$ load ({sk[:80]!r})')
+    check(all(f'Card {k} skipped' in sk for k in (4, 5, 6, 7)), f'lost-stem newlines in delimited math (\\neq, \\nabla, \\notin) are skipped ({sk[:80]!r})')
+    check(any('between $ signs' in x['note'] for x in pg.evaluate('deckAudit()')['possibleLostBackslash']), 'a lost \\nu between $ signs only warns: $ can be shell or code')
     check(re.search(r'Card 4 skipped: "back" has a line break before a command name inside display math', sk) and re.search(r'Card 6 skipped: "back" has a line break before a command name inside inline math', sk), 'display math has its own skip message, inline keeps "inline math"')
     ctx.close()
 
