@@ -55,12 +55,17 @@ A concept deserves several angles; this is what turns cards into understanding s
 ## 3. How many and which
 
 - Per lesson: typically 6 to 15 cards. Per exam: weight cards by the study guide, not by what's easy to card.
+- Formulas: if the exam supplies an equation sheet, card what each term means, when the formula applies and which way the output moves, not the formula itself. If it doesn't, card the formula too. Don't know? Ask in one line while you build.
 - Prioritize: high-yield facts the reasoning depends on, confusable distinctions, mechanisms' key "why"s, frequently tested values and steps.
 - Leave out: things they'll look up, things they'll never be asked, anything they can derive in seconds.
 
 ## 4. Export formats
 
 Ask which tool they use if unknown. Default: Quizlet-ready block + readable table. Sets over ~20 cards: also deliver a file (`.txt`/`.tsv`/`.md`) and state the count.
+
+**Study deck page** (they ask for a deck file or page, an exam deck they'll come back to, or no SRS app): copy `templates/flashcards-deck.html` and replace only the JSON in `<script type="application/json" id="deck">`: title, course, source, and the cards (`front`, `back`, optional `hint`, `tag`, `type`). The engine does the rest offline: commit before reveal, again/hard/good/easy with misses requeued, three correct recalls in the first session, a saved review ladder, a tag filter, a print-ready browse list, and Quizlet and Anki exports. Don't rewrite the engine or hand-build a deck page.
+
+**Formulas.** Write math in TeX between `\( \)` (inline) or `\[ \]` (display): `\(p^2 + 2pq + q^2 = 1\)`, `\(\frac{dN}{dt} = rN\left(1 - \frac{N}{K}\right)\)`. The deck page renders it as native math with no network, and its Quizlet export turns it into plain Unicode. In a Quizlet block you write yourself, use Unicode (p² + 2pq + q² = 1, Nₜ, Δ, →), never TeX. In an Anki file, set `#html:true` and keep `\( \)`; Anki renders it. In chat, use whatever the host renders; if raw `$`, `\frac` or `^{` would show, write Unicode instead. Before delivering, open the deck's browse list: any formula shown as source or boxed in red as unsupported is a bug to fix, not a style.
 
 **Quizlet** (Import → "Between term and definition: Tab", "Between cards: New line"):
 ```
@@ -99,6 +104,7 @@ Cloze cards go in a separate file with `#notetype:Cloze` and text like `Hemoglob
 - [ ] Mix includes why/contrast/application, not only facts
 - [ ] No duplicates or near-duplicates; confusable pairs have contrast cards
 - [ ] Format imports cleanly (one tab per line for Quizlet; headers for Anki)
+- [ ] Every formula renders as math: no raw `$`, `\frac` or `^{` on screen, nothing flagged unsupported in the deck page
 - [ ] Count stated; tags/course labels applied
 
 ## Anti-patterns

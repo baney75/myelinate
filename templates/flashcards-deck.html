@@ -1,0 +1,687 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Flashcards | Learning deck template</title>
+<style>
+:root { color-scheme: light dark; --ground:#f7f8f6; --panel:#fff; --ink:#17252a; --muted:#4d5f63; --edge:#9bafb0; --accent:#176d65; --focus:#a34108; --soft:#e6f2ef; --warn:#9b2c2c; --warnsoft:#fbeaea; }
+@media (prefers-color-scheme: dark) { :root { --ground:#111b1e; --panel:#1c2a2e; --ink:#f0f6f3; --muted:#c2d0ce; --edge:#718b8a; --accent:#8ee0c4; --focus:#ffbf71; --soft:#28433f; --warn:#ffb4a8; --warnsoft:#3b2422; } }
+* { box-sizing:border-box; }
+[hidden] { display:none !important; }
+html { background:var(--ground); color:var(--ink); font:16px/1.5 system-ui,sans-serif; }
+body { margin:0; }
+main { max-width:860px; margin:auto; padding:clamp(12px,4vw,32px); }
+h1 { font-size:clamp(1.45rem,5vw,2rem); line-height:1.2; margin:0 0 4px; overflow-wrap:anywhere; }
+h2 { font-size:1.2rem; margin:0 0 8px; }
+h3 { font-size:.82rem; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); margin:0 0 6px; }
+p { max-width:65ch; }
+.meta { margin:0; color:var(--muted); overflow-wrap:anywhere; }
+.card { background:var(--panel); border:1px solid var(--edge); border-radius:14px; padding:clamp(14px,3vw,24px); margin:16px 0; min-width:0; }
+.error { border-color:var(--warn); background:var(--warnsoft); }
+.toolbar { display:flex; flex-wrap:wrap; gap:10px 16px; align-items:center; }
+.toolbar label { display:flex; align-items:center; gap:8px; margin:0; font-weight:650; }
+.seg { display:flex; gap:8px; }
+.pill { border:1px solid var(--edge); border-radius:999px; padding:4px 12px; background:var(--soft); font-weight:650; white-space:nowrap; }
+label { display:block; font-weight:650; margin:18px 0 6px; }
+textarea,select { font:inherit; color:var(--ink); background:var(--panel); border:1px solid var(--edge); border-radius:7px; padding:10px; min-width:0; }
+textarea { width:100%; resize:vertical; }
+select { min-height:44px; max-width:100%; }
+input[type=checkbox] { width:22px; height:22px; accent-color:var(--accent); }
+button { font:inherit; font-weight:650; min-height:44px; padding:9px 16px; border:1px solid var(--accent); border-radius:8px; background:var(--accent); color:var(--ground); cursor:pointer; }
+button[disabled] { opacity:.5; cursor:not-allowed; }
+button.secondary { background:var(--panel); color:var(--ink); }
+button[aria-pressed=true].secondary { background:var(--soft); border-width:2px; }
+button:focus-visible,textarea:focus-visible,select:focus-visible,input:focus-visible,[tabindex="-1"]:focus-visible { outline:3px solid var(--focus); outline-offset:3px; }
+[tabindex="-1"]:focus:not(:focus-visible) { outline:none; }
+.controls { display:flex; flex-wrap:wrap; gap:10px; margin-top:16px; }
+.status { min-height:1.5em; color:var(--muted); margin:8px 0; }
+.small { font-size:.88rem; color:var(--muted); }
+.tagline { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:10px; font-size:.85rem; color:var(--muted); }
+.chip { border:1px solid var(--edge); border-radius:6px; padding:1px 8px; }
+.face { font-size:1.2rem; line-height:1.6; overflow-wrap:anywhere; min-width:0; }
+.face p,.rich p { margin:.4em 0; }
+.compare { display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr)); gap:14px; margin-top:18px; }
+.side { border-left:4px solid var(--accent); padding:2px 0 2px 14px; min-width:0; overflow-wrap:anywhere; }
+.side.typed { border-left-color:var(--edge); }
+.side .empty { color:var(--muted); font-style:italic; }
+.typed-text { white-space:pre-wrap; margin:0; }
+.hint { margin:10px 0 0; color:var(--muted); }
+.rate { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:10px; margin-top:20px; }
+.rate button { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:0; line-height:1.2; padding:8px 4px; }
+.rate .key { font-size:.75rem; font-weight:500; opacity:.85; }
+.rate .again { background:var(--panel); color:var(--warn); border-color:var(--warn); }
+.rate .hard,.rate .easy { background:var(--panel); color:var(--ink); border-color:var(--edge); }
+.rate .good { background:var(--accent); }
+mark.cloze-answer { background:var(--soft); color:inherit; border-bottom:2px solid var(--accent); border-radius:3px; padding:0 .25em; font-weight:650; }
+.cloze-blank { display:inline-block; min-width:3.5em; text-align:center; border-bottom:2px dashed var(--muted); color:var(--muted); }
+math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambria Math","Noto Sans Math",math,serif; }
+.math-block { display:block; max-width:100%; overflow-x:auto; padding:.3em 0; text-align:center; }
+.math-error { font:.9em ui-monospace,monospace; color:var(--warn); background:var(--warnsoft); border:1px dashed var(--warn); border-radius:4px; padding:0 4px; overflow-wrap:anywhere; }
+#app[data-mode=study] #browse,#app[data-mode=browse] #study { display:none; }
+.browse-list { list-style:none; margin:0; padding:0; }
+.bcard { border:1px solid var(--edge); border-radius:12px; padding:14px 16px; margin:12px 0; background:var(--panel); min-width:0; overflow-wrap:anywhere; }
+.bcard .q { font-weight:650; }
+.bcard .a { margin-top:8px; padding-left:12px; border-left:4px solid var(--accent); }
+.bcard .h { margin-top:6px; color:var(--muted); font-size:.92rem; }
+.done-card h2 { margin-top:0; }
+@media (max-width:420px) { .seg { flex:1 1 100%; } .rate { grid-template-columns:repeat(2,minmax(0,1fr)); } .controls button,.toolbar .seg button { flex:1 1 130px; } .face { font-size:1.08rem; } }
+@media (prefers-reduced-motion: no-preference) { .side { animation:appear .25s ease-out; } @keyframes appear { from { opacity:.2; } to { opacity:1; } } }
+@media print {
+  :root { --ground:#fff; --panel:#fff; --ink:#000; --muted:#333; --edge:#888; --accent:#000; --soft:#eee; }
+  html { background:#fff; color:#000; font-size:11pt; }
+  main { max-width:none; padding:0; }
+  .toolbar,.tools,#study,#deck-error,button,.status,noscript { display:none !important; }
+  #app #browse { display:block !important; }
+  .browse-list { columns:2; column-gap:1.5rem; }
+  .bcard { break-inside:avoid; margin:0 0 .6rem; }
+  .math-block { overflow:visible; }
+}
+</style>
+</head>
+<body>
+<main>
+<!-- To make a deck: copy this file and replace ONLY the JSON in script#deck below. Write "<" as < inside strings so a card can never close the script tag. -->
+<header>
+<h1 id="deck-title">Flashcards</h1>
+<p id="deck-meta" class="meta"></p>
+</header>
+<div id="deck-error" class="card error" role="alert" hidden></div>
+<noscript><section class="card"><h2>JavaScript is off</h2><p>This study deck needs JavaScript to show cards and math. The deck text is stored in the page source inside the element with id "deck".</p></section></noscript>
+<div id="app" data-mode="study" hidden>
+<section class="card toolbar" aria-label="Deck controls">
+<div class="seg"><button id="mode-study" type="button" class="secondary" aria-pressed="true">Study</button><button id="mode-browse" type="button" class="secondary" aria-pressed="false">Browse all</button></div>
+<label for="tag-filter">Tag <select id="tag-filter"></select></label>
+<label for="shuffle"><input id="shuffle" type="checkbox"> Shuffle</label>
+<span id="due-count" class="pill">Due today: 0</span>
+</section>
+<section id="study" aria-label="Study">
+<p id="progress" class="status" role="status" aria-live="polite"></p>
+<article id="card" class="card" aria-label="Flashcard">
+<div class="tagline"><span id="card-tag" class="chip"></span><span id="card-type" class="chip"></span></div>
+<div id="front" class="face" tabindex="-1"></div>
+<label for="answer">Your answer (say it or type it)</label>
+<textarea id="answer" rows="3" autocomplete="off" spellcheck="false" placeholder="Commit to an answer before you look"></textarea>
+<div class="controls"><button id="show" type="button">Show answer</button></div>
+<div id="back-panel" hidden tabindex="-1">
+<div class="compare">
+<div class="side typed"><h3>Your answer</h3><p id="typed" class="typed-text"></p></div>
+<div class="side"><h3>Answer</h3><div id="back" class="rich"></div><p id="hint" class="hint" hidden></p></div>
+</div>
+<div class="rate" role="group" aria-label="How well did you recall it?">
+<button id="rate-again" type="button" class="again" data-rating="again" aria-keyshortcuts="1">Again<span class="key" aria-hidden="true">1</span></button>
+<button id="rate-hard" type="button" class="hard" data-rating="hard" aria-keyshortcuts="2">Hard<span class="key" aria-hidden="true">2</span></button>
+<button id="rate-good" type="button" class="good" data-rating="good" aria-keyshortcuts="3">Good<span class="key" aria-hidden="true">3</span></button>
+<button id="rate-easy" type="button" class="easy" data-rating="easy" aria-keyshortcuts="4">Easy<span class="key" aria-hidden="true">4</span></button>
+</div>
+</div>
+</article>
+<section id="done" class="card done-card" hidden><h2>Round complete</h2><p id="done-text"></p><div class="controls"><button id="again-session" type="button">Study again</button></div></section>
+</section>
+<section id="browse" aria-label="All cards"><ol id="browse-list" class="browse-list"></ol></section>
+<section class="card tools" aria-label="Export and reset">
+<h2>Take it with you</h2>
+<div class="controls">
+<button id="export-quizlet" type="button" class="secondary">Quizlet (.txt)</button>
+<button id="export-anki" type="button" class="secondary">Anki (.txt)</button>
+<button id="export-anki-cloze" type="button" class="secondary" hidden>Anki cloze (.txt)</button>
+<button id="reset-progress" type="button" class="secondary">Reset progress</button>
+</div>
+<p class="small">Progress is saved only in this browser. Quizlet: Import, then paste the file (tab between term and definition).</p>
+</section>
+<p id="notice" class="status" role="status" aria-live="polite"></p>
+</div>
+</main>
+<script type="application/json" id="deck">
+{"title":"Example Deck","course":"BIOL 101 · Exam 3","source":"Study guide, Nov 2026","cards":[
+{"id":"hw1","type":"fact","tag":"Population genetics","front":"State the Hardy–Weinberg equation for a gene with two alleles, and say what each term stands for.","back":"\\[p^2 + 2pq + q^2 = 1\\]\n\\(p^2\\) is the frequency of homozygous dominant (AA), \\(2pq\\) heterozygotes (Aa), and \\(q^2\\) homozygous recessive (aa). It holds only with random mating and no selection, mutation, migration, or drift.","hint":"Genotypes add to 1, just as $p + q = 1$ for the alleles."},
+{"id":"af1","type":"procedure","tag":"Population genetics","front":"A population of 100 diploid individuals has 36 AA, 48 Aa, and 16 aa. Find the frequency \\(p\\) of allele A.","back":"There are \\(2 \\times 100 = 200\\) alleles. A alleles: \\(2(36) + 48 = 120\\).\n\\[p = \\frac{120}{200} = 0.6\\]\nSo \\(q = 1 - p = 0.4\\).","hint":"\\(p = \\dfrac{2n_{\\mathrm{AA}} + n_{\\mathrm{Aa}}}{2N}\\)"},
+{"id":"exp1","type":"fact","tag":"Population growth","front":"Write the differential equation for exponential growth and say when it applies.","back":"\\[\\frac{dN}{dt} = rN\\]\nSolution: \\(N_t = N_0 e^{rt}\\). It applies when resources are unlimited, so the per-capita rate \\(r\\) stays constant and the curve is J-shaped.","hint":"Growth rate is proportional to how many are already there."},
+{"id":"log1","type":"fact","tag":"Population growth","front":"Write the logistic growth equation and name each symbol.","back":"\\[\\frac{dN}{dt} = rN\\left(1 - \\frac{N}{K}\\right)\\]\n\\(r\\) is the intrinsic rate of increase, \\(N\\) the population size, \\(K\\) the carrying capacity. Growth is fastest at \\(N = K/2\\) and falls to zero at \\(N = K\\).","hint":"The factor \\(1 - N/K\\) is the brake."},
+{"id":"lam1","type":"why","tag":"Population growth","front":"In the discrete model \\(N_{t+1} = \\lambda N_t\\), what does \\(\\lambda\\) mean, and what does \\(\\lambda < 1\\) imply?","back":"\\(\\lambda = N_{t+1}/N_t\\) is the multiplier per time step. \\(\\lambda > 1\\): the population grows; \\(\\lambda = 1\\): stable; \\(\\lambda < 1\\): it declines. Related: \\(\\lambda = e^{r}\\), and the change per step is \\(\\Delta N = N_{t+1} - N_t\\).","hint":"λ is the multiplier; ΔN is the change."},
+{"id":"rk1","type":"contrast","tag":"Life history","front":"Contrast r-selected and K-selected species.","back":"**r-selected:** many small offspring, little parental care, early maturity, short lives, unstable environments, populations kept well below \\(K\\) (insects, weeds).\n**K-selected:** few large offspring, heavy parental care, late maturity, long lives, stable environments, populations near \\(K\\) with density-dependent competition (elephants, oaks).\nMost species fall between the two.","hint":"*r* = reproduce fast; *K* = keep up with the crowd."},
+{"id":"app1","type":"application","tag":"Population growth","front":"A population of 500 insects has \\(r = 0.2\\) per day with unlimited food. Using \\(N_t = N_0 e^{rt}\\), about how many are there after 5 days?","back":"\\(rt = 0.2 \\times 5 = 1\\), so \\(N_5 = 500e^{1} \\approx 500 \\times 2.718 \\approx 1359\\) insects.","hint":"Work out the exponent \\(rt\\) first."},
+{"id":"clz1","type":"cloze","tag":"Population genetics","front":"Hardy–Weinberg equilibrium needs random mating, no migration or mutation, no natural selection, and a {{c1::very large}} population, which prevents {{c2::genetic drift}}.","back":"In a small population, allele frequencies change by chance from one generation to the next.","hint":"Big population, no chance swings."}
+]}
+</script>
+<script>
+(() => {
+  'use strict';
+  // ---- Text helpers -------------------------------------------------------
+  const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
+  // ---- TeX subset -> AST --------------------------------------------------
+  const GREEK = {};
+  'alpha beta gamma delta epsilon zeta eta theta iota kappa lambda mu nu xi omicron pi rho sigma tau upsilon phi chi psi omega'.split(' ').forEach((n, k) => { GREEK[n] = 'αβγδεζηθικλμνξοπρστυφχψω'[k]; });
+  'Gamma Delta Theta Lambda Xi Pi Sigma Upsilon Phi Psi Omega'.split(' ').forEach((n, k) => { GREEK[n] = 'ΓΔΘΛΞΠΣΥΦΨΩ'[k]; });
+  Object.assign(GREEK, { varepsilon: 'ε', vartheta: 'ϑ', varpi: 'ϖ', varrho: 'ϱ', varsigma: 'ς', varphi: 'ϕ' });
+  const SYMBOL = {
+    cdot: '·', times: '×', div: '÷', pm: '±', mp: '∓', le: '≤', leq: '≤', ge: '≥', geq: '≥', ne: '≠', neq: '≠', approx: '≈', sim: '∼', propto: '∝',
+    infty: '∞', to: '→', rightarrow: '→', leftarrow: '←', leftrightarrow: '↔', rightleftharpoons: '⇌', Rightarrow: '⇒', degree: '°',
+    cdots: '⋯', ldots: '…', dots: '…', in: '∈', notin: '∉', subset: '⊂', cup: '∪', cap: '∩', lt: '<', gt: '>', ll: '≪', gg: '≫',
+    equiv: '≡', cong: '≅', perp: '⊥', langle: '⟨', rangle: '⟩', mid: '|', lvert: '|', rvert: '|', uparrow: '↑', downarrow: '↓', therefore: '∴'
+  };
+  const IDENT = { partial: '∂', nabla: '∇', ell: 'ℓ' };
+  const BIGOP = { sum: '∑', prod: '∏' };
+  const FUNCS = new Set(['ln', 'log', 'exp', 'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sinh', 'cosh', 'tanh', 'max', 'min', 'det']);
+  const SPACE = { ',': 0.17, ':': 0.22, ';': 0.28, ' ': 0.28, quad: 1, qquad: 2, '!': 0 };
+  const LITERAL = new Set(['{', '}', '_', '$', '#', '&', '%', '|']);
+
+  function parseTeX(src) {
+    let i = 0;
+    const n = src.length;
+    const fail = m => { throw new Error(m); };
+    const ws = () => { while (i < n && /\s/.test(src[i])) i++; };
+    function row(stop) {
+      const c = [];
+      for (;;) {
+        ws();
+        if (i >= n) { if (stop) fail('unbalanced braces'); break; }
+        const ch = src[i];
+        if (ch === '}') { if (stop) { i++; break; } fail('unbalanced braces'); }
+        let a;
+        if (ch === '^' || ch === '_') a = { t: 'row', c: [] };
+        else { a = atom(); if (a === null) continue; }
+        c.push(scripts(a));
+      }
+      return { t: 'row', c };
+    }
+    function atom() {
+      const ch = src[i];
+      if (ch === '{') { i++; return row(true); }
+      if (ch === '\\') return command();
+      if (/\d/.test(ch)) { const m = /^\d+(?:\.\d+)?/.exec(src.slice(i)); i += m[0].length; return { t: 'mn', v: m[0] }; }
+      if (/\p{L}/u.test(ch)) { i++; return { t: 'mi', v: ch }; }
+      i++;
+      return { t: 'mo', v: ch };
+    }
+    function arg(run) {
+      ws();
+      if (i >= n || src[i] === '}') fail('missing argument');
+      const ch = src[i];
+      if (ch === '{') { i++; return row(true); }
+      if (/\d/.test(ch)) { const m = (run ? /^\d+/ : /^\d/).exec(src.slice(i)); i += m[0].length; return { t: 'mn', v: m[0] }; }
+      const a = atom();
+      if (a === null) fail('missing argument');
+      return a;
+    }
+    function raw() {
+      ws();
+      if (src[i] !== '{') fail('missing argument');
+      let d = 0;
+      for (let j = i; j < n; j++) {
+        if (src[j] === '{') d++;
+        else if (src[j] === '}') { d--; if (d === 0) { const s = src.slice(i + 1, j); i = j + 1; return s; } }
+      }
+      return fail('unbalanced braces');
+    }
+    function command() {
+      const m = /^\\([a-zA-Z]+|[\s\S])/.exec(src.slice(i));
+      if (!m) fail('unsupported: \\');
+      i += m[0].length;
+      const name = m[1];
+      if (name === 'left' || name === 'right') { if (src[i] === '.') i++; return null; }
+      if (GREEK[name]) return { t: 'mi', v: GREEK[name], nv: name[0] !== name[0].toLowerCase() };
+      if (SYMBOL[name]) return { t: 'mo', v: SYMBOL[name] };
+      if (IDENT[name]) return { t: 'mi', v: IDENT[name], nv: true };
+      if (BIGOP[name]) return { t: 'mo', v: BIGOP[name], big: true };
+      if (name === 'int') return { t: 'mo', v: '∫' };
+      if (name === 'circ') return { t: 'mo', v: '°', circ: true };
+      if (FUNCS.has(name)) return { t: 'mi', v: name, fn: true };
+      if (name === 'frac' || name === 'dfrac' || name === 'tfrac') { const a = arg(false); const b = arg(false); return { t: 'frac', n: a, d: b, style: name }; }
+      if (name === 'sqrt') {
+        ws();
+        let idx = null;
+        if (src[i] === '[') { const close = src.indexOf(']', i); if (close < 0) fail('unbalanced brackets'); idx = parseTeX(src.slice(i + 1, close)); i = close + 1; }
+        return { t: 'sqrt', x: arg(false), idx };
+      }
+      if (name === 'text') return { t: 'mtext', v: raw() };
+      if (name === 'mathrm' || name === 'operatorname') return { t: 'mi', v: raw(), nv: true, fn: name === 'operatorname' };
+      if (name === 'overline') return { t: 'over', b: arg(false), mark: '‾', comb: '̅' };
+      if (name === 'bar') return { t: 'over', b: arg(false), mark: '¯', comb: '̄' };
+      if (name === 'hat') return { t: 'over', b: arg(false), mark: 'ˆ', comb: '̂' };
+      if (name in SPACE) return { t: 'space', w: SPACE[name] };
+      if (name.length === 1 && LITERAL.has(name)) return { t: 'mo', v: name };
+      return fail('unsupported: \\' + name);
+    }
+    function scripts(base) {
+      let sub = null, sup = null, deg = false;
+      for (;;) {
+        ws();
+        const ch = src[i];
+        if (ch === '_') { if (sub) fail('double subscript'); i++; sub = arg(true); }
+        else if (ch === '^') {
+          if (sup) fail('double superscript');
+          i++; sup = arg(true);
+          const one = sup.t === 'row' && sup.c.length === 1 ? sup.c[0] : sup;
+          if (one.circ) { sup = null; deg = true; }
+        } else break;
+      }
+      let out = base;
+      if (sub || sup) {
+        if (base.big) out = { t: 'under', b: base, lo: sub, hi: sup };
+        else if (sub && sup) out = { t: 'subsup', b: base, s: sub, e: sup };
+        else if (sub) out = { t: 'sub', b: base, s: sub };
+        else out = { t: 'sup', b: base, e: sup };
+      }
+      if (deg) out = { t: 'row', c: [out, { t: 'mo', v: '°' }] };
+      return out;
+    }
+    const result = row(false);
+    return result;
+  }
+
+  // ---- AST -> MathML -------------------------------------------------------
+  function mml(x) {
+    if (!x) return '';
+    switch (x.t) {
+      case 'mi': return '<mi' + (x.nv ? ' mathvariant="normal"' : '') + '>' + esc(x.v) + '</mi>';
+      case 'mn': return '<mn>' + esc(x.v) + '</mn>';
+      case 'mo': {
+        const v = x.v === '-' ? '−' : x.v === '*' ? '∗' : x.v;
+        const form = v === '(' || v === '[' ? ' form="prefix" lspace="0" rspace="0"' : v === ')' || v === ']' ? ' form="postfix" lspace="0" rspace="0"' : v === '/' ? ' lspace="0.08em" rspace="0.08em"' : '';
+        return '<mo' + form + '>' + esc(v) + '</mo>';
+      }
+      case 'mtext': return '<mtext>' + esc(x.v) + '</mtext>';
+      case 'space': return '<mspace width="' + x.w + 'em"></mspace>';
+      case 'row': return '<mrow>' + x.c.map(mml).join('') + '</mrow>';
+      case 'sup': return '<msup>' + mml(x.b) + mml(x.e) + '</msup>';
+      case 'sub': return '<msub>' + mml(x.b) + mml(x.s) + '</msub>';
+      case 'subsup': return '<msubsup>' + mml(x.b) + mml(x.s) + mml(x.e) + '</msubsup>';
+      case 'under':
+        if (x.lo && x.hi) return '<munderover>' + mml(x.b) + mml(x.lo) + mml(x.hi) + '</munderover>';
+        return x.lo ? '<munder>' + mml(x.b) + mml(x.lo) + '</munder>' : '<mover>' + mml(x.b) + mml(x.hi) + '</mover>';
+      case 'frac': {
+        const f = '<mfrac>' + mml(x.n) + mml(x.d) + '</mfrac>';
+        return x.style === 'dfrac' ? '<mstyle displaystyle="true">' + f + '</mstyle>' : x.style === 'tfrac' ? '<mstyle displaystyle="false">' + f + '</mstyle>' : f;
+      }
+      case 'sqrt': return x.idx ? '<mroot>' + mml(x.x) + mml(x.idx) + '</mroot>' : '<msqrt>' + mml(x.x) + '</msqrt>';
+      case 'over': return '<mover accent="true">' + mml(x.b) + '<mo>' + x.mark + '</mo></mover>';
+      default: return '';
+    }
+  }
+
+  // ---- AST -> readable Unicode text ----------------------------------------
+  const SUPCH = {}, SUBCH = {};
+  (function () {
+    const sup = '⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻⁻⁼⁽⁾ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖʳˢᵗᵘᵛʷˣʸᶻ';
+    '0123456789+-−=()abcdefghijklmnoprstuvwxyz'.split('').forEach((ch, k) => { SUPCH[ch] = sup[k]; });
+    const sub = '₀₁₂₃₄₅₆₇₈₉₊₋₋₌₍₎ₐ';
+    '0123456789+-−=()a'.split('').forEach((ch, k) => { SUBCH[ch] = sub[k]; });
+    Object.assign(SUBCH, { e: 'ₑ', h: 'ₕ', i: 'ᵢ', j: 'ⱼ', k: 'ₖ', l: 'ₗ', m: 'ₘ', n: 'ₙ', o: 'ₒ', p: 'ₚ', r: 'ᵣ', s: 'ₛ', t: 'ₜ', u: 'ᵤ', v: 'ᵥ', x: 'ₓ', 'β': 'ᵦ', 'γ': 'ᵧ', 'ρ': 'ᵨ', 'ϕ': 'ᵩ', 'φ': 'ᵩ', 'χ': 'ᵪ' });
+  })();
+  const BIN = new Set(['+', '-', '−', '±', '∓', '×', '÷']);
+  const REL = new Set(['=', '<', '>', '≤', '≥', '≠', '≈', '∼', '∝', '→', '←', '↔', '⇌', '⇒', '≡', '≅', '∈', '∉', '⊂', '≪', '≫']);
+  function script(node, map, mark) {
+    const s = plain(node, true);
+    const chars = Array.from(s);
+    if (chars.every(ch => map[ch])) return chars.map(ch => map[ch]).join('');
+    return chars.length === 1 ? mark + s : mark + '(' + plain(node) + ')';
+  }
+  function plain(x, compact) {
+    if (!x) return '';
+    switch (x.t) {
+      case 'mi': case 'mn': case 'mtext': return x.v;
+      case 'mo': return x.v;
+      case 'space': return compact || !x.w ? '' : ' ';
+      case 'row': {
+        let out = '';
+        const c = x.c;
+        for (let k = 0; k < c.length; k++) {
+          const e = c[k];
+          const s = plain(e, compact);
+          if (compact) { out += s; continue; }
+          if (e.t === 'mo' && (BIN.has(e.v) || REL.has(e.v))) {
+            const p = c[k - 1];
+            const unary = !p || (p.t === 'mo' && (BIN.has(p.v) || REL.has(p.v) || '([,'.includes(p.v)));
+            out += unary ? s : ' ' + s + ' ';
+          } else if (e.t === 'mo' && e.v === ',') out += ', ';
+          else if (e.fn && !(c[k + 1] && c[k + 1].t === 'mo' && c[k + 1].v === '(')) out += s + ' ';
+          else out += s;
+        }
+        return compact ? out : out.replace(/ {2,}/g, ' ').trim();
+      }
+      case 'sup': return plain(x.b, compact) + script(x.e, SUPCH, '^');
+      case 'sub': return plain(x.b, compact) + script(x.s, SUBCH, '_');
+      case 'subsup': return plain(x.b, compact) + script(x.s, SUBCH, '_') + script(x.e, SUPCH, '^');
+      case 'under': return plain(x.b, compact) + (x.lo ? script(x.lo, SUBCH, '_') : '') + (x.hi ? script(x.hi, SUPCH, '^') : '');
+      case 'frac': return '(' + plain(x.n) + ')/(' + plain(x.d) + ')';
+      case 'sqrt': {
+        const body = plain(x.x);
+        const wrapped = Array.from(body).length === 1 ? body : '(' + body + ')';
+        if (!x.idx) return '√' + wrapped;
+        const idx = plain(x.idx, true);
+        return (idx === '3' ? '∛' : idx === '4' ? '∜' : script(x.idx, SUPCH, '^') + '√') + wrapped;
+      }
+      case 'over': { const b = plain(x.b); return Array.from(b).length === 1 ? b + x.comb : '(' + b + ')' + x.comb; }
+      default: return '';
+    }
+  }
+
+  function mathHTML(tex, display) {
+    try {
+      const ast = parseTeX(tex);
+      const alt = plain(ast);
+      const m = '<math xmlns="http://www.w3.org/1998/Math/MathML" display="' + (display ? 'block' : 'inline') + '" alttext="' + esc(alt) + '">' + mml(ast) + '</math>';
+      return display ? '<span class="math-block">' + m + '</span>' : m;
+    } catch (e) {
+      const why = /^(unsupported|unbalanced|missing|double)/.test(e.message) ? e.message : 'could not parse';
+      console.warn('math ' + why + ' in: ' + tex);
+      return '<code class="math-error" title="' + esc(why) + '">' + esc(tex) + '</code>';
+    }
+  }
+  function mathPlain(tex) {
+    try { return plain(parseTeX(tex)); } catch (e) { return tex; }
+  }
+
+  // ---- Rich text: escape first, then tiny markup, math, cloze ---------------
+  const PANDOC = /(?<![\\$])\$(?![\s$])((?:[^$\\\n]|\\.)+?)(?<![\s\\])\$(?!\d)/g;
+  function replaceClozes(t, fn) {
+    let out = '', i = 0;
+    for (;;) {
+      const s = t.indexOf('{{c', i);
+      if (s < 0) { out += t.slice(i); break; }
+      const m = /^\{\{c(\d+)::/.exec(t.slice(s));
+      if (!m) { out += t.slice(i, s + 3); i = s + 3; continue; }
+      let j = s + m[0].length, d = 0, end = -1;
+      for (; j < t.length; j++) {
+        const ch = t[j];
+        if (ch === '{') d++;
+        else if (ch === '}') { if (d === 0 && t[j + 1] === '}') { end = j; break; } if (d > 0) d--; }
+      }
+      if (end < 0) { out += t.slice(i, s + 3); i = s + 3; continue; }
+      out += t.slice(i, s) + fn(t.slice(s + m[0].length, end), +m[1]);
+      i = end + 2;
+    }
+    return out;
+  }
+  function transform(text, h) {
+    const store = [];
+    const ph = s => { store.push(s); return '' + (store.length - 1) + ''; };
+    let t = String(text == null ? '' : text);
+    t = t.replace(/\\\$/g, () => ph(h.dollar));
+    t = replaceClozes(t, (a, k) => ph(h.cloze(a, k)));
+    t = t.replace(/[ \t]*\n?[ \t]*\\\[([\s\S]+?)\\\][ \t]*\n?[ \t]*/g, (m, x) => ph(h.display(h.math(x.trim(), true))));
+    t = t.replace(/\\\(([\s\S]+?)\\\)/g, (m, x) => ph(h.math(x.trim(), false)));
+    t = t.replace(PANDOC, (m, x) => ph(h.math(x, false)));
+    t = h.text(t);
+    return t.replace(/(\d+)/g, (m, k) => store[+k]);
+  }
+  const BOLD = /\*\*(?!\s)([\s\S]+?)(?<!\s)\*\*/g;
+  const ITAL = /(?<![*\w])\*(?![\s*])([^*\n]+?)(?<![\s*])\*(?![*\w])/g;
+  const htmlHandlers = reveal => ({
+    dollar: '$',
+    cloze: a => reveal
+      ? '<mark class="cloze-answer">' + transform(a.split('::')[0], htmlHandlers(true)) + '</mark>'
+      : '<span class="cloze-blank" role="img" aria-label="blank">[ … ]</span>',
+    math: mathHTML,
+    display: x => x,
+    text: s => esc(s).replace(BOLD, '<strong>$1</strong>').replace(ITAL, '<em>$1</em>').replace(/\r?\n/g, '<br>')
+  });
+  const stripMarks = s => s.replace(BOLD, '$1').replace(ITAL, '$1').replace(/\s*\n\s*/g, ' ').replace(/\t/g, ' ');
+  const plainHandlers = reveal => ({
+    dollar: '$',
+    cloze: a => reveal ? transform(a.split('::')[0], plainHandlers(true)) : '[ … ]',
+    math: x => mathPlain(x),
+    display: x => ' ' + x + ' ',
+    text: stripMarks
+  });
+  const ankiHandlers = {
+    dollar: '$',
+    cloze: (a, k) => '{{c' + k + '::' + transform(a, ankiHandlers) + '}}',
+    display: x => x,
+    math: (x, d) => (d ? '\\[' : '\\(') + esc(x) + (d ? '\\]' : '\\)'),
+    text: s => esc(s).replace(BOLD, '<strong>$1</strong>').replace(ITAL, '<em>$1</em>').replace(/\s*\n\s*/g, '<br>').replace(/\t/g, ' ')
+  };
+  const rich = (text, reveal) => transform(text, htmlHandlers(!!reveal));
+  window.renderMath = (text, opts) => (opts && opts.tex) ? mathHTML(String(text), false) : rich(text, opts && opts.reveal);
+  window.renderMath.plain = text => transform(text, plainHandlers(true));
+
+  // ---- Load the deck --------------------------------------------------------
+  const $ = id => document.getElementById(id);
+  function fatal(message) {
+    $('deck-error').hidden = false;
+    $('deck-error').textContent = message;
+    $('app').hidden = true;
+  }
+  function loadDeck() {
+    const el = $('deck');
+    if (!el) throw new Error('This page has no deck data: the script element with id "deck" is missing.');
+    let d;
+    try { d = JSON.parse(el.textContent); } catch (e) { throw new Error('The deck JSON is not valid (' + e.message + '). Fix the JSON in the element with id "deck".'); }
+    if (!d || typeof d !== 'object' || Array.isArray(d)) throw new Error('The deck JSON must be an object with "title" and "cards".');
+    if (typeof d.title !== 'string' || !d.title.trim()) throw new Error('The deck needs a non-empty "title".');
+    if (!Array.isArray(d.cards) || !d.cards.length) throw new Error('The deck needs a non-empty "cards" list.');
+    const seen = new Set();
+    d.cards = d.cards.map((c, k) => {
+      if (!c || typeof c.front !== 'string' || typeof c.back !== 'string' || !c.front.trim() || !c.back.trim()) throw new Error('Card ' + (k + 1) + ' needs text in both "front" and "back".');
+      let id = String(c.id == null ? 'c' + (k + 1) : c.id);
+      while (seen.has(id)) id += '_' + k;
+      seen.add(id);
+      return { id, front: c.front, back: c.back, hint: typeof c.hint === 'string' ? c.hint : '', tag: typeof c.tag === 'string' ? c.tag.trim() : '', type: typeof c.type === 'string' ? c.type : '' };
+    });
+    return d;
+  }
+  let deck;
+  try { deck = loadDeck(); } catch (e) { fatal(e.message); return; }
+  const cards = deck.cards;
+  const KEY = 'myelinate-deck:' + deck.title;
+  const DAY = 86400000;
+  const LADDER = [1, 3, 7, 14, 30];
+  const REQUIRED = 3;
+  const isCloze = c => c.type === 'cloze' || /\{\{c\d+::/.test(c.front);
+  const tagOf = c => c.tag || 'Untagged';
+
+  document.title = deck.title + ' | Flashcards';
+  $('deck-title').textContent = deck.title;
+  $('deck-meta').textContent = [deck.course, deck.source, cards.length + (cards.length === 1 ? ' card' : ' cards')].filter(Boolean).join(' · ');
+  $('app').hidden = false;
+
+  // ---- Saved schedule ---------------------------------------------------------
+  let store = { v: 1, cards: {} };
+  function notice(m) { $('notice').textContent = m; }
+  try { const o = JSON.parse(localStorage.getItem(KEY) || 'null'); if (o && typeof o.cards === 'object' && o.cards) store = o; } catch (e) { notice('Progress cannot be saved in this browser; it will reset when you close the page.'); }
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) { notice('Progress cannot be saved in this browser; it will reset when you close the page.'); } }
+  const dueNow = (c, now) => { const s = store.cards[c.id]; return !s || s.due <= now; };
+  function climb(current, rungs) {
+    let k = LADDER.findIndex(v => v > current);
+    k = k < 0 ? LADDER.length - 1 : Math.min(LADDER.length - 1, k + rungs - 1);
+    return LADDER[k];
+  }
+  function updateDueCount() {
+    const now = Date.now();
+    $('due-count').textContent = 'Due today: ' + cards.filter(c => dueNow(c, now)).length;
+  }
+
+  // ---- Session ----------------------------------------------------------------
+  let sess = null;
+  let revealed = false;
+  const shuffleArr = a => { for (let k = a.length - 1; k > 0; k--) { const j = Math.floor(Math.random() * (k + 1)); [a[k], a[j]] = [a[j], a[k]]; } return a; };
+  const pool = () => { const t = $('tag-filter').value; return cards.filter(c => !t || tagOf(c) === t); };
+  function startSession() {
+    const now = Date.now();
+    const due = [], later = [];
+    pool().forEach(c => (dueNow(c, now) ? due : later).push(c));
+    const byDue = (a, b) => ((store.cards[a.id] || {}).due || 0) - ((store.cards[b.id] || {}).due || 0);
+    due.sort(byDue); later.sort(byDue);
+    if ($('shuffle').checked) { shuffleArr(due); shuffleArr(later); }
+    const queue = due.concat(later);
+    sess = { queue, next: [], round: 1, roundTotal: queue.length, correct: {}, advanced: {}, recalled: 0 };
+    renderStudy(false);
+    renderBrowse();
+    updateDueCount();
+  }
+  function renderStudy(focusFront) {
+    revealed = false;
+    const done = !sess.queue.length;
+    $('card').hidden = done;
+    $('done').hidden = !done;
+    if (done) {
+      const n = sess.recalled;
+      $('progress').textContent = 'Round complete.';
+      $('done-text').textContent = pool().length ? 'You recalled ' + n + ' ' + (n === 1 ? 'card' : 'cards') + ' ' + REQUIRED + ' times each in this session. Their next review dates are saved.' : 'No cards match this tag.';
+      return;
+    }
+    const c = sess.queue[0];
+    $('front').innerHTML = rich(c.front, false);
+    $('card-tag').textContent = tagOf(c);
+    $('card-type').textContent = c.type ? c.type[0].toUpperCase() + c.type.slice(1) : '';
+    $('card-type').hidden = !c.type;
+    $('answer').value = '';
+    $('answer').disabled = false;
+    $('show').hidden = false;
+    $('back-panel').hidden = true;
+    const pos = sess.roundTotal - sess.queue.length + 1;
+    $('progress').textContent = 'Card ' + pos + ' of ' + sess.roundTotal + ' · ' + (sess.queue.length - 1) + ' left this round' + (sess.round > 1 ? ' · Round ' + sess.round : '');
+    if (focusFront) $('front').focus();
+  }
+  function reveal() {
+    if (!sess || !sess.queue.length || revealed) return;
+    const c = sess.queue[0];
+    revealed = true;
+    const typed = $('answer').value.trim();
+    const typedEl = $('typed');
+    typedEl.textContent = typed || 'Nothing written. Say it aloud next time to commit before you look.';
+    typedEl.classList.toggle('empty', !typed);
+    $('back').innerHTML = (isCloze(c) ? rich(c.front, true) + (c.back ? '<hr>' : '') : '') + rich(c.back, true);
+    $('hint').hidden = !c.hint;
+    $('hint').innerHTML = c.hint ? '<strong>Hint:</strong> ' + rich(c.hint, true) : '';
+    $('answer').disabled = true;
+    $('show').hidden = true;
+    $('back-panel').hidden = false;
+    $('back-panel').focus();
+    $('progress').textContent += ' · How well did you recall it?';
+  }
+  function rate(r) {
+    if (!sess || !sess.queue.length || !revealed) return;
+    const c = sess.queue.shift();
+    const now = Date.now();
+    const st = store.cards[c.id] || { interval: 0, due: 0, reps: 0 };
+    if (r === 'again') {
+      st.interval = 0;
+      st.due = now + 10 * 60000;
+      sess.advanced[c.id] = false;
+      sess.queue.push(c);
+      sess.roundTotal += 1;
+    } else {
+      sess.correct[c.id] = (sess.correct[c.id] || 0) + 1;
+      if (r === 'hard') {
+        st.interval = Math.max(1, st.interval / 2);
+        sess.advanced[c.id] = true;
+      } else if (!sess.advanced[c.id]) {
+        st.interval = climb(st.interval, r === 'easy' ? 2 : 1);
+        sess.advanced[c.id] = true;
+      }
+      st.due = now + st.interval * DAY;
+      if (sess.correct[c.id] >= REQUIRED) sess.recalled += 1;
+      else sess.next.push(c);
+    }
+    st.reps = (st.reps || 0) + 1;
+    st.last = now;
+    store.cards[c.id] = st;
+    save();
+    if (!sess.queue.length && sess.next.length) {
+      sess.queue = sess.next; sess.next = []; sess.round += 1; sess.roundTotal = sess.queue.length;
+    }
+    updateDueCount();
+    renderStudy(true);
+  }
+  document.querySelectorAll('.rate button').forEach(b => b.addEventListener('click', () => rate(b.dataset.rating)));
+  $('show').addEventListener('click', reveal);
+  $('again-session').addEventListener('click', () => { startSession(); $('front').focus(); });
+  document.addEventListener('keydown', e => {
+    if (e.metaKey || e.altKey || $('app').dataset.mode !== 'study' || !sess) return;
+    const t = e.target;
+    const tag = t && t.tagName;
+    if (tag === 'TEXTAREA') { if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) { e.preventDefault(); reveal(); } return; }
+    if (e.ctrlKey || tag === 'INPUT' || tag === 'SELECT') return;
+    if ((e.key === ' ' || e.key === 'Enter') && tag !== 'BUTTON' && tag !== 'A') {
+      if (!revealed && sess.queue.length) { e.preventDefault(); reveal(); }
+      return;
+    }
+    const map = { 1: 'again', 2: 'hard', 3: 'good', 4: 'easy' };
+    if (revealed && map[e.key]) { e.preventDefault(); rate(map[e.key]); }
+  });
+
+  // ---- Browse, filter, mode ---------------------------------------------------
+  function renderBrowse() {
+    const list = $('browse-list');
+    list.replaceChildren();
+    pool().forEach((c, k) => {
+      const li = document.createElement('li');
+      li.className = 'bcard';
+      li.innerHTML = '<div class="tagline"><span class="chip"></span>' + (c.type ? '<span class="chip"></span>' : '') + '</div><div class="q"></div><div class="a"></div>' + (c.hint ? '<div class="h"></div>' : '');
+      const chips = li.querySelectorAll('.chip');
+      chips[0].textContent = (k + 1) + '. ' + tagOf(c);
+      if (c.type) chips[1].textContent = c.type;
+      li.querySelector('.q').innerHTML = rich(c.front, true);
+      li.querySelector('.a').innerHTML = rich(c.back, true);
+      if (c.hint) li.querySelector('.h').innerHTML = rich(c.hint, true);
+      list.append(li);
+    });
+  }
+  function setMode(mode) {
+    $('app').dataset.mode = mode;
+    $('mode-study').setAttribute('aria-pressed', String(mode === 'study'));
+    $('mode-browse').setAttribute('aria-pressed', String(mode === 'browse'));
+    notice(mode === 'browse' ? 'Showing all ' + pool().length + ' cards.' : '');
+  }
+  $('mode-study').addEventListener('click', () => setMode('study'));
+  $('mode-browse').addEventListener('click', () => setMode('browse'));
+  const tags = [];
+  cards.forEach(c => { if (!tags.includes(tagOf(c))) tags.push(tagOf(c)); });
+  const filter = $('tag-filter');
+  filter.append(new Option('All tags (' + cards.length + ')', ''));
+  tags.forEach(t => filter.append(new Option(t + ' (' + cards.filter(c => tagOf(c) === t).length + ')', t)));
+  filter.addEventListener('change', () => { startSession(); notice(pool().length + ' cards in this view.'); });
+  $('shuffle').addEventListener('change', startSession);
+  $('reset-progress').addEventListener('click', () => {
+    if (!window.confirm('Reset all saved progress for "' + deck.title + '"? This cannot be undone.')) return;
+    store = { v: 1, cards: {} };
+    try { localStorage.removeItem(KEY); } catch (e) { /* storage unavailable */ }
+    startSession();
+    notice('Progress reset.');
+  });
+
+  // ---- Exports ----------------------------------------------------------------
+  const field = s => s.replace(/[\t\r\n]+/g, ' ').trim();
+  const exportsApi = {
+    quizlet() {
+      return cards.map(c => {
+        const term = field(transform(c.front, plainHandlers(false)));
+        const def = isCloze(c)
+          ? field(transform(c.front, plainHandlers(true)) + (c.back ? ' ' + transform(c.back, plainHandlers(true)) : ''))
+          : field(transform(c.back, plainHandlers(true)));
+        return term + '\t' + def;
+      }).join('\n') + '\n';
+    },
+    anki() {
+      const rows = cards.filter(c => !isCloze(c)).map(c => [transform(c.front, ankiHandlers), transform(c.back, ankiHandlers), tagOf(c).replace(/\s+/g, '_')].map(field).join('\t'));
+      return '#separator:tab\n#html:true\n#tags column:3\n' + rows.join('\n') + '\n';
+    },
+    ankiCloze() {
+      const rows = cards.filter(isCloze).map(c => [transform(c.front, ankiHandlers), transform(c.back, ankiHandlers), tagOf(c).replace(/\s+/g, '_')].map(field).join('\t'));
+      return '#separator:tab\n#html:true\n#notetype:Cloze\n#tags column:3\n' + rows.join('\n') + '\n';
+    }
+  };
+  window.deckExports = exportsApi;
+  const slug = deck.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'deck';
+  function download(name, text) {
+    const url = URL.createObjectURL(new Blob([text], { type: 'text/plain;charset=utf-8' }));
+    const a = document.createElement('a');
+    a.href = url; a.download = name;
+    document.body.append(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    notice('Downloaded ' + name + '.');
+  }
+  $('export-quizlet').addEventListener('click', () => download(slug + '-quizlet.txt', exportsApi.quizlet()));
+  $('export-anki').addEventListener('click', () => download(slug + '-anki.txt', exportsApi.anki()));
+  $('export-anki-cloze').addEventListener('click', () => download(slug + '-anki-cloze.txt', exportsApi.ankiCloze()));
+  $('export-anki-cloze').hidden = !cards.some(isCloze);
+  $('export-anki').hidden = !cards.some(c => !isCloze(c));
+
+  startSession();
+})();
+</script>
+</body>
+</html>
