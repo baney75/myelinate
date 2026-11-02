@@ -81,7 +81,7 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
 </head>
 <body>
 <main>
-<!-- To make a deck: copy this file and replace ONLY the JSON in script#deck below. Write "<" as \u003c inside JSON strings so a card can never close the script tag. Every TeX backslash is doubled in JSON ("\\frac"), so build the JSON with a serializer (json.dumps or JSON.stringify) and replace "</" with "<\/" in its output. A card with no "id" gets one from its front text. -->
+<!-- To make a deck: copy this file and replace ONLY the JSON in script#deck below. Build the JSON with a serializer (json.dumps or JSON.stringify), because every TeX backslash is doubled in JSON ("\\frac"), and then replace every "<" in its output with \u003c so a card can never close the script tag. A card with no "id" gets one from its front text. -->
 <header>
 <h1 id="deck-title">Flashcards</h1>
 <p id="deck-meta" class="meta"></p>
@@ -160,20 +160,23 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
     cdot: '·', times: '×', div: '÷', pm: '±', mp: '∓', le: '≤', leq: '≤', ge: '≥', geq: '≥', ne: '≠', neq: '≠', approx: '≈', sim: '∼', propto: '∝',
     infty: '∞', to: '→', rightarrow: '→', leftarrow: '←', leftrightarrow: '↔', rightleftharpoons: '⇌', Rightarrow: '⇒', degree: '°',
     cdots: '⋯', ldots: '…', dots: '…', in: '∈', notin: '∉', subset: '⊂', cup: '∪', cap: '∩', lt: '<', gt: '>', ll: '≪', gg: '≫',
+    longrightarrow: '⟶', Longrightarrow: '⟹', iff: '⟺', implies: '⟹', prime: '′',
     equiv: '≡', cong: '≅', perp: '⊥', langle: '⟨', rangle: '⟩', mid: '|', lvert: '|', rvert: '|', uparrow: '↑', downarrow: '↓', therefore: '∴'
   };
   const IDENT = { partial: '∂', nabla: '∇', ell: 'ℓ' };
   const BIGOP = { sum: '∑', prod: '∏' };
   const FUNCS = new Set(['ln', 'log', 'exp', 'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sinh', 'cosh', 'tanh', 'max', 'min', 'det']);
+  const ACCENT = { overline: ['‾', '̅'], bar: ['¯', '̄'], hat: ['ˆ', '̂'], vec: ['→', '⃗'], dot: ['˙', '̇'], ddot: ['¨', '̈'], tilde: ['˜', '̃'] };
   const SPACE = { ',': 0.17, ':': 0.22, ';': 0.28, ' ': 0.28, quad: 1, qquad: 2, '!': 0 };
   const LITERAL = new Set(['{', '}', '_', '$', '#', '&', '%', '|']);
 
   // Letters inside \mathrm and \operatorname render upright.
-  function upright(x) {
+  function upright(x, bold) {
     if (!x || typeof x !== 'object') return;
-    if (Array.isArray(x)) { x.forEach(upright); return; }
-    if (x.t === 'mi') x.nv = true;
-    Object.keys(x).forEach(k => { if (x[k] && typeof x[k] === 'object') upright(x[k]); });
+    if (Array.isArray(x)) { x.forEach(y => upright(y, bold)); return; }
+    if (x.t === 'mi') { if (bold) x.mv = 'bold'; else x.nv = true; }
+    if (bold && x.t === 'mn') x.mv = 'bold';
+    Object.keys(x).forEach(k => { if (x[k] && typeof x[k] === 'object') upright(x[k], bold); });
   }
   function parseTeX(src) {
     let i = 0;
@@ -201,7 +204,7 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
       if (/\d/.test(ch)) { const m = /^\d+(?:\.\d+)?/.exec(src.slice(i)); i += m[0].length; return { t: 'mn', v: m[0] }; }
       if (/\p{L}/u.test(ch)) { i++; return { t: 'mi', v: ch }; }
       i++;
-      return { t: 'mo', v: ch };
+      return { t: 'mo', v: ch === "'" ? '′' : ch };
     }
     function arg() {
       ws();
@@ -234,6 +237,10 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
       if (IDENT[name]) return { t: 'mi', v: IDENT[name], nv: true };
       if (BIGOP[name]) return { t: 'mo', v: BIGOP[name], big: true };
       if (name === 'int') return { t: 'mo', v: '∫' };
+      if (name === 'hbar') return { t: 'mi', v: 'ℏ' };
+      if (name === 'displaystyle') return null;
+      if (name === 'lim') return { t: 'mo', v: 'lim', big: true, lim: true, fn: true };
+      if (name === 'binom') { const a = arg(); const b = arg(); return { t: 'binom', n: a, d: b }; }
       if (name === 'circ') return { t: 'mo', v: '\u2218', circ: true };
       if (FUNCS.has(name)) return { t: 'mi', v: name, fn: true };
       if (name === 'frac' || name === 'dfrac' || name === 'tfrac') { const a = arg(); const b = arg(); return { t: 'frac', n: a, d: b, style: name }; }
@@ -245,9 +252,8 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
       }
       if (name === 'text') return { t: 'mtext', v: raw() };
       if (name === 'mathrm' || name === 'operatorname') { const body = parseTeX(raw()); upright(body); if (name === 'operatorname') body.fn = true; return body; }
-      if (name === 'overline') return { t: 'over', b: arg(), mark: '‾', comb: '̅' };
-      if (name === 'bar') return { t: 'over', b: arg(), mark: '¯', comb: '̄' };
-      if (name === 'hat') return { t: 'over', b: arg(), mark: 'ˆ', comb: '̂' };
+      if (name === 'mathbf') { const body = parseTeX(raw()); upright(body, true); return body; }
+      if (ACCENT[name]) return { t: 'over', b: arg(), mark: ACCENT[name][0], comb: ACCENT[name][1] };
       if (name in SPACE) return { t: 'space', w: SPACE[name] };
       if (name.length === 1 && LITERAL.has(name)) return { t: 'mo', v: name };
       return fail('unsupported: \\' + name);
@@ -272,6 +278,7 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
         else if (sub) out = { t: 'sub', b: base, s: sub };
         else out = { t: 'sup', b: base, e: sup };
       }
+      if (out !== base && base.fn) out.fn = true;
       if (deg) out = { t: 'row', c: [out, { t: 'mo', v: '°' }] };
       return out;
     }
@@ -283,16 +290,16 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
   function mml(x) {
     if (!x) return '';
     switch (x.t) {
-      case 'mi': return '<mi' + (x.nv ? ' mathvariant="normal"' : '') + '>' + esc(x.v) + '</mi>';
-      case 'mn': return '<mn>' + esc(x.v) + '</mn>';
+      case 'mi': return '<mi' + (x.mv ? ' mathvariant="' + x.mv + '"' : x.nv ? ' mathvariant="normal"' : '') + '>' + esc(x.v) + '</mi>';
+      case 'mn': return '<mn' + (x.mv ? ' mathvariant="' + x.mv + '"' : '') + '>' + esc(x.v) + '</mn>';
       case 'mo': {
         const v = x.v === '-' ? '−' : x.v === '*' ? '∗' : x.v;
         const form = v === '(' || v === '[' ? ' form="prefix" lspace="0" rspace="0"' : v === ')' || v === ']' ? ' form="postfix" lspace="0" rspace="0"' : v === '/' ? ' lspace="0.08em" rspace="0.08em"' : '';
-        return '<mo' + form + '>' + esc(v) + '</mo>';
+        return '<mo' + form + (x.lim ? ' movablelimits="true"' : '') + '>' + esc(v) + '</mo>';
       }
-      case 'mtext': return '<mtext>' + esc(x.v) + '</mtext>';
+      case 'mtext': return '<mtext>' + esc(x.v).replace(/^ +| +$/g, m => '\u00a0'.repeat(m.length)) + '</mtext>';
       case 'space': return '<mspace width="' + x.w + 'em"></mspace>';
-      case 'row': return '<mrow>' + x.c.map(mml).join('') + '</mrow>';
+      case 'row': return '<mrow>' + x.c.map((e, k) => mml(e) + (e.fn && !(x.c[k + 1] && x.c[k + 1].t === 'mo' && x.c[k + 1].v === '(') ? '<mo>&#x2061;</mo>' : '')).join('') + '</mrow>';
       case 'sup': return '<msup>' + mml(x.b) + mml(x.e) + '</msup>';
       case 'sub': return '<msub>' + mml(x.b) + mml(x.s) + '</msub>';
       case 'subsup': return '<msubsup>' + mml(x.b) + mml(x.s) + mml(x.e) + '</msubsup>';
@@ -303,6 +310,7 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
         const f = '<mfrac>' + mml(x.n) + mml(x.d) + '</mfrac>';
         return x.style === 'dfrac' ? '<mstyle displaystyle="true">' + f + '</mstyle>' : x.style === 'tfrac' ? '<mstyle displaystyle="false">' + f + '</mstyle>' : f;
       }
+      case 'binom': return '<mrow><mo form="prefix" lspace="0" rspace="0">(</mo><mfrac linethickness="0">' + mml(x.n) + mml(x.d) + '</mfrac><mo form="postfix" lspace="0" rspace="0">)</mo></mrow>';
       case 'sqrt': return x.idx ? '<mroot>' + mml(x.x) + mml(x.idx) + '</mroot>' : '<msqrt>' + mml(x.x) + '</msqrt>';
       case 'over': return '<mover accent="true">' + mml(x.b) + '<mo>' + x.mark + '</mo></mover>';
       default: return '';
@@ -319,7 +327,7 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
     Object.assign(SUBCH, { e: 'ₑ', h: 'ₕ', i: 'ᵢ', j: 'ⱼ', k: 'ₖ', l: 'ₗ', m: 'ₘ', n: 'ₙ', o: 'ₒ', p: 'ₚ', r: 'ᵣ', s: 'ₛ', t: 'ₜ', u: 'ᵤ', v: 'ᵥ', x: 'ₓ', 'β': 'ᵦ', 'γ': 'ᵧ', 'ρ': 'ᵨ', 'ϕ': 'ᵩ', 'φ': 'ᵩ', 'χ': 'ᵪ' });
   })();
   const BIN = new Set(['+', '-', '−', '±', '∓', '×', '÷']);
-  const REL = new Set(['=', '<', '>', '≤', '≥', '≠', '≈', '∼', '∝', '→', '←', '↔', '⇌', '⇒', '≡', '≅', '∈', '∉', '⊂', '≪', '≫']);
+  const REL = new Set(['=', '<', '>', '≤', '≥', '≠', '≈', '∼', '∝', '→', '←', '↔', '⇌', '⇒', '⟶', '⟹', '⟺', '≡', '≅', '∈', '∉', '⊂', '≪', '≫']);
   function script(node, map, mark) {
     const s = plain(node, true);
     const chars = Array.from(s);
@@ -354,6 +362,7 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
       case 'subsup': return plain(x.b, compact) + script(x.s, SUBCH, '_') + script(x.e, SUPCH, '^');
       case 'under': return plain(x.b, compact) + (x.lo ? script(x.lo, SUBCH, '_') : '') + (x.hi ? script(x.hi, SUPCH, '^') : '');
       case 'frac': return '(' + plain(x.n) + ')/(' + plain(x.d) + ')';
+      case 'binom': return '(' + plain(x.n) + ' choose ' + plain(x.d) + ')';
       case 'sqrt': {
         const body = plain(x.x);
         const wrapped = Array.from(body).length === 1 ? body : '(' + body + ')';
@@ -410,11 +419,11 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
     const store = [];
     const ph = s => { store.push(s); return OPEN + (store.length - 1) + CLOSE; };
     let t = String(text == null ? '' : text).replace(SENTINEL_ANY, '');
-    t = t.replace(/\\\$/g, () => ph(h.dollar));
     t = replaceClozes(t, (a, k) => ph(h.cloze(a, k)));
     t = t.replace(/[ \t]*\n?[ \t]*\\\[([\s\S]+?)\\\][ \t]*\n?[ \t]*/g, (m, x) => ph(h.display(h.math(x.trim(), true))));
     t = t.replace(/\\\(([\s\S]+?)\\\)/g, (m, x) => ph(h.math(x.trim(), false)));
     t = t.replace(PANDOC, (m, x) => ph(h.math(x, false)));
+    t = t.replace(/\\\$/g, () => ph(h.dollar));
     t = h.text(t);
     return t.replace(SENTINEL_REF, (m, k) => store[+k]);
   }
@@ -454,6 +463,7 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
     $('deck-error').hidden = false;
     $('deck-error').textContent = message;
     $('app').hidden = true;
+    window.deckAudit = () => ({ cards: 0, skipped: [], mathErrors: [], fatal: message });
   }
   function loadDeck() {
     const el = $('deck');
@@ -466,19 +476,24 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
     const seen = new Set();
     const skipped = [];
     const good = [];
-    const CTRL = /[\u0000-\u0009\u000B-\u001F]/;
+    const CTRL = /[\u0000-\u0008\u000B-\u001F]/;
+    const TABCMD = /\t(?:imes|heta|au|an|ext|o|ilde|riangle|frac)/;
+    const norm = t => t.replace(/\r\n?/g, '\n');
+    const tabInMath = t => [...t.matchAll(/\\\(([\s\S]+?)\\\)|\\\[([\s\S]+?)\\\]/g), ...t.matchAll(PANDOC)].some(m => TABCMD.test(m[1] || m[2] || ''));
     const hash = str => { let h = 0x811c9dc5; for (let j = 0; j < str.length; j++) { h ^= str.charCodeAt(j); h = Math.imul(h, 0x01000193); } return (h >>> 0).toString(36); };
-    const badMath = t => [...t.matchAll(/\\\(([\s\S]+?)\\\)/g)].some(m => m[1].includes('\n')) || /(?<![\\$])\$(?![\s$])[^$\n]*\n[A-Za-z][^$\n]*(?<![\s\\])\$(?!\d)/.test(t);
+    const badMath = t => [...t.matchAll(/\\\(([\s\S]+?)\\\)/g)].some(m => m[1].includes('\n')) || [...t.matchAll(/\\\[([\s\S]+?)\\\]/g)].some(m => /\n[A-Za-z]/.test(m[1])) || /(?<![\\$])\$(?![\s$])[^$\n]*\n[A-Za-z][^$\n]*(?<![\s\\])\$(?!\d)/.test(t);
     d.cards.forEach((c, k) => {
       const skip = why => skipped.push('Card ' + (k + 1) + ' skipped: ' + why);
       if (!c || typeof c !== 'object' || typeof c.front !== 'string' || !c.front.trim()) return skip('it needs text in "front".');
       if (c.back != null && typeof c.back !== 'string') return skip('"back" must be text.');
-      const back = c.back == null ? '' : c.back;
+      const back = c.back == null ? '' : norm(c.back);
+      c = Object.assign({}, c, { front: norm(c.front) });
       const cloze = c.type === 'cloze' || /\{\{c\d+::/.test(c.front);
       if (!back.trim() && !cloze) return skip('it needs text in "back" (only a cloze card may leave it empty).');
       if (cloze && !/\{\{c\d+::/.test(c.front)) return skip('a cloze card needs {{c1::answer}} in its front.');
-      const hint = typeof c.hint === 'string' ? c.hint : '';
+      const hint = typeof c.hint === 'string' ? norm(c.hint) : '';
       for (const [name, text] of [['front', c.front], ['back', back], ['hint', hint]]) {
+        if (tabInMath(text)) return skip('"' + name + '" has a tab inside math; a TeX backslash was probably not doubled in the JSON (write \\\\times, \\\\theta, \\\\tau, \\\\text).');
         if (CTRL.test(text)) return skip('"' + name + '" has a control character; a TeX backslash was probably not doubled in the JSON (write \\\\frac, \\\\nu, \\\\times, \\\\beta, \\\\rho).');
         if (badMath(text)) return skip('"' + name + '" has a line break inside inline math; a TeX backslash was probably not doubled in the JSON (for example \\\\nu).');
       }
@@ -486,7 +501,8 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
       const base = id;
       for (let n = 2; seen.has(id); n++) id = base + '_' + n;
       seen.add(id);
-      good.push({ id, front: c.front, back, hint, tag: typeof c.tag === 'string' ? c.tag.trim() : '', type: typeof c.type === 'string' ? c.type : '' });
+      const tabs = t => t.replace(/\t/g, ' ');
+      good.push({ id, front: tabs(c.front), back: tabs(back), hint: tabs(hint), tag: typeof c.tag === 'string' ? c.tag.trim() : '', type: typeof c.type === 'string' ? c.type : '' });
     });
     if (!good.length) throw new Error('The deck has no valid cards. ' + skipped.join(' '));
     d.cards = good;
@@ -498,7 +514,6 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
   const cards = deck.cards;
   const KEY = 'myelinate-deck:' + (typeof deck.course === 'string' ? deck.course : '') + '|' + deck.title;
   const OLD_KEY = 'myelinate-deck:' + deck.title;
-  const DAY = 86400000;
   const LADDER = [1, 3, 7, 14, 30];
   const REQUIRED = 3;
   const isCloze = c => c.type === 'cloze' || /\{\{c\d+::/.test(c.front);
@@ -514,8 +529,13 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
   let store = { v: 1, cards: {} };
   function notice(m) { $('notice').textContent = m; }
   try { const o = JSON.parse(localStorage.getItem(KEY) || localStorage.getItem(OLD_KEY) || 'null'); if (o && typeof o.cards === 'object' && o.cards) store = o; } catch (e) { notice('Progress cannot be saved in this browser; it will reset when you close the page.'); }
-  function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); } catch (e) { notice('Progress cannot be saved in this browser; it will reset when you close the page.'); } }
-  const dueNow = (c, now) => { const s = store.cards[c.id]; return !s || s.due <= now; };
+  function save() { try { localStorage.setItem(KEY, JSON.stringify(store)); return true; } catch (e) { notice('Progress cannot be saved in this browser; it will reset when you close the page.'); return false; } }
+  // Schedules are looked up by own property only, so ids such as "constructor" or "__proto__" behave like any other.
+  const getSched = id => (Object.prototype.hasOwnProperty.call(store.cards, id) ? store.cards[id] : undefined);
+  const setSched = (id, st) => Object.defineProperty(store.cards, id, { value: st, enumerable: true, writable: true, configurable: true });
+  // Reviews are scheduled by local calendar day: a card is due for the whole day it falls due.
+  const dayStart = (ts, plusDays) => { const d = new Date(ts); return new Date(d.getFullYear(), d.getMonth(), d.getDate() + (plusDays || 0)).getTime(); };
+  const dueNow = (c, now) => { const s = getSched(c.id); return !s || s.due < dayStart(now, 1); };
   function climb(current, rungs) {
     let k = LADDER.findIndex(v => v > current);
     k = k < 0 ? LADDER.length - 1 : Math.min(LADDER.length - 1, k + rungs - 1);
@@ -535,13 +555,13 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
     const now = Date.now();
     const due = [], later = [];
     pool().forEach(c => (dueNow(c, now) ? due : later).push(c));
-    const byDue = (a, b) => ((store.cards[a.id] || {}).due || 0) - ((store.cards[b.id] || {}).due || 0);
+    const byDue = (a, b) => ((getSched(a.id) || {}).due || 0) - ((getSched(b.id) || {}).due || 0);
     due.sort(byDue); later.sort(byDue);
     if ($('shuffle').checked) { shuffleArr(due); shuffleArr(later); }
     const queue = due.concat(later);
-    const wasDue = {}, isNew = {};
-    queue.forEach(c => { const s = store.cards[c.id]; wasDue[c.id] = dueNow(c, now); isNew[c.id] = !s || !s.reps || !s.interval; });
-    sess = { queue, next: [], round: 1, roundTotal: queue.length, correct: {}, advanced: {}, recalled: 0, wasDue, isNew };
+    const wasDue = Object.create(null), isNew = Object.create(null);
+    queue.forEach(c => { const s = getSched(c.id); wasDue[c.id] = dueNow(c, now); isNew[c.id] = !s || !s.reps || !s.interval; });
+    sess = { queue, next: [], round: 1, roundTotal: queue.length, correct: Object.create(null), advanced: Object.create(null), recalled: 0, liveRated: 0, saveFailed: false, wasDue, isNew };
     renderStudy(false);
     renderBrowse();
     updateDueCount();
@@ -554,7 +574,7 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
     if (done) {
       const n = sess.recalled;
       $('progress').textContent = 'Round complete.';
-      $('done-text').textContent = pool().length ? 'You recalled ' + n + ' ' + (n === 1 ? 'card' : 'cards') + (REQUIRED > 1 ? ' (new cards ' + REQUIRED + ' times)' : '') + ' in this session. Their next review dates are saved.' : 'No cards match this tag.';
+      $('done-text').textContent = pool().length ? 'You recalled ' + n + ' ' + (n === 1 ? 'card' : 'cards') + (REQUIRED > 1 ? ' (new cards ' + REQUIRED + ' times)' : '') + ' in this session. ' + (sess.liveRated > 0 && !sess.saveFailed ? 'Their next review dates are saved.' : 'Practice only: no review dates changed.') : 'No cards match this tag.';
       return;
     }
     const c = sess.queue[0];
@@ -591,10 +611,12 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
     if (!sess || !sess.queue.length || !revealed) return;
     const c = sess.queue.shift();
     const now = Date.now();
+    // A miss is always real evidence, so Again lapses any card and makes it live for the rest of the session.
+    if (r === 'again') sess.wasDue[c.id] = true;
     const live = sess.wasDue[c.id];
-    const st = store.cards[c.id] || { interval: 0, due: 0, reps: 0 };
+    const st = getSched(c.id) || { interval: 0, due: 0, reps: 0 };
     if (r === 'again') {
-      if (live) { st.interval = 0; st.due = now + 10 * 60000; sess.advanced[c.id] = false; }
+      st.interval = 0; st.due = now + 10 * 60000; sess.advanced[c.id] = false;
       sess.queue.push(c);
       sess.roundTotal += 1;
     } else {
@@ -603,12 +625,12 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
         st.interval = r === 'hard' ? Math.max(1, st.interval / 2) : climb(st.interval, r === 'easy' ? 2 : 1);
         sess.advanced[c.id] = true;
       }
-      if (live) st.due = now + st.interval * DAY;
+      if (live) st.due = dayStart(now, Math.max(1, Math.ceil(st.interval)));
       if (sess.correct[c.id] >= (sess.isNew[c.id] ? REQUIRED : 1)) sess.recalled += 1;
       else sess.next.push(c);
     }
     // Cards that were not due when the session began are practice only: their schedule stays as it was.
-    if (live) { st.reps = (st.reps || 0) + 1; st.last = now; store.cards[c.id] = st; save(); }
+    if (live) { st.reps = (st.reps || 0) + 1; st.last = now; setSched(c.id, st); sess.liveRated += 1; if (!save()) sess.saveFailed = true; }
     if (!sess.queue.length && sess.next.length) {
       sess.queue = sess.next; sess.next = []; sess.round += 1; sess.roundTotal = sess.queue.length;
     }
@@ -709,6 +731,18 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
   $('export-anki-cloze').addEventListener('click', () => download(slug + '-anki-cloze.txt', exportsApi.ankiCloze()));
   $('export-anki-cloze').hidden = !cards.some(isCloze);
   $('export-anki').hidden = !cards.some(c => !isCloze(c));
+
+  // Headless check: render every card off-screen and list the math the engine could not draw.
+  window.deckAudit = () => {
+    const mathErrors = [];
+    const box = document.createElement('div');
+    cards.forEach(c => ['front', 'back', 'hint'].forEach(f => {
+      if (!c[f]) return;
+      box.innerHTML = rich(c[f], true);
+      box.querySelectorAll('.math-error').forEach(el => mathErrors.push({ card: c.id, field: f, source: el.textContent }));
+    }));
+    return { cards: cards.length, skipped: deck.skipped.slice(), mathErrors };
+  };
 
   startSession();
 })();

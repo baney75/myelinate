@@ -389,6 +389,8 @@ with sync_playwright() as playwright:
         err = page.locator('#deck-error')
         check(err.is_visible() and len(err.inner_text()) > 20 and page.locator('#app').is_hidden(), f'{label}: clear on-page error instead of a blank page')
         check(err.get_attribute('role') == 'alert' and not errors, f'{label}: error is announced and nothing threw')
+        audit = page.evaluate('deckAudit()')
+        check(audit['cards'] == 0 and audit['fatal'] == err.inner_text(), f'{label}: deckAudit reports the fatal error')
         context.close()
 
     # One bad card must not kill the deck
@@ -449,5 +451,165 @@ with sync_playwright() as playwright:
     check('{{c1::\\(\\sqrt{\\frac{a}{b} }\\)}}' in cloze and '}}\\)' not in cloze, 'Anki cloze export turns TeX "}}" into "} }" so the cloze does not end early')
     check(not errors, 'export deck: nothing threw')
     context.close()
+
+    # ---- Follow-up fixes from issue #21 ------------------------------------------
+    def one(deck_json, width=1280, **kw):
+        ctx = browser.new_context(viewport={'width': width, 'height': 900}, **kw)
+        pg = ctx.new_page()
+        errs = []
+        pg.on('pageerror', lambda error: errs.append(str(error)))
+        return ctx, pg, errs
+
+    def tstore(pg, key='myelinate-deck:|T'):
+        return pg.evaluate("k => JSON.parse(localStorage.getItem(k) || 'null')", key)
+
+    # 1 escaped dollar in cloze and in math, across render, browse and all exports
+    dl = make_deck([{'id': 'd1', 'type': 'cloze', 'front': 'Price is {{c1::\\$5}} today', 'back': 'It costs \\(\\$5\\) in total.'}])
+    ctx, pg, errs = one(dl)
+    pg.goto(variant(dl))
+    pg.locator('#show').click()
+    check('Price is $5 today' in pg.locator('#back').text_content() and 'costs $5 in' in pg.locator('#back').text_content(), 'escaped dollar: revealed cloze and \\(\\$5\\) show $5')
+    pg.locator('#mode-browse').click()
+    bt = pg.locator('#browse-list').text_content()
+    check('Price is $5 today' in bt and 'costs $5 in' in bt, 'escaped dollar: browse shows $5')
+    qz, ak, akc = pg.evaluate('[deckExports.quizlet(), deckExports.anki(), deckExports.ankiCloze()]')
+    check('Price is $5 today' in qz and '$5 in total' in qz and not re.search('[\ue000-\uf8ff]', qz), 'escaped dollar: Quizlet export has $5 and no private-use glyphs')
+    check('{{c1::$5}}' in akc and not re.search('[\ue000-\uf8ff]', akc + ak), 'escaped dollar: Anki cloze keeps {{c1::$5}}')
+    r = probe(pg, '\\(\\$5\\)')
+    check(r['text'] == '$5' and r['math'] == 1, 'escaped dollar inside inline math renders $5')
+    check(not errs, 'escaped dollar: nothing threw')
+    ctx.close()
+
+    # 2 Again on a not-due card applies the lapse
+    now_ms = int(__import__('time').time() * 1000)
+    ag = make_deck([{'id': 'a', 'front': 'Q', 'back': 'A'}])
+    ctx, pg, errs = one(ag)
+    pg.goto(variant(ag))
+    pg.evaluate("([k, n]) => localStorage.setItem(k, JSON.stringify({v: 1, cards: {a: {interval: 30, due: n + 30 * 86400000, reps: 4}}}))", ['myelinate-deck:|T', now_ms])
+    pg.reload()
+    pg.locator('#show').click()
+    pg.locator('#rate-again').click()
+    s = tstore(pg)['cards']['a']
+    check(s['interval'] == 0 and 9 * 60000 < s['due'] - s['last'] <= 10 * 60000, f'Again on a not-due card lapses it to interval 0, due in 10 minutes ({s})')
+    pg.locator('#show').click()
+    pg.locator('#rate-good').click()
+    check(tstore(pg)['cards']['a']['interval'] == 1, 'a lapsed card is live for the rest of the session (Good then climbs to 1 day)')
+    ctx.close()
+
+    # 3 Calendar-day scheduling
+    from datetime import datetime, timedelta
+    from zoneinfo import ZoneInfo
+    tz = ZoneInfo('America/Chicago')
+    t0 = datetime(2026, 11, 3, 8, 5, tzinfo=tz)
+    t0ms = int(t0.timestamp() * 1000)
+    midnight = int(datetime(2026, 11, 4, 0, 0, tzinfo=tz).timestamp() * 1000)
+    cd = make_deck([{'id': 'a', 'front': 'Q', 'back': 'A'}])
+    ctx, pg, errs = one(cd, timezone_id='America/Chicago')
+    pg.clock.set_fixed_time(t0)
+    pg.goto(variant(cd))
+    pg.locator('#show').click()
+    pg.locator('#rate-good').click()
+    check(tstore(pg)['cards']['a']['due'] == midnight, 'Good schedules the local midnight of today + 1 day')
+    pg.clock.set_fixed_time(t0 + timedelta(minutes=1))
+    pg.reload()
+    check('Due today: 0' in pg.locator('#due-count').inner_text(), 'a card rated Good is not due again later the same day')
+    pg.clock.set_fixed_time(t0 + timedelta(days=1) - timedelta(minutes=10))
+    pg.reload()
+    check('Due today: 1' in pg.locator('#due-count').inner_text(), 'next morning at 07:55 the card is already due')
+    pg.locator('#show').click()
+    pg.locator('#rate-good').click()
+    check(tstore(pg)['cards']['a']['interval'] == 3, 'the card is live: rating it next morning climbs the ladder (1 -> 3)')
+    ctx.close()
+
+    # 4 newline in display math
+    dm = make_deck([{'id': 'a', 'front': 'Q1', 'back': '\\[a \ne b\\]'}, {'id': 'b', 'front': 'Q2', 'back': '\\[a\n= b\\]'},
+                    {'id': 'c', 'front': 'Q3', 'back': '\\[\nabla f\\]'}, {'id': 'd', 'front': 'Q4', 'back': '\\[a\n 2 + b\\]'}])
+    ctx, pg, errs = one(dm)
+    pg.goto(variant(dm))
+    sk = pg.locator('#deck-skipped').inner_text()
+    check('Card 1 skipped' in sk and 'Card 3 skipped' in sk and 'Card 2' not in sk and 'Card 4' not in sk and pg.locator('#browse-list li').count() == 2, f'newline+letter inside display math is rejected, newline+operator/space allowed ({sk[:50]!r})')
+    ctx.close()
+
+    # 5 template comment gives one escaping rule
+    cm = re.search(r'<!-- To make a deck.*?-->', TEMPLATE.read_text(encoding='utf-8'), re.S).group(0)
+    check('"</"' not in cm and 'every "<"' in cm, 'template comment names one rule: replace every "<"')
+
+    # 6 CRLF, lone CR and tabs
+    cr = make_deck([{'id': 'a', 'front': 'Q\ta\tb', 'back': 'line one\r\nline two\rline three'}, {'id': 'b', 'front': 'Q2', 'back': '\\(a\t+ b\\)'}, {'id': 'c', 'front': 'Q3', 'back': '\\(a \times b\\)'}])
+    ctx, pg, errs = one(cr)
+    pg.goto(variant(cr))
+    sk = pg.locator('#deck-skipped').inner_text()
+    check(pg.locator('#browse-list li').count() == 2 and 'Card 3 skipped' in sk and 'Card 1' not in sk and 'Card 2 ' not in sk, f'CRLF and a plain tab load; a tab before a TeX stem inside math is rejected ({sk[:60]!r})')
+    pg.locator('#show').click()
+    check(pg.locator('#back br').count() == 2 and pg.locator('#back').inner_text().split('\n')[:3] == ['line one', 'line two', 'line three'], 'CRLF back renders as separate lines')
+    check('Q a b' in front_text(pg), 'a tab between words becomes a space')
+    ctx.close()
+
+    # 7 ids that collide with Object.prototype
+    pr = make_deck([{'id': 'constructor', 'front': 'Q1', 'back': 'A1'}, {'id': '__proto__', 'front': 'Q2', 'back': 'A2'}, {'id': 'toString', 'front': 'Q3', 'back': 'A3'}])
+    ctx, pg, errs = one(pr)
+    pg.goto(variant(pr))
+    rate_through(pg, 'good', 3)
+    st = pg.evaluate("k => { const c = JSON.parse(localStorage.getItem(k)).cards; return Object.keys(c).sort().map(i => i + ':' + c[i].interval); }", 'myelinate-deck:|T')
+    check(st == ['__proto__:1', 'constructor:1', 'toString:1'], f'ids constructor, __proto__ and toString are saved ({st})')
+    pg.reload()
+    check('Due today: 0' in pg.locator('#due-count').inner_text() and not errs, 'those ids reload as scheduled, not due')
+    ctx.close()
+
+    # 8 and 9 extra commands, function application, text spacing
+    ctx, pg, errs = one(None)
+    pg.goto(URL)
+    def tex(s):
+        return pg.evaluate("""s => { const d = document.createElement('div'); d.innerHTML = window.renderMath(s, {tex: true});
+            return {err: d.querySelectorAll('.math-error').length, text: d.textContent, html: d.innerHTML, alt: (d.querySelector('math') || {getAttribute: () => ''}).getAttribute('alttext')}; }""", s)
+    for cmd in ['\\vec{F}', '\\mathbf{v}', '\\hbar', "f'(x)", '\\prime', '\\lim_{x\\to 0} f(x)', '\\displaystyle \\frac{a}{b}', '\\dot{x}', '\\ddot{x}', '\\tilde{x}',
+                'a \\longrightarrow b', 'a \\Longrightarrow b', 'a \\iff b', 'a \\implies b', 'a \\mid b', 'a \\ldots b \\cdots c \\dots', '\\binom{n}{k}']:
+        check(tex(cmd)['err'] == 0, f'renders without error: {cmd}')
+    check(re.search(r'<mover accent="true">.*<mi>F</mi>.*<mo>→</mo></mover>', tex('\\vec{F}')['html']), '\\vec puts U+2192 over the base')
+    check('mathvariant="bold"' in tex('\\mathbf{v}')['html'], '\\mathbf is bold')
+    check('ℏ' in tex('\\hbar')['text'] and '′' in tex("f'")['text'] and '′' in tex('\\prime')['text'], '\\hbar and prime')
+    check('<munder><mo movablelimits="true">lim</mo>' in tex('\\lim_{x\\to 0} f')['html'], '\\lim puts its limit underneath')
+    check('linethickness="0"' in tex('\\binom{n}{k}')['html'] and tex('\\binom{n}{k}')['text'].count('(') + tex('\\binom{n}{k}')['text'].count(')') == 2, '\\binom is a rule-less fraction in parentheses')
+    check(tex('\\ce{H2O}')['err'] == 1 and tex('\\begin{pmatrix}a\\end{pmatrix}')['err'] == 1, '\\ce and environments stay unsupported errors')
+    check('\u2061' in tex('\\ln x')['html'] and '\u2061' in tex('\\sin\\theta')['html'] and '\u2061' in tex('\\lim_{x\\to 0} f')['html'], 'function names emit function application (U+2061)')
+    check('\u2061' not in tex('\\ln(x)')['html'], 'no function application before a parenthesis')
+    check(tex('\\text{ 5 }')['text'] == '\u00a05\u00a0' and tex('5\\text{ mL}')['text'] == '5\u00a0mL', '\\text keeps leading and trailing spaces as no-break spaces')
+    check(not errs, 'extra commands: nothing threw')
+    ctx.close()
+
+    # 10 done screen tells the truth about saving
+    ds = make_deck([{'id': 'a', 'front': 'Q', 'back': 'A'}])
+    ctx, pg, errs = one(ds)
+    pg.goto(variant(ds))
+    pg.evaluate("k => localStorage.setItem(k, JSON.stringify({v: 1, cards: {a: {interval: 7, due: 1, reps: 1}}}))", 'myelinate-deck:|T')
+    pg.reload()
+    pg.locator('#show').click()
+    pg.locator('#rate-good').click()
+    check('next review dates are saved' in pg.locator('#done-text').inner_text(), 'done screen: live rating -> dates saved')
+    pg.locator('#again-session').click()
+    pg.locator('#show').click()
+    pg.locator('#rate-good').click()
+    dt = pg.locator('#done-text').inner_text()
+    check('Practice only: no review dates changed.' in dt and 'saved' not in dt, 'done screen: practice-only session says nothing was changed')
+    ctx.close()
+    ctx, pg, errs = one(ds)
+    pg.add_init_script("Storage.prototype.setItem = () => { throw new Error('quota'); }")
+    pg.goto(variant(ds))
+    rate_through(pg, 'good', 3)
+    check('Practice only' in pg.locator('#done-text').inner_text(), 'done screen: failed save does not claim dates were saved')
+    ctx.close()
+
+    # deckAudit
+    ctx, pg, errs = one(None)
+    pg.goto(URL)
+    a = pg.evaluate('deckAudit()')
+    check(a['cards'] == 8 and a['skipped'] == [] and a['mathErrors'] == [], f'deckAudit on the example deck: 8 cards, 0 errors ({a})')
+    ctx.close()
+    ad = make_deck([{'id': 'ok', 'front': 'Fine \\(x^2\\)', 'back': 'yes'}, {'id': 'chem', 'front': 'Water', 'back': '\\(\\ce{H2O}\\)'}, {'id': 'bad', 'front': '', 'back': 'x'}])
+    ctx, pg, errs = one(ad)
+    pg.goto(variant(ad))
+    a = pg.evaluate('deckAudit()')
+    check(a['cards'] == 2 and len(a['skipped']) == 1 and len(a['mathErrors']) == 1 and a['mathErrors'][0]['card'] == 'chem' and '\\ce{H2O}' in a['mathErrors'][0]['source'], f'deckAudit lists the \\ce error and skipped card ({a})')
+    ctx.close()
     browser.close()
 print('PASS: flashcards journey complete')
