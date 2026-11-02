@@ -12,6 +12,14 @@ A fresh read-only reviewer produced actual simulated tutor replies to three case
 
 The reviewer found no material contradiction in the inspected core and references. This is one forward-test, not a benchmark across assistants. A verifiable effective model identifier was not exposed, so no model-specific efficacy claim is made. The other scenarios in [scenarios.md](scenarios.md) are available regression cases, not all executed tests.
 
+## v2.8.0: flashcard deck page, formulas, intake, directory limits
+
+- `tests/flashcards_journey.py` (Playwright, headless Chromium, 1280 px light and 360 px dark with reduced motion, all network blocked): 208 checks pass, covering reveal by button and keyboard, again-requeue, three-recall retirement, saved schedule across reload, tag filter, browse and print layout, Quizlet and Anki exports, escaping of hostile card HTML, a bad deck JSON, and TeX-to-MathML cases. `visual_journey.py` and `lab_journey.py` still pass.
+- Fresh-agent trial, 2026-11-01: a headless Claude Code session (Sonnet, this branch as `--plugin-dir`) was asked for "a flashcard deck file I can study from in my browser" for an ecology exam. It loaded `flashcards`, copied `templates/flashcards-deck.html` and filled only its JSON: 48 cards, 93 formulas rendered as MathML, 0 flagged unsupported, no raw `\frac`, `^{`, `\(` or `$` on screen, no page errors. One trial on one prompt; it does not measure learning.
+- Rendered in headless Chromium on Linux only, where the math font falls back to Noto Sans Math and parentheses sit slightly wide. Not yet checked in Safari, on a Mac, or on a phone.
+- The intake change (study guide and exam date first, the rest when needed) is text only; no fresh-agent run measured it.
+- `check.py` fails with the 656 KiB example PDF restored (checked), and passes without it.
+
 ## Research and packaging
 
 - The research pass checked ten sources with their reported access scopes. A second source check corrected two paper titles and narrowed a feedback claim that the cited abstract did not establish.

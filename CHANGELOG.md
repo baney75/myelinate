@@ -6,6 +6,18 @@ What was actually tested for each version, and its limits, is in [evals/verifica
 
 ## [Unreleased]
 
+## [2.8.0] - 2026-11-01
+
+### Added
+- **A study deck page with working formulas.** `templates/flashcards-deck.html` is the one engine for a flashcard deck a learner keeps: the agent fills in its JSON and nothing else. It works offline: answer before the reveal, again/hard/good/easy with misses requeued, three correct recalls in the first session, a saved 1 → 3 → 7 → 14 → 30 day ladder, a tag filter, a print-ready browse list, and Quizlet and Anki exports. Formulas are written in TeX and render as native MathML with no network; the Quizlet export turns them into Unicode (p² + 2pq + q² = 1) and the Anki export keeps `\( \)` for Anki's own renderer. An unsupported command shows boxed as source instead of breaking the card. Decks made before this were hand-built each time and showed raw TeX. `tests/flashcards_journey.py` covers the study loop, persistence, exports, no network requests, escaping, and formula rendering at desktop and phone widths.
+- `flashcards`: a formula rule for every export format, and an exam-deck rule: when the exam supplies an equation sheet, card what each term means and when the formula applies, not the formula. The pre-send checklist in the router and `flashcards` now includes "every formula renders as math".
+
+### Changed
+- **Asks for less up front.** For a course, the router and `tutor` ask in one line for the two things that decide the most, the study guide and the exam date and format, and ask for the rest (syllabus, slides, textbook edition, past exams, equation sheet) one at a time when the work needs it, instead of a seven-item list. The course intake template records whether an equation sheet is provided.
+
+### Fixed
+- **Ready for Anthropic's directory without a reviewer hold.** The directory holds any version that ships a PDF or a non-image file of 256 KiB or more. The 656 KiB `examples/practice-test-oxygen.pdf` (and its copy) is gone from the plugin; the router names its HTML source, and the PDF is attached to the release. `check.py` fails on more than 512 files, a binary that isn't an image or font, a system file, or a non-image file of 256 KiB or more.
+
 ## [2.7.0] - 2026-11-01
 
 ### Changed

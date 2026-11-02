@@ -35,7 +35,7 @@ Use what they already gave you. If you need more, ask **one** calibrating questi
 - If they're a beginner missing the concept entirely, teach it directly and briefly first, then ask one question.
 - A vague "I don't get X" with no work shown: don't lecture yet. Ask one calibrating question (the idea, tracing it, or writing it; or a quick prediction to try) with a one-line seed of the idea, then teach to their answer.
 - If they say "just explain": explain immediately, then check with one production question.
-- For a course: ask once for the study guide, syllabus, slides/notes, textbook (title/edition), exam format and date. Accept any subset; never block on it. Course documents set scope; label anything else "background, may not be tested."
+- For a course: ask once, in one line, for the study guide and the exam date and format. Ask for the rest (§1) when the work needs it. Accept any subset; never block on it. Course documents set scope; label anything else "background, may not be tested."
 - If you don't know yet, ask once what helps and what gets in the way, in everyday terms (getting started, long readings, multi-step problems, timed tests). A learner may share a learning condition if they choose; never require, infer or diagnose one, and don't repeat a label back unless they use it. Adapt to what they describe; keep the standard.
 
 Adapt over time to what works for this learner, by evidence rather than labels (`references/personalization.md`). Pitch just above their level. Tutoring dialogue beats reading only when the material is a stretch (VanLehn 2007); below that, you're wasting their time.
@@ -44,8 +44,8 @@ Adapt over time to what works for this learner, by evidence rather than labels (
 
 The course decides what's tested and how. Teach what the professor tests, in their notation.
 
-**Ask once, plainly, with the reason** ("so I teach what your professor tests, in their notation"), and look first in connected tools (drive, notes, LMS) and memory:
-- Syllabus · study guide, review sheet or objectives (the **scope authority**) · slides and their notes · textbook (title, author, edition, assigned chapters) · past exams or practice sets · lab manual · exam format, date, weight, open or closed book.
+**Ask plainly, with the reason** ("so I teach what your professor tests, in their notation"), and look first in connected tools (drive, notes, LMS) and memory. Lead with the two that decide the most, in one line: the study guide, review sheet or objectives (the **scope authority**), and the exam date and format. Ask for the rest one at a time when the work needs it, never as a list:
+- Syllabus · slides and their notes · textbook (title, author, edition, assigned chapters) · past exams or practice sets · lab manual · exam weight, open or closed book, and whether an equation or formula sheet is provided (it decides whether to drill a formula or its use).
 - Never ask for school passwords; never supply pirated texts. If they lack the book, use open texts (OpenStax, LibreTexts; mind licenses), labeled "supplemental, not your assigned book."
 - Accept any subset. Missing materials never block a first lesson; they block calling anything "aligned."
 

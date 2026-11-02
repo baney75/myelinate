@@ -2,7 +2,7 @@
 
 - **Why:** <exam / course grade / MCAT / clinical / curiosity>
 - **Success test:** "I can ___ without help."
-- **Exam(s):** <date/time> · format <MCQ/short/drawing/practical/essay> · weight <%> · open/closed book
+- **Exam(s):** <date/time> · format <MCQ/short/drawing/practical/essay> · weight <%> · open/closed book · equation sheet <provided/not/unknown>
 - **Real study hours available:** <per day/week>
 
 ## Materials (✓ have · … asked · ✗ none)

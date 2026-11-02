@@ -33,7 +33,8 @@ required = ['myelinate.md', 'SKILL.md', 'agents/openai.yaml', 'references/eviden
             '.claude-plugin/marketplace.json', '.codex-plugin/plugin.json', '.agents/plugins/marketplace.json',
             'output-styles/myelinate.md', 'commands/quiz.md', 'commands/review.md', 'agents/key-worker.md',
             'hooks/hooks.json', 'hooks/due_reviews.py', 'hooks/route_hint.py', 'references/learner-record.md', 'skills/myelinate/SKILL.md', 'llms.txt', 'scripts/make_pdf.py',
-            'scripts/package.py', 'examples/practice-test-oxygen.pdf']
+            'scripts/package.py', 'examples/practice-test-oxygen.html',
+            'templates/flashcards-deck.html', 'tests/flashcards_journey.py']
 SUBSKILLS = ['teach', 'tutor', 'assignment', 'project', 'code', 'assess', 'course-project', 'notes', 'lab', 'print',
              'flashcards', 'memory-hooks', 'study-plan', 'find-media', 'verify']
 required += [f'skills/{name}/SKILL.md' for name in SUBSKILLS]
@@ -159,7 +160,7 @@ for path in sorted(ROOT.rglob('*')):
             errors.append(f'{path.relative_to(ROOT)}: broken/escaping local link: {target}')
         count += 1
 # The SessionStart hook must stay silent without a record and list due reviews with one.
-import json, os, subprocess, tempfile
+import codecs, json, os, subprocess, tempfile
 with tempfile.TemporaryDirectory() as home:
     env = {**os.environ, 'MYELINATE_HOME': home, 'MYELINATE_TODAY': '2026-10-14'}
     hook = [sys.executable, str(ROOT / 'hooks' / 'due_reviews.py')]
@@ -204,6 +205,41 @@ for rel, needles in (('myelinate.md', ('One screen, one idea', 'prelab questions
                      ('skills/assignment/SKILL.md', ('Teach me all I need to know so I can solve these',
                                                      'Prelab questions and lab-report calculations are graded',
                                                      'holds no answer, key, reveal or self-check'))):
+    text = (ROOT / rel).read_text()
+    errors += [f'{rel}: lost {n!r}' for n in needles if n not in text]
+# Anthropic's plugin directory holds a version for a reviewer on more than 512 files, a non-image file of
+# 256 KiB or more, or a binary that isn't an image or font (claude.com/docs/plugins/pre-submission-checklist).
+listing = subprocess.run(['git', '-c', 'core.quotepath=off', 'ls-files', '-z'], cwd=ROOT, capture_output=True, text=True)
+tracked = [rel for rel in listing.stdout.split('\0') if rel]
+if listing.returncode or not tracked:
+    errors.append('directory: git ls-files failed or listed nothing, so the directory limits went unchecked')
+IMAGES = ('.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg')
+FONTS = ('.woff', '.woff2', '.ttf', '.otf')
+if len(tracked) > 512:
+    errors.append(f'directory: {len(tracked)} files in the plugin, over the 512 the directory takes without review')
+for rel in tracked:
+    path = ROOT / rel
+    if not path.is_file():
+        continue
+    suffix = path.suffix.lower()
+    if path.name in ('.DS_Store', 'Thumbs.db', 'desktop.ini'):
+        errors.append(f'{rel}: system file blocks a directory submission')
+        continue
+    if suffix not in IMAGES + FONTS:
+        head = path.read_bytes()[:8192]
+        try:
+            codecs.getincrementaldecoder('utf-8')().decode(head, final=False)  # a cut multibyte char at 8 KiB is fine
+            binary = b'\0' in head
+        except UnicodeDecodeError:
+            binary = True
+        if binary:
+            errors.append(f'{rel}: binary the directory holds for review; attach it to a release instead')
+            continue
+    if suffix not in IMAGES and path.stat().st_size >= 256 * 1024:
+        errors.append(f'{rel}: {path.stat().st_size // 1024} KiB, at or over the 256 KiB directory review limit')
+# Flashcard decks: one engine, formulas rendered, never hand-built.
+for rel, needles in (('skills/flashcards/SKILL.md', ('templates/flashcards-deck.html', 'Every formula renders as math')),
+                     ('myelinate.md', ('every formula renders as math', 'templates/flashcards-deck.html'))):
     text = (ROOT / rel).read_text()
     errors += [f'{rel}: lost {n!r}' for n in needles if n not in text]
 package_errors, package_counts = package.verify()
