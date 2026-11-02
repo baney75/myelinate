@@ -12,12 +12,18 @@ A fresh read-only reviewer produced actual simulated tutor replies to three case
 
 The reviewer found no material contradiction in the inspected core and references. This is one forward-test, not a benchmark across assistants. A verifiable effective model identifier was not exposed, so no model-specific efficacy claim is made. The other scenarios in [scenarios.md](scenarios.md) are available regression cases, not all executed tests.
 
+## v2.8.1: flashcard deck follow-ups
+
+- `tests/flashcards_journey.py`: 317 checks pass in headless Chromium. Reverting each fix made its test fail: lapse on Again, calendar-day and 4 a.m. rollover scheduling, escaped dollar, CRLF and tab handling, display math on its own lines, Unicode bold for `\mathbf`, the visible gap after `\ln` (measured 5.97 px), and the lost `\rho`.
+- Fresh-agent trial, 2026-11-01: a headless Claude Code session (Sonnet, the 2.8.1 branch at c6b3990, no user settings) was asked for a physics 1 midterm deck file. It used the template: 69 cards, 111 formulas rendered, `deckAudit()` reported 0 math errors and 0 skipped cards, no raw TeX on screen, 19 uses of `\vec`, no `\ce` or matrices. It did not run `deckAudit()` itself (its headless browser needed an approval it lacked) and said so. One trial; it does not measure learning.
+- Still Chromium only; Safari and phones untested.
+
 ## v2.8.0: flashcard deck page, formulas, intake, directory limits
 
 - `tests/flashcards_journey.py` (Playwright, headless Chromium, 1280 px light and 360 px dark with reduced motion, all network blocked): 208 checks pass, covering reveal by button and keyboard, again-requeue, three-recall retirement, saved schedule across reload, tag filter, browse and print layout, Quizlet and Anki exports, escaping of hostile card HTML, a bad deck JSON, and TeX-to-MathML cases. `visual_journey.py` and `lab_journey.py` still pass.
 - Fresh-agent trial, 2026-11-01: a headless Claude Code session (Sonnet, this branch as `--plugin-dir`) was asked for "a flashcard deck file I can study from in my browser" for an ecology exam. It loaded `flashcards`, copied `templates/flashcards-deck.html` and filled only its JSON: 48 cards, 93 formulas rendered as MathML, 0 flagged unsupported, no raw `\frac`, `^{`, `\(` or `$` on screen, no page errors. One trial on one prompt; it does not measure learning.
 - Rendered in headless Chromium on Linux only, where the math font falls back to Noto Sans Math and parentheses sit slightly wide. Not yet checked in Safari, on a Mac, or on a phone.
-- The intake change (study guide and exam date first, the rest when needed) is text only; no fresh-agent run measured it.
+- Intake, 2026-11-01, after merge: three fresh headless Claude Code sessions (Sonnet, `--plugin-dir` at main 430ebe9, no user settings) got "I'm in Evolutionary Biology & Ecology (BIOL 2401). Exam 3 is coming up on population ecology and life history. Can you help me get ready?" All 3 asked in one sentence for the study guide and the exam date and format, none listed syllabus, slides, textbook or past exams, all 3 said they'd start without them, and all 3 opened with one prediction question (130 to 147 words). One also asked whether the exam gives a formula sheet. No baseline run on 2.7.0.
 - `check.py` fails with the 656 KiB example PDF restored (checked), and passes without it.
 
 ## Research and packaging
