@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Open the flashcard deck template offline and check study flow, math rendering, exports and layout."""
 import json
+import os
 import re
 import tempfile
 from pathlib import Path
@@ -9,8 +10,8 @@ from playwright.sync_api import sync_playwright
 
 TEMPLATE = Path(__file__).resolve().parents[1] / 'templates' / 'flashcards-deck.html'
 URL = TEMPLATE.as_uri()
-SHOTS = Path('/tmp/deck-shots')
-SHOTS.mkdir(exist_ok=True)
+SHOTS = Path(os.environ.get('DECK_SHOTS', '/tmp/deck-shots'))
+SHOTS.mkdir(parents=True, exist_ok=True)
 KEY = 'myelinate-deck:BIOL 101 \u00b7 Exam 3|Example Deck'
 
 
@@ -69,6 +70,10 @@ def probe(page, text, tex=False):
 
 def stored(page):
     return page.evaluate("k => JSON.parse(localStorage.getItem(k) || 'null')", KEY)
+
+
+def page_plain_bold(page):
+    return page.evaluate('renderMath.plain("\\\\(\\\\mathbf{v}\\\\)")') == 'v'
 
 
 def rate_through(page, rating, count):
@@ -502,14 +507,14 @@ with sync_playwright() as playwright:
     tz = ZoneInfo('America/Chicago')
     t0 = datetime(2026, 11, 3, 8, 5, tzinfo=tz)
     t0ms = int(t0.timestamp() * 1000)
-    midnight = int(datetime(2026, 11, 4, 0, 0, tzinfo=tz).timestamp() * 1000)
+    rollover = int(datetime(2026, 11, 4, 4, 0, tzinfo=tz).timestamp() * 1000)
     cd = make_deck([{'id': 'a', 'front': 'Q', 'back': 'A'}])
     ctx, pg, errs = one(cd, timezone_id='America/Chicago')
     pg.clock.set_fixed_time(t0)
     pg.goto(variant(cd))
     pg.locator('#show').click()
     pg.locator('#rate-good').click()
-    check(tstore(pg)['cards']['a']['due'] == midnight, 'Good schedules the local midnight of today + 1 day')
+    check(tstore(pg)['cards']['a']['due'] == rollover, 'Good schedules 04:00 local of the scheduling day + 1')
     pg.clock.set_fixed_time(t0 + timedelta(minutes=1))
     pg.reload()
     check('Due today: 0' in pg.locator('#due-count').inner_text(), 'a card rated Good is not due again later the same day')
@@ -521,6 +526,29 @@ with sync_playwright() as playwright:
     check(tstore(pg)['cards']['a']['interval'] == 3, 'the card is live: rating it next morning climbs the ladder (1 -> 3)')
     ctx.close()
 
+    # 3b day rollover at 04:00: 23:55 Good, 00:05 next day is still the same scheduling day
+    late = datetime(2026, 11, 3, 23, 55, tzinfo=tz)
+    ctx, pg, errs = one(cd, timezone_id='America/Chicago')
+    pg.clock.set_fixed_time(late)
+    pg.goto(variant(cd))
+    pg.locator('#show').click()
+    pg.locator('#rate-good').click()
+    check(tstore(pg)['cards']['a']['due'] == rollover, 'Good at 23:55 is due at 04:00 the next day')
+    pg.clock.set_fixed_time(late + timedelta(minutes=10))
+    pg.reload()
+    check('Due today: 0' in pg.locator('#due-count').inner_text() and pg.locator('#card').is_hidden() is False, 'at 00:05 next day the card is not due yet (Due today 0)')
+    check(pg.evaluate("() => document.querySelector('#progress').textContent").startswith('Card 1 of 1'), 'at 00:05 the card is only in the practice queue')
+    pg.locator('#show').click()
+    pg.locator('#rate-good').click()
+    check(tstore(pg)['cards']['a']['interval'] == 1, 'at 00:05 the card is not live: practice leaves its interval alone')
+    pg.clock.set_fixed_time(late + timedelta(hours=8))
+    pg.reload()
+    check('Due today: 1' in pg.locator('#due-count').inner_text(), 'at 07:55 next day the card is due')
+    pg.locator('#show').click()
+    pg.locator('#rate-good').click()
+    check(tstore(pg)['cards']['a']['interval'] == 3, 'at 07:55 next day the card is live (1 -> 3)')
+    ctx.close()
+
     # 4 newline in display math
     dm = make_deck([{'id': 'a', 'front': 'Q1', 'back': '\\[a \ne b\\]'}, {'id': 'b', 'front': 'Q2', 'back': '\\[a\n= b\\]'},
                     {'id': 'c', 'front': 'Q3', 'back': '\\[\nabla f\\]'}, {'id': 'd', 'front': 'Q4', 'back': '\\[a\n 2 + b\\]'}])
@@ -528,6 +556,31 @@ with sync_playwright() as playwright:
     pg.goto(variant(dm))
     sk = pg.locator('#deck-skipped').inner_text()
     check('Card 1 skipped' in sk and 'Card 3 skipped' in sk and 'Card 2' not in sk and 'Card 4' not in sk and pg.locator('#browse-list li').count() == 2, f'newline+letter inside display math is rejected, newline+operator/space allowed ({sk[:50]!r})')
+    ctx.close()
+
+    # 4b display math on its own lines loads; a lost stem is caught from the engine's own tables
+    own = r'{"title":"T","cards":[{"front":"Q1","back":"\\[\nE = mc^2\n\\]"},{"front":"Q2","back":"\\[\nx^2\n\\]"},{"front":"Q3","back":"\\(a\n+ b\\)"},{"front":"Q4","back":"\\[a \neq b\\]"},{"front":"Q5","back":"\\[\nabla f\\]"},{"front":"Q6","back":"\\(a \neq b\\)"},{"front":"Q7","back":"\\(\notin S\\)"},{"front":"Q8","back":"$x\nu y$"}]}'
+    ctx, pg, errs = one(own)
+    pg.goto(variant(own))
+    sk = pg.locator('#deck-skipped').inner_text()
+    check(pg.locator('#browse-list li').count() == 3 and not any(f'Card {k} ' in sk for k in (1, 2, 3)), f'display math on its own lines and a plain line break in inline math load ({sk[:80]!r})')
+    check(all(f'Card {k} skipped' in sk for k in (4, 5, 6, 7, 8)), f'lost-stem newlines (\\ne, \\nabla, \\neq, \\notin, \\nu) are skipped ({sk[:80]!r})')
+    check(re.search(r'Card 4 skipped: "back" has a line break inside display math', sk) and re.search(r'Card 6 skipped: "back" has a line break inside inline math', sk), 'display math has its own skip message, inline keeps "inline math"')
+    ctx.close()
+
+    # 4c lost tab backslash: stems come from the engine's tables (\therefore)
+    tt = r'{"title":"T","cards":[{"front":"ok","back":"fine"},{"front":"Q2","back":"\\(a \therefore b\\)"},{"front":"Q3","back":"\\(a\t+ b\\)"}]}'
+    ctx, pg, errs = one(tt)
+    pg.goto(variant(tt))
+    sk = pg.locator('#deck-skipped').inner_text()
+    check('Card 2 skipped' in sk and 'tab inside math' in sk and 'Card 3' not in sk and pg.locator('#browse-list li').count() == 2, f'undoubled \\therefore (tab + "herefore") is skipped, a plain tab is not ({sk[:60]!r})')
+    ctx.close()
+    # 4d lost CR backslash (\rho): checked before CRLF normalization; a CRLF study guide still loads
+    rr = r'{"title":"T","cards":[{"front":"ok","back":"fine"},{"front":"Q2","back":"\\(\rho = m/V\\)"},{"front":"Q3","back":"line one\r\nline two \\(x\\)"}]}'
+    ctx, pg, errs = one(rr)
+    pg.goto(variant(rr))
+    sk = pg.locator('#deck-skipped').inner_text()
+    check('Card 2 skipped' in sk and 'carriage return inside math' in sk and 'Card 3' not in sk and pg.locator('#browse-list li').count() == 2, f'undoubled \\rho (CR + "ho") is skipped, CRLF text is not ({sk[:60]!r})')
     ctx.close()
 
     # 5 template comment gives one escaping rule
@@ -566,13 +619,31 @@ with sync_playwright() as playwright:
                 'a \\longrightarrow b', 'a \\Longrightarrow b', 'a \\iff b', 'a \\implies b', 'a \\mid b', 'a \\ldots b \\cdots c \\dots', '\\binom{n}{k}']:
         check(tex(cmd)['err'] == 0, f'renders without error: {cmd}')
     check(re.search(r'<mover accent="true">.*<mi>F</mi>.*<mo>→</mo></mover>', tex('\\vec{F}')['html']), '\\vec puts U+2192 over the base')
-    check('mathvariant="bold"' in tex('\\mathbf{v}')['html'], '\\mathbf is bold')
+    bold = pg.evaluate("""() => {
+        const box = document.createElement('div'); box.style.fontSize = '32px';
+        box.innerHTML = renderMath('\\\\mathbf{v} \\\\mathbf{V12\\\\alpha\\\\Omega} v', {tex: true});
+        document.body.append(box);
+        const mi = [...box.querySelectorAll('mi')];
+        const out = {cp: [...mi[0].textContent].map(c => c.codePointAt(0).toString(16)), all: [...box.querySelectorAll('mi, mn')].map(e => [...e.textContent].map(c => c.codePointAt(0).toString(16)).join(' ')),
+                     bw: mi[0].getBoundingClientRect().width, pw: mi[mi.length - 1].getBoundingClientRect().width, mv: mi[0].getAttribute('mathvariant'), html: box.innerHTML};
+        box.remove(); return out; }""")
+    check(bold['cp'] == ['1d42f'] and bold['mv'] == 'normal' and 'bold' not in bold['html'].replace('mathbf', ''), f'\\mathbf{{v}} is U+1D42F with mathvariant normal ({bold["cp"]})')
+    check(bold['all'][1:5] == ['1d415', '1d7cf 1d7d0', '1d6c2', '1d6c0'], f'\\mathbf maps capitals, digits, Greek lowercase and capitals ({bold["all"]})')
+    check(abs(bold['bw'] - bold['pw']) > 0.5, f'\\mathbf{{v}} is a different glyph from plain italic v (width {bold["bw"]:.2f} vs {bold["pw"]:.2f})')
+    check(page_plain_bold(pg), 'Quizlet plain text for \\mathbf stays ASCII')
     check('ℏ' in tex('\\hbar')['text'] and '′' in tex("f'")['text'] and '′' in tex('\\prime')['text'], '\\hbar and prime')
     check('<munder><mo movablelimits="true">lim</mo>' in tex('\\lim_{x\\to 0} f')['html'], '\\lim puts its limit underneath')
     check('linethickness="0"' in tex('\\binom{n}{k}')['html'] and tex('\\binom{n}{k}')['text'].count('(') + tex('\\binom{n}{k}')['text'].count(')') == 2, '\\binom is a rule-less fraction in parentheses')
     check(tex('\\ce{H2O}')['err'] == 1 and tex('\\begin{pmatrix}a\\end{pmatrix}')['err'] == 1, '\\ce and environments stay unsupported errors')
-    check('\u2061' in tex('\\ln x')['html'] and '\u2061' in tex('\\sin\\theta')['html'] and '\u2061' in tex('\\lim_{x\\to 0} f')['html'], 'function names emit function application (U+2061)')
-    check('\u2061' not in tex('\\ln(x)')['html'], 'no function application before a parenthesis')
+    gap = pg.evaluate("""() => {
+        const box = document.createElement('div'); box.style.fontSize = '32px';
+        box.innerHTML = renderMath('\\\\ln x', {tex: true}); document.body.append(box);
+        const [a, b] = box.querySelectorAll('mi');
+        const out = {gap: b.getBoundingClientRect().left - a.getBoundingClientRect().right, fs: parseFloat(getComputedStyle(box.querySelector('math')).fontSize)};
+        box.remove(); return out; }""")
+    check(gap['gap'] > 0.1 * gap['fs'], f'rendered: gap between "ln" and "x" is {gap["gap"]:.2f}px > 0.1em ({0.1 * gap["fs"]:.2f}px)')
+    check('\u2061' in tex('\\sin\\theta')['html'] and '\u2061' in tex('\\lim_{x\\to 0} f')['html'], 'function names emit function application (U+2061)')
+    check('\u2061' not in tex('\\ln(x)')['html'], 'no function application mo in \\ln(x)')
     check(tex('\\text{ 5 }')['text'] == '\u00a05\u00a0' and tex('5\\text{ mL}')['text'] == '5\u00a0mL', '\\text keeps leading and trailing spaces as no-break spaces')
     check(not errs, 'extra commands: nothing threw')
     ctx.close()
@@ -596,20 +667,29 @@ with sync_playwright() as playwright:
     pg.add_init_script("Storage.prototype.setItem = () => { throw new Error('quota'); }")
     pg.goto(variant(ds))
     rate_through(pg, 'good', 3)
-    check('Practice only' in pg.locator('#done-text').inner_text(), 'done screen: failed save does not claim dates were saved')
+    dt = pg.locator('#done-text').inner_text()
+    check("Review dates were updated but couldn't be saved in this browser; they reset when you close the page." in dt and 'are saved' not in dt and 'Practice only' not in dt, f'done screen: failed save says dates could not be saved ({dt!r})')
     ctx.close()
 
     # deckAudit
     ctx, pg, errs = one(None)
     pg.goto(URL)
     a = pg.evaluate('deckAudit()')
-    check(a['cards'] == 8 and a['skipped'] == [] and a['mathErrors'] == [], f'deckAudit on the example deck: 8 cards, 0 errors ({a})')
+    check(a['cards'] == 8 and a['skipped'] == [] and a['mathErrors'] == [] and a['rawTeX'] == [], f'deckAudit on the example deck: 8 cards, 0 errors, no raw TeX ({a})')
     ctx.close()
     ad = make_deck([{'id': 'ok', 'front': 'Fine \\(x^2\\)', 'back': 'yes'}, {'id': 'chem', 'front': 'Water', 'back': '\\(\\ce{H2O}\\)'}, {'id': 'bad', 'front': '', 'back': 'x'}])
     ctx, pg, errs = one(ad)
     pg.goto(variant(ad))
     a = pg.evaluate('deckAudit()')
     check(a['cards'] == 2 and len(a['skipped']) == 1 and len(a['mathErrors']) == 1 and a['mathErrors'][0]['card'] == 'chem' and '\\ce{H2O}' in a['mathErrors'][0]['source'], f'deckAudit lists the \\ce error and skipped card ({a})')
+    check(a['rawTeX'] == [], f'deckAudit: rendered \\ce error is reported under mathErrors only ({a["rawTeX"]})')
+    ctx.close()
+    rt = make_deck([{'id': 'nodelim', 'front': 'Q1', 'back': '\\frac{a}{b}'}, {'id': 'noclose', 'front': 'Q2', 'back': '\\(x^2'}, {'id': 'fine', 'front': 'Q3', 'back': 'plain \\(x^2\\) and $y_{1}$ and \\$5'}])
+    ctx, pg, errs = one(rt)
+    pg.goto(variant(rt))
+    a = pg.evaluate('deckAudit()')
+    got = {(r['card'], r['field']): r['rawTeX'] for r in a['rawTeX']}
+    check(set(got) == {('nodelim', 'back'), ('noclose', 'back')} and '\\frac{a}{b}' in got[('nodelim', 'back')] and '\\(x^2' in got[('noclose', 'back')] and a['mathErrors'] == [], f'deckAudit reports TeX outside math in rawTeX ({a})')
     ctx.close()
     browser.close()
 print('PASS: flashcards journey complete')

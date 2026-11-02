@@ -11,11 +11,11 @@ What was actually tested for each version, and its limits, is in [evals/verifica
 ### Fixed
 Round-2 review findings on the flashcard deck (#21):
 - **Forgetting counts.** Again on any card, due or not, resets it to relearning (interval 0, back in 10 minutes). Before, Again on a card practiced early kept its 30-day interval.
-- **Review days are calendar days.** A card rated Good is due from midnight of the day it comes up, so studying at the same time each morning no longer slips every rung of the ladder by a day, and "Due today" means today.
-- The done screen says review dates were saved only when a due card was rated and saving worked; otherwise "Practice only: no review dates changed."
-- `\$` in a cloze or in math shows a dollar sign. Study-guide text with Windows line endings or tabs loads instead of being skipped as a lost backslash; a lost backslash in display math (`\ne`, `\nabla`) is caught too. Card ids like `constructor` work.
-- Formulas: `\vec`, `\mathbf`, `\hbar`, primes, `\lim`, `\dot`, `\ddot`, `\tilde`, `\binom`, long arrows, `\iff` and `\implies` render; function names keep their space (`ln x`); `\text{ mL}` keeps its space. `flashcards` lists what renders and what to write instead (`\mathrm{H_2O}` for chemistry; matrices in Unicode or text).
-- `deckAudit()` on a deck page lists every card's math errors, or the fatal error when the deck doesn't load, so an agent without a screen can check a deck before delivering it.
+- **Review days are calendar days.** A study day runs from 4 a.m. to 4 a.m., as in Anki. A card rated Good is due from 4 a.m. on the day it comes up, so studying at the same time each morning no longer slips every rung of the ladder by a day, a 11:55 p.m. review doesn't come due again five minutes later, and "Due today" means today.
+- The done screen says review dates were saved only when a due card was rated and saving worked; if saving fails it says the dates reset when the page closes; with no due card rated it says "Practice only: no review dates changed."
+- `\$` in a cloze or in math shows a dollar sign. Study-guide text with Windows line endings or tabs loads instead of being skipped as a lost backslash; display math on its own lines loads; a lost backslash is caught by the engine's own command list, in display math (`\ne`, `\nabla`), after a tab (`\therefore`) and after a carriage return (`\rho`). Card ids like `constructor` work.
+- Formulas: `\vec`, `\mathbf` (as Unicode bold, which Chromium shows), `\hbar`, primes, `\lim`, `\dot`, `\ddot`, `\tilde`, `\binom`, long arrows, `\iff` and `\implies` render; function names keep a visible space (`ln x`); `\text{ mL}` keeps its space. `flashcards` lists what renders and what to write instead (`\mathrm{H_2O}` for chemistry; matrices in Unicode or text).
+- `deckAudit()` on a deck page lists every card's math errors and any TeX left outside math, or the fatal error when the deck doesn't load, so an agent without a screen can check a deck before delivering it.
 - The template comment gives one escaping rule: every `<` in the JSON is `\u003c`.
 
 ## [2.8.0] - 2026-11-01

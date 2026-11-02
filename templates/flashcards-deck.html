@@ -168,14 +168,33 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
   const FUNCS = new Set(['ln', 'log', 'exp', 'sin', 'cos', 'tan', 'sec', 'csc', 'cot', 'sinh', 'cosh', 'tanh', 'max', 'min', 'det']);
   const ACCENT = { overline: ['‾', '̅'], bar: ['¯', '̄'], hat: ['ˆ', '̂'], vec: ['→', '⃗'], dot: ['˙', '̇'], ddot: ['¨', '̈'], tilde: ['˜', '̃'] };
   const SPACE = { ',': 0.17, ':': 0.22, ';': 0.28, ' ': 0.28, quad: 1, qquad: 2, '!': 0 };
+  // Every command name the parser accepts, used to spot a JSON escape (\n, \t) that swallowed a command's backslash.
+  const OTHER_COMMANDS = ['left', 'right', 'int', 'hbar', 'displaystyle', 'lim', 'binom', 'circ', 'frac', 'dfrac', 'tfrac', 'sqrt', 'text', 'mathrm', 'operatorname', 'mathbf'];
+  const COMMAND_NAMES = [...new Set([GREEK, SYMBOL, IDENT, BIGOP, ACCENT, SPACE].flatMap(o => Object.keys(o)).concat([...FUNCS], OTHER_COMMANDS))].filter(k => /^[a-zA-Z]+$/.test(k));
+  const lostStem = (ch, ctrl) => new RegExp(ctrl + '(?:' + COMMAND_NAMES.filter(k => k[0] === ch).map(k => k.slice(1)).sort((a, b) => b.length - a.length).join('|') + ')(?![A-Za-z])');
+  const LOST_N = lostStem('n', '\\n'), LOST_T = lostStem('t', '\\t'), LOST_R = lostStem('r', '\\r');
   const LITERAL = new Set(['{', '}', '_', '$', '#', '&', '%', '|']);
+
+  // MathML Core ignores mathvariant="bold", so \mathbf maps letters, digits and Greek to the Unicode Mathematical Bold block.
+  const boldChar = ch => {
+    const cp = ch.codePointAt(0);
+    let b = null;
+    if (cp >= 65 && cp <= 90) b = 0x1D400 + cp - 65;
+    else if (cp >= 97 && cp <= 122) b = 0x1D41A + cp - 97;
+    else if (cp >= 48 && cp <= 57) b = 0x1D7CE + cp - 48;
+    else if (cp >= 0x391 && cp <= 0x3A1) b = 0x1D6A8 + cp - 0x391;
+    else if (cp >= 0x3A3 && cp <= 0x3A9) b = 0x1D6A8 + cp - 0x391;
+    else if (cp >= 0x3B1 && cp <= 0x3C9) b = 0x1D6C2 + cp - 0x3B1;
+    return b === null ? ch : String.fromCodePoint(b);
+  };
+  const boldText = v => Array.from(v).map(boldChar).join('');
 
   // Letters inside \mathrm and \operatorname render upright.
   function upright(x, bold) {
     if (!x || typeof x !== 'object') return;
     if (Array.isArray(x)) { x.forEach(y => upright(y, bold)); return; }
-    if (x.t === 'mi') { if (bold) x.mv = 'bold'; else x.nv = true; }
-    if (bold && x.t === 'mn') x.mv = 'bold';
+    if (x.t === 'mi') { if (bold) x.bold = true; else x.nv = true; }
+    if (bold && x.t === 'mn') x.bold = true;
     Object.keys(x).forEach(k => { if (x[k] && typeof x[k] === 'object') upright(x[k], bold); });
   }
   function parseTeX(src) {
@@ -290,8 +309,8 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
   function mml(x) {
     if (!x) return '';
     switch (x.t) {
-      case 'mi': return '<mi' + (x.mv ? ' mathvariant="' + x.mv + '"' : x.nv ? ' mathvariant="normal"' : '') + '>' + esc(x.v) + '</mi>';
-      case 'mn': return '<mn' + (x.mv ? ' mathvariant="' + x.mv + '"' : '') + '>' + esc(x.v) + '</mn>';
+      case 'mi': return '<mi' + (x.bold || x.nv ? ' mathvariant="normal"' : '') + '>' + esc(x.bold ? boldText(x.v) : x.v) + '</mi>';
+      case 'mn': return '<mn>' + esc(x.bold ? boldText(x.v) : x.v) + '</mn>';
       case 'mo': {
         const v = x.v === '-' ? '−' : x.v === '*' ? '∗' : x.v;
         const form = v === '(' || v === '[' ? ' form="prefix" lspace="0" rspace="0"' : v === ')' || v === ']' ? ' form="postfix" lspace="0" rspace="0"' : v === '/' ? ' lspace="0.08em" rspace="0.08em"' : '';
@@ -299,7 +318,7 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
       }
       case 'mtext': return '<mtext>' + esc(x.v).replace(/^ +| +$/g, m => '\u00a0'.repeat(m.length)) + '</mtext>';
       case 'space': return '<mspace width="' + x.w + 'em"></mspace>';
-      case 'row': return '<mrow>' + x.c.map((e, k) => mml(e) + (e.fn && !(x.c[k + 1] && x.c[k + 1].t === 'mo' && x.c[k + 1].v === '(') ? '<mo>&#x2061;</mo>' : '')).join('') + '</mrow>';
+      case 'row': return '<mrow>' + x.c.map((e, k) => mml(e) + (e.fn && !(x.c[k + 1] && x.c[k + 1].t === 'mo' && x.c[k + 1].v === '(') ? '<mo lspace="0" rspace="0.1667em">&#x2061;</mo>' : '')).join('') + '</mrow>';
       case 'sup': return '<msup>' + mml(x.b) + mml(x.e) + '</msup>';
       case 'sub': return '<msub>' + mml(x.b) + mml(x.s) + '</msub>';
       case 'subsup': return '<msubsup>' + mml(x.b) + mml(x.s) + mml(x.e) + '</msubsup>';
@@ -463,7 +482,7 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
     $('deck-error').hidden = false;
     $('deck-error').textContent = message;
     $('app').hidden = true;
-    window.deckAudit = () => ({ cards: 0, skipped: [], mathErrors: [], fatal: message });
+    window.deckAudit = () => ({ cards: 0, skipped: [], mathErrors: [], rawTeX: [], fatal: message });
   }
   function loadDeck() {
     const el = $('deck');
@@ -477,15 +496,24 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
     const skipped = [];
     const good = [];
     const CTRL = /[\u0000-\u0008\u000B-\u001F]/;
-    const TABCMD = /\t(?:imes|heta|au|an|ext|o|ilde|riangle|frac)/;
     const norm = t => t.replace(/\r\n?/g, '\n');
-    const tabInMath = t => [...t.matchAll(/\\\(([\s\S]+?)\\\)|\\\[([\s\S]+?)\\\]/g), ...t.matchAll(PANDOC)].some(m => TABCMD.test(m[1] || m[2] || ''));
+    // A lone CR before a command stem inside math is a lost \\rho or \\rightarrow; check before norm() turns it into a line break.
+    const lostCR = t => [...t.matchAll(/\\\(([\s\S]+?)\\\)|\\\[([\s\S]+?)\\\]/g), ...t.matchAll(PANDOC)].some(m => /\r(?!\n)/.test(m[1] || m[2] || '') && LOST_R.test((m[1] || m[2]).replace(/\r\n/g, '\n')));
+    const tabInMath = t => [...t.matchAll(/\\\(([\s\S]+?)\\\)|\\\[([\s\S]+?)\\\]/g), ...t.matchAll(PANDOC)].some(m => LOST_T.test(m[1] || m[2] || ''));
     const hash = str => { let h = 0x811c9dc5; for (let j = 0; j < str.length; j++) { h ^= str.charCodeAt(j); h = Math.imul(h, 0x01000193); } return (h >>> 0).toString(36); };
-    const badMath = t => [...t.matchAll(/\\\(([\s\S]+?)\\\)/g)].some(m => m[1].includes('\n')) || [...t.matchAll(/\\\[([\s\S]+?)\\\]/g)].some(m => /\n[A-Za-z]/.test(m[1])) || /(?<![\\$])\$(?![\s$])[^$\n]*\n[A-Za-z][^$\n]*(?<![\s\\])\$(?!\d)/.test(t);
+    // A newline is a lost backslash only when a command's stem follows it (newline + "u" is \nu); other line breaks in math are fine.
+    const lostLine = t => {
+      if ([...t.matchAll(/\\\(([\s\S]+?)\\\)/g)].some(m => LOST_N.test(m[1]))) return 'inline';
+      if ([...t.matchAll(/\\\[([\s\S]+?)\\\]/g)].some(m => LOST_N.test(m[1]))) return 'display';
+      const dollar = new RegExp('(?<![\\\\$])\\$(?![\\s$])[^$\\n]*' + LOST_N.source + '[^$\\n]*(?<![\\s\\\\])\\$(?!\\d)');
+      return dollar.test(t) ? 'inline' : '';
+    };
     d.cards.forEach((c, k) => {
       const skip = why => skipped.push('Card ' + (k + 1) + ' skipped: ' + why);
       if (!c || typeof c !== 'object' || typeof c.front !== 'string' || !c.front.trim()) return skip('it needs text in "front".');
       if (c.back != null && typeof c.back !== 'string') return skip('"back" must be text.');
+      for (const [name, text] of [['front', c.front], ['back', c.back || ''], ['hint', typeof c.hint === 'string' ? c.hint : '']])
+        if (lostCR(text)) return skip('"' + name + '" has a carriage return inside math; a TeX backslash was probably not doubled in the JSON (write \\\\rho, \\\\rightarrow).');
       const back = c.back == null ? '' : norm(c.back);
       c = Object.assign({}, c, { front: norm(c.front) });
       const cloze = c.type === 'cloze' || /\{\{c\d+::/.test(c.front);
@@ -495,7 +523,8 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
       for (const [name, text] of [['front', c.front], ['back', back], ['hint', hint]]) {
         if (tabInMath(text)) return skip('"' + name + '" has a tab inside math; a TeX backslash was probably not doubled in the JSON (write \\\\times, \\\\theta, \\\\tau, \\\\text).');
         if (CTRL.test(text)) return skip('"' + name + '" has a control character; a TeX backslash was probably not doubled in the JSON (write \\\\frac, \\\\nu, \\\\times, \\\\beta, \\\\rho).');
-        if (badMath(text)) return skip('"' + name + '" has a line break inside inline math; a TeX backslash was probably not doubled in the JSON (for example \\\\nu).');
+        const lost = lostLine(text);
+        if (lost) return skip('"' + name + '" has a line break inside ' + lost + ' math; a TeX backslash was probably not doubled in the JSON (for example \\\\' + (lost === 'display' ? 'nabla' : 'nu') + ').');
       }
       let id = c.id == null || c.id === '' ? 'h' + hash(c.front.trim()) : String(c.id);
       const base = id;
@@ -533,8 +562,10 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
   // Schedules are looked up by own property only, so ids such as "constructor" or "__proto__" behave like any other.
   const getSched = id => (Object.prototype.hasOwnProperty.call(store.cards, id) ? store.cards[id] : undefined);
   const setSched = (id, st) => Object.defineProperty(store.cards, id, { value: st, enumerable: true, writable: true, configurable: true });
-  // Reviews are scheduled by local calendar day: a card is due for the whole day it falls due.
-  const dayStart = (ts, plusDays) => { const d = new Date(ts); return new Date(d.getFullYear(), d.getMonth(), d.getDate() + (plusDays || 0)).getTime(); };
+  // Reviews are scheduled by local day, and the day rolls over at 04:00 like Anki: before 04:00 it is still yesterday.
+  const ROLLOVER_HOUR = 4;
+  const dayStart = (ts, plusDays) => { const d = new Date(ts); return new Date(d.getFullYear(), d.getMonth(), d.getDate() - (d.getHours() < ROLLOVER_HOUR ? 1 : 0) + (plusDays || 0), ROLLOVER_HOUR).getTime(); };
+  // Due means due before the next rollover, so "Due today" and the session queue agree.
   const dueNow = (c, now) => { const s = getSched(c.id); return !s || s.due < dayStart(now, 1); };
   function climb(current, rungs) {
     let k = LADDER.findIndex(v => v > current);
@@ -574,7 +605,7 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
     if (done) {
       const n = sess.recalled;
       $('progress').textContent = 'Round complete.';
-      $('done-text').textContent = pool().length ? 'You recalled ' + n + ' ' + (n === 1 ? 'card' : 'cards') + (REQUIRED > 1 ? ' (new cards ' + REQUIRED + ' times)' : '') + ' in this session. ' + (sess.liveRated > 0 && !sess.saveFailed ? 'Their next review dates are saved.' : 'Practice only: no review dates changed.') : 'No cards match this tag.';
+      $('done-text').textContent = pool().length ? 'You recalled ' + n + ' ' + (n === 1 ? 'card' : 'cards') + (REQUIRED > 1 ? ' (new cards ' + REQUIRED + ' times)' : '') + ' in this session. ' + (sess.saveFailed ? 'Review dates were updated but couldn\'t be saved in this browser; they reset when you close the page.' : sess.liveRated > 0 ? 'Their next review dates are saved.' : 'Practice only: no review dates changed.') : 'No cards match this tag.';
       return;
     }
     const c = sess.queue[0];
@@ -734,14 +765,19 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
 
   // Headless check: render every card off-screen and list the math the engine could not draw.
   window.deckAudit = () => {
-    const mathErrors = [];
+    const mathErrors = [], rawTeX = [];
     const box = document.createElement('div');
     cards.forEach(c => ['front', 'back', 'hint'].forEach(f => {
       if (!c[f]) return;
       box.innerHTML = rich(c[f], true);
       box.querySelectorAll('.math-error').forEach(el => mathErrors.push({ card: c.id, field: f, source: el.textContent }));
+      // TeX left in the text around the math: missing delimiters, a missing closing delimiter, a lost command.
+      const rest = box.cloneNode(true);
+      rest.querySelectorAll('math, .math-error').forEach(el => el.remove());
+      const text = rest.textContent;
+      if (/\\[A-Za-z]+|\\[()[\]]|\^\{|_\{/.test(text)) rawTeX.push({ card: c.id, field: f, rawTeX: text.trim() });
     }));
-    return { cards: cards.length, skipped: deck.skipped.slice(), mathErrors };
+    return { cards: cards.length, skipped: deck.skipped.slice(), mathErrors, rawTeX };
   };
 
   startSession();
