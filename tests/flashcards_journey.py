@@ -577,6 +577,23 @@ with sync_playwright() as playwright:
     check(a['rawTeX'] == [], f'a code card with \\n, C:\\Users and \\d+ is not reported as raw TeX ({a["rawTeX"]})')
     ctx.close()
 
+    # 4f (#24) a skip later in the field wins over an earlier warning; unknown and outside-math line breaks warn; regex cards stay clean
+    mix = make_deck([{'id': 'both', 'front': 'Q', 'back': '\\[\ne^{rt}\n\\] where \\(\rho\\) is the rate'},
+                     {'id': 'neg', 'front': 'Q', 'back': '\\(\neg p\\)'}, {'id': 'neq', 'front': 'Q', 'back': 'so a \neq b'},
+                     {'id': 'nabla', 'front': 'What is \nabla f?', 'back': 'the gradient'},
+                     {'id': 'regex', 'front': 'In a regex, what does \\( match?', 'back': '\\{[^{}]*\\} matches one brace group'},
+                     {'id': 'nodelim', 'front': 'Q', 'back': '\\(x^2'}])
+    ctx, pg, errs = one(mix)
+    pg.goto(variant(mix))
+    sk = pg.locator('#deck-skipped').inner_text()
+    a = pg.evaluate('deckAudit()')
+    check('Card 1 skipped' in sk and sk.count('skipped') == 1, f'a lost \\rho after a warning-only display span still skips the card ({sk[:80]!r})')
+    warned = sorted(set(x['card'] for x in a['possibleLostBackslash']))
+    check(warned == ['nabla', 'neg', 'neq'], f'line break before \\neg in math and before \\neq / \\nabla outside math are warnings ({warned})')
+    raw = sorted(x['card'] for x in a['rawTeX'])
+    check(raw == ['nodelim'], f'regex cards are not raw TeX; a missing closing delimiter still is ({raw})')
+    ctx.close()
+
     # 4b display math on its own lines loads; a lost stem is caught from the engine's own tables
     own = r'{"title":"T","cards":[{"front":"Q1","back":"\\[\nE = mc^2\n\\]"},{"front":"Q2","back":"\\[\nx^2\n\\]"},{"front":"Q3","back":"\\(a\n+ b\\)"},{"front":"Q4","back":"\\[a \neq b\\]"},{"front":"Q5","back":"\\[\nabla f\\]"},{"front":"Q6","back":"\\(a \neq b\\)"},{"front":"Q7","back":"\\(\notin S\\)"},{"front":"Q8","back":"$x\nu y$"}]}'
     ctx, pg, errs = one(own)

@@ -14,7 +14,7 @@ The reviewer found no material contradiction in the inspected core and reference
 
 ## v2.8.2: lost-backslash rule
 
-- `tests/flashcards_journey.py`: 322 checks pass in headless Chromium. New cases from #23: `e^{rt}` and `u = v - at` on their own display lines load with a warning, a lost `\textbf` inside math is skipped, `3 \times 4` and `A \rightarrow B` with swallowed backslashes outside math are warnings, and a code card with `\n`, `C:\Users` and `\d+` gives no `rawTeX`. Against the 2.8.1 engine the suite fails (display line starting with `e` skipped).
+- `tests/flashcards_journey.py`: 325 checks pass in headless Chromium. A swallowed `\rho` later in a field still skips the card after an earlier display-math warning (fails on the first 2.8.2 draft); `\neg` in math and `\neq`, `\nabla` outside math are warnings; regex cards give no `rawTeX`. New cases from #23: `e^{rt}` and `u = v - at` on their own display lines load with a warning, a lost `\textbf` inside math is skipped, `3 \times 4` and `A \rightarrow B` with swallowed backslashes outside math are warnings, and a code card with `\n`, `C:\Users` and `\d+` gives no `rawTeX`. Against the 2.8.1 engine the suite fails (display line starting with `e` skipped).
 
 ## v2.8.1: flashcard deck follow-ups
 
