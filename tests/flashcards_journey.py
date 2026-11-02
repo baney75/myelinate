@@ -11,7 +11,12 @@ TEMPLATE = Path(__file__).resolve().parents[1] / 'templates' / 'flashcards-deck.
 URL = TEMPLATE.as_uri()
 SHOTS = Path('/tmp/deck-shots')
 SHOTS.mkdir(exist_ok=True)
-KEY = 'myelinate-deck:Example Deck'
+KEY = 'myelinate-deck:BIOL 101 \u00b7 Exam 3|Example Deck'
+
+
+def make_deck(cards, **extra):
+    """Serialize a deck the way the template asks: a real serializer, with < escaped."""
+    return json.dumps({'title': 'T', **extra, 'cards': cards}).replace('<', '\\u003c')
 
 
 def check(condition, message):
@@ -20,11 +25,11 @@ def check(condition, message):
     print('PASS:', message)
 
 
-def variant(deck_json):
-    """Write a copy of the template with different deck JSON and return its file URL."""
+def variant(deck_json, into=None):
+    """Write a copy of the template with different deck JSON and return its file URL (into: reuse that file path)."""
     html = TEMPLATE.read_text()
     html = re.sub(r'(<script type="application/json" id="deck">).*?(</script>)', lambda m: m.group(1) + deck_json + m.group(2), html, count=1, flags=re.S)
-    path = Path(tempfile.mkdtemp(prefix='deck-variant-')) / 'deck.html'
+    path = Path(into) if into else Path(tempfile.mkdtemp(prefix='deck-variant-')) / 'deck.html'
     path.write_text(html)
     return path.as_uri()
 
@@ -87,7 +92,7 @@ with sync_playwright() as playwright:
         check(page.locator('#back-panel').is_hidden(), f'{tag} back hidden before reveal')
         check('Hardy' in front_text(page), f'{tag} first card front shown')
         check(page.locator('label[for=answer]').inner_text() == 'Your answer (say it or type it)', f'{tag} answer label')
-        check(page.locator('#front math').count() == 0 and page.locator('#front').inner_text().count('\\') == 0, f'{tag} front has no raw backslashes')
+        check('\\' not in front_text(page), f'{tag} first front has no raw backslashes')
 
         # Reveal by button, with typed answer beside the back
         page.locator('#answer').fill('p squared plus 2pq plus q squared')
@@ -105,6 +110,7 @@ with sync_playwright() as playwright:
         page.keyboard.press('1')
         check('Card 2 of 9' in page.locator('#progress').inner_text(), f'{tag} Again keeps card in round (round grows to 9)')
         check(front_text(page) != first, f'{tag} next card follows Again')
+        check(page.locator('#front math').count() >= 1 and page.locator('#front').inner_text().count('\\') == 0, f'{tag} a front that contains math renders MathML with no raw backslashes')
         saved = stored(page)
         check(saved['cards']['hw1']['interval'] == 0 and 9 * 60000 < saved['cards']['hw1']['due'] - saved['cards']['hw1']['last'] <= 10 * 60000, f'{tag} Again schedules 10 minutes')
 
@@ -130,6 +136,10 @@ with sync_playwright() as playwright:
         page.keyboard.press('Control+Enter')
         check(page.locator('#back-panel').is_visible(), f'{tag} Ctrl+Enter in the box reveals')
         check(page.locator('#typed').inner_text() == '3 4', f'{tag} typed digits kept as text')
+        page.locator('#rate-good').click()
+        page.locator('#answer').focus()
+        page.keyboard.press('Meta+Enter')
+        check(page.locator('#back-panel').is_visible(), f'{tag} Cmd+Enter in the box reveals')
         page.locator('#rate-good').click()
 
         # Finish the round: the card rated Again comes back as the last card of round 1
@@ -183,6 +193,37 @@ with sync_playwright() as playwright:
         page.locator('#again-session').click()
         check(page.locator('#card').is_visible(), f'{tag} Study again restarts')
         check(stored(page)['cards']['rk1']['interval'] == 1, f'{tag} three Goods in one session only climb one rung')
+        practised = stored(page)['cards']['rk1']
+        page.locator('#show').click()
+        page.locator('#rate-good').click()
+        after = stored(page)['cards']['rk1']
+        check(after['interval'] == practised['interval'] == 1 and after['due'] == practised['due'], f'{tag} Study again on a not-due card leaves interval and due unchanged')
+        for _ in range(4):
+            page.locator('#again-session').click()
+            page.locator('#show').click()
+            page.locator('#rate-easy').click()
+        check(stored(page)['cards']['rk1']['interval'] == 1, f'{tag} five restarts do not climb the ladder')
+
+        def seed(state):
+            page.evaluate("([k, st]) => localStorage.setItem(k, JSON.stringify({v: 1, cards: {rk1: st}}))", [KEY, state])
+            page.reload()
+            page.locator('#tag-filter').select_option('Life history')
+
+        seed({'interval': 7, 'due': 1, 'reps': 1})
+        page.locator('#show').click()
+        page.locator('#rate-good').click()
+        check(page.locator('#done').is_visible() and stored(page)['cards']['rk1']['interval'] == 14, f'{tag} a due review card leaves after one Good')
+        seed({'interval': 7, 'due': 1, 'reps': 1})
+        page.locator('#show').click()
+        page.locator('#rate-hard').click()
+        check(page.locator('#done').is_visible(), f'{tag} Hard also counts as a correct recall for a review card')
+        seed({'interval': 7, 'due': 1, 'reps': 1})
+        page.locator('#show').click()
+        page.locator('#rate-again').click()
+        check(page.locator('#done').is_hidden() and 'of 2' in page.locator('#progress').inner_text(), f'{tag} Again still requeues a review card')
+        seed({'interval': 8, 'due': 1, 'reps': 0})
+        rate_through(page, 'hard', 2)
+        check(page.locator('#done').is_hidden() and stored(page)['cards']['rk1']['interval'] == 4, f'{tag} Hard adjusts the interval once per card per session (8 -> 4, got {stored(page)["cards"]["rk1"]["interval"]})')
 
         # Reset progress with confirm
         page.once('dialog', lambda d: d.dismiss())
@@ -250,9 +291,9 @@ with sync_playwright() as playwright:
         check('(120)/(200)' in quizlet and 'Nₜ' in quizlet and 'ΔN' in quizlet and 'λ' in quizlet, f'{tag} Quizlet export: fraction, subscript, Greek')
         check('\\' not in quizlet and '^{' not in quizlet and '**' not in quizlet, f'{tag} Quizlet export has no TeX or markup')
         anki = page.evaluate('window.deckExports.anki()')
-        check(anki.startswith('#separator:tab\n#html:true\n#tags column:3\n'), f'{tag} Anki export starts with #separator:tab')
+        check(anki.startswith('#separator:tab\n#html:true\n#notetype:Basic\n#tags column:3\n'), f'{tag} Anki export starts with #separator:tab and #notetype:Basic')
         check('\\(p^2\\)' in anki and '\\[p^2 + 2pq + q^2 = 1\\]' in anki, f'{tag} Anki export keeps MathJax delimiters')
-        check(all(len(ln.split('\t')) == 3 for ln in anki.split('\n')[3:] if ln) and 'Population_genetics' in anki, f'{tag} Anki rows have front, back, tags')
+        check(all(len(ln.split('\t')) == 3 for ln in anki.split('\n')[4:] if ln) and 'Population_genetics' in anki, f'{tag} Anki rows have front, back, tags')
         check('{{c1::' not in anki, f'{tag} cloze card kept out of the basic Anki file')
         cloze = page.evaluate('window.deckExports.ankiCloze()')
         check(cloze.startswith('#separator:tab\n#html:true\n#notetype:Cloze\n') and '{{c1::very large}}' in cloze and '{{c2::genetic drift}}' in cloze, f'{tag} cloze Anki file has #notetype:Cloze and cloze markers')
@@ -262,6 +303,11 @@ with sync_playwright() as playwright:
         with page.expect_download() as info:
             page.locator('#export-anki-cloze').click()
         check(info.value.suggested_filename == 'example-deck-anki-cloze.txt', f'{tag} cloze download filename from title')
+
+        # No private-use or zero-width characters hide in the source
+        source = TEMPLATE.read_text(encoding='utf-8')
+        hidden = [hex(ord(ch)) for ch in source if 0xE000 <= ord(ch) <= 0xF8FF or 0x200B <= ord(ch) <= 0x200D]
+        check(not hidden, f'{tag} template source has no private-use or zero-width characters ({hidden})')
 
         # Layout and hygiene
         scroll = page.evaluate('document.scrollingElement.scrollWidth')
@@ -283,7 +329,7 @@ with sync_playwright() as playwright:
     # Math unit cases
     context, page, errors, requests = open_page(browser, 1280, 'light', 'no-preference')
     r = probe(page, 'p^2 + 2pq + q^2 = 1', tex=True)
-    check(r['msup'] == 2 or r['msup'] >= 1, 'renderMath: p^2 + 2pq + q^2 = 1 has msup')
+    check(r['msup'] == 2, f'renderMath: p^2 + 2pq + q^2 = 1 has exactly 2 msup (got {r["msup"]})')
     check(probe(page, '\\frac{dN}{dt}', tex=True)['mfrac'] == 1, 'renderMath: \\frac{dN}{dt} has mfrac')
     check(probe(page, '\\dfrac{a}{b} + \\tfrac{1}{2}', tex=True)['mfrac'] == 2, 'renderMath: dfrac and tfrac')
     check('Δ' in probe(page, '\\Delta N', tex=True)['text'], 'renderMath: \\Delta N contains Δ')
@@ -304,13 +350,28 @@ with sync_playwright() as playwright:
     check(probe(page, 'a **b** and *c*')['text'] == 'a b and c', 'renderMath: bold and italic markup')
     check(probe(page, '2 * 3 * 4')['text'] == '2 * 3 * 4', 'renderMath: spaced asterisks stay text')
     check(probe(page, '\\left( \\frac{1}{2} \\right)^2 \\cdot \\pm \\infty \\to \\rightleftharpoons', tex=True)['error'] == 0, 'renderMath: left/right, cdot, pm, infty, arrows parse')
-    check(probe(page, '\\overline{x} \\bar{y} \\hat{z} \\sum_{i=1}^{n} x_i \\int_0^1 f \\partial \\ln x \\sin\\theta 90^\\circ 5\\% \\,\; \\quad \\text{rate} \\mathrm{kg}', tex=True)['error'] == 0, 'renderMath: overline, bar, hat, sum, int, functions, degrees, spacing, text')
+    check(probe(page, '\\overline{x} \\bar{y} \\hat{z} \\sum_{i=1}^{n} x_i \\int_0^1 f \\partial \\ln x \\sin\\theta 90^\\circ 5\\% \\,\\; \\quad \\text{rate} \\mathrm{kg}', tex=True)['error'] == 0, 'renderMath: overline, bar, hat, sum, int, functions, degrees, spacing, text')
     ok = page.evaluate("""() => ['alpha','beta','gamma','delta','epsilon','zeta','eta','theta','iota','kappa','lambda','mu','nu','xi','omicron','pi','rho','sigma','tau','upsilon','phi','chi','psi','omega',
         'Gamma','Delta','Theta','Lambda','Xi','Pi','Sigma','Upsilon','Phi','Psi','Omega'].every(n => !window.renderMath('\\\\' + n, {tex: true}).includes('math-error'))""")
     check(ok, 'renderMath: every Greek letter parses')
     plain = page.evaluate("""() => ['x^2','x_t','\\\\frac{a}{b}','\\\\alpha \\\\cdot \\\\beta','a \\\\to b','a \\\\le b','x_{t+1}','x_i^2'].map(s => window.renderMath.plain('\\\\(' + s + '\\\\)'))""")
     check(plain == ['x²', 'xₜ', '(a)/(b)', 'α·β', 'a → b', 'a ≤ b', 'xₜ₊₁', 'xᵢ²'], f'plain-text math conversion {plain}')
     check(page.evaluate('window.renderMath.plain("\\\\(y_{q}\\\\)")') == 'y_q', 'plain-text subscript falls back to underscore when no glyph exists')
+    mr = page.evaluate("""() => {
+        const d = document.createElement('div'); d.innerHTML = window.renderMath('\\\\mathrm{H_2O}', {tex: true});
+        const sub = d.querySelector('msub');
+        return {msub: d.querySelectorAll('msub').length, upright: [...d.querySelectorAll('mi')].map(e => e.textContent + ':' + e.getAttribute('mathvariant')), text: d.textContent, sub: sub ? sub.children[0].textContent : null};
+    }""")
+    check(mr['msub'] == 1 and mr['upright'] == ['H:normal', 'O:normal'] and '_' not in mr['text'], f'renderMath: \\mathrm{{H_2O}} is an upright msub with no underscore text ({mr})')
+    check('Δ' in probe(page, '\\mathrm{\\Delta G}', tex=True)['text'] and '\\' not in probe(page, '\\mathrm{\\Delta G}', tex=True)['text'], 'renderMath: \\mathrm{\\Delta G} gives Δ')
+    check(probe(page, '\\text{a_b}', tex=True)['text'] == 'a_b', 'renderMath: \\text{} stays raw text')
+    check(page.evaluate('[renderMath.plain("\\\\(\\\\mathrm{H_2O}\\\\)"), renderMath.plain("\\\\(\\\\mathrm{\\\\Delta G}\\\\)")]') == ['H₂O', 'ΔG'], 'plain-text math: \\mathrm{H_2O} -> H₂O, \\mathrm{\\Delta G} -> ΔG')
+    sup10 = page.evaluate("""() => { const d = document.createElement('div'); d.innerHTML = window.renderMath('x^10', {tex: true}); const m = d.querySelectorAll('msup'); return {n: m.length, exp: m[0] && m[0].children[1].textContent, text: d.textContent}; }""")
+    check(sup10['n'] == 1 and sup10['exp'] == '1' and sup10['text'] == 'x10', f'renderMath: x^10 follows TeX (superscript 1, then 0): {sup10}')
+    deg = probe(page, '90^\\circ', tex=True)['text']
+    deg2 = probe(page, '90^{\\circ}', tex=True)['text']
+    comp = probe(page, 'f \\circ g', tex=True)['text']
+    check(deg == '90°' and deg2 == '90°' and '∘' in comp and '°' not in comp, f'renderMath: ^\\circ is a degree sign, bare \\circ is the composition ring ({deg!r}, {deg2!r}, {comp!r})')
     check(not requests and not errors, 'math unit page: no requests, no page errors')
     context.close()
 
@@ -323,11 +384,70 @@ with sync_playwright() as playwright:
     check('<b>bold?</b>' in page.locator('#back').inner_text() and page.locator('#back b').count() == 0, 'hostile back shows as text')
     check(not requests, 'hostile deck made no requests (the escaped img never loads)')
     context.close()
-    for label, deck_json in [('invalid JSON', '{not json'), ('missing cards', '{"title":"T"}'), ('empty card', '{"title":"T","cards":[{"front":"","back":"x"}]}')]:
+    for label, deck_json in [('invalid JSON', '{not json'), ('missing cards', '{"title":"T"}'), ('every card invalid', '{"title":"T","cards":[{"front":"","back":"x"}]}')]:
         context, page, errors, requests = open_page(browser, 360, 'dark', 'reduce', variant(deck_json))
         err = page.locator('#deck-error')
         check(err.is_visible() and len(err.inner_text()) > 20 and page.locator('#app').is_hidden(), f'{label}: clear on-page error instead of a blank page')
         check(err.get_attribute('role') == 'alert' and not errors, f'{label}: error is announced and nothing threw')
         context.close()
+
+    # One bad card must not kill the deck
+    mixed = make_deck([{'front': 'Q1', 'back': 'A1'}, {'front': 'Q2', 'back': ''}, {'type': 'cloze', 'front': 'The {{c1::mitochondrion}} makes ATP.', 'back': ''}, {'front': '', 'back': 'orphan'}])
+    context, page, errors, requests = open_page(browser, 390, 'dark', 'reduce', variant(mixed))
+    skipped = page.locator('#deck-skipped')
+    check(page.locator('#app').is_visible() and page.locator('#deck-error').is_hidden() and page.locator('#browse-list li').count() == 2, 'invalid cards are skipped and the rest stay studyable')
+    check(skipped.is_visible() and 'Card 2 skipped' in skipped.inner_text() and 'Card 4 skipped' in skipped.inner_text() and 'Card 3' not in skipped.inner_text(), 'non-fatal notice lists each skipped card; a cloze card with an empty back is valid')
+    check('2 cards' in page.locator('#deck-meta').inner_text() and not errors, 'header counts only the valid cards and nothing threw')
+    context.close()
+
+    # Lost backslashes in the JSON are caught, not rendered as wrong math
+    lost = r'{"title":"T","cards":[{"front":"\\(\frac{1}{2}\\)","back":"x"}]}'  # JSON text: \frac undoubled -> form feed
+    context, page, errors, requests = open_page(browser, 390, 'light', 'reduce', variant(lost))
+    msg = page.locator('#deck-error').inner_text()
+    check(page.locator('#deck-error').is_visible() and 'Card 1 skipped' in msg and 'a TeX backslash was probably not doubled in the JSON' in msg and page.locator('#app').is_hidden(), f'form-feed from an undoubled \\frac is rejected with a clear error ({msg[:80]!r})')
+    context.close()
+    lost = r'{"title":"T","cards":[{"front":"ok","back":"fine"},{"front":"Define \\(\nu\\) here","back":"x"},{"front":"b","back":"\\(a \times b\\)"}]}'
+    context, page, errors, requests = open_page(browser, 390, 'light', 'reduce', variant(lost))
+    msg = page.locator('#deck-skipped').inner_text()
+    check('Card 2 skipped' in msg and 'Card 3 skipped' in msg and 'a TeX backslash was probably not doubled' in msg and page.locator('#browse-list li').count() == 1, f'newline (\\nu) inside inline math and tab (\\times) are rejected per card ({msg[:60]!r})')
+    context.close()
+
+    # Stable ids: inserting a card at index 0 keeps schedules on the same fronts
+    path = Path(tempfile.mkdtemp(prefix='deck-ids-')) / 'deck.html'
+    base = [{'front': 'Alpha question', 'back': 'a'}, {'front': 'Beta question', 'back': 'b'}, {'front': 'Gamma question', 'back': 'c'}]
+    url = variant(make_deck(base), into=path)
+    context, page, errors, requests = open_page(browser, 1280, 'light', 'no-preference', url)
+    page.locator('#show').click()
+    page.locator('#rate-good').click()
+    before_ids = page.evaluate("() => { const o = JSON.parse(localStorage.getItem('myelinate-deck:|T')); return Object.keys(o.cards); }")
+    check(len(before_ids) == 1 and not any(i in ('c1', 'c2', 'c3') for i in before_ids), f'ids come from the front text, not position ({before_ids})')
+    variant(make_deck([{'front': 'Inserted question', 'back': 'z'}] + base), into=path)
+    page.reload()
+    check('Inserted question' in front_text(page) and 'Due today: 3' in page.locator('#due-count').inner_text(), 'after inserting a card at index 0, the reviewed card is still the one scheduled (Alpha not due, the new card due first)')
+    page.locator('#mode-browse').click()
+    check(page.evaluate("() => Object.keys(JSON.parse(localStorage.getItem('myelinate-deck:|T')).cards)") == before_ids, 'saved schedule keys are unchanged by the insert')
+    context.close()
+    # Old storage key (title only) is still read once
+    legacy = make_deck(base)
+    context, page, errors, requests = open_page(browser, 1280, 'light', 'no-preference', variant(legacy))
+    first_id = before_ids[0]
+    page.evaluate("([k, id]) => { localStorage.setItem(k, JSON.stringify({v: 1, cards: {[id]: {interval: 3, due: Date.now() + 86400000, reps: 1}}})); }", ['myelinate-deck:T', first_id])
+    page.reload()
+    check('Due today: 2' in page.locator('#due-count').inner_text(), 'progress saved under the old title-only key is still read')
+    context.close()
+
+    # Exports: hints, cloze brace guard, MathML-free text
+    exp = make_deck([{'id': 'b1', 'front': 'Water?', 'back': '\\(\\mathrm{H_2O}\\)', 'hint': 'Think <b>two</b> hydrogens \\(x^2\\)'},
+                     {'id': 'c1', 'type': 'cloze', 'front': '{{c1::\\(\\sqrt{\\frac{a}{b}}\\)}} is a root', 'back': '', 'hint': 'a over b'}])
+    context, page, errors, requests = open_page(browser, 1280, 'light', 'no-preference', variant(exp))
+    anki = page.evaluate('window.deckExports.anki()')
+    cloze = page.evaluate('window.deckExports.ankiCloze()')
+    quizlet = page.evaluate('window.deckExports.quizlet()')
+    check('<br><i>Hint: Think &lt;b&gt;two&lt;/b&gt; hydrogens \\(x^2\\)</i>' in anki, 'Anki basic export appends the hint, escaped except its math')
+    check('<i>Hint: a over b</i>' in cloze, 'Anki cloze export carries the hint')
+    check('H₂O (Hint: Think <b>two</b> hydrogens x²)' in quizlet, 'Quizlet export appends the hint and writes H₂O')
+    check('{{c1::\\(\\sqrt{\\frac{a}{b} }\\)}}' in cloze and '}}\\)' not in cloze, 'Anki cloze export turns TeX "}}" into "} }" so the cloze does not end early')
+    check(not errors, 'export deck: nothing threw')
+    context.close()
     browser.close()
 print('PASS: flashcards journey complete')
