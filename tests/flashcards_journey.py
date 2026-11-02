@@ -612,6 +612,22 @@ with sync_playwright() as playwright:
     check(raw == ['over'], f'f-string templates are not raw TeX; \\overline{{x}} outside math is ({raw})')
     ctx.close()
 
+    # 4h (#26) classic-Mac line breaks, lost commands outside math, indented unknown \t commands, uppercase display lines, chemistry vs code scripts
+    mac = make_deck([{'id': 'mac', 'front': 'Q', 'back': '\\[\ra = b\rc = d\r\\]'},
+                     {'id': 'nu', 'front': 'Q', 'back': 'the frequency \nu of light'}, {'id': 'tb', 'front': 'Q', 'back': 'force \textbf{F}'},
+                     {'id': 'itb', 'front': 'Q', 'back': '\\[\n\textbf{F} = m a\n\\]'}, {'id': 'gas', 'front': 'Q', 'back': '\\[\nPV = nRT\n\\]'},
+                     {'id': 'chem', 'front': 'Q', 'back': 'CO_{2} and KE_{max}'}, {'id': 'fmt', 'front': 'Q', 'back': "'{}_{}'.format(a, b) and f'{a[0]}_{b}'"}])
+    ctx, pg, errs = one(mac)
+    pg.goto(variant(mac))
+    sk = pg.locator('#deck-skipped').inner_text()
+    a = pg.evaluate('deckAudit()')
+    check(sk.strip() == '' and pg.locator('#browse-list li').count() == 7, f'classic-Mac line breaks in display math load; nothing in this deck is skipped ({sk[:80]!r})')
+    warned = sorted(set(x['card'] for x in a['possibleLostBackslash']))
+    check(warned == ['itb', 'nu', 'tb'], f'lost \\nu and \\textbf outside math and an indented lost \\textbf warn; PV = nRT does not ({warned})')
+    raw = sorted(x['card'] for x in a['rawTeX'])
+    check(raw == ['chem'], f'CO_{{2}} and KE_{{max}} outside math are raw TeX; format templates are not ({raw})')
+    ctx.close()
+
     # 4b display math on its own lines loads; a lost stem is caught from the engine's own tables
     own = r'{"title":"T","cards":[{"front":"Q1","back":"\\[\nE = mc^2\n\\]"},{"front":"Q2","back":"\\[\nx^2\n\\]"},{"front":"Q3","back":"\\(a\n+ b\\)"},{"front":"Q4","back":"\\[a \neq b\\]"},{"front":"Q5","back":"\\[\nabla f\\]"},{"front":"Q6","back":"\\(a \neq b\\)"},{"front":"Q7","back":"\\(\notin S\\)"},{"front":"Q8","back":"$x\nu y$"}]}'
     ctx, pg, errs = one(own)

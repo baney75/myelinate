@@ -506,32 +506,41 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
     // $...$ as PANDOC reads it, but allowing the line break that a lost \n leaves inside it.
     const DOLLAR_ANY = /(?<![\\$])\$(?![\s$])([^$]+?)(?<![\s\\])\$(?!\d)/g;
     const MATH = /\\\(([\s\S]+?)\\\)|\\\[([\s\S]+?)\\\]/g;
-    const STEM_AT = { '\t': new RegExp('^' + lostStem('t', '').source), '\r': new RegExp('^' + lostStem('r', '').source) };
-    // A tab or lone CR before a letter: a lost \theta or \textbf mid-line, but indentation when only whitespace precedes it on its line.
+    const T_STEM = new RegExp('^' + lostStem('t', '').source), R_STEM = new RegExp('^' + lostStem('r', '').source);
+    // n-commands the engine doesn't render, whose stems a lost \n would leave at a line start.
+    const UNKNOWN_N = /\n(?:eg|mid|leq|geq|exists|subseteq|supseteq|parallel|cong|sim|prec|succ|eqslant)(?![A-Za-z])/;
+    // A lone CR is a line break (classic Mac text) unless a \r command's stem follows it; a tab is a lost \t command
+    // mid-line, or indentation after a line break unless a \t command's stem follows it.
     const lostTabCR = s => [...s.matchAll(/(\t|\r(?!\n))(?=[A-Za-z])/g)].some(m => {
-      const brk = Math.max(s.lastIndexOf('\n', m.index - 1), s.lastIndexOf('\r', m.index - 1));
-      const leading = brk >= 0 && /^[ \t]*$/.test(s.slice(brk + 1, m.index));
-      return !leading || STEM_AT[m[1]].test(s.slice(m.index + 1));
+      const rest = s.slice(m.index + 1);
+      if (m[1] === '\r') return R_STEM.test(rest);
+      const before = s.slice(0, m.index);
+      const brk = Math.max(before.lastIndexOf('\n'), before.lastIndexOf('\r'));
+      return !(brk >= 0 && /^[ \t]*$/.test(before.slice(brk + 1))) || T_STEM.test(rest);
     });
     const lostBackslash = raw => {
       const spans = [...raw.matchAll(MATH)].map(m => [m[1] != null ? 'inline' : 'display', m[1] != null ? m[1] : m[2]]);
       // A skip anywhere in the field wins over any warning, so check every delimited span for one first.
       for (const [kind, s] of spans) {
         if (lostTabCR(s)) return { skip: 'a tab or carriage return before a letter inside math (write \\\\theta, \\\\textbf, \\\\rho)' };
-        if (LOST_N_LONG.test(s) || (kind === 'inline' && LOST_N_SHORT.test(s))) return { skip: 'a line break before a command name inside ' + kind + ' math (write \\\\nabla, \\\\neq, \\\\nu)' };
+        const lf = s.replace(/\r(?!\n)/g, '\n');
+        if (LOST_N_LONG.test(lf) || (kind === 'inline' && LOST_N_SHORT.test(lf))) return { skip: 'a line break before a command name inside ' + kind + ' math (write \\\\nabla, \\\\neq, \\\\nu)' };
       }
       const warn = [];
       for (const [kind, s] of spans) {
+        const lf = s.replace(/\r(?!\n)/g, '\n');
         // A display line may start with a variable (e^{rt}, u = v - at), so a lost \ne, \nu or unknown \neg there only warns.
-        if (kind === 'display' && (LOST_N_SHORT.test(s) || /\n[A-Za-z]{2,}/.test(s))) warn.push('a line inside display math starts with letters that could be a lost \\\\n command (\\\\ne, \\\\nu, \\\\neg)');
-        else if (kind === 'inline' && /\n[A-Za-z]/.test(s)) warn.push('a line break before a letter inside inline math; check it is not a lost backslash (\\\\neg, \\\\nmid)');
+        if (kind === 'display' && (LOST_N_SHORT.test(lf) || UNKNOWN_N.test(lf))) warn.push('a line inside display math starts like a lost \\\\n command (\\\\ne, \\\\nu, \\\\neg)');
+        else if (kind === 'inline' && /\n[A-Za-z]/.test(lf)) warn.push('a line break before a letter inside inline math; check it is not a lost backslash (\\\\neg, \\\\nmid)');
+        // An indented line whose word isn't a known command (\textbf, \tfrac at a line start) may still be a lost \t.
+        if (/[\n\r][ \t]*\t[A-Za-z]{2,}/.test(s) && !lostTabCR(s)) warn.push('an indented line inside math starts with letters that could be a lost \\\\t command (\\\\textbf)');
       }
       // $...$ can be shell or code ($1, ${x}), so anything found there only warns.
       for (const m of raw.replace(MATH, ' ').matchAll(DOLLAR_ANY))
         if (lostTabCR(m[1]) || /\n[A-Za-z]/.test(m[1])) { warn.push('a tab, carriage return or line break before a letter between $ signs; if it is math, check for a lost backslash'); break; }
       // Outside math "Term:<tab>an organism" or a line starting "eq" is ordinary text that can look like a lost command, so these only warn.
       const outside = raw.replace(MATH, ' ').replace(DOLLAR_ANY, ' ');
-      if (LOST_T.test(outside) || LOST_R_LONE.test(outside) || LOST_N_LONG.test(outside)) warn.push('a tab, carriage return or line break before what could be a command name outside math; check it is not a lost \\\\times, \\\\rightarrow or \\\\neq, and put math in \\\\( \\\\)');
+      if (LOST_T.test(outside) || LOST_R_LONE.test(outside) || LOST_N_LONG.test(outside) || LOST_N_SHORT.test(outside) || UNKNOWN_N.test(outside) || /\t(?:ext|frac|imes|heta)/.test(outside)) warn.push('a tab, carriage return or line break before what could be a command name outside math; check it is not a lost \\\\times, \\\\rightarrow or \\\\neq, and put math in \\\\( \\\\)');
       return { warn };
     };
     const warnings = [];
@@ -807,9 +816,9 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
       const text = rest.textContent;
       // Only names the engine knows or common TeX, so a code card's \\n or C:\\Users isn't reported.
       const named = [...text.matchAll(/\\([A-Za-z]+)/g)].some(m => COMMAND_NAMES.includes(m[1]) || COMMON_TEX.includes(m[1]));
-      // \name{ is TeX; \( or \[ counts only when math-like content follows; ^{ and _{ only after a lone letter, digit or },
-      // so regex cards ([^{}]) and code templates (report_{year}, {a}_{b}) stay clean.
-      if (named || /\\[A-Za-z]{2,}\{|\\[([][^)\]]{0,40}?(?:\^|_|=|\\[A-Za-z])|(?<![A-Za-z0-9_])[A-Za-z0-9}][\^_]\{/.test(text)) rawTeX.push({ card: c.id, field: f, rawTeX: text.trim() });
+      // \name{ is TeX; \( or \[ counts only when math-like content follows; ^{ and _{ only after a short symbol
+      // (x, dx, CO, KE, 10), so regex cards ([^{}]) and code templates (report_{year}, {a}_{b}, '{}_{}') stay clean.
+      if (named || /\\[A-Za-z]{2,}\{|\\[([][^)\]]{0,40}?(?:\^|_|=|\\[A-Za-z])|(?<![A-Za-z0-9_])(?:[A-Z][A-Za-z0-9]{0,3}|[a-z]{1,2}|\d+)[\^_]\{/.test(text)) rawTeX.push({ card: c.id, field: f, rawTeX: text.trim() });
     }));
     return { cards: cards.length, skipped: deck.skipped.slice(), mathErrors, rawTeX, possibleLostBackslash: deck.warnings.slice() };
   };
