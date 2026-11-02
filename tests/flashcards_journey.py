@@ -416,7 +416,8 @@ with sync_playwright() as playwright:
     lost = r'{"title":"T","cards":[{"front":"ok","back":"fine"},{"front":"Define \\(\nu\\) here","back":"x"},{"front":"b","back":"\\(a \times b\\)"}]}'
     context, page, errors, requests = open_page(browser, 390, 'light', 'reduce', variant(lost))
     msg = page.locator('#deck-skipped').inner_text()
-    check('Card 2 skipped' in msg and 'Card 3 skipped' in msg and 'a TeX backslash was probably not doubled' in msg and page.locator('#browse-list li').count() == 1, f'newline (\\nu) inside inline math and tab (\\times) are rejected per card ({msg[:60]!r})')
+    notes = page.evaluate('deckAudit()')['possibleLostBackslash']
+    check(msg.strip() == '' and page.locator('#browse-list li').count() == 3 and len(notes) == 2 and all('a TeX backslash was probably not doubled' in x['note'] for x in notes), f'newline (\\nu) inside inline math and tab (\\times) warn per card and the cards stay ({notes})')
     context.close()
 
     # Stable ids: inserting a card at index 0 keeps schedules on the same fronts
@@ -555,9 +556,9 @@ with sync_playwright() as playwright:
     ctx, pg, errs = one(dm)
     pg.goto(variant(dm))
     sk = pg.locator('#deck-skipped').inner_text()
-    check('Card 3 skipped' in sk and 'Card 1' not in sk and 'Card 2' not in sk and 'Card 4' not in sk and pg.locator('#browse-list li').count() == 3, f'a lost long command (\\nabla) in display math is skipped; a one-letter stem or operator line loads ({sk[:50]!r})')
+    check(sk.strip() == '' and pg.locator('#browse-list li').count() == 4, f'a suspected lost backslash never drops a card ({sk[:50]!r})')
     w = pg.evaluate('deckAudit()')['possibleLostBackslash']
-    check([x['card'] for x in w] == ['a'], f'display line starting with "e" is reported as a possible lost \\ne, not skipped ({w})')
+    check([x['card'] for x in w] == ['a', 'c'], f'display lines starting like \\ne or \\nabla are warnings ({w})')
     ctx.close()
 
     # 4e (#23) display math starting with a variable e or u; lost backslashes after a tab or CR; code cards in deckAudit
@@ -570,10 +571,10 @@ with sync_playwright() as playwright:
     sk = pg.locator('#deck-skipped').inner_text()
     a = pg.evaluate('deckAudit()')
     ids = [c for c in ['grow', 'kin', 'times', 'arrow', 'code', 'tsv']]
-    check('Card 3 skipped' in sk and 'tab or carriage return before a letter inside math' in sk and sk.count('skipped') == 1, f'a lost \\textbf (tab + "extbf") inside math is skipped, nothing else ({sk[:80]!r})')
-    check(pg.locator('#browse-list li').count() == 6 and not errs, 'e^{rt} and u = v - at on their own display lines load')
+    check(sk.strip() == '' and any(x['card'] == 'bf' and 'tab or carriage return before a letter inside math' in x['note'] for x in a['possibleLostBackslash']), f'a lost \\textbf (tab + "extbf") inside math warns and the card stays ({sk[:80]!r})')
+    check(pg.locator('#browse-list li').count() == 7 and not errs, 'e^{rt} and u = v - at on their own display lines load')
     warned = sorted(x['card'] for x in a['possibleLostBackslash'])
-    check(warned == ['arrow', 'grow', 'kin', 'times', 'tsv'], f'one-letter display stems and tab/CR before a command name outside math are warnings ({warned})')
+    check(warned == ['arrow', 'bf', 'grow', 'kin', 'times', 'tsv'], f'one-letter display stems and tab/CR before a command name outside math are warnings ({warned})')
     check(a['rawTeX'] == [], f'a code card with \\n, C:\\Users and \\d+ is not reported as raw TeX ({a["rawTeX"]})')
     ctx.close()
 
@@ -587,11 +588,45 @@ with sync_playwright() as playwright:
     pg.goto(variant(mix))
     sk = pg.locator('#deck-skipped').inner_text()
     a = pg.evaluate('deckAudit()')
-    check('Card 1 skipped' in sk and sk.count('skipped') == 1, f'a lost \\rho after a warning-only display span still skips the card ({sk[:80]!r})')
+    check(sk.strip() == '' and any(x['card'] == 'both' and 'tab or carriage return' in x['note'] for x in a['possibleLostBackslash']), f'a lost \\rho after a display-math warning is reported too ({sk[:80]!r})')
     warned = sorted(set(x['card'] for x in a['possibleLostBackslash']))
-    check(warned == ['nabla', 'neg', 'neq'], f'line break before \\neg in math and before \\neq / \\nabla outside math are warnings ({warned})')
+    check(warned == ['both', 'nabla', 'neg', 'neq'], f'line break before \\neg in math and before \\neq / \\nabla outside math are warnings ({warned})')
     raw = sorted(x['card'] for x in a['rawTeX'])
     check(raw == ['nodelim'], f'regex cards are not raw TeX; a missing closing delimiter still is ({raw})')
+    ctx.close()
+
+    # 4g (#25) indentation, shell $ variables, unknown display commands, code templates, unknown TeX outside math
+    ind = make_deck([{'id': 'indent', 'front': 'Q', 'back': '\\[\n\tx^2 + y^2 = r^2\n\\]'},
+                     {'id': 'indth', 'front': 'Q', 'back': '\\[\n\theta = 2\n\\]'},
+                     {'id': 'shell', 'front': 'What does this do?', 'back': 'f() {\n\tx=${1}\n\ty=${2}\n}'},
+                     {'id': 'dneg', 'front': 'Q', 'back': '\\[p \neg q\\]'},
+                     {'id': 'fstr', 'front': "What does f'report_{year}.csv' produce?", 'back': "f'{a}_{b}' joins them"},
+                     {'id': 'over', 'front': 'Q', 'back': 'the mean \\overline{x}'}])
+    ctx, pg, errs = one(ind)
+    pg.goto(variant(ind))
+    sk = pg.locator('#deck-skipped').inner_text()
+    a = pg.evaluate('deckAudit()')
+    check(sk.strip() == '' and pg.locator('#browse-list li').count() == 6, f'a tab-indented display line, a shell card with two $ variables and an indented lost \\theta all load ({sk[:80]!r})')
+    warned = sorted(set(x['card'] for x in a['possibleLostBackslash']))
+    check('dneg' in warned and 'indth' in warned and 'indent' not in warned and 'shell' not in warned, f'a lost \\neg in display math warns; an indented variable does not ({warned})')
+    raw = sorted(x['card'] for x in a['rawTeX'])
+    check(raw == ['over'], f'f-string templates are not raw TeX; \\overline{{x}} outside math is ({raw})')
+    ctx.close()
+
+    # 4h (#26) classic-Mac line breaks, lost commands outside math, indented unknown \t commands, uppercase display lines, chemistry vs code scripts
+    mac = make_deck([{'id': 'mac', 'front': 'Q', 'back': '\\[\ra = b\rc = d\r\\]'},
+                     {'id': 'nu', 'front': 'Q', 'back': 'the frequency \nu of light'}, {'id': 'tb', 'front': 'Q', 'back': 'force \textbf{F}'},
+                     {'id': 'itb', 'front': 'Q', 'back': '\\[\n\textbf{F} = m a\n\\]'}, {'id': 'gas', 'front': 'Q', 'back': '\\[\nPV = nRT\n\\]'},
+                     {'id': 'chem', 'front': 'Q', 'back': 'CO_{2} and KE_{max}'}, {'id': 'fmt', 'front': 'Q', 'back': "'{}_{}'.format(a, b) and f'{a[0]}_{b}'"}])
+    ctx, pg, errs = one(mac)
+    pg.goto(variant(mac))
+    sk = pg.locator('#deck-skipped').inner_text()
+    a = pg.evaluate('deckAudit()')
+    check(sk.strip() == '' and pg.locator('#browse-list li').count() == 7, f'classic-Mac line breaks in display math load; nothing in this deck is skipped ({sk[:80]!r})')
+    warned = sorted(set(x['card'] for x in a['possibleLostBackslash']))
+    check(warned == ['itb', 'nu', 'tb'], f'lost \\nu and \\textbf outside math and an indented lost \\textbf warn; PV = nRT does not ({warned})')
+    raw = sorted(x['card'] for x in a['rawTeX'])
+    check(raw == ['chem'], f'CO_{{2}} and KE_{{max}} outside math are raw TeX; format templates are not ({raw})')
     ctx.close()
 
     # 4b display math on its own lines loads; a lost stem is caught from the engine's own tables
@@ -599,9 +634,10 @@ with sync_playwright() as playwright:
     ctx, pg, errs = one(own)
     pg.goto(variant(own))
     sk = pg.locator('#deck-skipped').inner_text()
-    check(pg.locator('#browse-list li').count() == 3 and not any(f'Card {k} ' in sk for k in (1, 2, 3)), f'display math on its own lines and a plain line break in inline math load ({sk[:80]!r})')
-    check(all(f'Card {k} skipped' in sk for k in (4, 5, 6, 7, 8)), f'lost-stem newlines (\\ne, \\nabla, \\neq, \\notin, \\nu) are skipped ({sk[:80]!r})')
-    check(re.search(r'Card 4 skipped: "back" has a line break before a command name inside display math', sk) and re.search(r'Card 6 skipped: "back" has a line break before a command name inside inline math', sk), 'display math has its own skip message, inline keeps "inline math"')
+    notes = pg.evaluate('deckAudit()')['possibleLostBackslash']
+    check(sk.strip() == '' and pg.locator('#browse-list li').count() == 8, f'every card loads: suspected lost backslashes only warn ({sk[:80]!r})')
+    check(len(set(x['card'] for x in notes)) == 5, f'lost \\neq, \\nabla, \\notin, \\nu are reported for cards 4 to 8 and nothing for display math on its own lines ({notes})')
+    check(any('inside display math' in x['note'] for x in notes) and any('inside inline math' in x['note'] for x in notes) and any('between $ signs' in x['note'] for x in notes), 'warnings name display math, inline math and $ spans')
     ctx.close()
 
     # 4c lost tab backslash: stems come from the engine's tables (\therefore)
@@ -609,14 +645,16 @@ with sync_playwright() as playwright:
     ctx, pg, errs = one(tt)
     pg.goto(variant(tt))
     sk = pg.locator('#deck-skipped').inner_text()
-    check('Card 2 skipped' in sk and 'tab or carriage return before a letter inside math' in sk and 'Card 3' not in sk and pg.locator('#browse-list li').count() == 2, f'undoubled \\therefore (tab + "herefore") is skipped, a plain tab is not ({sk[:60]!r})')
+    notes = pg.evaluate('deckAudit()')['possibleLostBackslash']
+    check(sk.strip() == '' and pg.locator('#browse-list li').count() == 3 and len(notes) == 1 and 'tab or carriage return before a letter inside math' in notes[0]['note'], f'undoubled \\therefore (tab + "herefore") warns, a plain tab does not ({notes})')
     ctx.close()
     # 4d lost CR backslash (\rho): checked before CRLF normalization; a CRLF study guide still loads
     rr = r'{"title":"T","cards":[{"front":"ok","back":"fine"},{"front":"Q2","back":"\\(\rho = m/V\\)"},{"front":"Q3","back":"line one\r\nline two \\(x\\)"}]}'
     ctx, pg, errs = one(rr)
     pg.goto(variant(rr))
     sk = pg.locator('#deck-skipped').inner_text()
-    check('Card 2 skipped' in sk and 'tab or carriage return before a letter inside math' in sk and 'Card 3' not in sk and pg.locator('#browse-list li').count() == 2, f'undoubled \\rho (CR + "ho") is skipped, CRLF text is not ({sk[:60]!r})')
+    notes = pg.evaluate('deckAudit()')['possibleLostBackslash']
+    check(sk.strip() == '' and pg.locator('#browse-list li').count() == 3 and len(notes) == 1 and 'tab or carriage return before a letter inside math' in notes[0]['note'], f'undoubled \\rho (CR + "ho") warns, CRLF text does not ({notes})')
     ctx.close()
 
     # 5 template comment gives one escaping rule
@@ -628,7 +666,8 @@ with sync_playwright() as playwright:
     ctx, pg, errs = one(cr)
     pg.goto(variant(cr))
     sk = pg.locator('#deck-skipped').inner_text()
-    check(pg.locator('#browse-list li').count() == 2 and 'Card 3 skipped' in sk and 'Card 1' not in sk and 'Card 2 ' not in sk, f'CRLF and a plain tab load; a tab before a TeX stem inside math is rejected ({sk[:60]!r})')
+    w = sorted(set(x['card'] for x in pg.evaluate('deckAudit()')['possibleLostBackslash']))
+    check(pg.locator('#browse-list li').count() == 3 and sk.strip() == '' and w == ['c'], f'CRLF and a plain tab load quietly; a tab before a TeX stem inside math loads with a warning ({w})')
     pg.locator('#show').click()
     check(pg.locator('#back br').count() == 2 and pg.locator('#back').inner_text().split('\n')[:3] == ['line one', 'line two', 'line three'], 'CRLF back renders as separate lines')
     check('Q a b' in front_text(pg), 'a tab between words becomes a space')

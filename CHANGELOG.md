@@ -6,16 +6,14 @@ What was actually tested for each version, and its limits, is in [evals/verifica
 
 ## [Unreleased]
 
-## [2.8.2] - 2026-11-01
+## [2.8.2] - 2026-11-02
 
 ### Fixed
-Round-2 review findings on the flashcard deck (#23):
-- Display math whose line starts with a variable `e` or `u` (`\[⏎e^{rt}⏎\]`, `\[⏎u = v - at⏎\]`) loads again; 2.8.1 skipped it as a lost `\ne` or `\nu`. It is reported in `deckAudit()` under `possibleLostBackslash` instead.
-- One rule for a backslash JSON swallowed: inside math, a tab or carriage return before any letter (`\textbf`, `\theta`, `\rho`) or a line break before a command name skips the card; outside math, a tab or carriage return before a command name (`3 \times 4`) is a `deckAudit()` warning, since "Term:⇥an organism" is ordinary text.
-- A skip anywhere in a field wins over a warning elsewhere in it. A line break before an unknown command in math (`\neg`) or before a command name outside math (`so a \neq b`) is a warning.
-- `deckAudit()` lists `rawTeX` only for TeX command names, scripts after a letter or digit, and an opening delimiter followed by math, so a code card's `\n`, `C:\Users`, `\d+`, `[^{}]` or `\(` isn't reported.
-- `flashcards` says exactly which control characters the deck refuses and what each `deckAudit()` field means.
-- `PRIVACY.md` says deck pages keep review dates in the browser's local storage.
+Review findings on the flashcard deck (#23, #25):
+- **A guess never drops a card.** Only `\f` or `\b`, which JSON makes only from a swallowed backslash, skips a card. A tab, carriage return or line break that looks like a swallowed one (`\theta`, `\rho`, `\nabla`, `\neg`), inside or outside math or between `$` signs, loads with a `deckAudit()` warning under `possibleLostBackslash`. 2.8.1 and the earlier 2.8.2 drafts skipped correct cards: display lines starting with `e^{rt}` or `u = v - at`, tab-indented lines pasted from a `.tex` file, classic-Mac line breaks, and shell cards with two `$` variables. They all load now.
+- `deckAudit()` `rawTeX` reports TeX command names, an unknown command with braces (`\overline{x}`), scripts on a short symbol (`x^{2}`, `CO_{2}`, `KE_{max}`) and an opening delimiter followed by math. It ignores code: `\n`, `C:\Users`, `\d+`, `[^{}]`, `report_{year}`, `'{}_{}'.format`.
+- `flashcards` states the rule and what each `deckAudit()` field means. `PRIVACY.md` says deck pages keep review dates in the browser's local storage.
+- Known limits (#27): some swallowed backslashes get no warning (a lost `\rtimes` in display math), and a lost `\times` between `$` signs warns but the card shows the wrong math until it's fixed.
 
 ## [2.8.1] - 2026-11-01
 
