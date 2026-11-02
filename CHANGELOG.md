@@ -6,6 +6,16 @@ What was actually tested for each version, and its limits, is in [evals/verifica
 
 ## [Unreleased]
 
+## [2.8.2] - 2026-11-01
+
+### Fixed
+Round-2 review findings on the flashcard deck (#23):
+- Display math whose line starts with a variable `e` or `u` (`\[⏎e^{rt}⏎\]`, `\[⏎u = v - at⏎\]`) loads again; 2.8.1 skipped it as a lost `\ne` or `\nu`. It is reported in `deckAudit()` under `possibleLostBackslash` instead.
+- One rule for a backslash JSON swallowed: inside math, a tab or carriage return before any letter (`\textbf`, `\theta`, `\rho`) or a line break before a command name skips the card; outside math, a tab or carriage return before a command name (`3 \times 4`) is a `deckAudit()` warning, since "Term:⇥an organism" is ordinary text.
+- `deckAudit()` lists `rawTeX` only for TeX command names, so a code card's `\n`, `C:\Users` or `\d+` isn't reported.
+- `flashcards` says exactly which control characters the deck refuses and what each `deckAudit()` field means.
+- `PRIVACY.md` says deck pages keep review dates in the browser's local storage.
+
 ## [2.8.1] - 2026-11-01
 
 ### Fixed

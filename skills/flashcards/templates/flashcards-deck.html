@@ -171,8 +171,10 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
   // Every command name the parser accepts, used to spot a JSON escape (\n, \t) that swallowed a command's backslash.
   const OTHER_COMMANDS = ['left', 'right', 'int', 'hbar', 'displaystyle', 'lim', 'binom', 'circ', 'frac', 'dfrac', 'tfrac', 'sqrt', 'text', 'mathrm', 'operatorname', 'mathbf'];
   const COMMAND_NAMES = [...new Set([GREEK, SYMBOL, IDENT, BIGOP, ACCENT, SPACE].flatMap(o => Object.keys(o)).concat([...FUNCS], OTHER_COMMANDS))].filter(k => /^[a-zA-Z]+$/.test(k));
-  const lostStem = (ch, ctrl) => new RegExp(ctrl + '(?:' + COMMAND_NAMES.filter(k => k[0] === ch).map(k => k.slice(1)).sort((a, b) => b.length - a.length).join('|') + ')(?![A-Za-z])');
-  const LOST_N = lostStem('n', '\\n'), LOST_T = lostStem('t', '\\t'), LOST_R = lostStem('r', '\\r');
+  // Stems of the engine's own commands that start with ch (\\nabla -> abla), optionally only those of a given length range.
+  const lostStem = (ch, ctrl, min = 1, max = 99) => new RegExp(ctrl + '(?:' + COMMAND_NAMES.filter(k => k[0] === ch && k.length - 1 >= min && k.length - 1 <= max).map(k => k.slice(1)).sort((a, b) => b.length - a.length).join('|') + ')(?![A-Za-z])');
+  const LOST_N_LONG = lostStem('n', '\\n', 2), LOST_N_SHORT = lostStem('n', '\\n', 1, 1), LOST_T = lostStem('t', '\\t'), LOST_R_LONE = lostStem('r', '\\r(?!\\n)');
+  const COMMON_TEX = ['textbf', 'textit', 'mathbb', 'mathcal', 'begin', 'end', 'ce', 'pu', 'boldsymbol', 'overrightarrow', 'underbrace', 'overbrace', 'cfrac', 'frac', 'sqrt', 'left', 'right'];
   const LITERAL = new Set(['{', '}', '_', '$', '#', '&', '%', '|']);
 
   // MathML Core ignores mathvariant="bold", so \mathbf maps letters, digits and Greek to the Unicode Mathematical Bold block.
@@ -482,7 +484,7 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
     $('deck-error').hidden = false;
     $('deck-error').textContent = message;
     $('app').hidden = true;
-    window.deckAudit = () => ({ cards: 0, skipped: [], mathErrors: [], rawTeX: [], fatal: message });
+    window.deckAudit = () => ({ cards: 0, skipped: [], mathErrors: [], rawTeX: [], possibleLostBackslash: [], fatal: message });
   }
   function loadDeck() {
     const el = $('deck');
@@ -497,23 +499,38 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
     const good = [];
     const CTRL = /[\u0000-\u0008\u000B-\u001F]/;
     const norm = t => t.replace(/\r\n?/g, '\n');
-    // A lone CR before a command stem inside math is a lost \\rho or \\rightarrow; check before norm() turns it into a line break.
-    const lostCR = t => [...t.matchAll(/\\\(([\s\S]+?)\\\)|\\\[([\s\S]+?)\\\]/g), ...t.matchAll(PANDOC)].some(m => /\r(?!\n)/.test(m[1] || m[2] || '') && LOST_R.test((m[1] || m[2]).replace(/\r\n/g, '\n')));
-    const tabInMath = t => [...t.matchAll(/\\\(([\s\S]+?)\\\)|\\\[([\s\S]+?)\\\]/g), ...t.matchAll(PANDOC)].some(m => LOST_T.test(m[1] || m[2] || ''));
     const hash = str => { let h = 0x811c9dc5; for (let j = 0; j < str.length; j++) { h ^= str.charCodeAt(j); h = Math.imul(h, 0x01000193); } return (h >>> 0).toString(36); };
-    // A newline is a lost backslash only when a command's stem follows it (newline + "u" is \nu); other line breaks in math are fine.
-    const lostLine = t => {
-      if ([...t.matchAll(/\\\(([\s\S]+?)\\\)/g)].some(m => LOST_N.test(m[1]))) return 'inline';
-      if ([...t.matchAll(/\\\[([\s\S]+?)\\\]/g)].some(m => LOST_N.test(m[1]))) return 'display';
-      const dollar = new RegExp('(?<![\\\\$])\\$(?![\\s$])[^$\\n]*' + LOST_N.source + '[^$\\n]*(?<![\\s\\\\])\\$(?!\\d)');
-      return dollar.test(t) ? 'inline' : '';
+    // JSON turns an undoubled \n, \t or \r into a line break, tab or carriage return and eats the backslash.
+    // Checked on the raw text, before norm(), so a lone CR is still visible. Returns ['skip' | 'warn', message] or null.
+    // $...$ as PANDOC reads it, but allowing the line break that a lost \\n leaves inside it.
+    const DOLLAR_ANY = /(?<![\\$])\$(?![\s$])([^$]+?)(?<![\s\\])\$(?!\d)/g;
+    const MATH = /\\\(([\s\S]+?)\\\)|\\\[([\s\S]+?)\\\]/g;
+    const lostBackslash = raw => {
+      const spans = [...raw.matchAll(MATH)].map(m => [m[1] != null ? 'inline' : 'display', m[1] != null ? m[1] : m[2]])
+        .concat([...raw.matchAll(DOLLAR_ANY)].map(m => ['inline', m[1]]));
+      for (const [kind, s] of spans) {
+        // Inside math a tab or lone CR before a letter is never intended: \textbf, \theta, \rho, \rightarrow.
+        if (/(\t|\r(?!\n))[A-Za-z]/.test(s)) return ['skip', 'a tab or carriage return before a letter inside math (write \\\\theta, \\\\textbf, \\\\rho)'];
+        if (LOST_N_LONG.test(s) || (kind === 'inline' && LOST_N_SHORT.test(s))) return ['skip', 'a line break before a command name inside ' + kind + ' math (write \\\\nabla, \\\\neq, \\\\nu)'];
+        // A display line may start with a variable e or u, so a lost \ne or \nu there is only a warning.
+        if (LOST_N_SHORT.test(s)) return ['warn', 'a line inside display math starts with "' + s.match(LOST_N_SHORT)[0].trim() + '"; check it is not a lost \\\\ne or \\\\nu'];
+      }
+      const outside = raw.replace(MATH, ' ').replace(PANDOC, ' ');
+      // Outside math "Term:<tab>an organism" is ordinary text that looks like a lost \\tan, so this only warns.
+      if (LOST_T.test(outside) || LOST_R_LONE.test(outside)) return ['warn', 'a tab or carriage return before what could be a command name outside math; check it is not a lost \\\\times or \\\\rightarrow, and put math in \\\\( \\\\)'];
+      return null;
     };
+    const warnings = [];
     d.cards.forEach((c, k) => {
       const skip = why => skipped.push('Card ' + (k + 1) + ' skipped: ' + why);
       if (!c || typeof c !== 'object' || typeof c.front !== 'string' || !c.front.trim()) return skip('it needs text in "front".');
       if (c.back != null && typeof c.back !== 'string') return skip('"back" must be text.');
-      for (const [name, text] of [['front', c.front], ['back', c.back || ''], ['hint', typeof c.hint === 'string' ? c.hint : '']])
-        if (lostCR(text)) return skip('"' + name + '" has a carriage return inside math; a TeX backslash was probably not doubled in the JSON (write \\\\rho, \\\\rightarrow).');
+      const cardWarnings = [];
+      for (const [name, text] of [['front', c.front], ['back', c.back || ''], ['hint', typeof c.hint === 'string' ? c.hint : '']]) {
+        const lost = lostBackslash(text);
+        if (lost && lost[0] === 'skip') return skip('"' + name + '" has ' + lost[1] + '; a TeX backslash was probably not doubled in the JSON.');
+        if (lost) cardWarnings.push({ field: name, note: lost[1] });
+      }
       const back = c.back == null ? '' : norm(c.back);
       c = Object.assign({}, c, { front: norm(c.front) });
       const cloze = c.type === 'cloze' || /\{\{c\d+::/.test(c.front);
@@ -521,21 +538,20 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
       if (cloze && !/\{\{c\d+::/.test(c.front)) return skip('a cloze card needs {{c1::answer}} in its front.');
       const hint = typeof c.hint === 'string' ? norm(c.hint) : '';
       for (const [name, text] of [['front', c.front], ['back', back], ['hint', hint]]) {
-        if (tabInMath(text)) return skip('"' + name + '" has a tab inside math; a TeX backslash was probably not doubled in the JSON (write \\\\times, \\\\theta, \\\\tau, \\\\text).');
-        if (CTRL.test(text)) return skip('"' + name + '" has a control character; a TeX backslash was probably not doubled in the JSON (write \\\\frac, \\\\nu, \\\\times, \\\\beta, \\\\rho).');
-        const lost = lostLine(text);
-        if (lost) return skip('"' + name + '" has a line break inside ' + lost + ' math; a TeX backslash was probably not doubled in the JSON (for example \\\\' + (lost === 'display' ? 'nabla' : 'nu') + ').');
+        if (CTRL.test(text)) return skip('"' + name + '" has a control character; a TeX backslash was probably not doubled in the JSON (write \\\\frac, \\\\beta).');
       }
       let id = c.id == null || c.id === '' ? 'h' + hash(c.front.trim()) : String(c.id);
       const base = id;
       for (let n = 2; seen.has(id); n++) id = base + '_' + n;
       seen.add(id);
       const tabs = t => t.replace(/\t/g, ' ');
+      cardWarnings.forEach(w => warnings.push(Object.assign({ card: id }, w)));
       good.push({ id, front: tabs(c.front), back: tabs(back), hint: tabs(hint), tag: typeof c.tag === 'string' ? c.tag.trim() : '', type: typeof c.type === 'string' ? c.type : '' });
     });
     if (!good.length) throw new Error('The deck has no valid cards. ' + skipped.join(' '));
     d.cards = good;
     d.skipped = skipped;
+    d.warnings = warnings;
     return d;
   }
   let deck;
@@ -775,9 +791,11 @@ math { font-size:1.12em; font-family:"STIX Two Math","Latin Modern Math","Cambri
       const rest = box.cloneNode(true);
       rest.querySelectorAll('math, .math-error').forEach(el => el.remove());
       const text = rest.textContent;
-      if (/\\[A-Za-z]+|\\[()[\]]|\^\{|_\{/.test(text)) rawTeX.push({ card: c.id, field: f, rawTeX: text.trim() });
+      // Only names the engine knows or common TeX, so a code card's \\n or C:\\Users isn't reported.
+      const named = [...text.matchAll(/\\([A-Za-z]+)/g)].some(m => COMMAND_NAMES.includes(m[1]) || COMMON_TEX.includes(m[1]));
+      if (named || /\\[()[\]]|\^\{|_\{/.test(text)) rawTeX.push({ card: c.id, field: f, rawTeX: text.trim() });
     }));
-    return { cards: cards.length, skipped: deck.skipped.slice(), mathErrors, rawTeX };
+    return { cards: cards.length, skipped: deck.skipped.slice(), mathErrors, rawTeX, possibleLostBackslash: deck.warnings.slice() };
   };
 
   startSession();
