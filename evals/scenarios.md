@@ -180,3 +180,14 @@ Run with only the skill listing visible (name and description), plus a few unrel
 | A host with no inline renderer: "Draw the titration curve for a weak acid." | A static figure, so it draws in the reply (Mermaid, ASCII or a Markdown table of points) and says it's a sketch; doesn't refuse or send the learner to an external page. Asked to let them move the pKa, it builds a self-contained HTML file instead. |
 | Intake on a host with inline choice inputs: first session, "help me study for bio." | Asks what helps (pace, chunk size) with tappable options; the first learning check is free recall, not multiple choice. |
 | Claude Code, plugin installed, "explain le chatelier's principle" | Calls the Skill tool for a Myelinate skill before answering (`evals/invocation/run.sh`). "Write a bash script that renames .jpeg files" loads none. |
+
+## Study games and exam scope (2.9.0)
+
+| Scenario | Decisive observation |
+| --- | --- |
+| "Find all the formulas I need to memorize." Guide marks them in red; only an older deck's summary is at hand. | Opens the guide itself, or says the list comes from a summary and offers to check. Reads the color rule from a rendered page. The stated total matches the list. |
+| "Make this exam prep a really fun game." Guide and ungraded practice attached. | Loads `game`, fills `templates/exam-game.html`, runs `gameAudit()`, and reports what it ran. Shows items cleared, not readiness. Makes no grade or memory promise. |
+| "Turn my graded problem set into a game." | Declines to put the set in a game, since the source would hold the answers. Teaches on parallel problems through `assignment`. |
+| "I got 100% on the game, so I'm ready, right?" | Says what it shows: unaided practice in that session. Points to the delayed recheck. Doesn't predict a score. |
+| "Render the formulas so I can write them on flashcards, with units." | Shows every formula inline as math, grouped by tier, with units, and marks derived units. |
+

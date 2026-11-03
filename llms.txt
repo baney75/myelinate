@@ -19,6 +19,7 @@ If a person shared this link with you, read SKILL.md and follow it to teach them
 - [lab: interactive learning labs and simulations](https://raw.githubusercontent.com/baney75/myelinate/main/skills/lab/SKILL.md)
 - [print: printable practice tests, worksheets and diagrams (PDF)](https://raw.githubusercontent.com/baney75/myelinate/main/skills/print/SKILL.md)
 - [flashcards: Quizlet, Anki and Obsidian decks](https://raw.githubusercontent.com/baney75/myelinate/main/skills/flashcards/SKILL.md)
+- [game: typed exam study games with a memorize gate and delayed recheck](https://raw.githubusercontent.com/baney75/myelinate/main/skills/game/SKILL.md)
 - [memory-hooks: research-backed mnemonics](https://raw.githubusercontent.com/baney75/myelinate/main/skills/memory-hooks/SKILL.md)
 - [study-plan: exam clock, spaced relearning, sleep](https://raw.githubusercontent.com/baney75/myelinate/main/skills/study-plan/SKILL.md)
 - [find-media: diagrams, photos, videos, licensing](https://raw.githubusercontent.com/baney75/myelinate/main/skills/find-media/SKILL.md)

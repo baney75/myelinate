@@ -55,6 +55,7 @@ A concept deserves several angles; this is what turns cards into understanding s
 ## 3. How many and which
 
 - Per lesson: typically 6 to 15 cards. Per exam: weight cards by the study guide, not by what's easy to card.
+- Formula tiers and units: sort formulas into memorize, also know and provided, from the study guide itself, and give each its units. Mark units you worked out yourself as derived. If they'll hand-write cards, show every formula inline, rendered as math, grouped by tier.
 - Formulas: if the exam supplies an equation sheet, card what each term means, when the formula applies and which way the output moves, not the formula itself. If it doesn't, card the formula too. Don't know? Ask in one line while you build.
 - Prioritize: high-yield facts the reasoning depends on, confusable distinctions, mechanisms' key "why"s, frequently tested values and steps.
 - Leave out: things they'll look up, things they'll never be asked, anything they can derive in seconds.
