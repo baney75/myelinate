@@ -179,3 +179,12 @@ Codex trigger eval (`evals/triggers`, gpt-5.6-luna, low, 3 passes) on the final 
 Inline first: a fresh Sonnet session, told its host offers `show_widget`, a side artifact and a file, picked `show_widget` for "show me what the curve should look like" under both main and the first 2.6.0 draft. Under the draft it loaded `assignment` first. For "a lab I can keep and share", main picked a file and the draft loaded `lab` and began building the HTML file. One run each; this shows the rule is read, not that it beats the old wording. `python3 scripts/check.py` passes and fails on main's `hooks/hooks.json` (hint unregistered) and on main's `tutor` (inline-first rule missing). `claude plugin validate .` passes with the existing root `CLAUDE.md` warning.
 
 Limits: small samples, one host, the author's own user settings and skills loaded. Not tested live on claude.ai, where hooks don't run and only the descriptions help. No learning outcome was measured.
+
+## 2.9.0: `game` and the exam game engine
+
+Checked 2026-11-02.
+
+- `python3 tests/game_journey.py`: Chromium plays the example through the gate, a failed and a passed gate test, a stage, a counted short answer, reload, delayed recheck, mock, sheet, reset, invalid input, phone width and dark mode, with no network requests.
+- One adversarial review by a fresh agent read the engine and skill and probed the page. Its findings on term matching, formula grouping, `dN/dt` rendering, number parsing, the delayed recheck and the audit were fixed and covered in the journey test. It judged the five 2.9.0 scenarios by reading; no fresh agent ran them.
+- A first version was built by hand for a real exam and played through by a script. No learner outcome was measured, and a script playing the game says nothing about learning.
+- Not run: the trigger eval. It needs a signed-in Codex CLI, so `evals/triggers/results` is stale until someone runs it. Not tested live: the `db` account sync.

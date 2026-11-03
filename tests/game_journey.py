@@ -117,14 +117,24 @@ with sync_playwright() as p:
     check('of' in page.inner_text('.bignum'), 'home shows items cleared as counts')
 
     # typed input
-    ok = page.evaluate("""() => { const g = __game; return [
-      g.checkFormula('V = I*R', ['IR']), g.checkFormula('i r', ['IR']), !g.checkFormula('I/R', ['IR']),
-      g.checkFormula('N0 lambda^t', ['N_0 λ^t']), g.checkFormula('n_0 R^t', ['N_0 R^t']),
-      !g.checkFormula('N_0 r^t', ['N_0 R^t'], true), g.checkFormula('sum l_x m_x', ['Σ l_x m_x']),
-      g.checkTerm('curent', ['current']), !g.checkTerm('voltage', ['current']), g.checkTerm('the current', ['current']),
-      Math.abs(g.evalExpr('300*e^(0.229*6)') - 1185.34) < .01, g.evalExpr('1,186') === 1186,
-      g.evalExpr('2(3+1)') === 8, g.evalExpr('abc') === null, g.evalExpr('alert(1)') === null ]; }""")
-    check(all(ok), f'formula, term and arithmetic checks behave: {ok}')
+    ok = page.evaluate("""() => { const g = __game; return {
+      plain: g.checkFormula('V = I*R', ['IR']), lower: g.checkFormula('i r', ['IR']), notInverse: !g.checkFormula('I/R', ['IR']),
+      lambda: g.checkFormula('N0 lambda^t', ['N_0 λ^t']), sub: g.checkFormula('n_0 R^t', ['N_0 R^t']),
+      caseMatters: !g.checkFormula('N_0 r^t', ['N_0 R^t'], true), sum: g.checkFormula('sum l_x m_x', ['Σ l_x m_x']),
+      commute: g.checkFormula('e^(r t) N_0', ['N_0 e^(rt)']), groupKept: !g.checkFormula('K-N/K', ['(K-N)/K']), group2: !g.checkFormula('a+b/c', ['(a+b)/c']),
+      group3: !g.checkFormula('2^n-1', ['2^(n-1)']), frac: g.checkFormula('(M*C)/R', ['M C/R']), brace: g.checkFormula('e^{rt}', ['e^(r t)']),
+      subPlus: g.checkFormula('n_{x+1}/n_x', ['n_{x+1}/n_x']), pi: g.checkFormula('pi r^2', ['π r^2']), empty: !g.checkFormula('', ['IR']),
+      typo: g.checkTerm('semelparus', ['semelparous']), wrong: !g.checkTerm('voltage', ['current']), article: g.checkTerm('the current', ['current']),
+      opposite: !g.checkTerm('hyperglycemia', ['hypoglycemia']), afferent: !g.checkTerm('efferent', ['afferent']), ketone: !g.checkTerm('ketone', ['ketose']),
+      alpha: !g.checkTerm('alpha helix', ['beta helix']), near: !g.checkTerm('coronal', ['coronary'], ['coronal']), vitamin: !g.checkTerm('vitamin', ['vitamin a']),
+      setup: Math.abs(g.evalExpr('300*e^(0.229*6)') - 1185.34) < .01, comma: g.evalExpr('1,186') === 1186, implicit: g.evalExpr('2(3+1)') === 8,
+      junk: g.evalExpr('abc') === null, code: g.evalExpr('alert(1)') === null, sci: g.evalExpr('2e3') === 2000, sci2: Math.abs(g.evalExpr('1.2x10^3') - 1200) < 1e-9,
+      eKept: Math.abs(g.evalExpr('2e^3') - 40.17) < .01, unit: g.readNum('40 V').v === 40, money: g.readNum('$40').v === 40, none: g.readNum('2*') === null,
+      small: g.fmt(0.00042) === '0.00042', small2: g.fmt(0.0123) === '0.0123', big: g.fmt(1186.4) === '1,186' }; }""")
+    ok = {k: v for k, v in ok.items() if not v}
+    check(not ok, f'formula, term and number checks behave: {ok}')
+    deriv = page.evaluate("__game.mathHTML('dN/dt = rN')")
+    check(deriv.index('frac') < deriv.index('dt') and 'dt</span></span>' in deriv, 'dN/dt renders as one fraction')
     html = page.evaluate("__game.mathHTML('N_t = K N_0/(N_0+(K-N_0)e^(-r t))')")
     check('frac' in html and '<sub>' in html and '<sup>' in html and '−' in html, 'a typed fraction with exponent renders as math')
     check('frac' in page.evaluate("__game.mathHTML('n_{t+1}/n_t')"), 'braced subscripts render')
@@ -180,6 +190,7 @@ with sync_playwright() as p:
     check(page.evaluate('__game.view') == 'brief', 'a stage opens with its brief')
     page.click('#go')
     miss_free = False
+    unread_seen = False
     for _ in range(80):
         if page.evaluate('__game.view') != 'play':
             break
@@ -196,6 +207,12 @@ with sync_playwright() as p:
             page.click('#had')
             page.wait_for_timeout(60)
             continue
+        if c['type'] == 'num' and not unread_seen:
+            unread_seen = True
+            before = page.evaluate('JSON.stringify(__game.progress.w)')
+            page.fill('#ans', 'about forty-ish')
+            page.keyboard.press('Enter')
+            check(page.locator('#unread').count() == 1 and page.evaluate('JSON.stringify(__game.progress.w)') == before, 'unreadable input asks again and costs nothing')
         if page.locator('#cont').count():
             page.click('#cont')
             continue
@@ -211,7 +228,7 @@ with sync_playwright() as p:
     check(page.evaluate('!!__game.progress.gate'), 'progress survives a reload')
 
     # recheck after the delay
-    page.evaluate("() => { const k = 'myelinate-game:Circuits Exam Game'; const p = JSON.parse(localStorage.getItem(k)); p.gate = Date.now() - 4*3600e3; localStorage.setItem(k, JSON.stringify(p)); }")
+    page.evaluate("() => { const k = 'myelinate-game:Circuits Exam Game'; const p = JSON.parse(localStorage.getItem(k)); p.gate = Date.now() - 9*3600e3; localStorage.setItem(k, JSON.stringify(p)); }")
     page.reload()
     check('Delayed recheck' in page.inner_text('body'), 'the delayed recheck appears after its delay')
     page.click('#go')
@@ -220,6 +237,8 @@ with sync_playwright() as p:
     exam_all(page)
     check('held' in page.inner_text('body'), 'the recheck reports what held')
     page.reload()
+    check('last delayed recheck' in page.inner_text('body').lower(), 'the map shows the last recheck result')
+    check(not page.evaluate('__game.progress.recheck'), 'a failed recheck stays open')
     gate_left = page.evaluate("Object.keys(__game.progress.c).filter(k => k.startsWith('f:')).length")
     check(gate_left < 2, 'a recheck miss sends that formula back to drilling')
 
@@ -244,20 +263,38 @@ with sync_playwright() as p:
         check(not errs, f'no page errors at phone width, {scheme}')
 
     # the audit catches what it claims to
+    resetter, _, _ = open_page(browser, url)
+    resetter.evaluate("localStorage.setItem('myelinate-game:Circuits Exam Game', JSON.stringify({gate: 1, c: {b1: 1}, seen: {}}))")
+    resetter.reload()
+    resetter.click('#reset')
+    check(resetter.evaluate('!!__game.progress.gate'), 'the first Reset click only asks')
+    resetter.click('#reset')
+    check(not resetter.evaluate('__game.progress.gate'), 'the second Reset click erases progress')
+
     def broken(d):
         items = d['topics'][0]['items']
         items[0]['src'] = ''
         items[1]['answer'] = 9
         items[2]['expr'] = 'v/nothing'
         items[4]['model'] = 'unrelated'
-        items[4]['q'] = 'raw \\frac{a}{b}'
+        items[4]['brief'] = 'raw \\frac{a}{b}'
         items.append(dict(items[0], src='x'))
         d['formulas'][0]['alts'] = ['Q']
         d['formulas'][0]['units'] = ''
     bad, _, _ = open_page(browser, variant(broken))
     a = bad.evaluate('gameAudit()')
     check(not a['ok'] and 'b1' in a['noSource'] and 'b2' in a['badSort'] and 'ohm_i' in a['badNumber'] and 'b5' in a['modelFailsRubric']
-          and 'b5' in a['leftoverMath'] and 'b1' in a['duplicateIds'] and 'ohm' in a['formulaAltsMissRhs'] and 'ohm' in a['noUnits'], f'gameAudit catches each fault: {a}')
+          and any('brief' in p for p in a['rawTeX']) and 'b1' in a['duplicateIds'] and 'ohm' in a['formulaAltsMissRhs'] and 'ohm' in a['noUnits'], f'gameAudit catches each fault: {a}')
+
+    def edge(d):
+        d['formulas'][0]['apply'] = None
+        d['formulas'][2]['apply'] = {'id': 'x'}
+        d['topics'][0]['items'].append({'id': 'q9', 'type': 'num', 'obj': 'units', 'src': 'x', 'q': 'Find $n_{t+1}$ from \\$5.', 'answer': 5, 'why': 'Is it? Yes.'})
+        d['topics'][0]['items'].append({'id': 'q8', 'type': 'sort', 'obj': 'only', 'src': 'x', 'q': 'q', 'options': ['a', 'b'], 'answer': 0, 'why': 'costs $5 and sells for $10'})
+    e, _, _ = open_page(browser, variant(edge))
+    a = e.evaluate('gameAudit()')
+    check('q9' not in a['badNumber'], 'the audit accepts braces inside math and a question mark in a reason')
+    check('only' in a['sortOnly'] and a['suspectMath'] and 'ser' in a['applyIgnored'], 'the audit flags sort-only objectives, prose read as math and an ignored apply')
 
     def no_gate(d):
         d['formulas'] = []

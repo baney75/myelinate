@@ -1,6 +1,6 @@
 ---
 name: game
-description: "Use when someone asks for a study game, a fun way to drill for an exam, or wants typed practice that proves they know it. Decks go to flashcards; scored tests to assess."
+description: "Use for a study game, a fun way to drill for an exam, or typed practice that proves they know it. Not game development. Decks go to flashcards; tests to assess."
 ---
 
 # Game
@@ -15,7 +15,7 @@ Evidence and limits: the method is retrieval, spacing, interleaving and successi
 
 ## 0. Rules that override everything else
 
-1. **Never for graded work.** The page source holds every answer. If the items come from a graded assignment, use `assignment`. Instructor practice sets are fine; check whether a set is graded when it isn't clear.
+1. **Never for graded work.** The page source holds every answer. Use `assignment` for graded items. A worksheet, prelab or problem set counts as graded until they say otherwise (router rule 13). A practice set the instructor gave out for exam review is fine.
 2. **Scope comes from the source.** Read the study guide itself before listing what to memorize. See §1.
 3. **One engine.** Copy `templates/exam-game.html` and replace only the JSON. Don't hand-build a game page.
 4. **Cleared is not ready.** Show items cleared, attempts and practice scores. No readiness percent and no predicted grade (router rule 11).
@@ -44,22 +44,22 @@ Put units on each one. `unitsFrom` is `source` when the course states them and `
 
 Top level: `title`, `subtitle`, `source`, `settings`, `theme`, `exam`, `formulas`, `topics`.
 
-- `settings`: `recheckHours` (default 3), `bonusChance`, `breakMinutes`, `mockTarget`. Set `mockTarget` only as the learner's own target.
+- `settings`: `recheckHours` (default 8, so an evening session rechecks the next morning), `bonusChance`, `breakMinutes`, `mockTarget`. Set `mockTarget` only when the learner names a target.
 - `theme`: `score`, `goal`, `right` (a few short praise lines) and `wrong`. Take these from the subject's world; a population ecology game can use N, K and "Population crash".
 - `exam`: `format` in the instructor's words, then `quick`, `math` (item ids) and `free`, in the same mix as the real test.
-- Formula: `id`, `name`, `tier`, `lhs`, `rhs`, `alts`, `units`, `unitsFrom`, `hook`, `src`, optional `svg`, `caseSensitive`, and `apply`, one math item that uses it. Set `caseSensitive: true` when case changes the meaning, such as R and r.
+- Formula: `id`, `name`, `tier`, `lhs`, `rhs`, `alts`, `units`, `unitsFrom`, `hook`, `src`, `obj`, optional `svg`, `caseSensitive`, and, for a `memorize` formula, `apply`, one math item that uses it. Drill `provided` and `know` formulas with topic items. Answers are compared by value, so `alts` needs only forms with different symbols, such as `N_0 R_0^t` beside `N_0 R^t`. Set `caseSensitive: true` when case changes the meaning, such as R and r.
 - Topic: `id`, `name`, `sub`, `brief` (a 60-second list), optional `svg`, `items`.
 - Item, all types: `id`, `type`, `q`, `src`, `obj` (the guide objective), `why`, optional `need`, `svg`, `table`.
-  - `term`: `answers`.
+  - `term`: `answers`, and `near` for close wrong answers (`afferent` for `efferent`). Only long words get one typo of grace, and only with the same first letter.
   - `sort`: `options`, `answer` (index). Recognition is weaker than recall, so never let sort items be the only check of an objective.
-  - `num`: `answer` for a fixed problem, or `vars`, `expr` and `{name}` / `{=expr}` in `q` and `why` for new numbers each time. Prefer new numbers so answers can't be memorized. Also include each class problem as a fixed item.
+  - `num`: `answer` for a fixed problem, or `vars`, `expr` and `{name}` / `{=expr}` in `q` and `why` for new numbers each time. Prefer new numbers so answers can't be memorized. Also include each ungraded class problem as a fixed item.
   - `free`: `rubric` (`min`, `points` of `label` and `pattern`) and `model`. Key-word matching is a practice aid, never a grade; `assess` and `print` own real grading.
 
-Math in text goes between `$` signs in plain typed form: `$N_0 e^(rt)$`, `$(K-N)/K$`, `$n_{t+1}$`. Draw any `svg` from the actual equation or data, with its answer out of its labels and title. Serialize with a real JSON library and write every `<` as `<`.
+Math in text goes between `$` signs in plain typed form: `$N_0 e^(rt)$`, `$(K-N)/K$`, `$n_{t+1}$`, `$dN/dt$`. A denominator is one symbol unless it's in parentheses: `a/(bc)`. Write a money sign as `\$`. Draw any `svg` from the actual equation or data, with its answer out of its labels and title. Serialize with a real JSON library and write every `<` as `\u003c`.
 
 ## 4. Coverage and checks
 
-Every guide objective gets at least one production item (`term`, `num`, `free` or `formula`), through the coverage map in `references/production-lessons.md`. Work every answer with code. Then open the page and run `gameAudit()`. Don't deliver until `ok` is true and each objective in the guide appears under `objectives`. It reports missing sources or units, formulas whose `alts` miss their own `rhs`, model answers that fail their own rubric, bad sort answers, numbers that don't compute, and raw TeX. Then play one card of each type at phone width and in dark mode, including one wrong answer. Say exactly what you ran.
+Every guide objective gets at least one production item (`term`, `num`, `free` or `formula`), through the coverage map in `references/production-lessons.md`. Work every answer with code. Then open the page and run `gameAudit()`. Don't deliver until `ok` is true and each objective in the guide appears under `objectives`. It reports missing sources or units, formulas whose `alts` miss their own `rhs` or can't be typed, an `apply` that won't run, model answers that fail their own rubric, bad sort answers, numbers that don't compute or display, raw TeX, text mistaken for math, and objectives covered only by sort items. It can't judge whether content is right. With no browser, say the audit didn't run and name what's unchecked. Then play one card of each type at phone width and in dark mode, including one wrong answer. Say exactly what you ran.
 
 ## 5. Delivery
 
@@ -69,4 +69,4 @@ Tell them the order in a line or two: gate, stages, mock, delayed recheck. The n
 
 ## 6. Reading the evidence
 
-Map outcomes to the router's states. Gate test passed: *Independent this session*. Delayed recheck passed: *Retrieved after delay*. A free answer counted by "I had it": *self-assessed*, shown separately on the page. The mock's number covers auto-marked items only. After the real exam, ask what appeared and what cost points, and use that to fix the next game.
+Map outcomes to the router's states. Gate test passed: *Independent this session*. Delayed recheck passed: *Retrieved after delay*. A free answer counted by "I had it": *self-assessed*, shown separately on the page. A key-word match on a free answer is practice, not a grade. The mock's number covers auto-marked items only. Asked "am I ready?", say what they did unaided and what hasn't been checked after a delay; ask them to read you the map if you can't see it. After the real exam, ask what appeared and what cost points, and use that to fix the next game.
