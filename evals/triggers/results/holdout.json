@@ -5,7 +5,7 @@
  "harness": "codex exec, isolated HOME, skills in ~/.agents/skills",
  "prompt_set": "holdout.jsonl",
  "partial": false,
- "descriptions_sha256": "d4ab3ab5ad2b5bbd8e325fd7affa628128fd488ab98eacd30ef1f145925bc209",
+ "descriptions_sha256": "afe37e068da8b9ce09dfddbcd09de70dd0f5887688bc1a2208443d5b3987cd64",
  "inputs_sha256": "8c7ef3574da283c414967fef77b6b42a23d468a2770898109acbd98945fca6c1",
  "skills": [
   "assess",
@@ -14,6 +14,7 @@
   "course-project",
   "find-media",
   "flashcards",
+  "game",
   "lab",
   "memory-hooks",
   "myelinate",
@@ -28,7 +29,7 @@
  "positives": 12,
  "negatives": 6,
  "hit_rate": 1.0,
- "false_fire_rate": 0.0,
+ "false_fire_rate": 0.0556,
  "errors": 0,
  "majority_hit_rate": 1.0,
  "majority_false_fire_rate": 0.0,
@@ -43,10 +44,13 @@
   },
   {
    "hit": 12,
-   "false_fire": 0
+   "false_fire": 1
   }
  ],
- "unstable": [],
+ "unstable": [
+  "h17",
+  "h18"
+ ],
  "rows": [
   {
    "id": "h01",
@@ -275,9 +279,9 @@
    "choices": [
     "none",
     "none",
-    "none"
+    "find-media"
    ],
-   "ok": 3
+   "ok": 2
   },
   {
    "id": "h18",
@@ -287,7 +291,7 @@
     "writing-editor"
    ],
    "choices": [
-    "none",
+    "writing-editor",
     "none",
     "none"
    ],

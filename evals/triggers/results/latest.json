@@ -5,8 +5,8 @@
  "harness": "codex exec, isolated HOME, skills in ~/.agents/skills",
  "prompt_set": "prompts.jsonl",
  "partial": false,
- "descriptions_sha256": "d4ab3ab5ad2b5bbd8e325fd7affa628128fd488ab98eacd30ef1f145925bc209",
- "inputs_sha256": "29aacd4ab34b460109edd8dbab4f2fb694b5f817f23e249af1e2159f4d162f3d",
+ "descriptions_sha256": "afe37e068da8b9ce09dfddbcd09de70dd0f5887688bc1a2208443d5b3987cd64",
+ "inputs_sha256": "e33e52809fddb679fe930f0ea14aab80b48ab1f4ab3e4fb0576aa29bd803ab84",
  "skills": [
   "assess",
   "assignment",
@@ -14,6 +14,7 @@
   "course-project",
   "find-media",
   "flashcards",
+  "game",
   "lab",
   "memory-hooks",
   "myelinate",
@@ -25,31 +26,32 @@
   "tutor",
   "verify"
  ],
- "positives": 37,
- "negatives": 14,
- "hit_rate": 1.0,
- "false_fire_rate": 0.0238,
+ "positives": 39,
+ "negatives": 16,
+ "hit_rate": 0.9915,
+ "false_fire_rate": 0.0208,
  "errors": 0,
  "majority_hit_rate": 1.0,
  "majority_false_fire_rate": 0.0,
  "per_pass": [
   {
-   "hit": 37,
-   "false_fire": 1
-  },
-  {
-   "hit": 37,
+   "hit": 39,
    "false_fire": 0
   },
   {
-   "hit": 37,
+   "hit": 39,
+   "false_fire": 1
+  },
+  {
+   "hit": 38,
    "false_fire": 0
   }
  ],
  "unstable": [
-  "p03",
-  "n04",
-  "n12"
+  "p02",
+  "p18",
+  "p36",
+  "p40"
  ],
  "rows": [
   {
@@ -77,7 +79,7 @@
    "choices": [
     "myelinate",
     "myelinate",
-    "myelinate"
+    "teach"
    ],
    "ok": 3
   },
@@ -90,7 +92,7 @@
    ],
    "choices": [
     "teach",
-    "myelinate",
+    "teach",
     "teach"
    ],
    "ok": 3
@@ -292,9 +294,9 @@
    "choices": [
     "notes",
     "notes",
-    "notes"
+    "assess"
    ],
-   "ok": 3
+   "ok": 2
   },
   {
    "id": "p19",
@@ -513,9 +515,9 @@
     "teach"
    ],
    "choices": [
-    "teach",
-    "teach",
-    "teach"
+    "tutor",
+    "tutor",
+    "tutor"
    ],
    "ok": 3
   },
@@ -528,9 +530,9 @@
     "teach"
    ],
    "choices": [
-    "teach",
-    "teach",
-    "teach"
+    "myelinate",
+    "myelinate",
+    "tutor"
    ],
    "ok": 3
   },
@@ -600,11 +602,11 @@
     "frontend-design"
    ],
    "choices": [
-    "code",
+    "frontend-design",
     "frontend-design",
     "frontend-design"
    ],
-   "ok": 2
+   "ok": 3
   },
   {
    "id": "n05",
@@ -711,7 +713,7 @@
     "docx"
    ],
    "choices": [
-    "none",
+    "docx",
     "docx",
     "docx"
    ],
@@ -742,6 +744,58 @@
     "calendar",
     "calendar",
     "calendar"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p38",
+   "kind": "positive",
+   "accept": [
+    "game"
+   ],
+   "choices": [
+    "game",
+    "game",
+    "game"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p39",
+   "kind": "positive",
+   "accept": [
+    "game"
+   ],
+   "choices": [
+    "game",
+    "game",
+    "game"
+   ],
+   "ok": 3
+  },
+  {
+   "id": "p40",
+   "kind": "negative",
+   "accept": [
+    "none"
+   ],
+   "choices": [
+    "none",
+    "project",
+    "none"
+   ],
+   "ok": 2
+  },
+  {
+   "id": "p41",
+   "kind": "negative",
+   "accept": [
+    "none"
+   ],
+   "choices": [
+    "none",
+    "none",
+    "none"
    ],
    "ok": 3
   }
