@@ -118,7 +118,7 @@ with sync_playwright() as p:
 
     # typed input
     ok = page.evaluate("""() => { const g = __game; return {
-      plain: g.checkFormula('V = I*R', ['IR']), lower: g.checkFormula('i r', ['IR']), notInverse: !g.checkFormula('I/R', ['IR']),
+      domainSE: g.checkFormula('sqrt(p*(1-p)/n)', ['sqrt(p(1-p)/n)']), domainGamma: g.checkFormula('sqrt(1-v^2/c^2)', ['sqrt(1-v^2/c^2)']), domainLn: g.checkFormula('ln(1-p)', ['ln(1-p)']), domainWrong: !g.checkFormula('sqrt(1-v^2/c)', ['sqrt(1-v^2/c^2)']), domainWrong2: !g.checkFormula('ln(1+p)', ['ln(1-p)']), plain: g.checkFormula('V = I*R', ['IR']), lower: g.checkFormula('i r', ['IR']), notInverse: !g.checkFormula('I/R', ['IR']),
       lambda: g.checkFormula('N0 lambda^t', ['N_0 λ^t']), sub: g.checkFormula('n_0 R^t', ['N_0 R^t']),
       caseMatters: !g.checkFormula('N_0 r^t', ['N_0 R^t'], true), sum: g.checkFormula('sum l_x m_x', ['Σ l_x m_x']),
       commute: g.checkFormula('e^(r t) N_0', ['N_0 e^(rt)']), groupKept: !g.checkFormula('K-N/K', ['(K-N)/K']), group2: !g.checkFormula('a+b/c', ['(a+b)/c']),

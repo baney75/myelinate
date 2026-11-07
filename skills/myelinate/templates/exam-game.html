@@ -127,7 +127,7 @@ function normF(s,cs){let t=greek(s).replace(/_\{([^}]*)\}/g,'$1').replace(/[\s_*
 /* Compare by value, so commuted forms pass and missing parentheses fail. Symbols come from the accepted form. */
 function symbols(canon,cs){const out=[],re=/[A-Za-zλΣΔθαβγμπωρτεφ](?:_\{[^}]*\}|_\w+)?/g;let m;const t=greek(canon).replace(/\b(ln|log|exp|sqrt)\b/g,' ');while((m=re.exec(t))){const k=normF(m[0],cs);if(k!=='e'&&!out.includes(k))out.push(k)}return out.sort((a,b)=>b.length-a.length)}
 function encode(s,vocab){const t=s;let i=0,out='';while(i<t.length){const fn=/^(ln|log|exp|sqrt)(?=\()/.exec(t.slice(i));if(fn){out+=fn[0];i+=fn[0].length;continue}const v=vocab.find(k=>t.startsWith(k,i));if(v){out+='(v'+vocab.indexOf(v)+')';i+=v.length;continue}if(t[i]==='e'){out+='(e)';i++;continue}if(/[\d.+\-/^()]/.test(t[i])){out+=t[i];i++;continue}return null}return out}
-function sameValue(a,b,cs){const vocab=symbols(b,cs),x=encode(normF(a,cs),vocab),y=encode(normF(b,cs),vocab);if(x===null||y===null)return normF(a,cs)===normF(b,cs);for(let n=0;n<4;n++){const vars={};vocab.forEach((k,i)=>vars['v'+i]=1.3+1.9*Math.random());const p=evalExpr(x,vars),q=evalExpr(y,vars);if(p===null||q===null||Math.abs(p-q)>1e-9*Math.max(1,Math.abs(q)))return false}return true}
+function sameValue(a,b,cs){const vocab=symbols(b,cs),x=encode(normF(a,cs),vocab),y=encode(normF(b,cs),vocab);if(normF(a,cs)===normF(b,cs))return true;if(x===null||y===null)return false;let compared=0;for(let n=0;n<120&&compared<4;n++){const vars={};vocab.forEach((k,i)=>vars['v'+i]=Math.random()<.5?.05+.9*Math.random():1.3+1.9*Math.random());const p=evalExpr(x,vars),q=evalExpr(y,vars);if(p===null&&q===null)continue;if(p===null||q===null||Math.abs(p-q)>1e-9*Math.max(1,Math.abs(q)))return false;compared++}return compared>0}
 function checkFormula(input,alts,cs){const s=greek(input),rhs=s.includes('=')?s.slice(s.lastIndexOf('=')+1):s;if(!rhs.trim())return false;return alts.some(v=>sameValue(rhs,v,cs))}
 function lev(a,b){const d=Array.from({length:a.length+1},(_,i)=>[i]);for(let j=1;j<=b.length;j++)d[0][j]=j;for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[a.length][b.length]}
 const normT=s=>greek(s).toLowerCase().replace(/[^a-z0-9α-ω ]/g,' ').replace(/\s+/g,' ').trim().replace(/^(the|an|a) (?=\S\S)/,'');
@@ -168,14 +168,12 @@ const GATE_STAGE={id:'gate',name:'Formula gate',sub:'What you must know cold, fr
 function build(it){const c=Object.assign({},it);if(it.vars){const v={};for(const k in it.vars)v[k]=pick(it.vars[k]);
   const fill=s=>String(s||'').replace(/\{=([^}]+)\}/g,(_,e)=>{const r=evalExpr(e,v);return r===null?'NaN':fmt(r)}).replace(/\{(\w+)\}/g,(m,k)=>k in v?v[k]:m);
   c.q=fill(it.q);c.why=fill(it.why);c.answer=evalExpr(it.expr,v);c.shown=v}return c}
-/* ---------- saved progress: this browser; the host's account store too, when one exists ---------- */
+/* ---------- saved progress: this browser ---------- */
 const KEY='myelinate-game:'+(DATA.title||'game');
 const blank=()=>({c:{},self:{},w:{},gate:0,first:0,recheck:0,tried:0,lastCheck:'',mock:null,ts:0,seen:{}});
 let P=blank(),saved=false;
 try{const r=localStorage.getItem(KEY);if(r)P=Object.assign(blank(),JSON.parse(r));saved=true}catch(e){}
-let cloud=null,timer=null;
-function save(){P.ts=Date.now();try{localStorage.setItem(KEY,JSON.stringify(P));saved=true}catch(e){saved=false}if(cloud){clearTimeout(timer);timer=setTimeout(()=>cloud.set({p:JSON.stringify(P)}).catch(()=>{}),1200)}}
-(async()=>{try{if(!window.claude||!window.claude.use)return;const db=await window.claude.use('db'),user=await window.claude.use('user');if(!db||!user)return;const id=await user.id();if(!id)return;const d=db.collection('data/users/'+id).doc('game');const s=await d.get();cloud=d;if(s.exists){const c=JSON.parse(s.data().p||'{}');if((c.ts||0)>P.ts){P=Object.assign(blank(),c);if(view==='home')home()}}else if(P.ts)save()}catch(e){}})();
+function save(){P.ts=Date.now();try{localStorage.setItem(KEY,JSON.stringify(P));saved=true}catch(e){saved=false}}
 /* ---------- sound, only after a keypress or click ---------- */
 let ac=null,muted=false;try{muted=localStorage.getItem(KEY+':mute')==='1'}catch(e){}
 function tone(f,d=.09,w=0,v=.06){if(muted)return;try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();const t=ac.currentTime+w,o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(ac.destination);o.start(t);o.stop(t+d)}catch(e){}}

@@ -63,7 +63,7 @@ Every guide objective gets at least one production item (`term`, `num`, `free` o
 
 ## 5. Delivery
 
-Publish it where the learner can return: an artifact on hosts that have them, otherwise the HTML file. On hosts with account storage, the page syncs through `claude.use('db')` when the artifact declares `db` and `user`; otherwise it saves to that browser's local storage. Say which, and what you didn't test.
+Publish it where the learner can return: an artifact on hosts that have them, otherwise the HTML file. Progress saves to that browser's local storage, so it stays on that device. Say so.
 
 Tell them the order in a line or two: gate, stages, mock, delayed recheck. The night before an exam, plan the recheck for the morning (`study-plan`).
 

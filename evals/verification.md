@@ -219,7 +219,6 @@ Checked 2026-11-02, with fresh-agent scenario runs on 2026-11-07.
 ### Not established
 
 - No learner outcome was measured.
-- Not tested live: the `db` account sync. The executor had no browser or desktop tools to operate a real signed-in artifact. A synthetic HTML fixture and a manual test plan exist outside the repo, and no mock is counted as live.
 - The s5 pass used a simulated host-capability note, not a live signed-in claude.ai session.
-- The `db` account sync stays untested and held. No dedicated synthetic account is available, and it must not be run on a real learner account because its game data could overwrite real progress. The synthetic fixture and written plan are unchanged, and no live artifact or db call was created or used.
+- The `db` account sync was removed after review: two games shared one progress document, and it had never run live. Progress saves to local storage only.
 - Before any undraft or merge: a real account-store live test on a dedicated synthetic account, and explicit release approval. Tag only after an eventual merge.
