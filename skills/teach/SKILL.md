@@ -1,6 +1,6 @@
 ---
 name: teach
-description: "Use when someone learns a subject outside a class and asks for lessons or to draw or show a diagram, concept map, or step-by-step picture to understand it. Not work diagrams."
+description: "Use when someone learns a subject outside a class and wants lessons or a concept map to understand it. Repos go to code, builds to project, mnemonics to memory-hooks."
 ---
 
 # Teach

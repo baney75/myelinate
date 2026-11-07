@@ -46,3 +46,16 @@ Store receipts, renders, check output, and source excerpts in the project, not i
 ## Self-check claims against primary sources
 
 Before delivery, re-read each consequential claim against the primary slide, page, or guide line it cites. Soften wording that is stronger than the source: "is associated with" stays associated, "can" does not become "always," and a single example does not become a rule. Where the course and a reliable outside source differ by convention, show both; where the course is factually wrong or outdated, correct it respectfully with the supporting source.
+
+## Read formatting and keep what you read
+
+Colored text can be the rule. In one build, a study guide marked formulas red for memorize and blue for provided; a first answer drawn from an older deck's summary missed one formula and listed another that wasn't red. Reading the guide itself fixed it.
+
+- List what to memorize from the primary source. If you only have a summary, say so.
+- Check a rendered page or the file's run colors. Plain text extraction drops color.
+- Count a list before you state its total.
+- Save a study packet as text once. Page images can drop out of context, and the same build re-read more than 100 screens of slides because nothing was saved.
+
+## Name what a number measures
+
+A page in the same build showed "exam readiness" when the number was only the share of items cleared. Label counts as counts and practice scores as practice scores, and never turn either into a prediction.

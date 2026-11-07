@@ -179,3 +179,46 @@ Codex trigger eval (`evals/triggers`, gpt-5.6-luna, low, 3 passes) on the final 
 Inline first: a fresh Sonnet session, told its host offers `show_widget`, a side artifact and a file, picked `show_widget` for "show me what the curve should look like" under both main and the first 2.6.0 draft. Under the draft it loaded `assignment` first. For "a lab I can keep and share", main picked a file and the draft loaded `lab` and began building the HTML file. One run each; this shows the rule is read, not that it beats the old wording. `python3 scripts/check.py` passes and fails on main's `hooks/hooks.json` (hint unregistered) and on main's `tutor` (inline-first rule missing). `claude plugin validate .` passes with the existing root `CLAUDE.md` warning.
 
 Limits: small samples, one host, the author's own user settings and skills loaded. Not tested live on claude.ai, where hooks don't run and only the descriptions help. No learning outcome was measured.
+
+## 2.9.0: `game` and the exam game engine
+
+Checked 2026-11-02, with fresh-agent scenario runs on 2026-11-07.
+
+- `python3 tests/game_journey.py`: Chromium plays the example through the gate, a failed and a passed gate test, a stage, a counted short answer, reload, delayed recheck, mock, sheet, reset, invalid input, phone width and dark mode, with no network requests.
+- One adversarial review by a fresh agent read the engine and skill and probed the page. Its findings on term matching, formula grouping, `dN/dt` rendering, number parsing, the delayed recheck and the audit were fixed and covered in the journey test.
+- A first version was built by hand for a real exam and played through by a script. No learner outcome was measured, and a script playing the game says nothing about learning.
+
+### Fresh-agent scenario runs (2026-11-07)
+
+- Setup: five independent fresh Claude Code 2.1.296 sessions on Sonnet (init model `claude-sonnet-5-5`), branch base `ba64a600`, loaded with `--plugin-dir` from the branch checkout, `--setting-sources ''` and `--strict-mcp-config`, with synced alternate plugin copies disabled. Each had a unique session ID and an empty scenario work directory, and its init listed only this plugin and CLI builtins. Tools were allowed, and the agents actually read attachments, used skills and built output. Every raw run exited 0 with result success and no permission denials.
+- Initial results:
+  - s1 PASS: read the primary rendered PNG, followed the legend (red means memorize), found the 3 red formulas (`v=d/t`, `F=ma`, `E_k=mv^2/2`), matched the count and rejected an obsolete summary momentum formula.
+  - s2 PASS: used the `myelinate:game` skill and copied the JSON-only template to a synthetic HTML file. The actual Chromium `gameAudit` first caught missing alts, the agent fixed the fixture JSON and reran `gameAudit` to `ok:true`, with the speed, force and kinetic objectives all at production. The page shows Items cleared and makes no readiness or grade promise. The reply reported the exact audit and a limited phone, dark and gate-card check with one correct and one wrong interaction. This run did not test every card type or the delayed recheck; it is not the same as `game_journey`.
+  - s3 PARTIAL: correctly declined a graded set because the page source holds the answers, but did not load the assignment skill or start a parallel teaching example.
+  - s4 PASS: said plainly that the result is unaided today and not a prediction, left the delayed recheck marked unchecked, and promised neither a grade nor retention.
+  - s5 PARTIAL: all 5 formulas, units and derived result units were present, but as plain bold text in a table, not rendered math.
+- One skill-body clarification round followed, changing the `game` graded handoff and the `print` formula presentation. No descriptions changed.
+- Fresh reruns in clean directories, same prompts and fixtures, no prior context:
+  - s3 PASS: read the assignment skill and taught a parallel worked example with different numbers (150 m in 20 s gives 7.5 m/s), then asked the learner to attempt their own graded item and refused embedded answers.
+  - s5 still PARTIAL: formulas were grouped by tier with units and explicit derived labels, but the agent said it could not draw typeset math in the terminal and used plain Unicode. No inline math was actually rendered. This is not marked as a pass.
+- Those terminal partials stay as the historical results of those runs.
+- Widget-host rerun of s5 (2026-11-07, about 7:12 AM EST), the one new run after the fixes, with no new skill fix:
+  - Decisive observation, read from `evals/scenarios.md`: shows every formula inline as math, grouped by tier, with units, and marks derived units.
+  - Host note: the exact ENV text from `evals/reply-shape/ab.py` was passed as the appended system prompt ("Host: claude.ai. You can render an inline visual: write a fenced block whose info string is show_widget containing self-contained HTML/SVG/JS; it renders inline in the conversation (dark and light mode). A widget can call sendPrompt(text) to send a message back to you as the user. Write only your reply."). This is a simulated host-capability note, as in the historical harness. It is not a live signed-in claude.ai test.
+  - Otherwise the same setup as the earlier runs: fresh plugin invocation, empty setting sources, strict MCP config, no session persistence, Sonnet, normal tools kept, a fresh working directory and session, and no instructions to the responder about criteria or which skill to load. The synthetic formula packet had SHA256 `5d1d198cd7fe80c9dfce955562674234a19363225e3626a45e590ce0b0f08fef`. The raw tool calls were a Read of the packet and the `myelinate:print` skill. Result success, exit 0, zero permission denials.
+  - Reply: a fenced `show_widget` block with 5 formula cards grouped Memorize (`v=d/t`, `F=ma`, `E_k=mv^2/2`), Know (`rho=m/V`) and Provided (`p=mv`). The HTML uses real CSS stacked fractions and superscripts and subscripts, not a plain-text table. Units sit beside each formula, with explicit derived badges for kinetic energy, density and momentum, and speed (m/s) and force (N) attributed to the source. The intro says units marked derived are not stated in the packet and were worked out from the SI base units it lists.
+  - Render check: the coordinator read the raw reply and tool calls, extracted the block unmodified and rendered it in local Chromium with a Playwright checker. Screenshots at 800px light, 800px dark and 390px light showed all 5 formulas typeset with correct fractions, subscripts and exponents, the right tiers, and units and derived badges. Page errors were empty, 5 cards and the headings were present, and nothing overflowed horizontally. Nothing was replaced or coached after the reply. Raw evidence is kept privately outside the repo (files: `raw.jsonl`, `reply.txt`, `tools.txt`, `host-note.txt`, `command.txt`, `prompt.txt`, `widget-1.html`, `render-log.json`, screenshots, checker script).
+  - s5 PASS for the decisive observation, under a simulated widget host.
+- Final coverage: all five scenarios have a pass, across the first runs (s1, s2, s4), the targeted s3 rerun and this widget-host s5 rerun. This is one trial per case plus targeted reruns, graded against decisive observations. It is not reliability or learning evidence.
+
+### Triggers and checks
+
+- Trigger eval: not rerun for this update. The last documented run (2026-11-06, protocol `gpt-5.6-luna` at low effort, 3 passes) gave 116/117 hits (99.15%) and 1/48 false fires (2.08%) on the latest set, and 36/36 hits (100%) with 1/18 false fires (5.56%) on the holdout, with zero model errors. Descriptions have not changed since, and the guard still binds the exact descriptions.
+- Currently passing: the guard and rejection tests (`evals/triggers/test_check.py`), `evals/triggers/check.py` and the package checker (`scripts/check.py`). `68b5b3d` and `458907c` are pushed to `origin/claude/exam-game`. At head `458907c`, the [pull request run](https://github.com/baney75/myelinate/actions/runs/42371712807) and [push run](https://github.com/baney75/myelinate/actions/runs/42371707625) both report `package`: `success`, `journeys`: `success`, and `trigger-eval`: `skipped`. The `trigger-eval` job is workflow_dispatch-only and was skipped as designed, not rerun for these verification commits; descriptions remain unchanged, and the 2026-11-06 results above remain the last full trigger eval.
+
+### Not established
+
+- No learner outcome was measured.
+- The s5 pass used a simulated host-capability note, not a live signed-in claude.ai session.
+- The `db` account sync was removed after review: two games shared one progress document, and it had never run live. Progress saves to local storage only.
+- Before any undraft or merge: a real account-store live test on a dedicated synthetic account, and explicit release approval. Tag only after an eventual merge.

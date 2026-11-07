@@ -1,6 +1,6 @@
 ---
 name: project
-description: "Use when someone says teach me while we build this, for a personal project. Ordinary coding, product delivery, and work without learning intent stay outside Myelinate."
+description: "Use when someone wants to learn a skill while building their own project, like electronics. Build requests with no wish to learn stay outside Myelinate."
 ---
 
 # Project

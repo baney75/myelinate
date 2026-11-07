@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Exam Game</title>
+<!--
+  Myelinate exam game. One engine: copy this file and replace only the JSON in the
+  script tag with id="game". Serialize with a real JSON library and write every < as \u003c.
+  Then run gameAudit() in the page and fix what it reports before delivering.
+  Never fill this in for graded work: the page source holds every answer (skills/game/SKILL.md).
+-->
+<style>
+:root{color-scheme:light dark;--paper:#EAF4FB;--grid:#D3E6F3;--card:#FFFFFF;--ink:#10243A;--muted:#4A6074;--line:#B9D2E4;--hot:#C4146A;--must:#C81E28;--given:#1561BD;--good:#0B5C38;--goodbg:#E2F5EA;--bad:#7C1218;--badbg:#FDE8E8;--bonus:#7A5200;--bonusbg:#FFF3CF;--inv:#FFFFFF;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;--math:"Cambria Math","STIX Two Text","Times New Roman",Georgia,serif;--mono:ui-monospace,Menlo,Consolas,monospace}
+@media (prefers-color-scheme:dark){:root{--paper:#0F1A26;--grid:#172636;--card:#16222F;--ink:#E8F0F7;--muted:#A5B6C6;--line:#2C4154;--hot:#FF7AB6;--must:#FF8A8F;--given:#8CC2FF;--good:#A5E8C4;--goodbg:#12362A;--bad:#FFC2C5;--badbg:#431A1E;--bonus:#FFD98A;--bonusbg:#3A2C0E;--inv:#0F1A26}}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;color:var(--ink);font:17px/1.5 var(--sans);background-color:var(--paper);background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:32px 32px}
+#app{max-width:860px;margin:0 auto;min-height:100%;display:flex;flex-direction:column;gap:14px;padding-block:16px 28px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2{margin:0;line-height:1.1;font-weight:800;letter-spacing:-.01em;text-wrap:balance}
+h1{font-size:clamp(32px,7vw,52px)}h2{font-size:clamp(23px,4.4vw,31px)}p{margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,textarea:focus-visible{outline:3px solid var(--given);outline-offset:2px}
+.label{font:700 12px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.btn{background:var(--ink);color:var(--inv);border:0;border-radius:6px;padding:12px 18px;font-weight:700}
+.btn.big{font-size:20px;font-weight:800;padding:16px 24px}
+.btn.alt{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.btn.ghost{background:transparent;color:var(--muted);padding:8px 10px;font-size:14px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.panel{background:var(--card);border:2px solid var(--ink);border-radius:6px;padding:18px;display:flex;flex-direction:column;gap:12px}
+.panel.bonus{background:var(--bonusbg);border-color:var(--bonus)}
+.m{font-family:var(--math);font-style:italic;white-space:nowrap}
+.m .rm{font-style:normal}.m sub,.m sup{font-size:.68em;line-height:0}
+.frac{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 .12em}
+.frac>span:first-child{border-bottom:.07em solid currentColor;padding:0 .2em .06em}.frac>span:last-child{padding:.06em .2em 0}
+.top{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:flex-end}
+.top>div{min-width:0}
+.bignum{font:800 40px/1 var(--sans);color:var(--hot);font-variant-numeric:tabular-nums}
+.next{flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:space-between}
+.next>div{flex:1 1 280px;min-width:0}
+.list{padding:0;gap:0;overflow:hidden}
+.st{display:grid;grid-template-columns:minmax(0,1fr) 90px 92px;gap:10px;align-items:center;padding:10px 14px;background:transparent;border:0;border-top:1px solid var(--line);text-align:left;width:100%}
+.st:first-child{border-top:0}.st[disabled]{cursor:not-allowed;color:var(--muted)}
+.st strong{display:block;font-size:17px;line-height:1.2}.st small{color:var(--muted);font-size:14px;display:block;line-height:1.25}
+.bar{height:9px;background:var(--grid);border-radius:5px;overflow:hidden}.bar i{display:block;height:100%;background:var(--hot)}
+.pill{font:700 12px var(--mono);text-align:right}
+.hud{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:8px 12px;flex-direction:initial}
+.hud svg{width:100%;height:56px;display:block}
+.stat b{display:block;font:800 26px/1 var(--sans);color:var(--hot);font-variant-numeric:tabular-nums}
+.bar.thin{height:6px}.bar.thin i{background:var(--ink)}
+.qtext{font-size:clamp(20px,3.3vw,26px);line-height:1.3;font-weight:700}.qtext .m{font-weight:500}
+.chip{font:700 12px var(--mono);padding:3px 7px;border-radius:4px;background:var(--grid);color:var(--ink)}
+.chip.must{background:var(--must);color:var(--inv)}.chip.given{background:var(--given);color:var(--inv)}.chip.bonus{background:var(--bonus);color:var(--inv)}
+.opts{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(170px,1fr))}
+.opt{background:var(--card);border:2px solid var(--ink);border-radius:6px;padding:12px;text-align:left;font-size:18px;font-weight:700;display:flex;gap:10px;align-items:center;min-width:0}
+.opt kbd{font:700 13px var(--mono);background:var(--ink);color:var(--inv);border-radius:4px;padding:2px 7px;flex:none}
+.opt.good{background:var(--goodbg);border-color:var(--good)}.opt.bad{background:var(--badbg);border-color:var(--bad)}
+.entry{display:flex;gap:8px;align-items:stretch}
+.entry input,.entry textarea{flex:1;min-width:0;font:700 21px/1.3 var(--mono);color:var(--ink);background:var(--card);border:3px solid var(--ink);border-radius:6px;padding:12px 14px}
+.entry textarea{font:400 19px/1.4 var(--sans);min-height:110px;resize:vertical}
+.entry .btn{flex:none}
+.preview{min-height:48px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-size:29px}
+.preview .val{font:700 19px var(--mono);color:var(--given)}
+.keys{display:flex;flex-wrap:wrap;gap:6px}.keys button{background:var(--card);border:1.5px solid var(--ink);border-radius:5px;padding:5px 11px;font:500 18px var(--math)}
+.fb{border-radius:6px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.fb.ok{background:var(--goodbg);color:var(--good)}.fb.no{background:var(--badbg);color:var(--bad)}
+.fb b.h{font-size:21px;font-weight:800}.fb .ans{font-size:26px}
+ul.hits{margin:0;padding:0;list-style:none;font-size:15.5px}ul.hits li::before{content:"+ ";font-family:var(--mono)}ul.hits li.miss::before{content:"- "}ul.hits li.miss{font-weight:700}
+.brief ul{margin:0;padding-left:20px;display:grid;gap:6px;max-width:68ch}
+.viz{overflow-x:auto;max-width:100%}.viz svg{display:block;max-width:100%;height:auto;margin:0 auto}
+table.lt{border-collapse:collapse;font-family:var(--mono);font-variant-numeric:tabular-nums;margin:0 auto}table.lt th,table.lt td{border:1.5px solid var(--ink);padding:4px 12px;text-align:right}table.lt th{background:var(--grid)}
+.hero{font-size:clamp(32px,7vw,48px);text-align:center;color:var(--must)}
+.sheet{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.fc{border:1.5px solid var(--line);border-radius:6px;padding:10px 12px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.fc .f{font-size:25px;min-height:52px;display:flex;align-items:center;overflow-x:auto}.fc small{color:var(--muted);line-height:1.3}
+.must .f{color:var(--must)}.given .f{color:var(--given)}
+.review{display:grid;gap:8px}.it{background:var(--card);border-left:5px solid var(--bad);padding:9px 12px}.it.ok{border-left-color:var(--good)}
+.tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.tile{border:2px solid var(--ink);border-radius:6px;padding:10px}.tile b{display:block;font-size:24px;font-variant-numeric:tabular-nums}
+.toast{position:fixed;left:50%;bottom:calc(18px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--inv);border-radius:6px;padding:9px 16px;font-weight:800;z-index:20;max-width:calc(100% - 32px);text-align:center;pointer-events:none}
+@media (max-width:620px){.st{grid-template-columns:minmax(0,1fr) 70px}.st .bar{display:none}.entry{flex-direction:column}.panel{padding:14px}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script type="application/json" id="game">
+{"title":"Circuits Exam Game","subtitle":"Example content. Replace this JSON with the learner's real scope.","source":"Example only, written for this template","exam":{"format":"6 quick items, 2 math, 1 short answer","quick":6,"math":["ohm_i","power_p"],"free":1},"settings":{"recheckHours":8,"bonusChance":0.1,"breakMinutes":40},"theme":{"score":"Charge","goal":"Goal","right":["Current flows","Closed circuit","Grounded","On the rail"],"wrong":"Circuit open"},"formulas":[{"id":"ohm","name":"Ohm's law","tier":"memorize","lhs":"V","rhs":"I R","alts":["IR","RI"],"units":"Volts, from amps and ohms","unitsFrom":"source","hook":"Push equals flow times resistance.","src":"Example","apply":{"id":"ohm_a","type":"num","obj":"ohm","src":"Example","vars":{"i":[2,3,4],"r":[5,10,20]},"q":"A current of {i} A runs through {r} ohms. Find V in volts.","expr":"i*r","why":"V = IR = {i} × {r} = {=i*r} V"}},{"id":"pow","name":"Power","tier":"memorize","lhs":"P","rhs":"I V","alts":["IV","VI"],"units":"Watts, from amps and volts","unitsFrom":"source","hook":"Flow times push.","src":"Example","apply":{"id":"pow_a","type":"num","obj":"power","src":"Example","vars":{"i":[2,3],"v":[6,12]},"q":"{i} A at {v} V. Find P in watts.","expr":"i*v","why":"P = IV = {=i*v} W"}},{"id":"ser","name":"Resistors in series","tier":"provided","lhs":"R_s","rhs":"R_1 + R_2","alts":["R_1+R_2"],"units":"Ohms","unitsFrom":"source","hook":"","src":"Example"}],"topics":[{"id":"basics","name":"Circuit basics","sub":"Current, voltage, resistance","brief":["Current is flow of charge. Voltage is the push. Resistance opposes flow.","In series, $R_s = R_1 + R_2$."],"items":[{"id":"b1","type":"term","obj":"units","src":"Example","q":"The flow of charge is called…","answers":["current","electric current"],"why":"Measured in amps."},{"id":"b2","type":"sort","obj":"units","src":"Example","q":"Unit of resistance","options":["Ohm","Volt","Amp"],"answer":0,"why":"Named for Georg Ohm."},{"id":"ohm_i","type":"num","obj":"ohm","src":"Example","vars":{"v":[6,12,24],"r":[2,3]},"q":"{v} V across {r} ohms. Find I in amps.","expr":"v/r","why":"I = V/R = {=v/r} A"},{"id":"power_p","type":"num","obj":"power","src":"Example","vars":{"i":[2,5],"v":[10,20]},"q":"{i} A at {v} V. Find P in watts.","expr":"i*v","why":"P = IV = {=i*v} W"},{"id":"b5","type":"free","obj":"concept","src":"Example","q":"Adding a resistor in series at fixed voltage: what happens to current, and why?","rubric":{"min":2,"points":[{"label":"current falls","pattern":"fall|drop|decreas|less|lower"},{"label":"total resistance rises","pattern":"resistance"}]},"model":"Total resistance rises, so current falls, since I = V/R."}]}]}
+</script>
+<script>
+"use strict";
+/* ---------- content ---------- */
+let DATA,LOADERR=null;
+try{DATA=JSON.parse(document.getElementById('game').textContent)}catch(e){LOADERR='The game data is not valid JSON: '+e.message;DATA={title:'Exam Game',formulas:[],topics:[]}}
+const CFG=Object.assign({recheckHours:8,bonusChance:.1,breakMinutes:40,mockTarget:null},DATA.settings);
+const TH=Object.assign({score:'Score',goal:'Goal',right:['Right','Got it','Retrieved','Held'],wrong:'Not yet'},DATA.theme);
+document.title=DATA.title||'Exam Game';
+const app=document.getElementById('app');
+/* ---------- math ---------- */
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const UNI={'₀':'0','₁':'1','₂':'2','₃':'3','ₓ':'x','ₜ':'t'};
+const GREEK={lambda:'λ',lamda:'λ',sigma:'Σ',delta:'Δ',theta:'θ',alpha:'α',beta:'β',gamma:'γ',mu:'μ',pi:'π',omega:'ω',rho:'ρ',tau:'τ',epsilon:'ε',phi:'φ'};
+function greek(s){return String(s).replace(/[₀₁₂₃ₓₜ]/g,c=>UNI[c]).replace(/(?<![A-Za-z])(lambda|lamda|sigma|delta|theta|alpha|beta|gamma|omega|rho|mu|pi|tau|epsilon|phi)(?![A-Za-z])/gi,m=>GREEK[m.toLowerCase()]).replace(/\bsum\b/gi,'Σ').replace(/[−–]/g,'-').replace(/[×·]/g,'*')}
+/* Plain-text math to HTML. x^2, a/b, n_0, n_{t+1}, (a+b)/c, sqrt and ln. Incomplete input never throws. */
+function mathHTML(src){
+  const s=greek(src).replace(/\s+/g,'');let i=0;const peek=()=>s[i];
+  function group(open,close){let d=1,j=i+1;while(j<s.length&&d){if(s[j]===open)d++;if(s[j]===close)d--;j++}const inner=s.slice(i+1,d?j:j-1);i=j;return inner}
+  function atom(){const c=peek();if(c===undefined)return'';
+    if(c==='('){i++;const e=expr();if(peek()===')')i++;return{g:e}}
+    const m=/^(ln|log|exp|sqrt|[dΔ][A-Zxt](?!_)|\d*\.?\d+|[A-Za-zλΣΔθαβγμπωρτεφ])/.exec(s.slice(i));
+    if(!m){i++;return esc(c)}
+    i+=m[0].length;let t=m[0];
+    if(['ln','log','exp','sqrt'].includes(t))return'<span class="rm">'+t+'</span>';
+    if(/^[\d.]/.test(t))return'<span class="rm">'+t+'</span>';
+    t=/[ΣΔλ]/.test(t)?'<span class="rm">'+t+'</span>':esc(t);
+    if(peek()==='_'){i++;if(peek()==='{'){t+='<sub>'+esc(group('{','}'))+'</sub>'}else{const b=/^(max|min|\w)/.exec(s.slice(i));if(b){i+=b[0].length;t+='<sub>'+esc(b[0])+'</sub>'}}}
+    return t}
+  const show=a=>a&&a.g!==undefined?'('+a.g+')':a;
+  function pow(){let a=atom();while(peek()==='^'){i++;let b;if(peek()==='-'){i++;b='−'+show(atom())}else if(peek()==='{'){b=mathHTML(group('{','}')).replace(/^<span class="m">|<\/span>$/g,'')}else{const x=atom();b=x&&x.g!==undefined?x.g:x}a=show(a)+'<sup>'+b+'</sup>'}return a}
+  function term(){let out='';while(i<s.length&&!'+-=)'.includes(peek())){if(peek()==='*'){i++;out+=' · ';continue}if(peek()==='/'){i++;let d=pow();d=d&&d.g!==undefined?d.g:d;out='<span class="frac"><span>'+out+'</span><span>'+d+'</span></span>';continue}const b=i;out+=show(pow());if(i===b)i++}return out}
+  function expr(){let out=term();while(peek()==='+'||peek()==='-'){const o=peek();i++;out+=(o==='-'?' − ':' + ')+term()}return out}
+  try{let out=expr();while(i<s.length){if(peek()==='='){i++;out+=' = '+expr()}else{i++;out+=expr()}}return'<span class="m">'+out+'</span>'}catch(e){return'<span class="m">'+esc(src)+'</span>'}
+}
+/* Prose with $math$ in it. Text outside math is escaped. */
+const rich=s=>String(s==null?'':s).replace(/\\\$/g,'\u0001').split(/(\$[^$]+\$)/).map(p=>/^\$[^$]+\$$/.test(p)?mathHTML(p.slice(1,-1)):esc(p)).join('').replace(/\u0001/g,'$');
+/* ---------- checking typed answers ---------- */
+function normF(s,cs){let t=greek(s).replace(/_\{([^}]*)\}/g,'$1').replace(/[\s_*]/g,'').replace(/\{/g,'(').replace(/\}/g,')');return cs?t:t.toLowerCase()}
+/* Compare by value, so commuted forms pass and missing parentheses fail. Symbols come from the accepted form. */
+function symbols(canon,cs){const out=[],re=/(?:Δ[A-Za-zλθαβγμπωρτεφ]|(?<![A-Za-z])d[A-Zxt](?![a-z])|[A-Za-zλΣΔθαβγμπωρτεφ])(?:_\{[^}]*\}|_\w+)?/g;let m;const t=greek(canon).replace(/\b(ln|log|exp|sqrt)\b/g,' ');while((m=re.exec(t))){const k=normF(m[0],cs);if(k!=='e'&&!out.includes(k))out.push(k)}return out.sort((a,b)=>b.length-a.length)}
+function encode(s,vocab){const t=s;let i=0,out='';while(i<t.length){const fn=/^(ln|log|exp|sqrt)(?=\()/.exec(t.slice(i));if(fn){out+=fn[0];i+=fn[0].length;continue}const v=vocab.find(k=>t.startsWith(k,i));if(v){out+='(v'+vocab.indexOf(v)+')';i+=v.length;continue}if(t[i]==='e'){out+='(e)';i++;continue}if(/[\d.+\-/^()]/.test(t[i])){out+=t[i];i++;continue}return null}return out}
+function sameValue(a,b,cs){const vocab=symbols(b,cs),x=encode(normF(a,cs),vocab),y=encode(normF(b,cs),vocab);if(normF(a,cs)===normF(b,cs))return true;if(x===null||y===null)return false;let compared=0;for(let n=0;n<120&&compared<4;n++){const vars={};vocab.forEach((k,i)=>vars['v'+i]=Math.random()<.5?.05+.9*Math.random():1.3+1.9*Math.random());const p=evalExpr(x,vars),q=evalExpr(y,vars);if(p===null&&q===null)continue;if(p===null||q===null||Math.abs(p-q)>1e-9*Math.max(1,Math.abs(q)))return false;compared++}return compared>0}
+function checkFormula(input,alts,cs){const s=greek(input),rhs=s.includes('=')?s.slice(s.lastIndexOf('=')+1):s;if(!rhs.trim())return false;return alts.some(v=>sameValue(rhs,v,cs))}
+function lev(a,b){const d=Array.from({length:a.length+1},(_,i)=>[i]);for(let j=1;j<=b.length;j++)d[0][j]=j;for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)d[i][j]=Math.min(d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+(a[i-1]===b[j-1]?0:1));return d[a.length][b.length]}
+const normT=s=>greek(s).toLowerCase().replace(/[^a-z0-9α-ω ]/g,' ').replace(/\s+/g,' ').trim().replace(/^(the|an|a) (?=\S\S)/,'');
+/* One typo is forgiven only in a long word with the same first letter. Add close wrong answers to near: afferent for efferent. */
+function checkTerm(input,answers,near){const n=normT(input);if(!n)return false;if((near||[]).some(w=>normT(w)===n))return false;return answers.some(a=>{const t=normT(a);return n===t||(t.length>=8&&n[0]===t[0]&&lev(n,t)<=1)})}
+/* Safe arithmetic: + - * / ^ ( ) e pi ln log exp sqrt. Learners may type a setup. */
+function evalExpr(src,vars){
+  const s=greek(src).replace(/,/g,'').replace(/\s+/g,'').replace(/(\d)[xX]10\^/g,'$1*10^').replace(/%$/,'/100');let i=0;
+  function fn(n,f){if(s.startsWith(n,i)&&!/[a-z]/i.test(s[i+n.length]||'')){i+=n.length;return f(atom())}return null}
+  function atom(){
+    if(s[i]==='-'){i++;return -pow()}
+    for(const[n,f]of[['ln',Math.log],['log',Math.log10],['sqrt',Math.sqrt],['exp',Math.exp]]){const v=fn(n,f);if(v!==null)return v}
+    if(s[i]==='('){i++;const v=sum();if(s[i]!==')')throw 0;i++;return v}
+    const id=/^[A-Za-z_][A-Za-z0-9_]*/.exec(s.slice(i));
+    if(id&&vars&&id[0] in vars){i+=id[0].length;return vars[id[0]]}
+    if(s[i]==='e'){i++;return Math.E}
+    if(s[i]==='π'){i++;return Math.PI}
+    const m=/^\d*\.?\d+(e[-+]?\d+)?/i.exec(s.slice(i));if(!m)throw 0;i+=m[0].length;return parseFloat(m[0])}
+  function pow(){const b=atom();if(s[i]==='^'){i++;return Math.pow(b,pow())}return b}
+  function prod(){let v=pow();for(;;){if(s[i]==='*'){i++;v*=pow()}else if(s[i]==='/'){i++;v/=pow()}else if(s[i]&&/[\d(a-zA-Zπ]/.test(s[i])){v*=pow()}else return v}}
+  function sum(){let v=prod();for(;;){if(s[i]==='+'){i++;v+=prod()}else if(s[i]==='-'){i++;v-=prod()}else return v}}
+  if(!s)return null;try{const v=sum();return i===s.length&&isFinite(v)?v:null}catch(e){return null}
+}
+const closeTo=(v,a,tol)=>v!==null&&Math.abs(v-a)<=Math.max(Math.abs(a)*.015,tol||0);
+function fmt(v){const a=Math.abs(v);if(a&&a<1)return String(+v.toPrecision(3));return(+v.toFixed(a>=100?0:a>=10?1:2)).toLocaleString('en-US',{maximumFractionDigits:3})}
+/* A typed number: a setup, scientific notation, or a value with its unit or currency sign. */
+function readNum(src){const t=String(src).trim().replace(/^\$/,'');let v=evalExpr(t);if(v!==null)return{v,pct:/%$/.test(t)};const m=/^(.*?\d\)?)\s*[A-Za-zµΩ°/⁻¹²³ ]+$/.exec(t);if(m){v=evalExpr(m[1]);if(v!==null)return{v}}return null}
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+/* ---------- items ---------- */
+const FORMULAS=DATA.formulas||[],TOPICS=DATA.topics||[],GATE=FORMULAS.filter(f=>f.tier==='memorize');
+const ITEM={};
+TOPICS.forEach(t=>t.items.forEach(i=>{i.topic=t.id;ITEM[i.id]=i}));
+const GATE_ITEMS=[];
+GATE.forEach(f=>{const r={id:'f:'+f.id,type:'formula',f,need:3,topic:'gate'};ITEM[r.id]=r;GATE_ITEMS.push(r);if(f.apply){const a=Object.assign({},f.apply,{topic:'gate',need:1,formula:f.id});ITEM[a.id]=a;GATE_ITEMS.push(a)}});
+const GATE_STAGE={id:'gate',name:'Formula gate',sub:'What you must know cold, from a blank page',items:GATE_ITEMS};
+function build(it){const c=Object.assign({},it);if(it.vars){const v={};for(const k in it.vars)v[k]=pick(it.vars[k]);
+  const fill=s=>String(s||'').replace(/\{=([^}]+)\}/g,(_,e)=>{const r=evalExpr(e,v);return r===null?'NaN':fmt(r)}).replace(/\{(\w+)\}/g,(m,k)=>k in v?v[k]:m);
+  c.q=fill(it.q);c.why=fill(it.why);c.answer=evalExpr(it.expr,v);c.shown=v}return c}
+/* ---------- saved progress: this browser ---------- */
+const KEY='myelinate-game:'+(DATA.title||'game');
+const blank=()=>({c:{},self:{},w:{},gate:0,first:0,recheck:0,tried:0,lastCheck:'',mock:null,ts:0,seen:{}});
+let P=blank(),saved=false;
+try{const r=localStorage.getItem(KEY);if(r)P=Object.assign(blank(),JSON.parse(r));saved=true}catch(e){}
+function save(){P.ts=Date.now();try{localStorage.setItem(KEY,JSON.stringify(P));saved=true}catch(e){saved=false}}
+/* ---------- sound, only after a keypress or click ---------- */
+let ac=null,muted=false;try{muted=localStorage.getItem(KEY+':mute')==='1'}catch(e){}
+function tone(f,d=.09,w=0,v=.06){if(muted)return;try{ac=ac||new(window.AudioContext||window.webkitAudioContext)();const t=ac.currentTime+w,o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=f;g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g).connect(ac.destination);o.start(t);o.stop(t+d)}catch(e){}}
+const ding=s=>{const f=[392,440,523,587,659,784,880,1047][Math.min(s,7)];tone(f);tone(f*1.5,.12,.06,.04)};
+const buzz=()=>tone(150,.14);
+/* ---------- run state ---------- */
+let view='home',R=null,E=null,session0=Date.now();
+const gateOpen=()=>!GATE.length||!!P.gate;
+const cleared=it=>!!P.c[it.id];
+const count=l=>l.filter(cleared).length;
+const allItems=()=>GATE_ITEMS.concat(...TOPICS.map(t=>t.items));
+const anchor=()=>GATE.length?P.gate:P.first;
+const recheckDue=()=>anchor()&&P.recheck<anchor()&&Date.now()-Math.max(anchor(),P.tried)>CFG.recheckHours*3600e3;
+function toast(t){document.querySelectorAll('.toast').forEach(e=>e.remove());const d=document.createElement('div');d.className='toast';d.setAttribute('role','status');d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),1900)}
+function nextAction(){
+  if(!gateOpen())return count(GATE_ITEMS)===GATE_ITEMS.length&&P.seen.learned?{t:'Take the gate test',s:'Everything from a blank page, with no hints.',b:'Take the test',f:gateExam}:{t:'Start the formula gate',s:'Learn what must be memorized, drill it from memory, then pass a perfect blank-page test. The rest opens after.',b:'Start',f:()=>start(GATE_STAGE)};
+  if(recheckDue())return{warn:1,t:'Delayed recheck is ready',s:'Time has passed. Answer from a blank page to see what held.',b:'Recheck',f:recheck};
+  const n=TOPICS.find(t=>count(t.items)<t.items.length);
+  if(n)return{t:'Next: '+n.name,s:n.sub||'',b:'Play',f:()=>start(n)};
+  return{t:'Mock exam',s:DATA.exam&&DATA.exam.format||'Same mix as the real test, no feedback until the end.',b:P.mock===null?'Start mock exam':'Run it again',f:mock};
+}
+function home(){if(R)clearTimeout(R.adv);window.onkeydown=null;view='home';R=null;
+  const all=allItems(),a=nextAction(),self=Object.keys(P.self).filter(k=>P.c[k]).length;
+  app.innerHTML=(LOADERR?`<div class="fb no"><b class="h">This game can't load</b><span>${esc(LOADERR)}</span></div>`:'')+`<header class="top"><div><div class="label">${esc(DATA.source||'')}</div><h1>${esc(DATA.title)}</h1><p>${rich(DATA.subtitle)}</p></div><div class="panel" style="padding:10px 14px;gap:4px"><span class="label">Items cleared</span><span class="bignum">${count(all)} of ${all.length}</span></div></header>
+  <section class="panel next ${a.warn?'bonus':''}"><div><h2>${esc(a.t)}</h2><p>${rich(a.s)}</p></div><button class="btn big" id="go">${esc(a.b)}</button></section>
+  <section class="panel list" aria-label="Stages">${(GATE.length?[GATE_STAGE]:[]).concat(TOPICS).map((t,i)=>{const n=count(t.items),m=t.items.length,lock=t.id!=='gate'&&!gateOpen();return`<button class="st" data-t="${esc(t.id)}" ${lock?'disabled':''}><span><strong>${esc(t.name)}</strong><small>${lock?'Opens after the gate':esc(t.sub||'')}</small></span><span class="bar"><i style="width:${m?n/m*100:0}%"></i></span><span class="pill">${n===m?'Cleared':n+' of '+m}</span></button>`}).join('')}
+  <button class="st" id="mockB" ${gateOpen()?'':'disabled'}><span><strong>Mock exam</strong><small>${P.mock===null?'No feedback until the end':'Best on auto-marked items: '+P.mock+'%'}</small></span><span class="bar"><i style="width:${P.mock||0}%"></i></span><span class="pill">${P.mock===null?'Not taken':P.mock+'%'}</span></button></section>
+  <div class="row"><button class="btn alt" id="sheet">Formula sheet</button><button class="btn ghost" id="mute">${muted?'Sound off':'Sound on'}</button><button class="btn ghost" id="reset">Reset progress</button></div>
+  <p class="label" style="text-transform:none;letter-spacing:0">Cleared means answered without help in practice. It doesn't predict your exam score.${self?` ${self} cleared on your own judgment.`:''}${P.lastCheck?' Last delayed recheck: '+esc(P.lastCheck)+'.':''}${saved?'':' Progress resets when this page closes.'}</p>`;
+  $('go').onclick=a.f;$('go').focus();$('mockB').onclick=mock;$('sheet').onclick=sheet;
+  $('mute').onclick=()=>{muted=!muted;try{localStorage.setItem(KEY+':mute',muted?'1':'0')}catch(e){}home()};
+  $('reset').onclick=e=>{if(e.target.dataset.sure){P=blank();save();home()}else{e.target.dataset.sure='1';e.target.textContent='Click again to erase progress'}};
+  document.querySelectorAll('.st[data-t]').forEach(b=>b.onclick=()=>{const s=b.dataset.t==='gate'?GATE_STAGE:TOPICS.find(t=>t.id===b.dataset.t);if(s.id==='gate'&&!gateOpen()&&count(GATE_ITEMS)===GATE_ITEMS.length)gateExam();else start(s)})}
+const $=id=>document.getElementById(id);
+function sheet(){view='sheet';const tier=(k,cls,h)=>{const l=FORMULAS.filter(f=>f.tier===k);return l.length?`<div class="label">${h}</div><div class="sheet ${cls}">${l.map(f=>`<div class="fc"><b>${esc(f.name)}</b><div class="f">${mathHTML(f.lhs+'='+f.rhs)}</div><small>Units: ${rich(f.units||'Not stated')}${f.unitsFrom==='derived'?' (derived, check against your course)':''}</small></div>`).join('')}</div>`:''};
+  app.innerHTML=`<section class="panel"><h2>Formula sheet</h2>${tier('memorize','must','Memorize')}${tier('know','','Also know')}${tier('provided','given','Provided on the exam')}<div class="row"><button class="btn" id="back">Back</button></div></section>`;$('back').onclick=home;$('back').focus()}
+function newRun(stage,queue){return{stage,queue,total:queue.length,done:0,streak:0,best:0,score:20,goal:200,hist:[20],right:0,wrong:0,since:0,st:{},missed:{},spacer:new Set(),t0:Date.now()}}
+function start(s){if(s.id==='gate'&&!P.seen.learned)return learn(0);
+  const p=s.items.filter(i=>!cleared(i));R=newRun(s,shuffle(p.length?p:s.items));
+  if(s.brief&&!P.seen[s.id])return brief(s);nextCard()}
+function brief(s){view='brief';P.seen[s.id]=1;save();
+  app.innerHTML=`<section class="panel brief"><div class="label">Brief</div><h2>${esc(s.name)}</h2>${s.svg?`<div class="viz">${s.svg}</div>`:''}<ul>${s.brief.map(b=>`<li>${rich(b)}</li>`).join('')}</ul><div class="row"><button class="btn big" id="go">Start drilling</button><button class="btn ghost" id="back">Back to map</button></div></section>`;
+  $('go').onclick=nextCard;$('back').onclick=home;$('go').focus()}
+const KEYS=['^','/','_','(',')'];
+function keys(f){const extra=f?[...new Set((f.rhs+(f.alts||[]).join('')).replace(/[\x00-\x7F]/g,''))]:['λ','Σ'];return`<div class="keys" id="ks">${extra.concat(KEYS).map(k=>`<button tabindex="-1" data-k="${esc(k)}">${esc(k)}</button>`).join('')}</div>`}
+function learn(i){view='learn';const f=GATE[i];
+  app.innerHTML=`<section class="panel"><div class="row" style="justify-content:space-between"><span class="label">Learn ${i+1} of ${GATE.length}</span><span class="chip must">Must memorize</span></div><h2>${esc(f.name)}</h2><div class="hero">${mathHTML(f.lhs+'='+f.rhs)}</div>${f.svg?`<div class="viz">${f.svg}</div>`:''}<p>${rich(f.hook)}</p><p class="label" style="text-transform:none">Units: ${rich(f.units||'Not stated')}</p>
+  <label class="label" for="ans">Type it once while looking</label><div class="entry"><input id="ans" autocomplete="off" autocapitalize="off" spellcheck="false"><button class="btn" id="sub">Enter</button></div>${keys(f)}<div class="preview" id="pv"></div><div class="row"><button class="btn ghost" id="quit">Map</button></div></section>`;
+  const inp=wire({type:'formula'});inp.focus();$('quit').onclick=home;const pv=$('pv');
+  const go=()=>{if(checkFormula(inp.value,f.alts,f.caseSensitive)){ding(i);if(i<GATE.length-1)learn(i+1);else{P.seen.learned=1;save();start(GATE_STAGE)}}else{buzz();inp.select();pv.innerHTML='<span class="label">Not a match yet. Copy it from above.</span>'}};
+  inp.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();go()}};$('sub').onclick=go}
+function curve(){const H=R.hist.slice(-40),top=R.goal*1.08,w=300,h=56,n=Math.max(H.length-1,12),X=i=>2+i/n*(w-10),Y=v=>h-2-(Math.min(v,top)/top)*(h-4);
+  return`<svg viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true"><line x1="0" x2="${w}" y1="${Y(R.goal)}" y2="${Y(R.goal)}" stroke="currentColor" stroke-dasharray="5 4" vector-effect="non-scaling-stroke"/><polyline fill="none" stroke="var(--hot)" stroke-width="3" vector-effect="non-scaling-stroke" points="${H.map((v,i)=>X(i).toFixed(1)+','+Y(v).toFixed(1)).join(' ')}"/></svg>`}
+function hud(){return`<div class="row" style="justify-content:space-between"><button class="btn ghost" id="quit">Map</button><span class="label">${esc(R.stage.name)}</span><span class="label">${R.queue.length} left</span></div><div class="bar thin"><i style="width:${R.total?Math.min(100,R.done/R.total*100):0}%"></i></div><div class="panel hud"><div class="stat"><span class="label">${esc(TH.score)}</span><b id="hS">${Math.round(R.score)}</b></div><div id="hC">${curve()}</div><div class="stat"><span class="label">Streak</span><b id="hT" style="color:var(--ink)">${R.streak}</b></div></div>`}
+function updateHud(){if($('hS')){$('hS').textContent=Math.round(R.score);$('hT').textContent=R.streak;$('hC').innerHTML=curve()}}
+/* A retest needs something between it and the answer. With nothing left in the queue, a cleared item goes first. */
+function requeue(id,a,b){if(!R.queue.length){const o=Object.keys(P.c).filter(k=>ITEM[k]&&k!==id);if(o.length){const s=pick(o);R.spacer.add(s);R.queue.push(ITEM[s])}}R.queue.splice(Math.min(R.queue.length,ri(a,b)),0,ITEM[id])}
+function grow(speed,bonus){const r=Math.min(.95,.3+.05*R.streak)*(bonus?3:1)*(speed?1.25:1);R.score+=Math.max(1,r*R.score*Math.max(.04,(R.goal-R.score)/R.goal));R.right++;R.streak++;R.best=Math.max(R.best,R.streak);R.hist.push(R.score);if(R.score>=R.goal*.97){R.goal=Math.round(R.goal*1.6);toast(TH.goal+' raised to '+R.goal)}else if(R.streak%5===0)toast(R.streak+' in a row')}
+function nextCard(){if(!R)return home();if(!R.queue.length)return finish();let it=R.queue.shift(),surprise=false;R.since++;
+  if(gateOpen()&&R.stage.id!=='gate'&&R.since>=5){const old=Object.keys(P.c).filter(k=>ITEM[k]&&ITEM[k].topic!==R.stage.id);if(old.length){const fs=old.filter(k=>k.startsWith('f:'));const id=Math.random()<.4&&fs.length?pick(fs):old.sort((a,b)=>P.c[a]-P.c[b])[ri(0,Math.min(6,old.length-1))];R.queue.unshift(it);it=ITEM[id];surprise=true;R.since=0}}
+  if(R.spacer.delete(it.id))surprise=true;const c=build(it);c.surprise=surprise;c.bonus=Math.random()<CFG.bonusChance;R.cur=c;show(c)}
+const CHIP={formula:['Formula','must'],num:['Math',''],term:['Type it',''],sort:['Sort',''],free:['Short answer','']};
+function ask(c){if(c.type==='formula')return`<div class="qtext">${esc(c.f.name)}</div><div class="qtext">${mathHTML(c.f.lhs)} = ?</div>`;return`<div class="qtext">${rich(c.q)}</div>${c.table?`<div class="viz">${table(c.table)}</div>`:''}${c.svg?`<div class="viz">${c.svg}</div>`:''}`}
+function table(t){return`<table class="lt"><tr>${t.head.map(h=>`<th>${rich(h)}</th>`).join('')}</tr>${t.rows.map(r=>`<tr>${r.map(v=>`<td>${rich(v)}</td>`).join('')}</tr>`).join('')}</table>`}
+function input(c){if(c.type==='sort')return`<div class="opts" id="opts">${c.options.map((o,i)=>`<button class="opt" data-i="${i}"><kbd>${i+1}</kbd><span>${rich(o)}</span></button>`).join('')}</div>`;
+  if(c.type==='free')return`<div class="entry"><textarea id="ans" aria-label="Your answer" placeholder="A few words or sentences. Enter to submit, Shift+Enter for a new line."></textarea><button class="btn" id="sub">Enter</button></div>`;
+  const m=c.type==='num'||c.type==='formula';return`<div class="entry"><input id="ans" aria-label="Your answer" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="${c.type==='num'?'A number or a setup like 300*e^(0.2*6)':c.type==='formula'?'Type the right side, like a/b':'Type your answer'}"><button class="btn" id="sub">Enter</button></div>${m?(c.type==='formula'?keys(c.f):`<div class="keys" id="ks">${['^','e^','ln(','(',')','*'].map(k=>`<button tabindex="-1" data-k="${k}">${k}</button>`).join('')}</div>`)+'<div class="preview" id="pv"></div>':''}`}
+function wire(c){const inp=$('ans'),pv=$('pv');if(!inp)return inp;
+  if(pv)inp.oninput=()=>{let h=inp.value?mathHTML(inp.value):'';if(c.type==='num'){const v=evalExpr(inp.value);if(v!==null&&/[-+*/^(el]/.test(inp.value.slice(1)))h+=`<span class="val">= ${fmt(v)}</span>`}pv.innerHTML=h};
+  const ks=$('ks');if(ks)ks.onclick=e=>{const k=e.target.dataset.k;if(!k)return;const a=inp.selectionStart||inp.value.length;inp.value=inp.value.slice(0,a)+k+inp.value.slice(inp.selectionEnd||a);inp.focus();inp.selectionStart=inp.selectionEnd=a+k.length;inp.oninput&&inp.oninput()};
+  return inp}
+function grade(c,v){if(c.type==='formula')return{ok:checkFormula(v,c.f.alts,c.f.caseSensitive)};if(c.type==='term')return{ok:checkTerm(v,c.answers,c.near)};if(c.type==='num'){const x=readNum(v);if(!x)return{unread:true,ok:false};return{ok:closeTo(x.v,c.answer,c.tol)||(!!x.pct&&closeTo(x.v*100,c.answer,c.tol))}}
+  if(c.type==='free'){const low=v.toLowerCase(),hits=c.rubric.points.map(p=>new RegExp(p.pattern,'i').test(low));return{ok:hits.filter(Boolean).length>=c.rubric.min,hits}}return{ok:v===c.answer}}
+function answerText(c){if(c.type==='formula')return mathHTML(c.f.lhs+'='+c.f.rhs);if(c.type==='term')return esc(c.answers[0]);if(c.type==='num')return esc(fmt(c.answer));if(c.type==='sort')return rich(c.options[c.answer]);return rich(c.model)}
+function show(c){view='play';const[k,cl]=CHIP[c.type]||['',''];
+  app.innerHTML=hud()+`<main style="display:flex;flex-direction:column;gap:12px"><section class="panel ${c.bonus?'bonus':''}"><div class="row" style="justify-content:space-between"><span class="chip ${cl}">${k}</span><span class="row">${c.surprise?'<span class="chip given">Surprise recall</span>':''}${c.bonus?'<span class="chip bonus">Bonus</span>':''}</span></div>${ask(c)}</section>${input(c)}<div id="fb" aria-live="polite"></div></main>`;
+  $('quit').onclick=home;R.t=Date.now();R.locked=false;
+  if(c.type==='sort')$('opts').onclick=e=>{const b=e.target.closest('.opt');if(b)submit(c,+b.dataset.i)};
+  else{const inp=wire(c);inp.focus();const go=()=>submit(c,inp.value);$('sub').onclick=go;inp.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();go()}}}}
+const unread=()=>{let n=$('unread');if(!n){n=document.createElement('p');n.id='unread';n.setAttribute('role','alert');n.style.color='var(--bad)';$('ans').closest('.entry').after(n)}n.textContent="That isn't readable as a number. Try something like 40, 1.2e3 or 300*e^(0.2*6).";$('ans').select()};
+function submit(c,v){if(R.locked||v===''||(typeof v==='string'&&!v.trim()))return;if(c.type==='num'&&!readNum(v))return unread();R.locked=true;const g=grade(c,v),speed=Date.now()-R.t<7000,box=$('fb');
+  if(c.type==='sort'){const b=[...document.querySelectorAll('.opt')];b[c.answer].classList.add('good');if(!g.ok)b[v].classList.add('bad')}
+  if(g.ok){ding(R.streak);grow(speed,c.bonus);const id=c.id;R.st[id]=(R.st[id]||0)+1;const need=c.need||(c.type==='free'||(c.type==='num'&&!c.vars)?1:2);
+    if(c.surprise)P.c[id]=Date.now();else if(R.st[id]>=need+(R.missed[id]?1:0)){P.c[id]=Date.now();delete P.self[id];R.done++}else requeue(id,3,6);
+    save();const fr=c.type==='free';box.innerHTML=`<div class="fb ok"><b class="h">${esc(pick(TH.right))}</b>${c.why?`<span>${rich(c.why)}</span>`:''}${fr?`<span>Model answer: ${rich(c.model)}</span><span class="label" style="color:inherit;text-transform:none">This practice check matches key words, so compare your meaning with the model.</span><div class="row"><button class="btn" id="cont">Continue</button></div>`:''}</div>`;updateHud();if(fr){$('cont').onclick=advance;document.querySelectorAll('.entry').forEach(e=>e.remove());$('cont').focus()}else R.adv=setTimeout(advance,c.type==='num'?1300:750);setTimeout(()=>{if(R&&R.cur===c)window.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();advance()}}},120)}
+  else{buzz();R.score=Math.max(8,R.score*.72);R.streak=0;R.wrong++;R.hist.push(R.score);R.missed[c.id]=1;R.st[c.id]=0;delete P.c[c.id];delete P.self[c.id];P.w[c.id]=(P.w[c.id]||0)+1;save();requeue(c.id,2,4);updateHud();miss(c,g,box)}}
+function advance(){if(R)clearTimeout(R.adv);window.onkeydown=null;nextCard()}
+function miss(c,g,box){
+  if(c.type==='formula'||c.type==='term'){box.innerHTML=`<div class="fb no"><b class="h">${esc(TH.wrong)}</b><span class="ans">${answerText(c)}</span>${c.why?`<span>${rich(c.why)}</span>`:''}<span class="label" style="color:inherit">Retype it to keep going</span></div>`;const inp=$('ans');inp.value='';inp.focus();if($('pv'))$('pv').innerHTML='';const go=()=>{if(grade(c,inp.value).ok){ding(0);nextCard()}else inp.select()};inp.onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();go()}};$('sub').onclick=go;return}
+  document.querySelectorAll('.entry,#ks,#pv').forEach(e=>e.remove());
+  const extra=c.type==='free'?`<ul class="hits">${c.rubric.points.map((p,i)=>`<li class="${g.hits[i]?'':'miss'}">${esc(p.label)}</li>`).join('')}</ul><span>Model answer: ${rich(c.model)}</span><span class="label" style="color:inherit;text-transform:none">This practice check matches key words, so it can miss a good answer.</span>`:c.type==='num'?`<span class="ans">${answerText(c)}</span><span>${rich(c.why)}</span>`:`<span>${rich(c.why)}</span>`;
+  box.innerHTML=`<div class="fb no"><b class="h">${esc(TH.wrong)}</b>${extra}<div class="row">${c.type==='free'?'<button class="btn alt" id="had">I had it, count it</button>':''}<button class="btn" id="cont">Continue</button></div></div>`;$('cont').onclick=advance;$('cont').focus();
+  if($('had'))$('had').onclick=()=>{R.queue=R.queue.filter(q=>q.id!==c.id);P.c[c.id]=Date.now();P.self[c.id]=1;R.done++;save();advance()}}
+function finish(){view='result';if(!P.first){P.first=Date.now();save()}const s=R.stage,acc=Math.round(R.right/Math.max(1,R.right+R.wrong)*100),gate=s.id==='gate'&&!gateOpen(),n=TOPICS.find(t=>count(t.items)<t.items.length),tired=(Date.now()-session0)/60000>=CFG.breakMinutes;
+  app.innerHTML=`<section class="panel"><div class="label">${esc(s.name)} cleared</div><h2>${tired?'Good place for a break':'Cleared'}</h2>${tired?'<p>You have been at this a while. A break now helps more than another stage.</p>':''}<div class="tiles"><div class="tile"><span class="label">Accuracy, all attempts</span><b>${acc}%</b></div><div class="tile"><span class="label">Best streak</span><b>${R.best}</b></div><div class="tile"><span class="label">Minutes</span><b>${Math.max(1,Math.round((Date.now()-R.t0)/60000))}</b></div></div><div class="row"><button class="btn big" id="go">${gate?'Take the gate test':n?'Next: '+esc(n.name):'Mock exam'}</button><button class="btn alt" id="back">Map</button></div></section>`;
+  $('go').onclick=gate?gateExam:n?()=>start(n):mock;$('back').onclick=home;$('go').focus()}
+/* ---------- exams: no feedback until the end ---------- */
+function exam(cfg){view='exam';E=Object.assign({i:0,ans:[]},cfg);examCard()}
+function examCard(){const c=E.cards[E.i],[k,cl]=CHIP[c.type]||['',''];
+  app.innerHTML=`<div class="row" style="justify-content:space-between"><span class="label">${esc(E.name)}</span><span class="label">${E.i+1} of ${E.cards.length}</span></div><div class="bar thin"><i style="width:${E.i/E.cards.length*100}%"></i></div><section class="panel"><span class="chip ${cl}" style="align-self:flex-start">${k}</span>${ask(c)}</section>${input(c)}`;
+  const rec=v=>{if(c.type==='num'&&!readNum(v))return unread();E.ans.push({c,v,g:grade(c,v)});E.i++;if(E.i<E.cards.length)examCard();else E.done()};
+  if(c.type==='sort')$('opts').onclick=e=>{const b=e.target.closest('.opt');if(b)rec(+b.dataset.i)};
+  else{const inp=wire(c);inp.focus();const go=()=>{if(inp.value.trim())rec(inp.value)};$('sub').onclick=go;inp.onkeydown=e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();go()}}}}
+const reviewHTML=l=>`<div class="review">${l.map(a=>`<div class="it ${a.g.ok?'ok':''}"><b>${a.g.ok?'Right.':'Not yet.'}</b> ${a.c.type==='formula'?esc(a.c.f.name):rich(a.c.q)}${a.g.ok?'':`<br>${answerText(a.c)}${a.c.why?' · '+rich(a.c.why):''}`}</div>`).join('')}</div>`;
+function result(h,body,label,fn){view='result';app.innerHTML=`<section class="panel"><h2>${h}</h2>${body}<div class="row"><button class="btn big" id="go">${label}</button></div></section>`;$('go').onclick=fn;$('go').focus()}
+function gateExam(){const a=shuffle(GATE).map(f=>build(ITEM['f:'+f.id])),b=shuffle(GATE.filter(f=>f.apply)).map(f=>build(ITEM[f.apply.id])),n=a.length+b.length;
+  exam({name:'Gate test: must be perfect',cards:a.concat(b),done(){const m=E.ans.filter(x=>!x.g.ok);
+    if(!m.length){P.gate=Date.now();P.recheck=0;save();result(`${n} of ${n} from a blank page`,`<p>The rest is open. A delayed recheck appears after ${CFG.recheckHours} hours. Passing today is same-session evidence; the recheck is the one that shows what held.</p>`,'Open the map',home)}
+    else{m.forEach(x=>{delete P.c[x.c.id];if(x.c.formula)delete P.c['f:'+x.c.formula]});save();result(`${n-m.length} of ${n}. It takes ${n}.`,reviewHTML(m),'Drill those, then retest',()=>start(GATE_STAGE))}}})}
+function recheck(){const cards=GATE.length?shuffle(GATE).map(f=>ITEM['f:'+f.id]):shuffle(allItems().filter(i=>cleared(i)&&i.type!=='sort')).slice(0,8);
+  exam({name:'Delayed recheck',cards:cards.map(build),done(){const m=E.ans.filter(x=>!x.g.ok),n=E.cards.length;P.tried=Date.now();P.lastCheck=(n-m.length)+' of '+n+' held';if(!m.length)P.recheck=Date.now();m.forEach(x=>delete P.c[x.c.id]);save();const again=GATE.length?GATE_STAGE:TOPICS.find(t=>m.some(x=>t.items.some(i=>i.id===x.c.id)));result(`${n-m.length} of ${n} held`,m.length?reviewHTML(m)+`<p>Another recheck opens ${CFG.recheckHours} hours from now.</p>`:'<p>Retrieved after a delay, unaided.</p>',m.length?'Drill the misses':'Open the map',m.length?()=>start(again):home)}})}
+function mock(){const all=TOPICS.flatMap(t=>t.items),x=DATA.exam||{},q=shuffle(all.filter(i=>i.type==='sort'||i.type==='term')).slice(0,x.quick??12),m=(x.math||[]).map(id=>ITEM[id]).filter(Boolean),f=shuffle(all.filter(i=>i.type==='free')).slice(0,x.free??3);
+  exam({name:'Mock exam',cards:q.concat(m,f).map(build),done(){const auto=E.ans.filter(a=>a.c.type!=='free'),ok=auto.filter(a=>a.g.ok).length,p=auto.length?Math.round(ok/auto.length*100):0,fr=E.ans.filter(a=>a.c.type==='free');P.mock=Math.max(P.mock||0,p);auto.filter(a=>!a.g.ok).forEach(a=>delete P.c[a.c.id]);save();const m=auto.filter(a=>!a.g.ok);
+    result(`${p}% on ${auto.length} auto-marked items`,`<p>${CFG.mockTarget!==null&&p>=CFG.mockTarget?'That hits the target you set. Rest helps more than another run now.':m.length?'Your misses went back into their stages. Clear them, then run it again.':''} This is a practice score, not a prediction.</p>${m.length?reviewHTML(m):''}${fr.length?`<div class="label">Short answers: compare these yourself</div><div class="review">${fr.map(a=>`<div class="it ok"><b>${rich(a.c.q)}</b><br>You wrote: ${esc(a.v)}<br>Model: ${rich(a.c.model)}</div>`).join('')}</div>`:''}`,'Back to map',home)}})}
+document.addEventListener('keydown',e=>{if((view==='play'||view==='exam')&&/^[1-6]$/.test(e.key)&&$('opts')&&!e.target.matches('input,textarea')){const b=document.querySelector(`.opt[data-i="${+e.key-1}"]`);if(b)b.click()}});
+/* ---------- audit: run this before delivering ---------- */
+function gameAudit(){const r={fatal:LOADERR,duplicateIds:[],noSource:[],noUnits:[],formulaAltsMissRhs:[],cannotType:[],applyIgnored:[],modelFailsRubric:[],badSort:[],badNumber:[],badPattern:[],rawTeX:[],suspectMath:[],sortOnly:[],objectives:{},counts:{}};
+  const seen={},note=id=>{if(seen[id])r.duplicateIds.push(id);seen[id]=1},typable=/^[\x00-\x7FλΣΔθαβγμπωρτεφ]*$/;
+  const add=(obj,kind,id)=>{if(obj){const o=r.objectives[obj]=r.objectives[obj]||{production:[],sort:[]};o[kind].push(id)}};
+  const walk=(v,path)=>{if(typeof v==='string'){if(path.endsWith('.svg')||path.includes('.pattern'))return;if(/\\(frac|text|sum|times|cdot|alpha|beta|lambda|sqrt|mathrm)\b|\^\{\}/.test(v))r.rawTeX.push(path);(v.match(/\$[^$]+\$/g)||[]).forEach(m=>{if(/[a-z]{3,}[ ,]+[a-z]{3,}/i.test(m)&&!/\b(ln|log|exp|sqrt)\b/.test(m))r.suspectMath.push(path)})}else if(Array.isArray(v))v.forEach((x,i)=>walk(x,path+'['+i+']'));else if(v&&typeof v==='object')for(const k in v)if(!['f','topic'].includes(k))walk(v[k],path+'.'+k)};walk(DATA,'game');
+  FORMULAS.forEach(f=>{note('formula:'+f.id);if(!f.src)r.noSource.push(f.id);if(!f.units)r.noUnits.push(f.id);if(!(f.alts||[]).some(a=>checkFormula(f.rhs,[a],f.caseSensitive)))r.formulaAltsMissRhs.push(f.id);if(!typable.test(greek(f.rhs))&&!(f.alts||[]).some(a=>typable.test(greek(a))))r.cannotType.push(f.id);if(f.apply&&f.tier!=='memorize')r.applyIgnored.push(f.id);add(f.obj,'production','f:'+f.id)});
+  allItems().forEach(it=>{if(it.type==='formula')return;note(it.id);if(!it.src)r.noSource.push(it.id);add(it.obj,it.type==='sort'?'sort':'production',it.id);r.counts[it.type]=(r.counts[it.type]||0)+1;
+    if(it.type==='sort'&&(!it.options||!(it.answer>=0&&it.answer<it.options.length)))r.badSort.push(it.id);
+    if(it.type==='free'){try{if(!grade(it,String(it.model).replace(/\$/g,'')).ok)r.modelFailsRubric.push(it.id)}catch(e){r.badPattern.push(it.id)}}
+    if(it.type==='num'){const n=it.vars?20:1,strip=t=>String(t).replace(/\$[^$]*\$/g,'');for(let i=0;i<n;i++){const c=build(it);if(typeof c.answer!=='number'||!isFinite(c.answer)||/\{=|\{\w+\}|NaN|undefined/.test(strip(c.q)+strip(c.why))||!closeTo(parseFloat(fmt(c.answer).replace(/,/g,'')),c.answer,c.tol)){r.badNumber.push(it.id);break}}}});
+  r.sortOnly=Object.keys(r.objectives).filter(k=>!r.objectives[k].production.length);
+  (DATA.exam&&DATA.exam.math||[]).forEach(id=>{if(!ITEM[id])r.badNumber.push('exam.math:'+id)});
+  r.ok=!r.fatal&&!['duplicateIds','noSource','noUnits','formulaAltsMissRhs','cannotType','applyIgnored','modelFailsRubric','badSort','badNumber','badPattern','rawTeX','suspectMath','sortOnly'].some(k=>r[k].length);return r}
+const auditContent=gameAudit;window.gameAudit=()=>Object.assign(auditContent(),{progressSaves:saved});
+window.__game={get card(){return view==='exam'&&E?E.cards[E.i]:R&&R.cur},get view(){return view},get progress(){return P},mathHTML,evalExpr,checkFormula,checkTerm,readNum,fmt};
+home();
+</script>
+</body>
+</html>

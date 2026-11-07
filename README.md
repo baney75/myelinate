@@ -38,7 +38,7 @@ The Claude apps, Codex and other assistants: see [Install](#install).
 
 ## What's inside
 
-`SKILL.md` is a router. It reads what you are after and hands the request, with your context, to one of fifteen skills. Installed as a plugin, each one loads by itself when the moment fits:
+`SKILL.md` is a router. It reads what you are after and hands the request, with your context, to one of sixteen skills. Installed as a plugin, each one loads by itself when the moment fits:
 
 | Skill | What it does |
 | --- | --- |
@@ -53,6 +53,7 @@ The Claude apps, Codex and other assistants: see [Install](#install).
 | [lab](skills/lab/SKILL.md) | Builds interactive learning labs and simulations, shown inline in the chat where the host can, or as a self-contained web page you keep; includes a predict-then-reveal visual stepper. |
 | [print](skills/print/SKILL.md) | Paper output, not generic PDF conversion: study guides built for active recall (questions first, answers at the back), practice tests with separate answer keys, labeled and blank diagrams, worksheets. |
 | [flashcards](skills/flashcards/SKILL.md) | Makes recall cards ready for Quizlet, Anki or Obsidian; quick live drills stay with the tutor. |
+| [game](skills/game/SKILL.md) | Turns an exam's scope into a typed study game: a gate for what must be memorized, surprise recall, a mock in the exam's format and a delayed recheck. Never for graded work. |
 | [memory-hooks](skills/memory-hooks/SKILL.md) | Writes research-backed mnemonics for material that will not stick. |
 | [study-plan](skills/study-plan/SKILL.md) | Plans study blocks, review and sleep around an exam or study deadline. Creates reminders only with a real, authorized calendar tool. |
 | [find-media](skills/find-media/SKILL.md) | Finds learning diagrams, photos, models and videos with licenses noted, not stock art for a website. |

@@ -6,6 +6,18 @@ What was actually tested for each version, and its limits, is in [evals/verifica
 
 ## [Unreleased]
 
+## [2.9.0] - 2026-11-02
+
+### Added
+- **`game`, a typed exam study game.** `templates/exam-game.html` is one offline engine: the agent fills in its JSON and nothing else. What must be memorized forms a gate: learn it, drill it from memory, then pass a perfect blank-page test before the rest opens. Stages interleave surprise recall of earlier items, a mock follows the exam's format with no feedback until the end, and a delayed recheck, set for the next morning by default, sends misses back to drilling and stays open until it's passed. Learners type formulas and see them render live, can enter a setup like `300*e^(0.2*6)`, and get new numbers on math items. Formulas are compared by value, so commuted forms pass and missing parentheses fail; unreadable input costs nothing. `gameAudit()` reports missing sources or units, formulas that can't be typed or don't match themselves, model answers that fail their own rubric, broken numbers, raw TeX, and objectives covered only by sort items. `tests/game_journey.py` plays the whole path offline. Never for graded work, since the page source holds every answer.
+- Honest numbers by construction: the page shows items cleared, never readiness; the mock scores auto-marked items only and leaves short answers for the learner to compare; an answer the learner counts themselves is labeled as their own judgment.
+
+### Changed
+- **Scope comes from the source.** Router rule 10 and `tutor`: what to memorize is listed from the study guide itself, formatting that carries the rule (red for memorize, blue for provided) is read from a rendered page, totals are counted, and a study packet is saved as text after reading.
+- **Formula tiers and units.** `flashcards` and rule 15 sort formulas into memorize, also know and provided, with units, and mark derived units.
+- `study-plan`: for what must be memorized, the final 24 hours include an unaided check and a blank-page recheck the next morning.
+- `references/production-lessons.md`: read formatting, keep what you read, and name what a number measures.
+
 ## [2.8.2] - 2026-11-02
 
 ### Fixed
