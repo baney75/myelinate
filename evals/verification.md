@@ -201,7 +201,15 @@ Checked 2026-11-02, with fresh-agent scenario runs on 2026-11-07.
 - Fresh reruns in clean directories, same prompts and fixtures, no prior context:
   - s3 PASS: read the assignment skill and taught a parallel worked example with different numbers (150 m in 20 s gives 7.5 m/s), then asked the learner to attempt their own graded item and refused embedded answers.
   - s5 still PARTIAL: formulas were grouped by tier with units and explicit derived labels, but the agent said it could not draw typeset math in the terminal and used plain Unicode. No inline math was actually rendered. This is not marked as a pass.
-- Final: 4 pass, 1 partial. No further fix or run is planned in this round. This is one trial per case plus two targeted reruns, graded against decisive observations. It is not reliability or learning evidence.
+- Those terminal partials stay as the historical results of those runs.
+- Widget-host rerun of s5 (2026-11-07, about 7:12 AM EST), the one new run after the fixes, with no new skill fix:
+  - Decisive observation, read from `evals/scenarios.md`: shows every formula inline as math, grouped by tier, with units, and marks derived units.
+  - Host note: the exact ENV text from `evals/reply-shape/ab.py` was passed as the appended system prompt ("Host: claude.ai. You can render an inline visual: write a fenced block whose info string is show_widget containing self-contained HTML/SVG/JS; it renders inline in the conversation (dark and light mode). A widget can call sendPrompt(text) to send a message back to you as the user. Write only your reply."). This is a simulated host-capability note, as in the historical harness. It is not a live signed-in claude.ai test.
+  - Otherwise the same setup as the earlier runs: fresh plugin invocation, empty setting sources, strict MCP config, no session persistence, Sonnet, normal tools kept, a fresh working directory and session, and no instructions to the responder about criteria or which skill to load. The synthetic formula packet had SHA256 `5d1d198cd7fe80c9dfce955562674234a19363225e3626a45e590ce0b0f08fef`. The raw tool calls were a Read of the packet and the `myelinate:print` skill. Result success, exit 0, zero permission denials.
+  - Reply: a fenced `show_widget` block with 5 formula cards grouped Memorize (`v=d/t`, `F=ma`, `E_k=mv^2/2`), Know (`rho=m/V`) and Provided (`p=mv`). The HTML uses real CSS stacked fractions and superscripts and subscripts, not a plain-text table. Units sit beside each formula, with explicit derived badges for kinetic energy, density and momentum, and speed (m/s) and force (N) attributed to the source. The intro says units marked derived are not stated in the packet and were worked out from the SI base units it lists.
+  - Render check: the coordinator read the raw reply and tool calls, extracted the block unmodified and rendered it in local Chromium with a Playwright checker. Screenshots at 800px light, 800px dark and 390px light showed all 5 formulas typeset with correct fractions, subscripts and exponents, the right tiers, and units and derived badges. Page errors were empty, 5 cards and the headings were present, and nothing overflowed horizontally. Nothing was replaced or coached after the reply. Raw evidence is kept privately outside the repo (files: `raw.jsonl`, `reply.txt`, `tools.txt`, `host-note.txt`, `command.txt`, `prompt.txt`, `widget-1.html`, `render-log.json`, screenshots, checker script).
+  - s5 PASS for the decisive observation, under a simulated widget host.
+- Final coverage: all five scenarios have a pass, across the first runs (s1, s2, s4), the targeted s3 rerun and this widget-host s5 rerun. This is one trial per case plus targeted reruns, graded against decisive observations. It is not reliability or learning evidence.
 
 ### Triggers and checks
 
@@ -212,4 +220,6 @@ Checked 2026-11-02, with fresh-agent scenario runs on 2026-11-07.
 
 - No learner outcome was measured.
 - Not tested live: the `db` account sync. The executor had no browser or desktop tools to operate a real signed-in artifact. A synthetic HTML fixture and a manual test plan exist outside the repo, and no mock is counted as live.
-- Before merge: a fresh run where the formulas render as actual inline math, and a real account-store live test.
+- The s5 pass used a simulated host-capability note, not a live signed-in claude.ai session.
+- The `db` account sync stays untested and held. No dedicated synthetic account is available, and it must not be run on a real learner account because its game data could overwrite real progress. The synthetic fixture and written plan are unchanged, and no live artifact or db call was created or used.
+- Before any undraft or merge: a real account-store live test on a dedicated synthetic account, and explicit release approval. Tag only after an eventual merge.
