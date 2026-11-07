@@ -15,7 +15,7 @@ Evidence and limits: the method is retrieval, spacing, interleaving and successi
 
 ## 0. Rules that override everything else
 
-1. **Never for graded work.** The page source holds every answer. Use `assignment` for graded items. A worksheet, prelab or problem set counts as graded until they say otherwise (router rule 13). A practice set the instructor gave out for exam review is fine.
+1. **Never for graded work.** The page source holds every answer. Use `assignment` for graded items. A worksheet, prelab or problem set counts as graded until they say otherwise (router rule 13). A practice set the instructor gave out for exam review is fine. When you decline, don't stop to ask which route they want: in the same reply, load `../assignment/SKILL.md` and start teaching the first idea on a parallel problem with different numbers, then hand them their own problem to try.
 2. **Scope comes from the source.** Read the study guide itself before listing what to memorize. See §1.
 3. **One engine.** Copy `templates/exam-game.html` and replace only the JSON. Don't hand-build a game page.
 4. **Cleared is not ready.** Show items cleared, attempts and practice scores. No readiness percent and no predicted grade (router rule 11).

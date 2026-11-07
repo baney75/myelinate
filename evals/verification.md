@@ -182,9 +182,34 @@ Limits: small samples, one host, the author's own user settings and skills loade
 
 ## 2.9.0: `game` and the exam game engine
 
-Checked 2026-11-02.
+Checked 2026-11-02, with fresh-agent scenario runs on 2026-11-07.
 
 - `python3 tests/game_journey.py`: Chromium plays the example through the gate, a failed and a passed gate test, a stage, a counted short answer, reload, delayed recheck, mock, sheet, reset, invalid input, phone width and dark mode, with no network requests.
-- One adversarial review by a fresh agent read the engine and skill and probed the page. Its findings on term matching, formula grouping, `dN/dt` rendering, number parsing, the delayed recheck and the audit were fixed and covered in the journey test. It judged the five 2.9.0 scenarios by reading; no fresh agent ran them.
+- One adversarial review by a fresh agent read the engine and skill and probed the page. Its findings on term matching, formula grouping, `dN/dt` rendering, number parsing, the delayed recheck and the audit were fixed and covered in the journey test.
 - A first version was built by hand for a real exam and played through by a script. No learner outcome was measured, and a script playing the game says nothing about learning.
-- Not run: the trigger eval. It needs a signed-in Codex CLI, so `evals/triggers/results` is stale until someone runs it. Not tested live: the `db` account sync.
+
+### Fresh-agent scenario runs (2026-11-07)
+
+- Setup: five independent fresh Claude Code 2.1.296 sessions on Sonnet (init model `claude-sonnet-5-5`), branch base `ba64a600`, loaded with `--plugin-dir` from the branch checkout, `--setting-sources ''` and `--strict-mcp-config`, with synced alternate plugin copies disabled. Each had a unique session ID and an empty scenario work directory, and its init listed only this plugin and CLI builtins. Tools were allowed, and the agents actually read attachments, used skills and built output. Every raw run exited 0 with result success and no permission denials.
+- Initial results:
+  - s1 PASS: read the primary rendered PNG, followed the legend (red means memorize), found the 3 red formulas (`v=d/t`, `F=ma`, `E_k=mv^2/2`), matched the count and rejected an obsolete summary momentum formula.
+  - s2 PASS: used the `myelinate:game` skill and copied the JSON-only template to a synthetic HTML file. The actual Chromium `gameAudit` first caught missing alts, the agent fixed the fixture JSON and reran `gameAudit` to `ok:true`, with the speed, force and kinetic objectives all at production. The page shows Items cleared and makes no readiness or grade promise. The reply reported the exact audit and a limited phone, dark and gate-card check with one correct and one wrong interaction. This run did not test every card type or the delayed recheck; it is not the same as `game_journey`.
+  - s3 PARTIAL: correctly declined a graded set because the page source holds the answers, but did not load the assignment skill or start a parallel teaching example.
+  - s4 PASS: said plainly that the result is unaided today and not a prediction, left the delayed recheck marked unchecked, and promised neither a grade nor retention.
+  - s5 PARTIAL: all 5 formulas, units and derived result units were present, but as plain bold text in a table, not rendered math.
+- One skill-body clarification round followed, changing the `game` graded handoff and the `print` formula presentation. No descriptions changed.
+- Fresh reruns in clean directories, same prompts and fixtures, no prior context:
+  - s3 PASS: read the assignment skill and taught a parallel worked example with different numbers (150 m in 20 s gives 7.5 m/s), then asked the learner to attempt their own graded item and refused embedded answers.
+  - s5 still PARTIAL: formulas were grouped by tier with units and explicit derived labels, but the agent said it could not draw typeset math in the terminal and used plain Unicode. No inline math was actually rendered. This is not marked as a pass.
+- Final: 4 pass, 1 partial. No further fix or run is planned in this round. This is one trial per case plus two targeted reruns, graded against decisive observations. It is not reliability or learning evidence.
+
+### Triggers and checks
+
+- Trigger eval: not rerun for this update. The last documented run (2026-11-06, protocol `gpt-5.6-luna` at low effort, 3 passes) gave 116/117 hits (99.15%) and 1/48 false fires (2.08%) on the latest set, and 36/36 hits (100%) with 1/18 false fires (5.56%) on the holdout, with zero model errors. Descriptions have not changed since, and the guard still binds the exact descriptions.
+- Currently passing: the guard and rejection tests (`evals/triggers/test_check.py`), `evals/triggers/check.py` and the package checker (`scripts/check.py`). These changes are unpushed, so no CI has run on them.
+
+### Not established
+
+- No learner outcome was measured.
+- Not tested live: the `db` account sync. The executor had no browser or desktop tools to operate a real signed-in artifact. A synthetic HTML fixture and a manual test plan exist outside the repo, and no mock is counted as live.
+- Before merge: a fresh run where the formulas render as actual inline math, and a real account-store live test.
