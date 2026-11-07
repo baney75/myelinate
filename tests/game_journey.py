@@ -118,7 +118,7 @@ with sync_playwright() as p:
 
     # typed input
     ok = page.evaluate("""() => { const g = __game; return {
-      domainSE: g.checkFormula('sqrt(p*(1-p)/n)', ['sqrt(p(1-p)/n)']), domainGamma: g.checkFormula('sqrt(1-v^2/c^2)', ['sqrt(1-v^2/c^2)']), domainLn: g.checkFormula('ln(1-p)', ['ln(1-p)']), domainWrong: !g.checkFormula('sqrt(1-v^2/c)', ['sqrt(1-v^2/c^2)']), domainWrong2: !g.checkFormula('ln(1+p)', ['ln(1-p)']), plain: g.checkFormula('V = I*R', ['IR']), lower: g.checkFormula('i r', ['IR']), notInverse: !g.checkFormula('I/R', ['IR']),
+      deltaOk: g.checkFormula('Δx/Δt', ['Δx/Δt']), deltaWord: g.checkFormula('delta x/delta t', ['Δx/Δt']), deltaInverted: !g.checkFormula('Δt/Δx', ['Δx/Δt']), deltaProduct: !g.checkFormula('x t', ['Δx/Δt']), dNdt: g.checkFormula('dN/dt', ['dN/dt']), dNdtInverted: !g.checkFormula('dt/dN', ['dN/dt']), piJoined: g.checkFormula('2pi r', ['2 π r']), piSquare: g.checkFormula('4pi r^2', ['4 π r^2']), muSub: g.checkFormula('mu_0 I', ['μ_0 I']), piValue: Math.abs(g.evalExpr('2pi') - 6.2832) < 0.001, domainSE: g.checkFormula('sqrt(p*(1-p)/n)', ['sqrt(p(1-p)/n)']), domainGamma: g.checkFormula('sqrt(1-v^2/c^2)', ['sqrt(1-v^2/c^2)']), domainLn: g.checkFormula('ln(1-p)', ['ln(1-p)']), domainWrong: !g.checkFormula('sqrt(1-v^2/c)', ['sqrt(1-v^2/c^2)']), domainWrong2: !g.checkFormula('ln(1+p)', ['ln(1-p)']), plain: g.checkFormula('V = I*R', ['IR']), lower: g.checkFormula('i r', ['IR']), notInverse: !g.checkFormula('I/R', ['IR']),
       lambda: g.checkFormula('N0 lambda^t', ['N_0 λ^t']), sub: g.checkFormula('n_0 R^t', ['N_0 R^t']),
       caseMatters: !g.checkFormula('N_0 r^t', ['N_0 R^t'], true), sum: g.checkFormula('sum l_x m_x', ['Σ l_x m_x']),
       commute: g.checkFormula('e^(r t) N_0', ['N_0 e^(rt)']), groupKept: !g.checkFormula('K-N/K', ['(K-N)/K']), group2: !g.checkFormula('a+b/c', ['(a+b)/c']),
@@ -301,5 +301,13 @@ with sync_playwright() as p:
         d['exam']['math'] = ['ohm_i']
     free, errs, _ = open_page(browser, variant(no_gate))
     check(free.locator('.st[data-t="basics"]').is_enabled() and not errs, 'a game with nothing to memorize has no gate')
+    check(page.evaluate('gameAudit().progressSaves') is True, 'the audit reports that progress saves when storage works')
+    blocked = browser.new_context()
+    blocked.add_init_script("Object.defineProperty(window, 'localStorage', {get() { throw new Error('blocked'); }});")
+    bp = blocked.new_page()
+    bp.goto(url)
+    check(bp.evaluate('gameAudit().progressSaves') is False, 'the audit reports when a sandbox blocks storage')
+    check('Progress resets' in bp.inner_text('body'), 'the page tells the learner when progress will not save')
+    blocked.close()
     browser.close()
 print('All game journey checks passed.')

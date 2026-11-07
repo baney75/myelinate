@@ -99,7 +99,7 @@ const app=document.getElementById('app');
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const UNI={'₀':'0','₁':'1','₂':'2','₃':'3','ₓ':'x','ₜ':'t'};
 const GREEK={lambda:'λ',lamda:'λ',sigma:'Σ',delta:'Δ',theta:'θ',alpha:'α',beta:'β',gamma:'γ',mu:'μ',pi:'π',omega:'ω',rho:'ρ',tau:'τ',epsilon:'ε',phi:'φ'};
-function greek(s){return String(s).replace(/[₀₁₂₃ₓₜ]/g,c=>UNI[c]).replace(/\b(lambda|lamda|sigma|delta|theta|alpha|beta|gamma|omega|rho|mu|pi|tau|epsilon|phi)\b/gi,m=>GREEK[m.toLowerCase()]).replace(/\bsum\b/gi,'Σ').replace(/[−–]/g,'-').replace(/[×·]/g,'*')}
+function greek(s){return String(s).replace(/[₀₁₂₃ₓₜ]/g,c=>UNI[c]).replace(/(?<![A-Za-z])(lambda|lamda|sigma|delta|theta|alpha|beta|gamma|omega|rho|mu|pi|tau|epsilon|phi)(?![A-Za-z])/gi,m=>GREEK[m.toLowerCase()]).replace(/\bsum\b/gi,'Σ').replace(/[−–]/g,'-').replace(/[×·]/g,'*')}
 /* Plain-text math to HTML. x^2, a/b, n_0, n_{t+1}, (a+b)/c, sqrt and ln. Incomplete input never throws. */
 function mathHTML(src){
   const s=greek(src).replace(/\s+/g,'');let i=0;const peek=()=>s[i];
@@ -125,7 +125,7 @@ const rich=s=>String(s==null?'':s).replace(/\\\$/g,'\u0001').split(/(\$[^$]+\$)/
 /* ---------- checking typed answers ---------- */
 function normF(s,cs){let t=greek(s).replace(/_\{([^}]*)\}/g,'$1').replace(/[\s_*]/g,'').replace(/\{/g,'(').replace(/\}/g,')');return cs?t:t.toLowerCase()}
 /* Compare by value, so commuted forms pass and missing parentheses fail. Symbols come from the accepted form. */
-function symbols(canon,cs){const out=[],re=/[A-Za-zλΣΔθαβγμπωρτεφ](?:_\{[^}]*\}|_\w+)?/g;let m;const t=greek(canon).replace(/\b(ln|log|exp|sqrt)\b/g,' ');while((m=re.exec(t))){const k=normF(m[0],cs);if(k!=='e'&&!out.includes(k))out.push(k)}return out.sort((a,b)=>b.length-a.length)}
+function symbols(canon,cs){const out=[],re=/(?:Δ[A-Za-zλθαβγμπωρτεφ]|(?<![A-Za-z])d[A-Zxt](?![a-z])|[A-Za-zλΣΔθαβγμπωρτεφ])(?:_\{[^}]*\}|_\w+)?/g;let m;const t=greek(canon).replace(/\b(ln|log|exp|sqrt)\b/g,' ');while((m=re.exec(t))){const k=normF(m[0],cs);if(k!=='e'&&!out.includes(k))out.push(k)}return out.sort((a,b)=>b.length-a.length)}
 function encode(s,vocab){const t=s;let i=0,out='';while(i<t.length){const fn=/^(ln|log|exp|sqrt)(?=\()/.exec(t.slice(i));if(fn){out+=fn[0];i+=fn[0].length;continue}const v=vocab.find(k=>t.startsWith(k,i));if(v){out+='(v'+vocab.indexOf(v)+')';i+=v.length;continue}if(t[i]==='e'){out+='(e)';i++;continue}if(/[\d.+\-/^()]/.test(t[i])){out+=t[i];i++;continue}return null}return out}
 function sameValue(a,b,cs){const vocab=symbols(b,cs),x=encode(normF(a,cs),vocab),y=encode(normF(b,cs),vocab);if(normF(a,cs)===normF(b,cs))return true;if(x===null||y===null)return false;let compared=0;for(let n=0;n<120&&compared<4;n++){const vars={};vocab.forEach((k,i)=>vars['v'+i]=Math.random()<.5?.05+.9*Math.random():1.3+1.9*Math.random());const p=evalExpr(x,vars),q=evalExpr(y,vars);if(p===null&&q===null)continue;if(p===null||q===null||Math.abs(p-q)>1e-9*Math.max(1,Math.abs(q)))return false;compared++}return compared>0}
 function checkFormula(input,alts,cs){const s=greek(input),rhs=s.includes('=')?s.slice(s.lastIndexOf('=')+1):s;if(!rhs.trim())return false;return alts.some(v=>sameValue(rhs,v,cs))}
@@ -302,7 +302,7 @@ function gameAudit(){const r={fatal:LOADERR,duplicateIds:[],noSource:[],noUnits:
   r.sortOnly=Object.keys(r.objectives).filter(k=>!r.objectives[k].production.length);
   (DATA.exam&&DATA.exam.math||[]).forEach(id=>{if(!ITEM[id])r.badNumber.push('exam.math:'+id)});
   r.ok=!r.fatal&&!['duplicateIds','noSource','noUnits','formulaAltsMissRhs','cannotType','applyIgnored','modelFailsRubric','badSort','badNumber','badPattern','rawTeX','suspectMath','sortOnly'].some(k=>r[k].length);return r}
-window.gameAudit=gameAudit;
+const auditContent=gameAudit;window.gameAudit=()=>Object.assign(auditContent(),{progressSaves:saved});
 window.__game={get card(){return view==='exam'&&E?E.cards[E.i]:R&&R.cur},get view(){return view},get progress(){return P},mathHTML,evalExpr,checkFormula,checkTerm,readNum,fmt};
 home();
 </script>

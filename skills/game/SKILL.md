@@ -63,7 +63,7 @@ Every guide objective gets at least one production item (`term`, `num`, `free` o
 
 ## 5. Delivery
 
-Publish it where the learner can return: an artifact on hosts that have them, otherwise the HTML file. Progress saves to that browser's local storage, so it stays on that device. Say so.
+Publish it where the learner can return. The gate and the delayed recheck need saved progress, which lives in that browser's local storage, on that device. Some artifact sandboxes block it. Open the page where it will live and read `progressSaves` from `gameAudit()`: if it's false, deliver the HTML file instead and say why, because in that sandbox the gate resets and the next-morning recheck never comes due.
 
 Tell them the order in a line or two: gate, stages, mock, delayed recheck. The night before an exam, plan the recheck for the morning (`study-plan`).
 
