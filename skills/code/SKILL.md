@@ -1,6 +1,6 @@
 ---
 name: code
-description: "Use when someone says teach me this repo or help me understand this code so I can maintain it. Not for fix this bug, debug it, or change the code without learning intent."
+description: "Use when someone wants a walkthrough of a codebase, even at work, to understand and maintain it. Not for fixing, debugging or changing code without learning intent."
 ---
 
 # Code

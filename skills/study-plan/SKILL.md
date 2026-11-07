@@ -64,7 +64,7 @@ Reminders turn a plan into something that happens. They are optional. Offer once
 
 ## 5. Re-plan
 
-After each session, update states from actual unassisted results and re-rank. If they fall behind, cut scope, not sleep. Final 24 h: mixed retrieval on high-weight items and confident-wrong areas; no new topics unless heavily tested and quick.
+After each session, update states from actual unassisted results and re-rank. If they fall behind, cut scope, not sleep. Final 24 h: for what must be memorized, an unaided check tonight and a blank-page recheck the next morning, since only the delayed one shows what held; `game` builds this in. Mixed retrieval on high-weight items and confident-wrong areas; no new topics unless heavily tested and quick.
 
 ## Anti-patterns
 

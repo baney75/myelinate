@@ -49,3 +49,7 @@
 {"id": "n12", "prompt": "Make a slide deck for my quarterly sales meeting.", "accept": ["none", "docx"], "kind": "negative"}
 {"id": "n13", "prompt": "Refactor this function to be faster; I don't need an explanation, just the code.", "accept": ["none", "debugging"], "kind": "negative"}
 {"id": "n14", "prompt": "Remind me to call my mom on Sunday.", "accept": ["none", "calendar"], "kind": "negative"}
+{"id": "p38", "prompt": "make my exam review into a fun game, I keep zoning out with flashcards", "accept": ["game"], "kind": "positive"}
+{"id": "p39", "prompt": "Build a study game for my bio exam tomorrow where I have to type the answers.", "accept": ["game"], "kind": "positive"}
+{"id": "p40", "prompt": "Help me build a platformer game in Unity for my portfolio.", "accept": ["none"], "kind": "negative"}
+{"id": "p41", "prompt": "Add a leaderboard to my multiplayer game's backend.", "accept": ["none"], "kind": "negative"}

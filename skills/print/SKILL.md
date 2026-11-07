@@ -89,6 +89,8 @@ Keep it short enough to use: one or two pages per lecture's worth of objectives.
 
 Make one only if the exam allows one; then mirror the allowed size and rules (one side, handwritten, provided by the instructor). If the exam provides a sheet, use that exact sheet in practice. A self-made sheet is a summary to build, not to lean on: have the learner write it from memory first, then correct it. If no sheet is allowed, put needed constants in stems the way the exam does, and quiz the rest with `flashcards`.
 
+When the learner wants formulas to copy onto cards or a sheet by hand, show every formula inline in the chat as rendered math (`show_widget` or the host's equivalent), not as bold plain text or a Markdown table of typed symbols. Group them by tier (memorize, know, provided) from the study guide, with units beside each and units you worked out yourself marked derived.
+
 ## 5. Print layout rules
 
 - Paper: **Letter default**, A4 on request (`@page { size: A4 }` or `make_pdf.py --format A4`). Layout must fit both widths.

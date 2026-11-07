@@ -34,9 +34,10 @@ required = ['myelinate.md', 'SKILL.md', 'agents/openai.yaml', 'references/eviden
             'output-styles/myelinate.md', 'commands/quiz.md', 'commands/review.md', 'agents/key-worker.md',
             'hooks/hooks.json', 'hooks/due_reviews.py', 'hooks/route_hint.py', 'references/learner-record.md', 'skills/myelinate/SKILL.md', 'llms.txt', 'scripts/make_pdf.py',
             'scripts/package.py', 'examples/practice-test-oxygen.html',
-            'templates/flashcards-deck.html', 'tests/flashcards_journey.py']
+            'templates/flashcards-deck.html', 'tests/flashcards_journey.py',
+            'templates/exam-game.html', 'tests/game_journey.py']
 SUBSKILLS = ['teach', 'tutor', 'assignment', 'project', 'code', 'assess', 'course-project', 'notes', 'lab', 'print',
-             'flashcards', 'memory-hooks', 'study-plan', 'find-media', 'verify']
+             'flashcards', 'game', 'memory-hooks', 'study-plan', 'find-media', 'verify']
 required += [f'skills/{name}/SKILL.md' for name in SUBSKILLS]
 for name in required:
     if not (ROOT / name).is_file():
@@ -239,7 +240,8 @@ for rel in tracked:
         errors.append(f'{rel}: {path.stat().st_size // 1024} KiB, at or over the 256 KiB directory review limit')
 # Flashcard decks: one engine, formulas rendered, never hand-built.
 for rel, needles in (('skills/flashcards/SKILL.md', ('templates/flashcards-deck.html', 'Every formula renders as math')),
-                     ('myelinate.md', ('every formula renders as math', 'templates/flashcards-deck.html'))):
+                     ('myelinate.md', ('every formula renders as math', 'templates/flashcards-deck.html', 'templates/exam-game.html', 'Read scope from the source itself')),
+                     ('skills/game/SKILL.md', ('Never for graded work', 'gameAudit()', 'Cleared is not ready', 'List from the primary source'))):
     text = (ROOT / rel).read_text()
     errors += [f'{rel}: lost {n!r}' for n in needles if n not in text]
 package_errors, package_counts = package.verify()
