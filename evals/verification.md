@@ -214,7 +214,7 @@ Checked 2026-11-02, with fresh-agent scenario runs on 2026-11-07.
 ### Triggers and checks
 
 - Trigger eval: not rerun for this update. The last documented run (2026-11-06, protocol `gpt-5.6-luna` at low effort, 3 passes) gave 116/117 hits (99.15%) and 1/48 false fires (2.08%) on the latest set, and 36/36 hits (100%) with 1/18 false fires (5.56%) on the holdout, with zero model errors. Descriptions have not changed since, and the guard still binds the exact descriptions.
-- Currently passing: the guard and rejection tests (`evals/triggers/test_check.py`), `evals/triggers/check.py` and the package checker (`scripts/check.py`). These changes are unpushed, so no CI has run on them.
+- Currently passing: the guard and rejection tests (`evals/triggers/test_check.py`), `evals/triggers/check.py` and the package checker (`scripts/check.py`). `68b5b3d` and `458907c` are pushed to `origin/claude/exam-game`. At head `458907c`, the [pull request run](https://github.com/baney75/myelinate/actions/runs/42371712807) and [push run](https://github.com/baney75/myelinate/actions/runs/42371707625) both report `package`: `success`, `journeys`: `success`, and `trigger-eval`: `skipped`. The `trigger-eval` job is workflow_dispatch-only and was skipped as designed, not rerun for these verification commits; descriptions remain unchanged, and the 2026-11-06 results above remain the last full trigger eval.
 
 ### Not established
 
