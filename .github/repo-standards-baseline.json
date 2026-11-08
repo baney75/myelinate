@@ -1,0 +1,8 @@
+{
+  "date": "2026-11-07",
+  "problems": [
+    "agents: UI repo missing DESIGN.md",
+    "readme: README has no ## License heading or license line",
+    "readme: README has no title"
+  ]
+}
